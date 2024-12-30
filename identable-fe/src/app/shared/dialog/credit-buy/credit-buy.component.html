@@ -1,0 +1,40 @@
+<div class="customdrop-head">
+  <h3 class="droptitle">Buy Credit</h3>
+  <span class="dropclose" [mat-dialog-close]="false">X</span>
+</div>
+<mat-dialog-content>
+  <div class="table-responsive">
+    <table class="table table-sm table-bordered mb-0">
+      <colgroup>
+        <col width="33%" />
+        <col width="33%" />
+        <col width="33%" />
+      </colgroup>
+      <tbody>
+        <tr>
+          <td class="text-center">
+            <div class="text1">Buy 200 Credit</div>
+            <button class="btn btn-save" (click)="buyCredit(200)" type="button">
+              <i class="fa fa-usd"></i>
+              10
+            </button>
+          </td>
+          <td class="text-center">
+            <div class="text1">Buy 450 Credit</div>
+            <button class="btn btn-save" (click)="buyCredit(450)" type="button">
+              <i class="fa fa-usd"></i>
+              20
+            </button>
+          </td>
+          <td class="text-center">
+            <div class="text1">Buy 800 Credit</div>
+            <button class="btn btn-save" (click)="buyCredit(800)" type="button">
+              <i class="fa fa-usd"></i>
+              30
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</mat-dialog-content>

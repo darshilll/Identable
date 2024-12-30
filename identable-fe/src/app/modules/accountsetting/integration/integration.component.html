@@ -1,0 +1,115 @@
+<div class="rightbox" *ngIf="!integrationLinkedIn">
+  <h3 class="title">Integrations</h3>
+  <div class="bboxs-main">
+    <img
+      class="img-fluid mb-3"
+      src="assets/images/integrations-img.svg"
+      alt="integrations"
+    />
+    <h3 class="mb-2">Connect an account to your profile</h3>
+    <p class="mb-3">
+      To link your LinkedIn profile, install the Chrome extension and follow its
+      steps <a class="learn-link" (click)="onLearnMore()">Learn more</a>.
+    </p>
+    <button type="button" class="btn btn-add" (click)="downloadExtension()">
+      Install Identable X
+    </button>
+  </div>
+  <div class="text-left">
+    <button class="btn btn-next btn-disables" type="button">
+      Next Step <i class="fa fa-angle-double-right"></i>
+    </button>
+  </div>
+</div>
+
+<div class="rightbox" *ngIf="integrationLinkedIn">
+  <h3 class="title">Integrations</h3>
+  <h5 class="titlesub">Your main account information</h5>
+  <div class="bboxs-main1">
+    <div class="lists">
+      <img
+        class="img"
+        [src]="
+          _utilities.linkedinProfileData?.image
+            ? _utilities.linkedinProfileData?.image
+            : 'assets/images/linkedin-circle.svg'
+        "
+        alt="linkedin"
+      />
+      <h5 class="name">LinkedIn</h5>
+      <span class="connect" *ngIf="_utilities.userData?.isCookieValid"
+        >Connected as <b>{{ _utilities.linkedinProfileData?.name }}</b></span
+      >
+      <span class="disconnect" *ngIf="!_utilities.userData?.isCookieValid"
+        >Your current integration expired. Please connect again.</span
+      >
+      <button
+        type="button"
+        class="btn btn-refresh"
+        *ngIf="_utilities.userData?.isCookieValid"
+      >
+        <!-- <i class="fa fa-refresh"></i>  -->
+        Connected
+      </button>
+      <button
+        type="button"
+        class="btn btn-disconnect"
+        (click)="connectAgain()"
+        *ngIf="!_utilities.userData?.isCookieValid"
+      >
+        <!-- <i class="fa fa-refresh"></i>  -->
+        Connect Again
+      </button>
+    </div>
+  </div>
+  <div
+    class="rightbox"
+    *ngIf="!_utilities.userData?.isCookieValid && isConnectAgain"
+  >
+    <div class="bboxs-main">
+      <img
+        class="img-fluid mb-3"
+        src="assets/images/integrations-img.svg"
+        alt="integrations"
+      />
+      <h3 class="mb-2">Connect an account to your profile</h3>
+      <p class="mb-3">
+        To link your LinkedIn profile, install the Chrome extension and follow
+        its steps <a class="learn-link" (click)="onLearnMore()">Learn more</a>.
+      </p>
+      <button type="button" class="btn btn-add" (click)="downloadExtension()">
+        Install Identable X
+      </button>
+    </div>
+  </div>
+  <h5 class="titlesub mt-3" *ngIf="pageList?.length > 0">You’re Admin of :</h5>
+
+  <div class="alsoadmin">
+    <div class="admins" *ngFor="let pageData of pageList; let i = index">
+      <img
+        class="img-fluid mr-2"
+        [src]="pageData?.image ? pageData.image : 'assets/images/demo.png'"
+        alt="logo"
+      />
+      {{ pageData?.name }}
+
+      <div class="custom-control custom-switch ml-3">
+        <input
+          type="checkbox"
+          class="custom-control-input"
+          [(ngModel)]="pageData.isAccess"
+          id="customSwitch{{ i }}"
+        />
+        <label class="custom-control-label" for="customSwitch{{ i }}"></label>
+      </div>
+    </div>
+  </div>
+
+  <div class="text-left">
+    <button class="btn btn-next" type="button" (click)="onNextStep()">
+      Next Step <i class="fa fa-angle-double-right"></i>
+    </button>
+  </div>
+</div>
+
+<app-loader></app-loader>

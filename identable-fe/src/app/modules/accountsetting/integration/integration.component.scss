@@ -1,0 +1,190 @@
+.rightbox {
+  width: 100%;
+  display: inline-block;
+  max-width: 880px;
+  padding: 40px;
+  background: #ffffff;
+  box-shadow: 0px 0px 1px rgba(9, 30, 66, 0.12),
+    0px 0px 8px rgba(9, 30, 66, 0.16);
+  border-radius: 8px;
+  .title {
+    font-weight: 600;
+    font-size: 28px;
+    line-height: 36px;
+    color: #172b4d;
+    margin-bottom: 8px;
+  }
+  .titlesub {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    color: #44546f;
+    margin-bottom: 40px;
+  }
+  .bboxs-main {
+    border: 1px solid #f2f4f7;
+    border-radius: 16px;
+    background: #f9fafb;
+    padding: 16px;
+    margin: 16px 0;
+    width: 100%;
+    display: inline-block;
+    text-align: center;
+    h3 {
+      color: #101828;
+      font-weight: 500;
+      font-size: 16px;
+    }
+    p {
+      color: #667085;
+      font-weight: 400;
+      font-size: 14px;
+    }
+    .btn-add {
+      color: #fff;
+      background: #ec4a0a;
+      font-weight: 400;
+      font-size: 14px;
+      border-radius: 6px;
+      padding: 8px 12px;
+      cursor: pointer;
+      margin-top: 12px;
+    }
+    .learn-link {
+      color: #ec4a0a;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+  }
+  .bboxs-main1 {
+    border: 1px solid #f2f4f7;
+    border-radius: 16px;
+    background: #f9fafb;
+    padding: 16px;
+    margin: 16px 0;
+    width: 100%;
+    display: inline-block;
+    .lists {
+      position: relative;
+      padding-left: 56px;
+      .img {
+        width: 42px;
+        height: 42px;
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
+      .name {
+        color: #475467;
+        font-weight: 600;
+        font-size: 16px;
+      }
+      .connect {
+        color: #475467;
+        font-weight: 400;
+        font-size: 14px;
+        display: block;
+        margin-bottom: 15px;
+        text-transform: capitalize;
+      }
+      .disconnect {
+        color: #c4320a;
+        font-weight: 400;
+        font-size: 14px;
+        display: block;
+        margin-bottom: 15px;
+      }
+      .btn-refresh {
+        color: #fff;
+        font-size: 14px;
+        font-weight: 500;
+        background-color: #039855;
+      }
+      .btn-disconnect {
+        color: #fff;
+        font-size: 14px;
+        font-weight: 500;
+        background-color: #c4320a;
+      }
+    }
+  }
+  .alsoadmin {
+    width: 100%;
+    display: inline-block;
+    margin-bottom: 10px;
+    .admins {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      padding: 10px 0;
+      border-bottom: 1px solid #eee;
+      color: #101828;
+      font-weight: 600;
+      font-size: 14px;
+      text-transform: capitalize;
+      img {
+        width: 40px;
+        border-radius: 3px;
+      }
+    }
+    .custom-control {
+      .custom-control-input:checked ~ .custom-control-label::before {
+        border-color: #ec4a0a;
+        background-color: #ec4a0a;
+      }
+      .custom-control-input:disabled ~ .custom-control-label::before {
+        opacity: 0.5;
+        pointer-events: none;
+        cursor: not-allowed;
+      }
+      .custom-control-input:focus ~ .custom-control-label::before {
+        box-shadow: none;
+      }
+    }
+  }
+  .btn-next {
+    color: #fff;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1.2;
+    padding: 8px 14px;
+    background-color: #ec4a0a;
+  }
+  .btn-disables {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+  .admin-toggle {
+    margin: 10px 0 20px;
+    .titles {
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .lists {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      padding: 10px 0 20px 0;
+      border-bottom: 1px solid #eee;
+      img {
+        max-width: 160px;
+        user-select: none;
+      }
+    }
+    .custom-control {
+      .custom-control-input:checked ~ .custom-control-label::before {
+        border-color: #ec4a0a;
+        background-color: #ec4a0a;
+      }
+      .custom-control-input:focus ~ .custom-control-label::before {
+        box-shadow: none;
+      }
+    }
+  }
+}
+
+::ng-deep .custom-onboard-modal {
+  .mat-mdc-dialog-content {
+    max-height: 85vh;
+  }
+}

@@ -1,0 +1,79 @@
+.ide-custom-topbar {
+  float: left;
+  width: 100%;
+  position: relative;
+  margin-bottom: 20px;
+  .ide-left-bar {
+    padding-top: 7px;
+    float: left;
+    position: relative;
+    .ide-module-name {
+      font-size: 20px;
+      font-weight: 500;
+      color: #01010b;
+      line-height: 1.2;
+      text-transform: capitalize;
+    }
+  }
+  .ide-right-bar {
+    float: right;
+    .ide-btn-custom {
+      float: left;
+      height: 34px;
+      text-align: center;
+      padding: 0;
+      border-radius: 3px;
+      border: solid 1px #ededed;
+      background-color: #fff;
+      outline: none;
+      .fa-plus {
+        padding: 2px;
+        max-width: 20px;
+        margin: 7px;
+        float: left;
+      }
+      .ide-btn-text {
+        color: #01010b;
+        font-size: 14px;
+        line-height: 1.2;
+        padding: 7px 10px 7px 2px;
+        display: inline-block;
+      }
+    }
+  }
+}
+
+.ide-module-table {
+  border: 1px solid #f2f2f2;
+  border-radius: 2px;
+  width: 100%;
+  float: left;
+  background-color: #fff;
+  .table {
+    margin-bottom: 0;
+    th {
+      padding: 10px;
+      font-size: 14px;
+      color: #01010b;
+      font-weight: 600;
+      line-height: 1.17;
+      border: none;
+      vertical-align: middle;
+    }
+    td {
+      padding: 14px 10px;
+      font-size: 14px;
+      font-weight: 400;
+      border-color: #f2f2f2;
+      vertical-align: middle;
+    }
+    .ide-action a {
+      cursor: pointer;
+      color: #000053;
+      margin-right: 8px;
+    }
+    .radiolist .radiobtn {
+      font-size: 14px;
+    }
+  }
+}

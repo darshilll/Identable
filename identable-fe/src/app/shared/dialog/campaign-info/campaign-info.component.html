@@ -1,0 +1,235 @@
+<mat-dialog-content>
+  <div class="stepone" *ngIf="isStepOne">
+    <div class="stepdiv">
+      <div class="steps active_step">
+        <div class="stepcirclr"></div>
+        <span class="text1">Campaign Info</span>
+      </div>
+      <div class="steps">
+        <div class="stepcirclr"></div>
+        <span class="text1">Campaign Setting</span>
+      </div>
+      <!-- <div class="steps">
+        <div class="stepcirclr"></div>
+        <span class="text1">Campaign Step</span>
+      </div> -->
+    </div>
+    <div class="camptype_main">
+      <h4 class="camptitle">What type of the campaign you will be running?</h4>
+
+      <form [formGroup]="campaignForm">
+        <div class="custom_checkbox">
+          <div class="cust_rad_btn">
+            <input
+              type="radio"
+              name="campaignType"
+              formControlName="campaignType"
+              [value]="1"
+            /><label
+              ><img src="assets/images/camp-linkedin.svg" alt="" /> LinkedIn
+              Search
+            </label>
+          </div>
+          <div class="cust_rad_btn">
+            <input
+              type="radio"
+              name="campaignType"
+              formControlName="campaignType"
+              [value]="2"
+            /><label
+              ><img src="assets/images/camp-compass.svg" alt="" /> Sales
+              Navigator Search</label
+            >
+          </div>
+          <div class="cust_rad_btn">
+            <input
+              type="radio"
+              name="campaignType"
+              formControlName="campaignType"
+              [value]="3"
+            /><label
+              ><img src="assets/images/camp-linkedin.svg" alt="" /> LinkedIn
+              Post
+            </label>
+          </div>
+          <div class="cust_rad_btn">
+            <input type="radio" disabled /><label
+              ><img src="assets/images/camp-csv.svg" alt="" /> Import
+              <span class="cam-caming">Coming Soon...</span></label
+            >
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12 col-lg-6">
+            <div class="form-group">
+              <label for="">Campaign name</label>
+              <input
+                type="text"
+                formControlName="campaignName"
+                class="form-control"
+                placeholder="Campaign name"
+              />
+              <div
+                class="invalid-feedback d-block"
+                *ngIf="
+                  submittedCampaign && hasError('campaignName', 'required')
+                "
+              >
+                Please enter campaign name.
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-lg-6">
+            <div class="form-group">
+              <label for=""
+                >LinkedIn
+                {{ checkCampaingType() == 3 ? "Post" : "" }} URL</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                formControlName="linkedInUrl"
+                placeholder="https://www.linkedin.com/"
+              />
+              <div
+                class="invalid-feedback d-block"
+                *ngIf="submittedCampaign && hasError('linkedInUrl', 'required')"
+              >
+                Please enter linkedIn
+                {{ checkCampaingType() == 3 ? "post" : "" }} url.
+              </div>
+              <div
+                class="invalid-feedback d-block"
+                *ngIf="submittedCampaign && hasError('linkedInUrl', 'pattern')"
+              >
+                Please enter a valid linkedIn
+                {{ checkCampaingType() == 3 ? "post" : "" }} url.
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="stepone" *ngIf="isStepTwo">
+    <div class="stepdiv">
+      <div class="steps active_step">
+        <div class="stepcirclr"></div>
+        <span class="text1">Campaign Info</span>
+      </div>
+      <div class="steps active_step">
+        <div class="stepcirclr"></div>
+        <span class="text1">Campaign Setting</span>
+      </div>
+      <!-- <div class="steps">
+        <div class="stepcirclr"></div>
+        <span class="text1">Campaign Step</span>
+      </div> -->
+    </div>
+    <div class="camptype_main">
+      <div class="custom_switchdiv">
+        <form [formGroup]="campaignSettingForm">
+          <table class="table table-borderless">
+            <colgroup>
+              <col width="60%" />
+              <col width="40%" />
+            </colgroup>
+            <tbody>
+              <tr>
+                <td>
+                  <h5>Premium LinkedIn account only</h5>
+                  <!-- <p>
+                    Lorem ipsum dolor sit amet consectetur. Sed porttitor
+                    maecenas.
+                  </p> -->
+                </td>
+                <td>
+                  <div class="custom-control custom-switch">
+                    <input
+                      type="checkbox"
+                      class="custom-control-input"
+                      id="customSwitch1"
+                      formControlName="isPremiumAccount"
+                    />
+                    <label
+                      class="custom-control-label"
+                      for="customSwitch1"
+                    ></label>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <h5>Open Inmail discover</h5>
+                  <!-- <p>
+                    Lorem ipsum dolor sit amet consectetur. Sed porttitor
+                    maecenas.
+                  </p> -->
+                </td>
+                <td>
+                  <div class="custom-control custom-switch">
+                    <input
+                      type="checkbox"
+                      class="custom-control-input"
+                      id="customSwitch2"
+                      formControlName="isInMailDiscover"
+                    />
+                    <label
+                      class="custom-control-label"
+                      for="customSwitch2"
+                    ></label>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <h5>Include people you already talked to</h5>
+                  <!-- <p>
+                    Lorem ipsum dolor sit amet consectetur. Sed porttitor
+                    maecenas.
+                  </p> -->
+                </td>
+                <td>
+                  <div class="custom-control custom-switch">
+                    <input
+                      type="checkbox"
+                      class="custom-control-input"
+                      id="customSwitch3"
+                      formControlName="isAlreadyTalkedPeople"
+                    />
+                    <label
+                      class="custom-control-label"
+                      for="customSwitch3"
+                    ></label>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot_div">
+    <button
+      type="button"
+      *ngIf="!isStepOne"
+      (click)="nextStep(false)"
+      class="btn btn-back pull-left"
+    >
+      <i class="fa fa-arrow-left"></i> Back
+    </button>
+    <div class="pull-right">
+      <button type="button" class="btn btn-cancel" (click)="cancel()">
+        Cancel
+      </button>
+      <button type="button" class="btn btn-next" (click)="nextStep(true)">
+        {{ isStepOne ? "Next" : "Submit" }}
+      </button>
+    </div>
+  </div>
+</mat-dialog-content>
+<app-loader></app-loader>

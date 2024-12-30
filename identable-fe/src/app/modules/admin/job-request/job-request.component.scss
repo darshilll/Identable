@@ -1,0 +1,194 @@
+.topdiv {
+  display: inline-block;
+  width: 100%;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  .main-title {
+    color: #101828;
+    font-weight: 500;
+    font-size: 30px;
+    margin-bottom: 10px;
+    float: left;
+  }
+  .btn-addpost {
+    color: #fff;
+    font-weight: 500;
+    font-size: 14px;
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    background: #ec4a0a;
+    border: 1px solid #ec4a0a;
+    box-shadow: 0px 4px 16px rgba(16, 24, 40, 0.16);
+    border-radius: 8px;
+  }
+}
+
+.boxviewlist {
+  .tabbox {
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 20px;
+    .nav-tabs {
+      float: left;
+      border: none;
+      margin-top: 3px;
+      .nav-link {
+        color: #667085;
+        font-weight: 500;
+        font-size: 14px;
+        border: none;
+        border-radius: 6px;
+        padding: 7px 12px;
+        margin: 2px;
+        cursor: pointer;
+        background-color: #f9f9f9;
+        &.active {
+          color: #ec4a0a;
+          background: #ffead5;
+        }
+      }
+    }
+    .rightside {
+      display: flex;
+      float: right;
+      .input-group {
+        overflow: hidden;
+        border-radius: 8px;
+        border: 1px solid #d0d5dd;
+        background: #fff;
+        box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+        .input-group-text {
+          background-color: #fff;
+          border: none;
+        }
+        .form-control {
+          border: none;
+          padding-left: 0;
+        }
+      }
+    }
+  }
+  .table_box {
+    background-color: #fff;
+    border-radius: 8px;
+    border: 1px solid #eaecf0;
+    box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.06),
+      0px 1px 3px 0px rgba(16, 24, 40, 0.1);
+    .table_responsive {
+      overflow: auto;
+      width: 100%;
+      display: inline-block;
+      .table {
+        margin: 0;
+        min-width: 900px;
+      }
+      tr:first-child {
+        td {
+          border: none;
+        }
+      }
+      thead {
+        th {
+          color: #667085;
+          font-weight: 500;
+          font-size: 12px;
+          background: #f9fafb;
+          border-bottom: 1px solid #eaecf0;
+          border-top: none;
+        }
+      }
+      td {
+        color: #667085;
+        font-size: 14px;
+        font-weight: 500;
+        vertical-align: middle;
+      }
+      .nameicon {
+        display: flex;
+        align-items: center;
+        padding-left: 40px;
+        position: relative;
+        min-height: 36px;
+        img {
+          width: 32px;
+          height: 32px;
+          display: inline-block;
+          border: 1px solid #ddd;
+          border-radius: 4px;
+          position: absolute;
+          top: 3px;
+          left: 0;
+        }
+        .txt1 {
+          color: #101828;
+          font-weight: 400;
+          font-size: 14px;
+          line-height: 1.3;
+          display: block;
+        }
+        .connected {
+          color: #ec4a0a;
+        }
+        .txt2 {
+          color: #667085;
+          font-weight: 400;
+          font-size: 14px;
+          line-height: 1.3;
+          display: block;
+        }
+      }
+      .jobdiv {
+        display: inline-block;
+        .txt1 {
+          color: black;
+          font-weight: 400;
+          font-size: 14px;
+          line-height: 1.3;
+          display: block;
+        }
+        .txt2 {
+          color: #667085;
+          font-weight: 400;
+          font-size: 14px;
+          line-height: 1.3;
+          display: block;
+        }
+      }
+      .actiondiv {
+        a {
+          cursor: pointer;
+          display: inline-block;
+          margin: 5px;
+          filter: grayscale(1);
+        }
+        .active-btn {
+          filter: none;
+          i {
+            font-size: 20px;
+            color: #777;
+          }
+          .color-green {
+            color: green !important;
+          }
+        }
+      }
+    }
+  }
+}
+.download-icon {
+  color: #ec4a0a;
+  cursor: pointer;
+  padding: 5px;
+}
+.restart-icon {
+  color: black;
+  cursor: pointer;
+  padding: 5px;
+}
+.word-break {
+  word-break: break-word;
+}

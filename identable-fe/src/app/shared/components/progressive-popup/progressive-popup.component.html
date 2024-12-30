@@ -1,0 +1,12 @@
+<!-- progress-loader.component.html -->
+<mat-dialog-content>
+  <div class="spinner"></div>
+  <div class="create-it-box">
+    <span>Please wait ⏳🎬 Video rendering in progress...</span>
+    <span>Content generating 📝✨ Please hold on a moment...</span>
+    <span>Adding audio 🔊🎶 Final touches in progress...</span>
+  </div>
+  <div class="progress-container">
+    <div class="progress-text">{{ text }}</div>
+    <div class="progress-bar" [style.width.%]="progressBarWidth"></div></div
+></mat-dialog-content>

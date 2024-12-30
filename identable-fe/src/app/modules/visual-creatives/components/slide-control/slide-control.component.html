@@ -1,0 +1,44 @@
+<div class="ide-boxes">
+  <h5 class="ide-title">
+    Slides
+    <img
+      class="img-fluid align-center"
+      src="assets/images/help-icon.svg"
+      alt="help-icon"
+      matTooltip="Slides"
+      matTooltipPosition="below"
+    />
+  </h5>
+  <div cdkDropList (cdkDropListDropped)="drop($event)" class="ide-boxes-div">
+    <div
+      class="ide-layers"
+      *ngFor="let slide of currentTemplate; let i = index"
+      cdkDrag
+    >
+      <img
+        class="img-fluid pointer"
+        src="assets/images/carousels-v2/editor-drag.svg"
+        alt="editor-drag"
+      />
+      <div class="text">{{ slide?.content?.heading }}</div>
+      <img
+        class="img-fluid ml-auto pointer"
+        [src]="
+          slide?.isSldieVisible
+            ? 'assets/images/carousels-v2/editor-eye-1.svg'
+            : 'assets/images/carousels-v2/editor-eye-2.svg'
+        "
+        alt="editor-eye"
+        *ngIf="slide?.type === 'body_slide'"
+        (click)="toggleSlideVisibility(slide)"
+      />
+      <img
+        class="img-fluid pointer"
+        src="assets/images/carousels-v2/editor-trash.svg"
+        alt="editor-trash"
+        *ngIf="slide?.type === 'body_slide'"
+        (click)="deleteSlide(i)"
+      />
+    </div>
+  </div>
+</div>

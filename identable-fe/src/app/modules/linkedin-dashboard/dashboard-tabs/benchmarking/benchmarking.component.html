@@ -1,0 +1,288 @@
+<div class="cus-boxes">
+  <div class="cus-head">
+    <h3 class="title-1">
+      Social Selling Index
+      <img
+        src="assets/images/help-icon.svg"
+        alt="help-icon"
+        matTooltip="Social Selling Index"
+        matTooltipPosition="above"
+      />
+    </h3>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-lg-6">
+        <div class="cus-boxes-1">
+          <div class="top-box">
+            <div class="text1">
+              <i class="d-block mb-2">Top</i>
+              <span>{{ socialSellingIndexData?.industry_ssi_rank }}</span
+              >%
+            </div>
+            <div class="text2">Industry SSI&nbsp;rank</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-lg-6">
+        <div class="cus-boxes-1">
+          <div class="top-box">
+            <div class="text1">
+              <i class="d-block mb-2">Top</i>
+              <span>{{ socialSellingIndexData?.network_ssi_rank }}</span
+              >%
+            </div>
+            <div class="text2">Network SSI rank</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-lg-6">
+        <div class="cus-boxes-1">
+          <div class="title-2">People in your Industry</div>
+          <div class="row">
+            <div class="col-12 col-lg-12 chart-display border-bottom">
+              <div class="col-12 col-lg-8" id="social-selling-chart1"></div>
+              <div class="col-12 col-lg-4">
+                <h2>{{ peopleIndustryInfo?.score }}</h2>
+                <p>out of 100</p>
+              </div>
+            </div>
+            <div class="col-12 col-lg-12 align-item-center">
+              <p class="mb-3 mt-3">
+                Sales professionals in the Wholesale Import and Export industry
+                have an
+                <strong>average SSI of {{ peopleIndustryInfo?.score }}</strong
+                >.
+              </p>
+              <p class="mb-3">
+                You rank in the
+                <strong
+                  >top {{ socialSellingIndexData?.industry_ssi_rank }}%</strong
+                >
+              </p>
+              <p class="mb-3"><strong>No change</strong> since last week</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-lg-6">
+        <div class="cus-boxes-1">
+          <div class="title-2">People in your network</div>
+          <div class="row">
+            <div class="col-12 col-lg-12 chart-display border-bottom">
+              <div class="col-12 col-lg-8" id="social-selling-chart2"></div>
+              <div class="col-12 col-lg-4">
+                <h2>{{ peopleNetworkInfo?.score }}</h2>
+                <p>out of 100</p>
+              </div>
+            </div>
+            <div class="col-12 col-lg-6 align-item-center">
+              <p class="mb-3 mt-3">
+                People in your network have an
+                <strong>average SSI of {{ peopleNetworkInfo?.score }}</strong
+                >.
+              </p>
+              <p class="mb-3">
+                You rank in the
+                <strong
+                  >top {{ socialSellingIndexData?.network_ssi_rank }}%</strong
+                >
+              </p>
+              <p class="mb-3"><strong>No change</strong> since last week</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-lg-12">
+        <div class="cus-boxes-1">
+          <div class="title-1">
+            Current Social Selling Index
+            <img
+              src="assets/images/help-icon.svg"
+              alt="help-icon"
+              matTooltip="Your Social Selling Index (SSI) measures how effective you are at establishing your professional brand, finding the right people, engaging with insights, and building relationships. It is updated daily.              "
+              matTooltipPosition="above"
+            />
+          </div>
+          <div class="row">
+            <div class="col-12 col-lg-6 chart-display">
+              <div
+                id="social-selling-chart"
+                class="w-100 col-12 col-lg-9"
+              ></div>
+              <div class="col-12 col-lg-4">
+                <h2>{{ currentSsiInfo?.score }}</h2>
+                <p>out of 100</p>
+              </div>
+            </div>
+            <div class="col-12 col-lg-6">
+              <div class="title-2">Four components of your score</div>
+              <div class="d-inline-block w-100">
+                <div class="d-inline-block w-100 mb-3">
+                  <div class="progressbar-div">
+                    <div
+                      class="progressbar"
+                      [style.width.%]="currentSsiInfo?.chart_data[0]?.value"
+                      style="background-color: #e55800"
+                    ></div>
+                  </div>
+                  <label>
+                    <strong>
+                      {{ currentSsiInfo?.chart_data[0]?.value }}
+                    </strong>
+                    |
+                    <span> {{ currentSsiInfo?.chart_data[0]?.title }} </span>
+                    <img
+                      src="assets/images/help-icon.svg"
+                      alt="help-icon"
+                      matTooltip="Establish your professional brand
+                      Complete your profile with the customer in mind. Become a thought-leader by publishing meaningful posts."
+                      matTooltipPosition="above"
+                    />
+                  </label>
+                </div>
+                <div class="d-inline-block w-100 mb-3">
+                  <div class="progressbar-div">
+                    <div
+                      class="progressbar"
+                      [style.width.%]="currentSsiInfo?.chart_data[1]?.value"
+                      style="background-color: #827be9"
+                    ></div>
+                  </div>
+                  <label>
+                    <strong>
+                      {{ currentSsiInfo?.chart_data[1]?.value }}
+                    </strong>
+                    |
+                    <span> {{ currentSsiInfo?.chart_data[1]?.title }} </span>
+                    <img
+                      src="assets/images/help-icon.svg"
+                      alt="help-icon"
+                      matTooltip="Find the right people
+                      Identify better prospects in less time using efficient search and research tools."
+                      matTooltipPosition="above"
+                    />
+                  </label>
+                </div>
+                <div class="d-inline-block w-100 mb-3">
+                  <div class="progressbar-div">
+                    <div
+                      class="progressbar"
+                      [style.width.%]="currentSsiInfo?.chart_data[2]?.value"
+                      style="background-color: #087889"
+                    ></div>
+                  </div>
+                  <label>
+                    <strong>
+                      {{ currentSsiInfo?.chart_data[2]?.value }}
+                    </strong>
+                    |
+                    <span> {{ currentSsiInfo?.chart_data[2]?.title }} </span>
+                    <img
+                      src="assets/images/help-icon.svg"
+                      alt="help-icon"
+                      matTooltip="Engage with insights
+                      Discover and share conversation-worthy updates to create and grow relationships."
+                      matTooltipPosition="above"
+                    />
+                  </label>
+                </div>
+                <div class="d-inline-block w-100 mb-3">
+                  <div class="progressbar-div">
+                    <div
+                      class="progressbar"
+                      [style.width.%]="currentSsiInfo?.chart_data[3]?.value"
+                      style="background-color: #0091ca"
+                    ></div>
+                  </div>
+                  <label>
+                    <strong>
+                      {{ currentSsiInfo?.chart_data[3]?.value }}
+                    </strong>
+                    |
+                    <span> {{ currentSsiInfo?.chart_data[3]?.title }} </span>
+                    <img
+                      src="assets/images/help-icon.svg"
+                      alt="help-icon"
+                      matTooltip="Build relationships
+                      Strengthen your network by finding and establishing trust with decision makers."
+                      matTooltipPosition="above"
+                    />
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="cus-boxes">
+  <div class="cus-head">
+    <h3 class="title-1">
+      Recommended Actions
+      <img
+        src="assets/images/help-icon.svg"
+        alt="help-icon"
+        matTooltip="Recommended Actions"
+        matTooltipPosition="above"
+      />
+    </h3>
+    <h5 class="title-2">For overall performance across channels last month</h5>
+  </div>
+  <div class="run-adds-div">
+    <div class="adds-box">
+      <div class="adds-box-sub">
+        <div class="text1">Run AD’s</div>
+        <div class="text2 mb-3">keep your reels between 15 and 90 seconds.</div>
+        <div class="text2 mb-1">Ensure that your reels are at least 720P</div>
+        <div class="text3">
+          Potential Outcome
+          <img
+            src="assets/images/help-icon.svg"
+            alt="help-icon"
+            matTooltip="Potential Outcome"
+            matTooltipPosition="above"
+          />
+        </div>
+        <div class="text2">increase in followers by <span>2.5 %</span></div>
+        <button type="button" class="btn btn-block btn-add">Create Ad</button>
+      </div>
+    </div>
+    <div class="adds-box">
+      <div class="adds-box-sub">
+        <div class="text1">Boost this post</div>
+        <div class="text2 mb-1">posted on 09-07-24</div>
+        <div class="add-show mb-1">
+          <img
+            class="rounded"
+            width="60"
+            src="assets/images/demo.png"
+            alt="demo"
+          />
+          <div class="add-text">
+            Join Our Upcoming Webinar! Content: We’re hosting a webinar on
+            "Building Your Personal Brand with AI Tools" next Thursday at 2 PM.
+          </div>
+        </div>
+        <div class="text2 mb-3">keep your reels between 15 and 90 seconds.</div>
+        <div class="text2 mb-1">Ensure that your reels are at least 720P</div>
+        <div class="text3">
+          Potential Outcome
+          <img
+            src="assets/images/help-icon.svg"
+            alt="help-icon"
+            matTooltip="info here..."
+            matTooltipPosition="above"
+          />
+        </div>
+        <div class="text2">increase in followers by <span>2.5 %</span></div>
+        <button type="button" class="btn btn-block btn-add mt-3">
+          Try it now
+        </button>
+      </div>
+    </div>
+  </div>
+</div> -->

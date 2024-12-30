@@ -1,0 +1,73 @@
+<div class="customdrop-head">
+  <h3 class="droptitle">Add Outline</h3>
+  <span class="dropclose" [mat-dialog-close]="false">X</span>
+</div>
+<mat-dialog-content>
+  <div *ngIf="isAddInputActive">
+    <div class="bboxs">
+      <label class="labels">Add {{ addHedingType }} </label>
+      <input
+        type="input"
+        class="form-control"
+        [(ngModel)]="heading"
+        placeholder="Enter your {{ addHedingType }}"
+      />
+      <div class="invalid-feedback d-block" *ngIf="isSubmit && !heading">
+        Please enter valid {{ addHedingType }}.
+      </div>
+    </div>
+    <button class="btn btn-save" type="button" (click)="add()">Add</button>
+  </div>
+  <div class="outline-output" *ngIf="!isAddInputActive">
+    <div
+      *ngFor="let heading of headingData; let i = index"
+      cdkDropList
+      (cdkDropListDropped)="drop($event, i)"
+    >
+      <div class="ide-head" *ngIf="heading?.h2">
+        <span class="ide-h">H2</span> {{ heading?.h2 }}
+        <div class="ide-action">
+          <img src="assets/images/drag-gray.svg" alt="drag" width="20" />
+          <button
+            class="add-btn"
+            (click)="addHeadline('subHeading', i)"
+            title="add subHeading"
+            width="20"
+          >
+            +
+          </button>
+
+          <img
+            (click)="removeHeading(i, 'heading')"
+            class="trashimg"
+            src="assets/images/trash-red.svg"
+            alt="trash"
+          />
+        </div>
+      </div>
+      <div
+        class="ide-head ide-head-sub"
+        *ngFor="let subHeading of heading?.h3; let j = index"
+        cdkDrag
+        [cdkDragData]="subHeading"
+      >
+        <span class="ide-h">H3</span> {{ subHeading }}
+        <div class="ide-action">
+          <img src="assets/images/drag-gray.svg" alt="drag" width="20" />
+          <img
+            (click)="removeHeading(i, 'subHeading', j)"
+            class="trashimg"
+            src="assets/images/trash-red.svg"
+            alt="trash"
+          />
+        </div>
+      </div>
+    </div>
+    <a class="add-plus" (click)="addHeadline('heading')" title="Add Heading"
+      >+</a
+    >
+  </div>
+</mat-dialog-content>
+<div class="customdrop-foot text-center" *ngIf="!isAddInputActive">
+  <button class="btn btn-save" type="button" (click)="submit()">Submit</button>
+</div>

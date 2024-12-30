@@ -1,0 +1,471 @@
+<div class="sidenav_main">
+  <div
+    class="sidenav"
+    (mouseenter)="onMouseEnter()"
+    (mouseleave)="onMouseLeave()"
+  >
+    <!-- <div class="user_info">
+        <button type="button" class="btn btn-block ide-create-btn">
+          <i class="fa fa-plus"></i> Create
+        </button>
+      </div> -->
+    <ul class="menu_list">
+      <li
+        class="nav-items"
+        [class.active]="activeMenu('dashboard')"
+        [routerLink]="['/dashboard']"
+      >
+        <img
+          class="img-fluid mr-1"
+          width="24"
+          src="assets/images/sidebar/icon-insights.svg"
+          alt="insights"
+        />
+        Insights
+      </li>
+    </ul>
+    <div class="ide-side-title">Create</div>
+    <ul class="menu_list">
+      <li
+        class="nav-items"
+        [class.active]="activeMenu('inspireme')"
+        [routerLink]="['/engage/inspireme']"
+      >
+        <img
+          class="img-fluid mr-1"
+          width="24"
+          src="assets/images/sidebar/icon-inspire-me.svg"
+          alt="inspire-me"
+        />
+        Inspire Me
+      </li>
+      <li
+        class="nav-items"
+        [class.active]="activeMenu('trendingnews')"
+        [routerLink]="['/engage/trendingnews']"
+      >
+        <img
+          class="img-fluid mr-1"
+          width="24"
+          src="assets/images/sidebar/icon-trending.svg"
+          alt="trending"
+        />
+        Trending News
+      </li>
+      <li class="nav-items" [class.active]="activeMenu('diy')"
+      [routerLink]="['/engage/diy']">
+        <img
+          class="img-fluid mr-1"
+          width="24"
+          src="assets/images/sidebar/icon-do-it.svg"
+          alt="do-it"
+        />
+        Do It Yourself
+      </li>
+      <li
+        class="nav-items"
+        [class.active]="activeMenu('article')"
+        [routerLink]="['/article']"
+      >
+        <img
+          class="img-fluid mr-1"
+          width="24"
+          src="assets/images/sidebar/icon-generate-article.svg"
+          alt="generate-article"
+        />
+        Generate article
+      </li>
+      <li
+        class="nav-items"
+        [class.active]="activeMenu('visual-creative')"
+        [routerLink]="['/visual-creative']"
+      >
+        <img
+          class="img-fluid mr-1"
+          width="24"
+          src="assets/images/sidebar/icon-visual-creatives.svg"
+          alt="visual-creatives"
+        />
+        Visual Creatives
+      </li>
+      <li
+        class="nav-items"
+        [class.active]="activeMenu('aivideo')"
+        [routerLink]="['/explanatory-video']"
+      >
+        <img
+          class="img-fluid mr-1"
+          width="24"
+          src="assets/images/sidebar/icon-explanatory-video.svg"
+          alt="explanatory-video"
+        />
+        Explanatory Video
+      </li>
+      <li
+        class="nav-items"
+        [class.active]="activeMenu('ai-image')"
+        [routerLink]="['/ai-image']"
+      >
+        <img
+          class="img-fluid mr-1"
+          width="24"
+          src="assets/images/sidebar/icon-ai-img.svg"
+          alt="ai-img"
+        />
+        AI Image
+      </li>
+    </ul>
+    <div class="ide-side-title">Automate</div>
+    <ul class="menu_list">
+      <li
+        class="nav-items"
+        [class.active]="activeMenu('oneclick')"
+        [routerLink]="['/oneclick']"
+      >
+        <img
+          class="img-fluid mr-1"
+          width="24"
+          src="assets/images/sidebar/icon-content-autopilot.svg"
+          alt="content-autopilot"
+        />
+        Content Autopilot
+      </li>
+      <li
+        class="nav-items"
+        [routerLink]="['/crm']"
+        [class.active]="activeMenu('crm')"
+        *ngIf="_utilities.userData?.isAllowCRM"
+      >
+        <img
+          class="img-fluid mr-1"
+          width="24"
+          src="assets/images/sidebar/icon-crm.svg"
+          alt="crm"
+        />
+        CRM
+      </li>
+    </ul>
+    <div class="ide-side-title">Manage</div>
+    <ul class="menu_list">
+      <li
+        class="nav-items"
+        [class.active]="activeMenu('brand-kit')"
+        [routerLink]="['/brand-kit']"
+      >
+        <img
+          class="img-fluid mr-1"
+          width="24"
+          src="assets/images/sidebar/brand-kit.svg"
+          alt="explanatory-video"
+        />
+        Brand kit
+      </li>
+      <li
+        class="nav-items"
+        [class.active]="activeMenu('evolve')"
+        [routerLink]="['/evolve']"
+      >
+        <img
+          class="img-fluid mr-1"
+          width="24"
+          src="assets/images/sidebar/icon-schedule.svg"
+          alt="schedule"
+        />
+        schedule
+      </li>      
+    </ul>
+    <div
+      class="ide-side-title"
+      *ngIf="_utilities.userData?.userRole == 'admin'"
+    >
+      Admin
+    </div>
+    <ul class="menu_list" *ngIf="_utilities.userData?.userRole == 'admin'">
+      <li
+        class="nav-items"
+        [class.active]="activeMenu('job-request')"
+        [routerLink]="['/admin/job-request']"
+      >
+        <img
+          class="img-fluid mr-1"
+          width="24"
+          src="assets/images/sidebar/icon-job-request.svg"
+          alt="job-request"
+        />
+        Job Request
+      </li>
+      <li
+        class="nav-items"
+        [class.active]="activeMenu('userlist')"
+        [routerLink]="['/admin/userlist']"
+      >
+        <img
+          class="img-fluid mr-1"
+          width="24"
+          src="assets/images/sidebar/icon-admin.svg"
+          alt="admin"
+        />
+        User
+      </li>
+    </ul>
+
+    <ul class="menu_list d-none">
+      <li class="nav-drop">
+        <a class="dropbtn" [routerLink]="['/dashboard']"
+          ><svg width="20" height="20" viewBox="0 0 20 21" fill="none">
+            <path
+              d="M7 20V12.6C7 12.0399 7 11.7599 7.10899 11.546C7.20487 11.3578 7.35785 11.2049 7.54601 11.109C7.75992 11 8.03995 11 8.6 11H11.4C11.9601 11 12.2401 11 12.454 11.109C12.6422 11.2049 12.7951 11.3578 12.891 11.546C13 11.7599 13 12.0399 13 12.6V20M9.0177 1.76401L2.23539 7.03914C1.78202 7.39176 1.55534 7.56807 1.39203 7.78887C1.24737 7.98446 1.1396 8.2048 1.07403 8.43907C1 8.70353 1 8.99071 1 9.56507V16.8C1 17.9201 1 18.4802 1.21799 18.908C1.40973 19.2843 1.71569 19.5903 2.09202 19.782C2.51984 20 3.07989 20 4.2 20H15.8C16.9201 20 17.4802 20 17.908 19.782C18.2843 19.5903 18.5903 19.2843 18.782 18.908C19 18.4802 19 17.9201 19 16.8V9.56507C19 8.99071 19 8.70353 18.926 8.43907C18.8604 8.2048 18.7526 7.98446 18.608 7.78887C18.4447 7.56807 18.218 7.39176 17.7646 7.03914L10.9823 1.76401C10.631 1.49076 10.4553 1.35413 10.2613 1.30162C10.0902 1.25528 9.9098 1.25528 9.73865 1.30162C9.54468 1.35413 9.36902 1.49076 9.0177 1.76401Z"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            ></path>
+          </svg>
+          Dashboard
+        </a>
+        <!-- <div class="dropmenu">
+          <div class="subdiv">
+            <span class="droptitle">Dashboard</span>
+            <div class="dropdown-divider"></div>
+            <a class="sublink" href="/link/dashboard">Linked In</a>
+          </div>
+        </div> -->
+      </li>
+      <li class="nav-drop">
+        <a class="dropbtn"
+          ><svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            class="engage-icon"
+          >
+            <g clip-path="url(#clip0_313_20576)">
+              <path
+                d="M4.84495 4.78944L4.85706 4.78339L4.86712 4.77433C6.84727 2.9922 9.42284 2.1 12.0002 2.1C14.6747 2.1 17.2501 3.09023 19.2315 4.87267C19.3602 5.00006 19.4956 5.00002 19.5962 5L19.6002 5C19.8417 5 19.9673 4.87436 20.0678 4.77381L20.0709 4.77071C20.31 4.53166 20.31 4.16834 20.0709 3.92929L20.0711 3.9291L20.0656 3.92432C17.8478 2.00897 14.9247 0.9 12.0002 0.9C9.07764 0.9 6.2531 1.90779 4.13314 3.82585L4.13305 3.82575L4.12952 3.82929C4.01903 3.93978 3.9319 4.08172 3.90217 4.23039C3.87174 4.38255 3.90209 4.54328 4.02952 4.67071C4.26676 4.90795 4.61582 4.904 4.84495 4.78944Z"
+                stroke-width="0.2"
+              ></path>
+              <path
+                d="M4.5 5.1H7.5C7.67272 5.1 7.82443 5.04199 7.93321 4.93321C8.04199 4.82443 8.1 4.67272 8.1 4.5C8.1 4.32728 8.04199 4.17557 7.93321 4.06679C7.82443 3.95801 7.67272 3.9 7.5 3.9H5.1V1.5C5.1 1.32728 5.04199 1.17557 4.93321 1.06679C4.82443 0.958011 4.67272 0.9 4.5 0.9C4.32728 0.9 4.17557 0.958011 4.06679 1.06679C3.95801 1.17557 3.9 1.32728 3.9 1.5V4.5C3.9 4.67272 3.95801 4.82443 4.06679 4.93321C4.17557 5.04199 4.32728 5.1 4.5 5.1Z"
+                stroke-width="0.2"
+              ></path>
+              <path
+                d="M4.02948 20.0707L4.0293 20.0709L4.03483 20.0757C6.25261 21.991 9.17569 23.1 12.1002 23.1C15.0206 23.1 17.8421 22.0938 19.9608 20.2797C20.1273 20.167 20.2213 20.0188 20.2372 19.86C20.2528 19.7036 20.1911 19.5531 20.0779 19.4364C19.9655 19.2718 19.8181 19.1788 19.6601 19.163C19.5015 19.1471 19.3488 19.2109 19.2314 19.3274C17.2515 21.1084 14.6768 22 12.1002 22C9.42575 22 6.85036 21.0098 4.86896 19.2274C4.62989 18.9902 4.26789 18.9909 4.02948 19.2293C3.79043 19.4683 3.79043 19.8317 4.02948 20.0707Z"
+                stroke-width="0.2"
+              ></path>
+              <path
+                d="M19.0001 22.5C19.0001 22.6727 19.0581 22.8244 19.1669 22.9332C19.2757 23.042 19.4274 23.1 19.6001 23.1C19.7728 23.1 19.9245 23.042 20.0333 22.9332C20.1421 22.8244 20.2001 22.6727 20.2001 22.5V19.5C20.2001 19.3273 20.1421 19.1756 20.0333 19.0668C19.9245 18.958 19.7728 18.9 19.6001 18.9H16.6001C16.4274 18.9 16.2757 18.958 16.1669 19.0668C16.0581 19.1756 16.0001 19.3273 16.0001 19.5C16.0001 19.6727 16.0581 19.8244 16.1669 19.9332C16.2757 20.042 16.4274 20.1 16.6001 20.1H19.0001V22.5Z"
+                stroke-width="0.2"
+              ></path>
+              <path
+                d="M2.4 9.5C2.4 10.9552 3.54477 12.1 5 12.1C6.45523 12.1 7.6 10.9552 7.6 9.5C7.6 8.04477 6.45523 6.9 5 6.9C3.54477 6.9 2.4 8.04477 2.4 9.5ZM3.6 9.5C3.6 8.75523 4.25523 8.1 5 8.1C5.74477 8.1 6.4 8.75523 6.4 9.5C6.4 10.2448 5.74477 10.9 5 10.9C4.25523 10.9 3.6 10.2448 3.6 9.5Z"
+                stroke-width="0.2"
+              ></path>
+              <path
+                d="M8.9 16.5C8.9 16.6727 8.95801 16.8244 9.06679 16.9332C9.17557 17.042 9.32728 17.1 9.5 17.1C9.67272 17.1 9.82443 17.042 9.93321 16.9332C10.042 16.8244 10.1 16.6727 10.1 16.5V15.5C10.1 14.0448 8.95523 12.9 7.5 12.9H2.5C1.04477 12.9 -0.1 14.0448 -0.1 15.5V16.5C-0.1 16.6727 -0.0419886 16.8244 0.0667893 16.9332C0.175567 17.042 0.327275 17.1 0.5 17.1C0.672725 17.1 0.824433 17.042 0.933211 16.9332C1.04199 16.8244 1.1 16.6727 1.1 16.5V15.5C1.1 14.7552 1.75523 14.1 2.5 14.1H7.5C8.24477 14.1 8.9 14.7552 8.9 15.5V16.5Z"
+                stroke-width="0.2"
+              ></path>
+              <path
+                d="M16.4 9.5C16.4 10.9552 17.5448 12.1 19 12.1C20.4552 12.1 21.6 10.9552 21.6 9.5C21.6 8.04477 20.4552 6.9 19 6.9C17.5448 6.9 16.4 8.04477 16.4 9.5ZM17.6 9.5C17.6 8.75523 18.2552 8.1 19 8.1C19.7448 8.1 20.4 8.75523 20.4 9.5C20.4 10.2448 19.7448 10.9 19 10.9C18.2552 10.9 17.6 10.2448 17.6 9.5Z"
+                stroke-width="0.2"
+              ></path>
+              <path
+                d="M22.9 16.5C22.9 16.6727 22.958 16.8244 23.0668 16.9332C23.1756 17.042 23.3273 17.1 23.5 17.1C23.6727 17.1 23.8244 17.042 23.9332 16.9332C24.042 16.8244 24.1 16.6727 24.1 16.5V15.5C24.1 14.0448 22.9552 12.9 21.5 12.9H16.5C15.0448 12.9 13.9 14.0448 13.9 15.5V16.5C13.9 16.6727 13.958 16.8244 14.0668 16.9332C14.1756 17.042 14.3273 17.1 14.5 17.1C14.6727 17.1 14.8244 17.042 14.9332 16.9332C15.042 16.8244 15.1 16.6727 15.1 16.5V15.5C15.1 14.7552 15.7552 14.1 16.5 14.1H21.5C22.2448 14.1 22.9 14.7552 22.9 15.5V16.5Z"
+                stroke-width="0.2"
+              ></path>
+            </g>
+            <defs _ngcontent-rar-c94="">
+              <clipPath id="clip0_313_20576">
+                <rect width="24" height="24" fill="white"></rect>
+              </clipPath>
+            </defs>
+          </svg>
+          Engage<i class="fa fa-angle-down"></i
+        ></a>
+        <div class="dropmenu">
+          <div class="subdiv">
+            <span class="droptitle">Engage</span>
+            <div class="dropdown-divider"></div>
+            <a class="sublink" [routerLink]="['/engage/aivideo']"
+              >Explanatory Video</a
+            >
+            <a class="sublink" [routerLink]="['/engage']">Inspire Me</a>
+            <a class="sublink" [routerLink]="['/ai-article']"
+              >AI Article Generation</a
+            >
+            <a class="sublink" [routerLink]="['/engage/trendingnews']"
+              >Trending News</a
+            >
+            <!-- <a class="sublink">SEO Expert</a> -->
+            <a class="sublink" [routerLink]="['/oneclick']"
+              >Content Autopilot</a
+            >
+            <a class="sublink" [routerLink]="['/carousels']">Carousel</a>
+            <a class="sublink" (click)="openEditPost()">Do It Yourself</a>
+          </div>
+        </div>
+      </li>
+      <li class="nav-drop">
+        <a class="dropbtn"
+          ><svg width="20" height="22" viewBox="0 0 20 22" fill="none">
+            <path
+              d="M19 9H1M14 1V5M6 1V5M5.8 21H14.2C15.8802 21 16.7202 21 17.362 20.673C17.9265 20.3854 18.3854 19.9265 18.673 19.362C19 18.7202 19 17.8802 19 16.2V7.8C19 6.11984 19 5.27976 18.673 4.63803C18.3854 4.07354 17.9265 3.6146 17.362 3.32698C16.7202 3 15.8802 3 14.2 3H5.8C4.11984 3 3.27976 3 2.63803 3.32698C2.07354 3.6146 1.6146 4.07354 1.32698 4.63803C1 5.27976 1 6.11984 1 7.8V16.2C1 17.8802 1 18.7202 1.32698 19.362C1.6146 19.9265 2.07354 20.3854 2.63803 20.673C3.27976 21 4.11984 21 5.8 21Z"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            ></path>
+          </svg>
+          Evolve <i class="fa fa-angle-down"></i
+        ></a>
+        <div class="dropmenu">
+          <div class="subdiv">
+            <span class="droptitle">Evolve</span>
+            <div class="dropdown-divider"></div>
+            <a class="sublink" [routerLink]="['/evolve']">Scheduler</a>
+            <a
+              class="sublink"
+              [routerLink]="['/crm']"
+              *ngIf="_utilities.userData?.isAllowCRM"
+              >CRM</a
+            >
+            <!-- <a class="sublink">CRM</a> -->
+          </div>
+        </div>
+      </li>
+      <li class="nav-drop" *ngIf="_utilities.userData?.userRole == 'admin'">
+        <a class="dropbtn">
+          <img
+            src="assets/images/icon-setting.svg"
+            width="17px"
+            alt="setting" />
+          Admin <i class="fa fa-angle-down"></i
+        ></a>
+        <div class="dropmenu">
+          <div class="subdiv">
+            <span class="droptitle">Admin</span>
+            <div class="dropdown-divider"></div>
+            <a class="sublink" [routerLink]="['/admin/job-request']"
+              >Job Request</a
+            >
+            <a class="sublink" [routerLink]="['/admin/userlist']">User</a>
+          </div>
+        </div>
+      </li>
+      <li
+        class="nav-drop"
+        *ngIf="_utilities.userData?.userRole == 'automation'"
+      >
+        <a class="dropbtn">
+          <img
+            src="assets/images/icon-setting.svg"
+            width="17px"
+            alt="setting" />
+          Admin <i class="fa fa-angle-down"></i
+        ></a>
+        <div class="dropmenu">
+          <div class="subdiv">
+            <span class="droptitle">Admin</span>
+            <div class="dropdown-divider"></div>
+            <a class="sublink" [routerLink]="['/admin']">Job Request</a>
+          </div>
+        </div>
+      </li>
+    </ul>
+
+    <ul class="menu_list menu_list_bottom">
+      <li
+        matTooltip="Knowledge Base"
+        matTooltipPosition="right"
+        matTooltipClass="right"
+      >
+        <a href="https://identableclub.eb-help.com/help-center" target="_blank">
+          <svg
+            class="engage-icon"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              clip-rule="evenodd"
+              d="M12 2.75C6.89137 2.75 2.75 6.89137 2.75 12C2.75 17.1086 6.89137 21.25 12 21.25C17.1086 21.25 21.25 17.1086 21.25 12C21.25 6.89137 17.1086 2.75 12 2.75ZM1.25 12C1.25 6.06294 6.06294 1.25 12 1.25C17.9371 1.25 22.75 6.06294 22.75 12C22.75 17.9371 17.9371 22.75 12 22.75C6.06294 22.75 1.25 17.9371 1.25 12ZM12 7.75C11.3787 7.75 10.875 8.25368 10.875 8.875C10.875 9.28921 10.5392 9.625 10.125 9.625C9.71079 9.625 9.375 9.28921 9.375 8.875C9.375 7.42525 10.5503 6.25 12 6.25C13.4497 6.25 14.625 7.42525 14.625 8.875C14.625 9.83834 14.1056 10.6796 13.3353 11.1354C13.1385 11.2518 12.9761 11.3789 12.8703 11.5036C12.7675 11.6246 12.75 11.7036 12.75 11.75V13C12.75 13.4142 12.4142 13.75 12 13.75C11.5858 13.75 11.25 13.4142 11.25 13V11.75C11.25 11.2441 11.4715 10.8336 11.7266 10.533C11.9786 10.236 12.2929 10.0092 12.5715 9.84439C12.9044 9.64739 13.125 9.28655 13.125 8.875C13.125 8.25368 12.6213 7.75 12 7.75ZM12 17C12.5523 17 13 16.5523 13 16C13 15.4477 12.5523 15 12 15C11.4477 15 11 15.4477 11 16C11 16.5523 11.4477 17 12 17Z"
+            />
+          </svg>
+          Knowledge Base
+        </a>
+      </li>
+      <li
+        matTooltip="Raise Bugs"
+        matTooltipPosition="right"
+        matTooltipClass="right"
+      >
+        <a href="https://identableclub.canny.io/bugs" target="_blank">
+          <svg
+            class="raise-icon"
+            width="23"
+            height="23"
+            viewBox="0 0 23 23"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M21.8652 11.7116H18.0576V10.3921C19.9733 10.087 21.4422 8.42347 21.4422 6.42319V5.57704C21.4422 5.22659 21.158 4.94244 20.8076 4.94244C20.4571 4.94244 20.173 5.22659 20.173 5.57704V6.42319C20.173 7.7211 19.2689 8.81109 18.0576 9.09847V8.53858C18.0576 7.95537 17.5831 7.48091 16.9999 7.48091H16.3653V5.15402C16.3653 3.81915 15.4091 2.70377 14.1457 2.45588L14.6183 1.39257C14.7606 1.07233 14.6164 0.697252 14.2961 0.554939C13.9757 0.41254 13.6008 0.55683 13.4584 0.877119L12.7798 2.40406H10.22L9.54141 0.877033C9.39909 0.556787 9.02402 0.412497 8.70377 0.554853C8.38353 0.697166 8.23928 1.07224 8.38159 1.39249L8.85416 2.45579C7.59084 2.70372 6.63461 3.81902 6.63461 5.15393V7.48082H6.00001C5.41679 7.48082 4.94233 7.95528 4.94233 8.5385V9.09838C3.73104 8.81105 2.82697 7.72102 2.82697 6.4231V5.57696C2.82697 5.22651 2.54282 4.94235 2.19237 4.94235C1.84192 4.94235 1.55776 5.22651 1.55776 5.57696V6.4231C1.55776 8.42338 3.02665 10.0868 4.94237 10.392V11.7115H1.13461C0.784153 11.7115 0.5 11.9957 0.5 12.3461C0.5 12.6966 0.784153 12.9807 1.13461 12.9807H4.94229V14.3002C3.02657 14.6054 1.55768 16.2689 1.55768 18.2692V19.1153C1.55768 19.4658 1.84183 19.7499 2.19228 19.7499C2.54274 19.7499 2.82689 19.4658 2.82689 19.1153V18.2692C2.82689 16.9712 3.73095 15.8813 4.94224 15.5939V15.9422C4.94229 19.5582 7.88406 22.5 11.4999 22.5C15.1158 22.5 18.0576 19.5582 18.0576 15.9424V15.594C19.2689 15.8814 20.1729 16.9714 20.1729 18.2693V19.1154C20.1729 19.4659 20.4571 19.75 20.8075 19.75C21.158 19.75 21.4421 19.4659 21.4421 19.1154V18.2693C21.4421 16.269 19.9732 14.6056 18.0575 14.3004V12.9809H21.8652C22.2157 12.9809 22.4998 12.6967 22.4998 12.3463C22.4998 11.9958 22.2157 11.7116 21.8652 11.7116ZM7.90378 5.15397C7.90378 4.33748 8.56804 3.67323 9.38453 3.67323H13.6153C14.4318 3.67323 15.096 4.33748 15.096 5.15397V7.48086H7.90378V5.15397ZM16.7884 15.9424C16.7884 18.8584 14.416 21.2308 11.4999 21.2308C8.58389 21.2308 6.2115 18.8584 6.2115 15.9424V8.75012H10.8653V14.8847C10.8653 15.2351 11.1495 15.5193 11.4999 15.5193C11.8504 15.5193 12.1345 15.2351 12.1345 14.8847V8.75012H16.7884V15.9424Z"
+            />
+          </svg>
+
+          Raise Bugs</a
+        >
+      </li>
+      <li
+        matTooltip="What`s New?"
+        matTooltipPosition="right"
+        matTooltipClass="right"
+      >
+        <a
+          href="https://identableclub.canny.io/request-for-new-feature"
+          target="_blank"
+        >
+          <svg
+            width="22"
+            height="20"
+            viewBox="0 0 22 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M1.49954 7H20.4995M8.99954 1L6.99954 7L10.9995 18.5L14.9995 7L12.9995 1M11.6141 18.2625L20.5727 7.51215C20.7246 7.32995 20.8005 7.23885 20.8295 7.13717C20.8551 7.04751 20.8551 6.95249 20.8295 6.86283C20.8005 6.76114 20.7246 6.67005 20.5727 6.48785L16.2394 1.28785C16.1512 1.18204 16.1072 1.12914 16.0531 1.09111C16.0052 1.05741 15.9518 1.03238 15.8953 1.01717C15.8314 1 15.7626 1 15.6248 1H6.37424C6.2365 1 6.16764 1 6.10382 1.01717C6.04728 1.03238 5.99385 1.05741 5.94596 1.09111C5.89192 1.12914 5.84783 1.18204 5.75966 1.28785L1.42633 6.48785C1.2745 6.67004 1.19858 6.76114 1.16957 6.86283C1.144 6.95249 1.144 7.04751 1.16957 7.13716C1.19858 7.23885 1.2745 7.32995 1.42633 7.51215L10.385 18.2625C10.596 18.5158 10.7015 18.6424 10.8279 18.6886C10.9387 18.7291 11.0603 18.7291 11.1712 18.6886C11.2975 18.6424 11.4031 18.5158 11.6141 18.2625Z"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          What`s New?</a
+        >
+      </li>
+      <li
+        matTooltip="Like - Minded"
+        matTooltipPosition="right"
+        matTooltipClass="right"
+      >
+        <a href="https://discord.gg/DUr8ZXc4DE" target="_blank">
+          <svg
+            width="22"
+            height="22"
+            viewBox="0 0 22 22"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M7 13C7 13 8.5 15 11 15C13.5 15 15 13 15 13M16 8.24C15.605 8.725 15.065 9 14.5 9C13.935 9 13.41 8.725 13 8.24M9 8.24C8.605 8.725 8.065 9 7.5 9C6.935 9 6.41 8.725 6 8.24M21 11C21 16.5228 16.5228 21 11 21C5.47715 21 1 16.5228 1 11C1 5.47715 5.47715 1 11 1C16.5228 1 21 5.47715 21 11Z"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+          Like - Minded</a
+        >
+      </li>
+    </ul>
+  </div>
+</div>

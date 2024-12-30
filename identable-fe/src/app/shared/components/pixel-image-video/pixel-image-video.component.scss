@@ -1,0 +1,158 @@
+.searchboxbg {
+    width: 100%;
+    display: inline-block;
+    background-image: url("/assets/images/demoimg-1.jpg");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: 50px 20px;
+    margin-bottom: 30px;
+    position: relative;
+
+    &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0.5;
+        background: #000;
+    }
+
+    .main-title {
+        font-weight: 600;
+        color: #fff;
+        font-size: 26px;
+        margin-bottom: 15px;
+        position: relative;
+    }
+}
+
+.searchbox {
+    border-radius: 5px;
+    background-color: #fff;
+
+    .input-group-text {
+        background-color: transparent;
+        border: none;
+        color: #ec4a0a;
+    }
+
+    .form-control {
+        border: none;
+    }
+
+    .dropdown-toggle {
+        display: flex;
+        align-items: center;
+        background-color: #eee;
+        border-color: #ced4da;
+        margin: 3px;
+        padding: 4px 10px;
+    }
+
+    .dropdown-menu {
+        margin: 0;
+        padding: 5px 0;
+        min-width: 120px;
+
+        .droplink {
+            padding: 6px 10px;
+            display: block;
+            color: #000;
+            cursor: pointer;
+            line-height: 1.2;
+
+            img {
+                margin-right: 5px;
+            }
+
+            &:hover {
+                background-color: #eee;
+            }
+        }
+    }
+}
+
+.tablist {
+    width: 100%;
+    display: inline-block;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    background-color: #f9f9f9;
+    border: 2px dashed #f2f2f2;
+    text-align: center;
+
+    .nav-link {
+        border-radius: 20px;
+        background: #f1f1f1;
+        color: #000;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 16px;
+        display: inline-block;
+        margin: 0 5px;
+        cursor: pointer;
+    }
+
+    .active {
+        background: #ffead5;
+        color: #ec4a0a;
+    }
+}
+
+.tab-content {
+    width: 100%;
+    display: inline-block;
+
+    .tabbox {
+        width: 100%;
+        display: inline-block;
+    }
+
+    .tabtitle {
+        font-size: 20px;
+        font-weight: 500;
+        color: #2c343e;
+        margin-bottom: 10px;
+    }
+
+    .imageslist {
+        display: flex;
+        align-items: start;
+        flex-wrap: wrap;
+        width: 100%;
+
+        .imagess {
+            width: 24%;
+            margin: 0.5%;
+            float: left;
+            cursor: pointer;
+
+            img {
+                width: 100%;
+                object-fit: cover;
+            }
+        }
+    }
+
+    .videoslist {
+        display: flex;
+        align-items: start;
+        flex-wrap: wrap;
+        width: 100%;
+
+        .videos {
+            width: 32.33%;
+            margin: 0.5%;
+            float: left;
+        }
+    }
+}
+
+.input-group-prepend {
+    cursor: pointer;
+}

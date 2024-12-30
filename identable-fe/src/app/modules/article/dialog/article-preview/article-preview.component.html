@@ -1,0 +1,79 @@
+<div class="customdrop-head">
+  <h3 class="droptitle">
+    Article Preview
+    <img
+      class="img-fluid align-center"
+      src="assets/images/help-icon.svg"
+      alt="help-icon"
+      matTooltip="Article Preview"
+      matTooltipPosition="below"
+    />
+  </h3>
+  <div class="btn-group">
+    <button
+      type="button"
+      class="btn btn-download dropdown-toggle"
+      data-toggle="dropdown"
+      aria-expanded="false"
+    >
+      <img
+        class="img-fluid align-center"
+        src="assets/images/export.svg"
+        alt="help-icon"
+      />
+      Export
+    </button>
+    <div class="dropdown-menu dropdown-menu-right">
+      <a class="droplink" (click)="exportPdf()">Export as PDF</a>
+      <a class="droplink" (click)="exportHtml()">Export as HTML</a>
+    </div>
+  </div>
+</div>
+<mat-dialog-content>
+  <div class="ide-editor-main" #pdfContent>
+    <div class="ide-leftdiv">
+      <div class="article-body">
+        <!-- Artcle Layout -->
+
+        <div
+          class="article-imgdiv-1"
+          [ngClass]="{
+            'article-imgdiv-1': articleBannerLayoutObj.layout === 'center',
+            'article-imgdiv-2': articleBannerLayoutObj.layout === 'right',
+            'article-imgdiv-3': articleBannerLayoutObj.layout === 'left'
+          }"
+        >
+          <div class="main-img">
+            <img
+              class="img-fluid"
+              [src]="articleBannerLayoutObj?.coverImage"
+              alt="demoimg-1"
+            />
+          </div>
+          <div
+            class="imgdiv-content"
+            [style.background]="articleBannerLayoutObj?.bannerColor"
+          >
+            <img
+              class="img-fluid avtar-img"
+              [src]="articleBannerLayoutObj?.profileAvatar"
+              alt="avatar"
+            />
+            <div class="text">
+              {{ articleBannerLayoutObj?.headline }}
+            </div>
+          </div>
+        </div>
+
+        <div id="custIdeContent">
+          <div [innerHTML]="articleHtml"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+<div class="custom-foot">
+  <button type="button" class="btn btn-cancel" [mat-dialog-close]="false">
+    cancel
+  </button>
+</div>

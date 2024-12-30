@@ -1,0 +1,376 @@
+<div class="topdiv">
+  <div class="leftside">
+    <h2 class="main-title">Trending News</h2>
+    <h5 class="sub-title">
+      Easily integrate trending stories into your content plan and boost
+      audience engagement with fresh insights
+    </h5>
+  </div>
+  <div class="rightside">
+    <!-- <tag-input
+      [maxItems]="2"
+      [separatorKeyCodes]="[188, 9]"
+      placeholder="Serach by Keyword"
+      [(ngModel)]="searchTrendingNews"
+    >
+    </tag-input> -->
+    <div class="ide-search-box">
+      <div class="position-relative">
+        <i class="fa fa-search" (click)="searchNews()"></i>
+        <input
+          type="text"
+          class="form-control id-input"
+          placeholder="Search by Keyword"
+          [(ngModel)]="searchTrendingNews"
+          (keyup.enter)="searchNews()"
+        />
+        <img
+          width="16"
+          src="assets/images/close-1.svg"
+          alt="close"
+          class="close-btn pointer"
+          (click)="removeSearch()"
+          *ngIf="searchTrendingNews"
+        />
+      </div>
+      <div class="ide-text">
+        Each Search costs
+        <span
+          [matTooltip]="creditMessage(creditDeducated)"
+          matTooltipPosition="above"
+          >{{ creditDeducated }} credits</span
+        >
+      </div>
+    </div>
+    <!-- <button type="button" class="btn-searchs ml-2" (click)="searchNews()">
+      <i class="fa fa-search text-white"></i>
+      <span
+        class="credit-div"
+        [matTooltip]="creditMessage"
+        matTooltipPosition="above"
+        ><i class="fa fa-cubes" aria-hidden="true"></i
+        >{{ creditDeducated }}</span
+      >
+    </button> -->
+    <div class="view-icon" *ngIf="isCheckGridview">
+      <a
+        class="btn"
+        [class.btn-active]="isCheckGridview"
+        (click)="changeView(false)"
+      >
+        <img width="20" src="assets/images/view-1.svg" alt="Grid View" />
+      </a>
+    </div>
+    <div class="view-icon" *ngIf="!isCheckGridview">
+      <a
+        class="btn"
+        [class.btn-active]="!isCheckGridview"
+        (click)="changeView(true)"
+      >
+        <img width="20" src="assets/images/view-2.svg" alt="List View" />
+      </a>
+    </div>
+  </div>
+</div>
+<div class="no-data-div" *ngIf="!_utilities.userData?.isAISetting">
+  <img class="img-fluid" src="assets/images/lock-image.png" alt="lock-image" />
+  <div class="text1">Stay Ahead with Trending News</div>
+  <div class="text2">
+    To keep you updated with the latest and most relevant news, we need your AI
+    preferences. Complete your settings to access breaking stories and trending
+    updates, curated just for you.
+  </div>
+  <div class="text2">Click the button below to begin!</div>
+  <button type="button" class="btn">Complete AI Setup</button>
+</div>
+
+<ng-container *ngIf="_utilities.userData?.isAISetting">
+  <div class="boxviewlist">
+    <div class="card-columns {{ isCheckGridview ? 'gridview' : 'listview' }}">
+      <div>
+        <div
+          class="card"
+          *ngFor="let trendingNew of trendingNews; let i = index"
+        >
+          <div class="card-body">
+            <!-- <div class="engage-info">
+              <img
+                alt="avatar"
+                class="profile-img"
+                [src]="
+                  currentProfile?.image
+                    ? currentProfile?.image
+                    : 'assets/images/avatar/avatar.png'
+                "
+              />
+              <h3 class="name">{{ currentProfile?.name }}</h3>
+              <h5 class="positi"></h5>
+              <div class="editmenu">
+                <div *ngIf="!trendingNew?.isScheduled">
+                  <img
+                    src="assets/images/edit/edit-1.svg"
+                    alt="edit"
+                    class="img"
+                    (click)="openEditPost(i)"
+                  />
+                  <div class="schedule-btndiv d-inline-block">
+                    <img
+                      src="assets/images/icons/icon-evolve.svg"
+                      alt="evolve"
+                      class="img"
+                      (click)="scheduleDialogOpenClose(true, i)"
+                    />
+                    <div
+                      class="schedule-popup"
+                      *ngIf="scheduleDialogOpen && selectedNewsIndex == i"
+                    >
+                      <app-post-schedule-dialog
+                        [isAdvancedSchedule]="true"
+                        (_closeDailog)="scheduleDialogOpenClose(false)"
+                        (_postScheduled)="postScheduled($event, i)"
+                      >
+                      </app-post-schedule-dialog>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div> -->
+            <div class="editbtnlist" *ngIf="!trendingNew?.isScheduled">
+              <button
+                type="button"
+                class="btn btn-edits mr-2"
+                (click)="openEditPost(i)"
+              >
+                <svg
+                  xmlns="
+http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    d="M4.02046 18.8312C3.98821 18.9889 3.99559 19.1522 4.04192 19.3064C4.08826 19.4606 4.1721 19.6009 4.28596 19.7148C4.39981 19.8286 4.54012 19.9125 4.69432 19.9588C4.84852 20.0051 5.01181 20.0125 5.16956 19.9803L8.87979 19.2207L4.78003 15.1209L4.02046 18.8312ZM19.4301 6.63612L17.3656 4.56968C17.1846 4.38863 16.9696 4.24511 16.7329 4.14735C16.4963 4.04959 16.2427 3.99951 15.9867 4C15.4881 4 14.9895 4.1899 14.6087 4.56968L5.10723 14.0722L9.92761 18.8925L19.4291 9.39006C19.7942 9.02482 19.9993 8.52953 19.9993 8.01309C19.9993 7.49665 19.7942 7.00135 19.4291 6.63612H19.4301Z"
+                    fill="#172B4D"
+                  />
+                </svg>
+              </button>
+              <div class="schedule-btndiv d-inline-block">
+                <button
+                  type="button"
+                  class="btn btn-schedule"
+                  (click)="scheduleDialogOpenClose(true, i)"
+                >
+                  <svg
+                    xmlns="
+              http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M4.995 5H19.005C20.107 5 21 5.895 21 6.994V19.006C21 19.2679 20.9484 19.5273 20.8481 19.7693C20.7478 20.0113 20.6009 20.2312 20.4156 20.4163C20.2304 20.6015 20.0104 20.7484 19.7684 20.8485C19.5263 20.9487 19.2669 21.0001 19.005 21H4.995C4.46607 21 3.95878 20.7899 3.58468 20.416C3.21057 20.0421 3.00027 19.5349 3 19.006V6.994C3 5.893 3.892 5 4.995 5ZM5 9V18C5 18.2652 5.10536 18.5196 5.29289 18.7071C5.48043 18.8946 5.73478 19 6 19H18C18.2652 19 18.5196 18.8946 18.7071 18.7071C18.8946 18.5196 19 18.2652 19 18V9H5ZM6 4C6 3.73478 6.10536 3.48043 6.29289 3.29289C6.48043 3.10536 6.73478 3 7 3C7.26522 3 7.51957 3.10536 7.70711 3.29289C7.89464 3.48043 8 3.73478 8 4V5H6V4ZM16 4C16 3.73478 16.1054 3.48043 16.2929 3.29289C16.4804 3.10536 16.7348 3 17 3C17.2652 3 17.5196 3.10536 17.7071 3.29289C17.8946 3.48043 18 3.73478 18 4V5H16V4ZM7 13V10.999H9V13H7ZM15 13V10.999H17V13H15ZM11 13V10.999H13.001V13H11ZM7 17V15H9V17H7ZM11 17V15H13.001V17H11ZM15 17V15H17V17H15Z"
+                      fill="#fff"
+                    />
+                  </svg>
+
+                  <span
+                    [matTooltip]="creditMessage(scheduleCredit)"
+                    class="credit-div"
+                    matTooltipPosition="above"
+                    ><i class="fa fa-cubes" aria-hidden="true"></i>
+                    {{ scheduleCredit }}</span
+                  >
+                </button>
+                <div
+                  class="schedule-popup"
+                  *ngIf="scheduleDialogOpen && selectedNewsIndex == i"
+                >
+                  <app-post-schedule-dialog
+                    [isAdvancedSchedule]="true"
+                    (_closeDailog)="scheduleDialogOpenClose(false)"
+                    (_postScheduled)="postScheduled($event, i)"
+                  >
+                  </app-post-schedule-dialog>
+                </div>
+              </div>
+            </div>
+            <img
+              class="img-fluid mb-3"
+              *ngIf="trendingNew?.urlToImage"
+              [src]="trendingNew?.urlToImage"
+              alt="moon"
+            />
+            <div class="ide-date-div">
+              <div class="id-dates">
+                {{ trendingNew?.publishedAt | date : "MMM d, y" }}
+              </div>
+              <a class="btn-3 posted" *ngIf="trendingNew?.isScheduled"
+                ><!-- <img src="assets/images/check-circle-green.svg" alt="file" /> -->
+                Posted</a
+              >
+            </div>
+            <div class="id-title">
+              {{ trendingNew?.title }}
+            </div>
+            <div class="desq mb-1" [innerHTML]="trendingNew?.description"></div>
+            <!-- <a href="javascript:void(0);" target="_blank">
+                  Read more
+                </a> -->
+            <div class="rewrite" *ngIf="!trendingNew?.isScheduled">
+              <a class="btn-rewrite" (click)="generateSummary(i)"
+                ><img
+                  width="20"
+                  src="assets/images/star-three-orange.svg"
+                  alt="star"
+                />
+                Generate Summary</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="trendingNews && trendingNews?.length <= 0">
+        <div class="card">
+          <div class="card-body text-center">
+            <img
+              class="img-fluid"
+              src="assets/images/no-post.svg"
+              alt="no-post"
+            />
+            <h5 class="mt-3">No Post Found!</h5>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="!trendingNews">
+        <div class="box card">
+          <!-- <div class="skeleton">
+            <div class="skeleton-left flex1">
+              <div class="square circle"></div>
+            </div>
+            <div class="skeleton-right flex2">
+              <div class="line h17 w75 m10"></div>
+              <div class="line h12 w25"></div>
+            </div>
+          </div> -->
+          <div class="skeleton2">
+            <div class="skeleton-right flex2">
+              <div class="line mt-3 m10 h25 w100 m10"></div>
+              <div class="line m10 h20 w25"></div>
+              <div class="line m10 h25 w100"></div>
+              <div class="line m10 h20 w75"></div>
+              <div class="line m10 h25 w100"></div>
+              <div class="line m10 h20 w50"></div>
+              <div class="line h100 w100 mt-3 m15 h25"></div>
+              <div class="line m15 f-right h25 w25"></div>
+            </div>
+          </div>
+        </div>
+        <div class="box card">
+          <!-- <div class="skeleton">
+            <div class="skeleton-left flex1">
+              <div class="square circle"></div>
+            </div>
+            <div class="skeleton-right flex2">
+              <div class="line h17 w75 m10"></div>
+              <div class="line h12 w25"></div>
+            </div>
+          </div> -->
+          <div class="skeleton2">
+            <div class="skeleton-right flex2">
+              <div class="line mt-3 m10 h25 w100 m10"></div>
+              <div class="line m10 h20 w25"></div>
+              <div class="line m10 h25 w100"></div>
+              <div class="line m10 h20 w75"></div>
+              <div class="line m10 h25 w100"></div>
+              <div class="line m10 h20 w50"></div>
+              <div class="line h100 w100 mt-3 m15 h25"></div>
+              <div class="line m15 f-right h25 w25"></div>
+            </div>
+          </div>
+        </div>
+        <div class="box card">
+          <!-- <div class="skeleton">
+            <div class="skeleton-left flex1">
+              <div class="square circle"></div>
+            </div>
+            <div class="skeleton-right flex2">
+              <div class="line h17 w75 m10"></div>
+              <div class="line h12 w25"></div>
+            </div>
+          </div> -->
+          <div class="skeleton2">
+            <div class="skeleton-right flex2">
+              <div class="line mt-3 m10 h25 w100 m10"></div>
+              <div class="line m10 h20 w25"></div>
+              <div class="line m10 h25 w100"></div>
+              <div class="line m10 h20 w75"></div>
+              <div class="line m10 h25 w100"></div>
+              <div class="line m10 h20 w50"></div>
+              <div class="line m10 h25 w100"></div>
+              <div class="line m10 h20 w75"></div>
+              <div class="line m10 h25 w100"></div>
+              <div class="line m10 h20 w50"></div>
+              <div class="line h100 w100 mt-3 m15 h25"></div>
+              <div class="line m15 f-right h25 w25"></div>
+            </div>
+          </div>
+        </div>
+        <div class="box card">
+          <!-- <div class="skeleton">
+            <div class="skeleton-left flex1">
+              <div class="square circle"></div>
+            </div>
+            <div class="skeleton-right flex2">
+              <div class="line h17 w75 m10"></div>
+              <div class="line h12 w25"></div>
+            </div>
+          </div> -->
+          <div class="skeleton2">
+            <div class="skeleton-right flex2">
+              <div class="line mt-3 m10 h25 w100 m10"></div>
+              <div class="line m10 h20 w25"></div>
+              <div class="line m10 h25 w100"></div>
+              <div class="line m10 h20 w75"></div>
+              <div class="line m10 h25 w100"></div>
+              <div class="line m10 h20 w50"></div>
+              <div class="line h100 w100 mt-3 m15 h25"></div>
+              <div class="line m15 f-right h25 w25"></div>
+            </div>
+          </div>
+        </div>
+        <div class="box card">
+          <!-- <div class="skeleton">
+            <div class="skeleton-left flex1">
+              <div class="square circle"></div>
+            </div>
+            <div class="skeleton-right flex2">
+              <div class="line h17 w75 m10"></div>
+              <div class="line h12 w25"></div>
+            </div>
+          </div> -->
+          <div class="skeleton2">
+            <div class="skeleton-right flex2">
+              <div class="line mt-3 m10 h25 w100 m10"></div>
+              <div class="line m10 h20 w25"></div>
+              <div class="line m10 h25 w100"></div>
+              <div class="line m10 h20 w50"></div>
+              <div class="line m10 h25 w100"></div>
+              <div class="line m10 h20 w75"></div>
+              <div class="line m10 h25 w100"></div>
+              <div class="line m10 h20 w50"></div>
+              <div class="line h100 w100 mt-3 m15 h25"></div>
+              <div class="line m15 f-right h25 w25"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
+<app-loader></app-loader>

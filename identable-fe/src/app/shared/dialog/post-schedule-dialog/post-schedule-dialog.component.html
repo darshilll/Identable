@@ -1,0 +1,173 @@
+<div class="popbox">
+  <h4 class="pop-title">
+    {{ data?.isReschedulePost ? "Reschedule Post" : "Schedule" }}
+  </h4>
+  <img
+    (click)="close()"
+    class="img-fluid close"
+    src="assets/images/close-1.svg"
+    alt="close-1"
+  />
+  <!-- <p
+    class="labels-credit mb-3"
+    *ngIf="schedulePost_step1 && !data?.isReschedulePost"
+  >
+    You have
+    <span [style.color]="isScheduleCredit > 0 ? 'green' : 'red'">
+      {{ isScheduleCredit < 50 ? isScheduleCredit : "Unlimited" }}
+    </span>
+    post schedule credits remaining in your account.
+  </p> -->
+  <div class="w-100 d-inline-block minpost" *ngIf="schedulePost_step1">
+    <label class="labels">Select Date</label>
+    <div class="mb-3">
+      <p-calendar
+        [showIcon]="true"
+        [(ngModel)]="defaultDate"
+        [icon]="'fa fa-calendar'"
+        placeholder="Date Created"
+        [minDate]="currentDate"
+        yearRange="2023:2070"
+        [monthNavigator]="true"
+        [yearNavigator]="true"
+        placeholder="YYYY-MM-DD"
+        [inline]="true"
+        [style]="{ width: '300px' }"
+        (onSelect)="onSelectMethod($event)"
+      ></p-calendar>
+    </div>
+
+    <div class="dotlist">
+      <div class="dots actives"></div>
+      <div class="dots"></div>
+      <div class="dots" *ngIf="boostingPost"></div>
+    </div>
+  </div>
+  <div class="w-100 d-inline-block minpost" *ngIf="schedulePost_step2">
+    <label class="labels">Choose time slot</label>
+    <div class="timeslot">
+      <div
+        class="cust_rad_btn"
+        [class.disabled]="!tp?.isAvailable"
+        *ngFor="let tp of timePeriod; let i = index"
+      >
+        <input
+          type="radio"
+          value=""
+          name="timeslot"
+          (change)="selectTime(tp.period, 'timeslot')"
+          [checked]="
+            isSelectedTimePeriod == tp.period && tp.isAvailable == true
+          "
+        /><label>{{ tp.period }}</label>
+      </div>
+    </div>
+    <label class="labels">Optimised Time </label>
+    <div class="timesopt">
+      <div
+        class="cust_rad_btn"
+        [class.disabled]="!time?.isAvailable"
+        *ngFor="let time of isSelectedTimeSlot?.time; let i = index"
+      >
+        <span
+          class="best-tag"
+          matTooltip="Best post time"
+          matTooltipPosition="below"
+          matTooltipClass="below"
+          *ngIf="time?.isBestPostTime"
+        >
+          <i class="fa fa-star"></i
+        ></span>
+        <input
+          type="radio"
+          value=""
+          name="timeopt"
+          (change)="selectTime(time.time, 'time')"
+          [checked]="isSelectedTime == time.time && time.isAvailable == true"
+        /><label>{{ time.time }} {{ isSelectedTimeSlot?.meridiem }} </label>
+      </div>
+      <p *ngIf="!isSelectedTimeSlot">
+        Today, there are no available slots for scheduled postings.
+      </p>
+    </div>
+    <div class="dotlist">
+      <div class="dots"></div>
+      <div class="dots actives"></div>
+      <div class="dots" *ngIf="boostingPost"></div>
+    </div>
+  </div>
+  <div class="w-100 d-inline-block minpost" *ngIf="schedulePost_step3">
+    <label class="labels">Select the boost type</label>
+    <div class="boostlist">
+      <div
+        class="boostype"
+        [class.selected]="i == boosTypeIndex"
+        *ngFor="let boost of boostType; let i = index"
+        (click)="selectBootType(boost, i)"
+      >
+        <div class="boost">
+          <span class="txt1">{{ boost?.likes }}</span>
+          <span class="txt2">Likes</span>
+        </div>
+        <!-- <div class="boost">
+          <span class="txt1">{{ boost?.comments }}</span>
+          <span class="txt2">Comments</span>
+        </div>
+        <div class="boost">
+          <span class="txt1">{{ boost?.repost }}</span>
+          <span class="txt2">Repost</span>
+        </div> -->
+      </div>
+    </div>
+    <div class="dotlist">
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots actives"></div>
+    </div>
+  </div>
+  <div class="w-100 d-inline-block minpost" *ngIf="schedulePost_step4">
+    <label class="labels">Posted With</label>
+    <div class="w-100 d-inline-block postedwith">
+      <!-- <img
+          profileList
+          *ngFor="let profile of commonService?.linkedProfileList; let i = index"
+          [src]="profile.profileImage"
+          alt="avatar"
+          class="img"
+          (click)="selectProfile(profile)"
+          [class.actives]="isSelectdProfile?._id == profile?._id"
+        /> -->
+    </div>
+    <div class="dotlist">
+      <div class="dots"></div>
+      <div class="dots"></div>
+      <div class="dots actives"></div>
+    </div>
+  </div>
+</div>
+<div class="btnlistdiv">
+  <button
+    type="button"
+    class="btn btn-can"
+    [class.disabled]="schedulePost_step1"
+    (click)="schedulePostStep(false)"
+  >
+    Back
+  </button>
+  <button
+    type="button"
+    class="btn btn-saves"
+    [class.disabled]="isNextBtnDisabled"
+    (click)="schedulePostStep(true)"
+  >
+    {{ btnLable }}
+    <span
+      *ngIf="isAdvancedSchedule && btnLable == 'Save'"
+      [matTooltip]="isAdvancedScheduleCreditMsg"
+      class="credit-div"
+      matTooltipPosition="above"
+      ><i class="fa fa-cubes" aria-hidden="true"></i
+      >{{ isAdvancedScheduleCredit }}</span
+    >
+  </button>
+</div>

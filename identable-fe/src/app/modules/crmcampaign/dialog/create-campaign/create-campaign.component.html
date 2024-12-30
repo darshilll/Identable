@@ -1,0 +1,85 @@
+<div class="create-camp-head">
+  <h3 class="droptitle">
+    Create Campaign {{ campaignType }}
+    <img
+      width="12"
+      src="assets/images/help-icon.svg"
+      alt="help-icon"
+      matTooltip="info here..."
+      matTooltipPosition="above"
+    />
+  </h3>
+  <span class="dropclose" [mat-dialog-close]="false">X</span>
+</div>
+<mat-dialog-content>
+  <div class="create-camp-body" *ngIf="!campaignType">
+    <h4 class="titles">Choose the campaign type</h4>
+    <div class="create-camps-div">
+      <div class="create-camps color-1" (click)="selectCampaignType('profile')">
+        <div class="img-div">
+          <img
+            class="img-1"
+            width="90"
+            src="assets/images/crm/profile.png"
+            alt="profile"
+          />
+          <img
+            class="img-2"
+            width="56"
+            src="assets/images/crm/add-icon.png"
+            alt="add-icon"
+          />
+        </div>
+        <h5>Profile</h5>
+        <p>
+          Build your personal brand by connecting with like-minded
+          professionals.
+        </p>
+      </div>
+      <div class="create-camps color-2" (click)="selectCampaignType('company')">
+        <div class="img-div">
+          <img
+            class="img-1"
+            width="105"
+            src="assets/images/crm/company.png"
+            alt="profile"
+          />
+          <img
+            class="img-2"
+            width="56"
+            src="assets/images/crm/add-icon.png"
+            alt="add-icon"
+          />
+        </div>
+        <h5>Company Page</h5>
+        <p>Grow your company’s reach by engaging with target audiences.</p>
+      </div>
+    </div>
+  </div>
+  <app-company-page-create-campaign
+    *ngIf="campaignType == 'company'"
+    [currentStep]="currentStep"
+    (_back)="back($event)"
+    (_createCampaign)="createCampaign($event)"
+    (_notAllowContinue)="notAllowContinue($event)"
+  ></app-company-page-create-campaign>
+  <app-profile-create-campaign
+    *ngIf="campaignType == 'profile'"
+    [currentStep]="currentStep"
+    (_back)="back($event)"
+    (_createCampaign)="createCampaign($event)"
+  ></app-profile-create-campaign>
+</mat-dialog-content>
+<div class="create-camp-foot" *ngIf="campaignType">
+  <button type="button" (click)="nextStep(false)" class="btn btn-back">
+    Back
+  </button>
+  <button
+    type="button"
+    (click)="nextStep(true)"
+    *ngIf="isAllowNext"
+    class="btn btn-save"
+  >
+    Continue
+  </button>
+</div>

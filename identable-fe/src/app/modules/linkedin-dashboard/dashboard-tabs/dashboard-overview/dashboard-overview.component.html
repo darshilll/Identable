@@ -1,0 +1,808 @@
+<div class="cus-boxes">
+  <div class="cus-head">
+    <h3 class="title-1">
+      Performance
+      <img
+        src="assets/images/help-icon.svg"
+        alt="help-icon"
+        matTooltip="Performance"
+        matTooltipPosition="above"
+      />
+    </h3>
+    <h5 class="title-2">
+      Based on engagements gained in the in
+      {{
+        selectedDuration !== "custom"
+          ? selectedDuration
+          : (startDate | date : "MMM dd") +
+            " - " +
+            (endDate | date : "MMM dd, yyyy")
+      }}
+    </h5>
+  </div>
+  <div class="cus-box-btn">
+    <div
+      class="cus-btn cus-active"
+      [ngClass]="{ 'cus-active': currentSection === 'reach' }"
+      (click)="showTheSection('reach')"
+    >
+      <div class="text1">
+        <img width="16" src="assets/images/dash-btn/reach.png" alt="reach" />
+        Reach
+        <img
+          width="12"
+          src="assets/images/help-icon.svg"
+          alt="help-icon"
+          matTooltip="Reach"
+          matTooltipPosition="above"
+        />
+      </div>
+      <div class="text2">
+        {{
+          overviewData?.reach?.reachCount
+            ? overviewData?.reach?.reachCount
+            : "0"
+        }}
+      </div>
+      <div class="text3 text-capitalize">
+        <span
+          class="mr-2"
+          [ngClass]="{
+            up: overviewData?.reach?.reachPer >= 0,
+            down: overviewData?.reach?.reachPer < 0
+          }"
+          ><img
+            class="mr-1"
+            width="16"
+            [src]="
+              overviewData?.reach?.reachPer >= 0
+                ? 'assets/images/dash-btn/up.png'
+                : 'assets/images/dash-btn/down.png'
+            "
+            alt="help-icon"
+          />{{ getUniqueViewsPer(overviewData?.reach?.reachPer) }}%</span
+        >
+        Last Month
+      </div>
+    </div>
+    <div
+      class="cus-btn"
+      [ngClass]="{ 'cus-active': currentSection === 'audience' }"
+      (click)="showTheSection('audience')"
+    >
+      <div class="text1">
+        <img
+          width="16"
+          src="assets/images/dash-btn/audience.png"
+          alt="audience"
+        />
+        Audience
+        <img
+          width="12"
+          src="assets/images/help-icon.svg"
+          alt="help-icon"
+          matTooltip="Audience"
+          matTooltipPosition="above"
+        />
+      </div>
+      <div class="text2">
+        {{
+          overviewData?.audience?.audienceCount
+            ? overviewData?.audience?.audienceCount
+            : "0"
+        }}
+      </div>
+      <div class="text3 text-capitalize">
+        <span
+          class="mr-2"
+          [ngClass]="{
+            up: overviewData?.audience?.audiencePer >= 0,
+            down: overviewData?.audience?.audiencePer < 0
+          }"
+          ><img
+            class="mr-1"
+            width="16"
+            [src]="
+              overviewData?.audience?.audiencePer >= 0
+                ? 'assets/images/dash-btn/up.png'
+                : 'assets/images/dash-btn/down.png'
+            "
+            alt="help-icon"
+          />{{ getUniqueViewsPer(overviewData?.audience?.audiencePer) }}%</span
+        >
+        Last Month
+      </div>
+    </div>
+    <div
+      class="cus-btn"
+      [ngClass]="{ 'cus-active': currentSection === 'engagement' }"
+      (click)="showTheSection('engagement')"
+    >
+      <div class="text1">
+        <img
+          width="16"
+          src="assets/images/dash-btn/engagement.png"
+          alt="engagement"
+        />
+        Engagement
+        <img
+          width="12"
+          src="assets/images/help-icon.svg"
+          alt="help-icon"
+          matTooltip="Engagement"
+          matTooltipPosition="above"
+        />
+      </div>
+      <div class="text2">
+        {{
+          overviewData?.engagement?.engagementCount
+            ? overviewData?.engagement?.engagementCount
+            : "0"
+        }}
+      </div>
+      <div class="text3 text-capitalize">
+        <span
+          class="mr-2"
+          [ngClass]="{
+            up: overviewData?.engagement?.engagementPer >= 0,
+            down: overviewData?.engagement?.engagementPer < 0
+          }"
+          ><img
+            class="mr-1"
+            width="16"
+            [src]="
+              overviewData?.engagement?.engagementPer >= 0
+                ? 'assets/images/dash-btn/up.png'
+                : 'assets/images/dash-btn/down.png'
+            "
+            alt="help-icon"
+          />{{
+            getUniqueViewsPer(overviewData?.engagement?.engagementPer)
+          }}%</span
+        >
+        Last Month
+      </div>
+    </div>
+    <div
+      class="cus-btn"
+      [ngClass]="{ 'cus-active': currentSection === 'campaign' }"
+      (click)="showTheSection('campaign')"
+    >
+      <div class="text1">
+        <img width="16" src="assets/images/dash-btn/reach.png" alt="reach" />
+        Campaign
+        <img
+          width="12"
+          src="assets/images/help-icon.svg"
+          alt="help-icon"
+          matTooltip="Campaign"
+          matTooltipPosition="above"
+        />
+      </div>
+      <div class="text2">
+        {{
+          overviewData?.campaign?.campaignCount
+            ? overviewData?.campaign?.campaignCount
+            : "0"
+        }}
+      </div>
+      <div class="text3">Connected</div>
+    </div>
+  </div>
+
+  <div class="chart-div" *ngIf="currentSection === 'reach'">
+    <div class="charts">
+      <div id="reach-chart" class="w-100"></div>
+    </div>
+    <div class="chart-info">
+      <div class="mb-4">
+        <div class="title-1">Reach Breakdown</div>
+        <div class="title-2 text-capitalize">
+          {{
+            selectedDuration !== "custom"
+              ? selectedDuration
+              : (startDate | date : "MMM dd") +
+                " - " +
+                (endDate | date : "MMM dd, yyyy")
+          }}
+        </div>
+      </div>
+      <div class="mb-4">
+        <div class="title-3">Organic</div>
+        <div class="d-flex align-items-center w-100">
+          <div class="text1">{{ overviewData?.reach?.uniqueViews }}</div>
+          <div
+            class="text2 ml-1"
+            [ngClass]="{
+              up: overviewData?.reach?.uniqueViewsPer >= 0,
+              down: overviewData?.reach?.uniqueViewsPer < 0
+            }"
+          >
+            <img
+              width="16"
+              [src]="
+                overviewData?.reach?.uniqueViewsPer >= 0
+                  ? 'assets/images/dash-btn/up.png'
+                  : 'assets/images/dash-btn/down.png'
+              "
+              alt="up"
+              class="mr-1"
+            />{{ getUniqueViewsPer(overviewData?.reach?.uniqueViewsPer) }}%
+          </div>
+        </div>
+      </div>
+      <!-- <div class="mb-4">
+        <div class="title-3">Ads</div>
+        <div class="d-flex align-items-center w-100">
+          <div class="text1">0</div>
+          <div class="text2 ml-1">0%</div>
+        </div>
+      </div> -->
+    </div>
+  </div>
+
+  <div class="chart-div" *ngIf="currentSection === 'audience'">
+    <div class="charts">
+      <div id="audience-chart" class="w-100"></div>
+    </div>
+    <div class="chart-info">
+      <div class="mb-4">
+        <div class="title-1">Audience Breakdown</div>
+        <div class="title-2 text-capitalize">
+          {{
+            selectedDuration !== "custom"
+              ? selectedDuration
+              : (startDate | date : "MMM dd") +
+                " - " +
+                (endDate | date : "MMM dd, yyyy")
+          }}
+        </div>
+      </div>
+      <div class="mb-4">
+        <div class="title-3">Followers</div>
+        <div class="d-flex align-items-center w-100">
+          <div class="text1">{{ overviewData?.audience?.followersCount }}</div>
+          <div
+            class="text2 ml-1"
+            [ngClass]="{
+              up: overviewData?.audience?.followersPer >= 0,
+              down: overviewData?.audience?.followersPer < 0
+            }"
+          >
+            <img
+              width="16"
+              [src]="
+                overviewData?.audience?.followersPer >= 0
+                  ? 'assets/images/dash-btn/up.png'
+                  : 'assets/images/dash-btn/down.png'
+              "
+              alt="up"
+              class="mr-1"
+            />{{ getUniqueViewsPer(overviewData?.audience?.followersPer) }}%
+          </div>
+        </div>
+      </div>
+      <div class="mb-4">
+        <div class="title-3">Connections</div>
+        <div class="d-flex align-items-center w-100">
+          <div class="text1">
+            {{ overviewData?.audience?.connectionsCount }}
+          </div>
+          <div
+            class="text2 ml-1"
+            [ngClass]="{
+              up: overviewData?.audience?.connectionsPer >= 0,
+              down: overviewData?.audience?.connectionsPer < 0
+            }"
+          >
+            <img
+              width="16"
+              [src]="
+                overviewData?.audience?.connectionsPer >= 0
+                  ? 'assets/images/dash-btn/up.png'
+                  : 'assets/images/dash-btn/down.png'
+              "
+              alt="up"
+              class="mr-1"
+            />{{ getUniqueViewsPer(overviewData?.audience?.connectionsPer) }}%
+          </div>
+        </div>
+      </div>
+      <div class="mb-4">
+        <div class="title-3">Followers & Connections</div>
+        <div class="d-flex align-items-center w-100">
+          <div class="text1">{{ overviewData?.audience?.bothCount }}</div>
+          <div
+            class="text2 ml-1"
+            [ngClass]="{
+              up: overviewData?.audience?.bothPer >= 0,
+              down: overviewData?.audience?.bothPer < 0
+            }"
+          >
+            <img
+              width="16"
+              [src]="
+                overviewData?.audience?.bothPer >= 0
+                  ? 'assets/images/dash-btn/up.png'
+                  : 'assets/images/dash-btn/down.png'
+              "
+              alt="up"
+              class="mr-1"
+            />{{ getUniqueViewsPer(overviewData?.audience?.bothPer) }}%
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="chart-div" *ngIf="currentSection === 'engagement'">
+    <div class="charts">
+      <div id="engagement-chart" class="w-100"></div>
+    </div>
+    <div class="chart-info">
+      <div class="mb-4">
+        <div class="title-1">Interactions Breakdown</div>
+        <div class="title-2 text-capitalize">
+          {{
+            selectedDuration !== "custom"
+              ? selectedDuration
+              : (startDate | date : "MMM dd") +
+                " - " +
+                (endDate | date : "MMM dd, yyyy")
+          }}
+        </div>
+      </div>
+      <div class="mb-4">
+        <div class="title-3">Like</div>
+        <div class="d-flex align-items-center w-100">
+          <div class="text1">{{ overviewData?.engagement?.likeCount }}</div>
+          <div
+            class="text2 ml-1"
+            [ngClass]="{
+              up: overviewData?.engagement?.likePer >= 0,
+              down: overviewData?.engagement?.likePer < 0
+            }"
+          >
+            <img
+              width="16"
+              [src]="
+                overviewData?.engagement?.likePer >= 0
+                  ? 'assets/images/dash-btn/up.png'
+                  : 'assets/images/dash-btn/down.png'
+              "
+              alt="up"
+              class="mr-1"
+            />{{ getUniqueViewsPer(overviewData?.engagement?.likePer) }} %
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <div class="title-3">Comments</div>
+        <div class="d-flex align-items-center w-100">
+          <div class="text1">{{ overviewData?.engagement?.commentCount }}</div>
+          <div
+            class="text2 ml-1"
+            [ngClass]="{
+              up: overviewData?.engagement?.repostPer >= 0,
+              down: overviewData?.engagement?.repostPer < 0
+            }"
+          >
+            <img
+              width="16"
+              [src]="
+                overviewData?.engagement?.repostPer >= 0
+                  ? 'assets/images/dash-btn/up.png'
+                  : 'assets/images/dash-btn/down.png'
+              "
+              alt="up"
+              class="mr-1"
+            />{{ getUniqueViewsPer(overviewData?.engagement?.repostPer) }} %
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <div class="title-3">Repost</div>
+        <div class="d-flex align-items-center w-100">
+          <div class="text1">{{ overviewData?.engagement?.repostCount }}</div>
+          <div
+            class="text2 ml-1"
+            [ngClass]="{
+              up: overviewData?.engagement?.repostPer >= 0,
+              down: overviewData?.engagement?.repostPer < 0
+            }"
+          >
+            <img
+              width="16"
+              [src]="
+                overviewData?.engagement?.repostPer >= 0
+                  ? 'assets/images/dash-btn/up.png'
+                  : 'assets/images/dash-btn/down.png'
+              "
+              alt="up"
+              class="mr-1"
+            />{{ getUniqueViewsPer(overviewData?.engagement?.repostPer) }}%
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="mb-4">
+        <div class="title-3">Reactions</div>
+        <div class="d-flex align-items-center w-100">
+          <div class="text1">12</div>
+          <div class="text2 ml-1 up">
+            <img
+              width="16"
+              src="assets/images/dash-btn/up.png"
+              alt="up"
+              class="mr-1"
+            />0%
+          </div>
+        </div>
+      </div> -->
+    </div>
+  </div>
+
+  <div class="all-campaigns-div" *ngIf="currentSection === 'campaign'">
+    <h3 class="title-1">All campaigns</h3>
+    <div class="ide-no-camps" *ngIf="campaignData?.length === 0">
+      <div class="text1">Oops, no CRM campaigns  created yet</div>
+      <div class="text2">Automate LinkedIn connections and grow your network.</div>
+      <button type="button" class="btn btn-create-camp" routerLink="/crm">Create CRM campaign</button>
+    </div>
+    <div class="campaigns-list mb-3">
+      <div
+        class="campaign-box"
+        *ngFor="let listData of campaignData; let i = index"
+      >
+        <div class="text1">{{ listData?.campaignName }}</div>
+        <div class="text2">
+          {{ listData?.createdAt | date : "MMM d, y" }} - present
+        </div>
+
+        <div *ngIf="listData?.isEnabled" class="camp-lab active">Active</div>
+        <div *ngIf="!listData?.isEnabled" class="camp-lab pasued">Paused</div>
+
+        <div class="text3">
+          <span
+            >{{ listData?.connectedCount ? listData?.connectedCount : 0 }}
+          </span>
+          Connected
+        </div>
+
+        <div class="text4">
+          <span class="up">{{ getAcceptanceRate(listData) }}</span> acceptance
+          rate
+        </div>
+      </div>
+    </div>
+
+    <div id="campaign-chart" class="w-100"></div>
+  </div>
+</div>
+<div class="cus-boxes" *ngIf="topPerformingPostList">
+  <div class="cus-head">
+    <h3 class="title-1">
+      Top performing content
+      <img
+        src="assets/images/help-icon.svg"
+        alt="help-icon"
+        matTooltip="Top performing content"
+        matTooltipPosition="above"
+      />
+    </h3>
+    <h5 class="title-2">
+      Based on engagements gained in the
+      {{
+        selectedDuration !== "custom"
+          ? selectedDuration
+          : (startDate | date : "MMM dd") +
+            " - " +
+            (endDate | date : "MMM dd, yyyy")
+      }}
+    </h5>
+  </div>
+  <div class="d-inline-block w-100">
+    <div class="top-perform-box" *ngFor="let item of topPerformingPostList">
+      <div class="top-perform-1">
+        <div class="perform-left">
+          <div class="posted-on">
+            Posted on {{ item?.postTime | date : "MMM d, y" }}
+          </div>
+          <div class="posted-info">
+            <img
+              *ngIf="
+                item?.postType == 'TEXT_WITH_VIDEO' ||
+                item?.postType == 'ARTICLE' ||
+                item?.postType == 'TEXT_WITH_IMAGE'
+              "
+              [src]="
+                item?.mediaUrls
+                  ? item?.mediaUrls[0]
+                  : 'assets/images/avatar/user-icon.png'
+              "
+              alt="Post media content"
+              width="40"
+              class="border rounded img-fluid mr-2"
+            />
+
+            <img
+              *ngIf="item?.postType == 'TEXT_WITH_CAROUSEL'"
+              [src]="
+                item?.carouselTemplate
+                  ? item?.carouselTemplate[0]
+                  : 'assets/images/avatar/user-icon.png'
+              "
+              alt="Post media content"
+              width="40"
+              class="border rounded img-fluid mr-2"
+            />
+
+            <div class="desq">
+              {{ getPostBodyContent(item) }}
+            </div>
+          </div>
+          <div class="posted-count">
+            <div class="count-1">{{ item?.commentCount }} comments</div>
+            <div class="count-2">
+              <img
+                class="align-middle"
+                width="27"
+                src="assets/images/emoji/reactios.png"
+                alt="emoji"
+              />
+              {{ item?.likeCount }}
+            </div>
+          </div>
+          <div class="boost-box" *ngIf="!item?.isBoosting && item?.postId">
+            <div class="boost-text">
+              <div class="mb-2">
+                <h5 class="text-1">
+                  Recommendation
+                  <img
+                    src="assets/images/help-icon.svg"
+                    alt="help-icon"
+                    matTooltip="Recommendation"
+                    matTooltipPosition="above"
+                  />
+                </h5>
+                <div class="text-2">boost this post for optimal reach</div>
+              </div>
+              <div class="mb-0">
+                <h5 class="text-1">
+                  Potential Outcome
+                  <img
+                    src="assets/images/help-icon.svg"
+                    alt="help-icon"
+                    matTooltip="Potential Outcome"
+                    matTooltipPosition="above"
+                  />
+                </h5>
+                <div class="text-2">increase in reach by <span>50 %</span></div>
+              </div>
+            </div>
+            <button
+              class="btn btn-boost"
+              type="button"
+              (click)="boostPost(item)"
+            >
+              Boost
+              <span
+                [matTooltip]="creditMessage"
+                class="credit-div"
+                matTooltipPosition="above"
+                ><i class="fa fa-cubes" aria-hidden="true"></i
+                >{{ creditDeducated }}</span
+              >
+            </button>
+          </div>
+        </div>
+        <div class="perform-right">
+          <div class="perform-text1">Impressions</div>
+          <div class="perform-text2">{{ item?.impressionCount }}</div>
+          <div class="perform-text3 up">
+            <img
+              width="16"
+              src="assets/images/dash-btn/up.png"
+              alt="up"
+              class="mr-1"
+            />0%
+          </div>
+        </div>
+      </div>
+      <div class="top-perform-2">
+        <div class="posted-from">
+          <div class="posted-text1">Posted from</div>
+          <div class="posted-text2 text-capitalize">
+            <img
+              width="12"
+              src="assets/images/social/linkedin.png"
+              alt="linkedin"
+              class="img-fluid mr-2"
+            />
+            {{ selectedPage?.name }}
+          </div>
+        </div>
+        <div class="btn-group posted-drop" *ngIf="!item?.isBoosting">
+          <button
+            type="button"
+            data-toggle="dropdown"
+            aria-expanded="false"
+            class="btn dropdown-toggle"
+          >
+            <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+          </button>
+          <div class="dropdown-menu dropdown-menu-right">
+            <a (click)="boostPost(item)" *ngIf="item?.postId"
+              >Boost
+              <span [matTooltip]="creditMessage" matTooltipPosition="above"
+                ><i class="fa fa-cubes" aria-hidden="true"></i
+                >{{ creditDeducated }}</span
+              ></a
+            >
+            <!-- <a>Create Ad</a> -->
+            <!-- <a>View analytics</a> -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="top-perform-box">
+      <div class="top-perform-1">
+        <div class="perform-left">
+          <div class="posted-on">Posted on 09-07-24</div>
+          <div class="posted-info">
+            <img
+              class="border rounded img-fluid mr-2"
+              width="60"
+              src="assets/images/avatar/user-icon.png"
+              alt="user-icon"
+            />
+            <div class="desq">
+              Join Our Upcoming Webinar! Content: We’re hosting a webinar on
+              "Building Your Personal Brand with AI Tools" next Thursday at 2
+              PM. Don’t miss out on expert insights and practical tips. Register
+              now to secure your spot!
+            </div>
+          </div>
+          <div class="posted-count">
+            <div class="count-1">9 comments</div>
+            <div class="count-2">
+              <img
+                class="align-middle"
+                width="27"
+                src="assets/images/emoji/reactios.png"
+                alt="emoji"
+              />
+              48
+            </div>
+          </div>
+        </div>
+        <div class="perform-right">
+          <div class="perform-text1">Impressions</div>
+          <div class="perform-text2">429</div>
+          <div class="perform-text3 up">
+            <img
+              width="16"
+              src="assets/images/dash-btn/up.png"
+              alt="up"
+              class="mr-1"
+            />0%
+          </div>
+        </div>
+      </div>
+      <div class="top-perform-2">
+        <div class="posted-from">
+          <div class="posted-text1">Posted from</div>
+          <div class="posted-text2">
+            <img
+              width="12"
+              src="assets/images/social/linkedin.png"
+              alt="linkedin"
+              class="img-fluid mr-2"
+            />
+            Charan.Design
+          </div>
+        </div>
+        <div class="btn-group posted-drop">
+          <button
+            type="button"
+            data-toggle="dropdown"
+            aria-expanded="false"
+            class="btn dropdown-toggle"
+          >
+            <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+          </button>
+          <div class="dropdown-menu dropdown-menu-right">
+            <a>Boost</a>
+            <a>Create Ad</a>
+            <a>View analytics</a>
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+    <div *ngIf="topPerformingPostList.length == 0" class="ide-nodata-found">
+      No Data Found
+    </div>
+
+    <button
+      *ngIf="topPerformingPostList?.length > 0"
+      type="button"
+      class="btn btn-block btn-all"
+      (click)="goToContentPage()"
+    >
+      See all content <i class="fa fa-arrow-right"></i>
+    </button>
+  </div>
+</div>
+
+<!-- <div class="cus-boxes">
+  <div class="cus-head">
+    <h3 class="title-1">
+      Recommended Actions
+      <img
+        src="assets/images/help-icon.svg"
+        alt="help-icon"
+        matTooltip="info here..."
+        matTooltipPosition="above"
+      />
+    </h3>
+    <h5 class="title-2">
+      For overall performance across channels {{ selectedDuration }}
+    </h5>
+  </div>
+  <div class="run-adds-div">
+    <div class="adds-box">
+      <div class="adds-box-sub">
+        <div class="text1">Run AD’s</div>
+        <div class="text2 mb-3">keep your reels between 15 and 90 seconds.</div>
+        <div class="text2 mb-1">Ensure that your reels are at least 720P</div>
+        <div class="text3">
+          Potential Outcome
+          <img
+            src="assets/images/help-icon.svg"
+            alt="help-icon"
+            matTooltip="info here..."
+            matTooltipPosition="above"
+          />
+        </div>
+        <div class="text2">increase in followers by <span>2.5 %</span></div>
+        <button type="button" class="btn btn-block btn-add">Create Ad</button>
+      </div>
+    </div>
+    <div class="adds-box">
+      <div class="adds-box-sub">
+        <div class="text1">Boost this post</div>
+        <div class="text2 mb-1">posted on 09-07-24</div>
+        <div class="add-show mb-1">
+          <img
+            class="rounded"
+            width="60"
+            src="assets/images/demo.png"
+            alt="demo"
+          />
+          <div class="add-text">
+            Join Our Upcoming Webinar! Content: We’re hosting a webinar on
+            "Building Your Personal Brand with AI Tools" next Thursday at 2 PM.
+          </div>
+        </div>
+        <div class="text2 mb-3">keep your reels between 15 and 90 seconds.</div>
+        <div class="text2 mb-1">Ensure that your reels are at least 720P</div>
+        <div class="text3">
+          Potential Outcome
+          <img
+            src="assets/images/help-icon.svg"
+            alt="help-icon"
+            matTooltip="info here..."
+            matTooltipPosition="above"
+          />
+        </div>
+        <div class="text2">increase in followers by <span>2.5 %</span></div>
+        <button type="button" class="btn btn-block btn-add mt-3">
+          Try it now
+        </button>
+      </div>
+    </div>
+  </div>
+</div> -->

@@ -1,0 +1,425 @@
+<div class="ide-boxes">
+  <h5 class="ide-title">
+    Design
+    <img
+      class="img-fluid align-center"
+      src="assets/images/help-icon.svg"
+      alt="help-icon"
+      matTooltip="Design"
+      matTooltipPosition="below"
+    />
+  </h5>
+  <div class="ide-boxes-div">
+    <div class="mb-4">
+      <div class="switch-title mb-3">
+        <div class="text1">
+          Layout options
+          <img
+            class="img-fluid align-center"
+            src="assets/images/help-icon.svg"
+            alt="help-icon"
+            matTooltip="Layout options"
+            matTooltipPosition="below"
+          />
+        </div>
+      </div>
+      <div class="layout-slider">
+        <img
+          *ngFor="let layoutItem of layoutOptions; let i = index"
+          class="img-fluid"
+          [class.select-img]="selectLayout === layoutItem?.layout"
+          [src]="layoutItem?.image"
+          alt="layout-option"
+          width="75"
+          (click)="selectSlideLayout(layoutItem?.layout)"
+        />
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <div class="switch-title mb-2 pb-2 border-bottom">
+        <div class="text1">
+          Background
+          <img
+            class="img-fluid align-center"
+            src="assets/images/help-icon.svg"
+            alt="help-icon"
+            matTooltip="Background pattern"
+            matTooltipPosition="below"
+          />
+        </div>
+        <i
+          class="fa pointer"
+          [class]="isBackgroundSet ? 'fa-angle-up' : 'fa-angle-down'"
+          aria-hidden="true"
+          (click)="toggleShowBackground()"
+        ></i>
+      </div>
+      <div [class.d-none]="!isBackgroundSet">
+        <div class="opacity-div" *ngIf="selectedBackgroundOption === 'image'">
+          <div class="text1">Opacity</div>
+          <div class="text2">50 %</div>
+          <input
+            type="range"
+            class="form-control-range"
+            style="accent-color: #001141"
+            (input)="changeBgImageOpacity($event)"
+            min="0"
+            max="100"
+          />
+        </div>
+        <div class="background-div mt-2">
+          <div class="background-box">
+            <div
+              class="background-list"
+              [class.bg-select]="selectedBackgroundOption === 'color'"
+              (click)="selectBackgroundOption('color')"
+            >
+              <img
+                class="img-fluid mb-1"
+                src="assets/images/carousels-v2/bg-media-1.svg"
+                alt="bg-media"
+              />
+              <div>Colour</div>
+            </div>
+            <div
+              class="background-list"
+              [class.bg-select]="selectedBackgroundOption === 'gradients'"
+              (click)="selectBackgroundOption('gradients')"
+            >
+              <img
+                class="img-fluid mb-1"
+                src="assets/images/carousels-v2/bg-media-2.svg"
+                alt="bg-media"
+              />
+              <div>Gradients</div>
+            </div>
+            <div
+              class="background-list"
+              [class.bg-select]="selectedBackgroundOption === 'image'"
+              (click)="selectBackgroundOption('image')"
+            >
+              <img
+                class="img-fluid mb-1"
+                src="assets/images/carousels-v2/bg-media-3.svg"
+                alt="bg-media"
+              />
+              <div>Image</div>
+            </div>
+          </div>
+          <div
+            class="background-color-1"
+            *ngIf="selectedBackgroundOption === 'color'"
+          >
+            <div
+              class="bg-color"
+              *ngFor="let listData of backgroundColorList; let i = index"
+              [ngStyle]="{ 'background-color': listData }"
+              (click)="selectBackgroundColor(listData)"
+            ></div>
+            <div class="bg-custom-img">
+              <input
+                type="color"
+                name=""
+                id=""
+                (input)="onChangeBgColor($event)"
+              />
+              <img
+                class="img-fluid"
+                width="39"
+                height="39"
+                src="assets/images/carousels-v2/color-selctor.png"
+                alt="color-selctor"
+              />
+            </div>
+          </div>
+          <div
+            class="background-color-2"
+            *ngIf="selectedBackgroundOption === 'gradients'"
+          >
+            <div
+              class="bg-color"
+              *ngFor="let listData of gradientsColorList; let i = index"
+              [ngStyle]="{ background: listData }"
+              (click)="selectBackgroundGradient(listData)"
+            ></div>
+          </div>
+          <div
+            class="background-images"
+            *ngIf="selectedBackgroundOption === 'image'"
+          >
+            <div class="image-generated-div">
+              <div class="choose-image" *ngIf="customBgUrl">
+                <img alt="bg-demo" class="img-fluid" [src]="customBgUrl" />
+                <i class="fa fa-times" (click)="removeBgImage('custom')"></i>
+              </div>
+
+              <label
+                class="upload-image-box"
+                *ngIf="!customBgUrl"
+                (click)="choiceBackgroundMedia()"
+              >
+                <img src="assets/images/upload-image.png" alt="upload-image" />
+                Choose image
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <div class="switch-title mb-2 pb-2 border-bottom">
+        <div class="text1">
+          Background pattern
+          <img
+            class="img-fluid align-center"
+            src="assets/images/help-icon.svg"
+            alt="help-icon"
+            matTooltip="Background pattern"
+            matTooltipPosition="below"
+          />
+        </div>
+        <i
+          class="fa pointer"
+          [class]="isBackgroundPattern ? 'fa-angle-up' : 'fa-angle-down'"
+          aria-hidden="true"
+          (click)="toggleShowPattern()"
+        ></i>
+      </div>
+      <div class="" [class.d-none]="!isBackgroundPattern">
+        <div class="opacity-div">
+          <div class="text1">Opacity</div>
+          <div class="text2">{{ patternOpacity }}%</div>
+          <input
+            type="range"
+            class="form-control-range"
+            id=""
+            style="accent-color: #001141"
+            [(ngModel)]="patternOpacity"
+            (input)="onPatternOpacityChange($event)"
+            min="0"
+            max="100"
+          />
+        </div>
+        <div class="backgroud-pattern mt-2 mb-3">
+          <img
+            class="img-fluid"
+            [class.select-img]="patternDesign === 'none'"
+            src="assets/images/carousels-v2/bg-pattern-1.svg"
+            alt="bg-pattern"
+            (click)="onSelectPattern('none')"
+          />
+          <img
+            *ngFor="let patternItem of backgroundPattern; let i = index"
+            [class.select-img]="patternDesign === patternItem"
+            (click)="onSelectPattern(patternItem)"
+            class="img-fluid"
+            [src]="patternItem"
+            alt="bg-pattern"
+          />
+        </div>
+        <!-- <div class="switch-title mb-1">
+            <div class="text1">
+              Generated Image
+              <img
+                class="img-fluid align-center"
+                src="assets/images/help-icon.svg"
+                alt="help-icon"
+                matTooltip="generated Image"
+                matTooltipPosition="below"
+              />
+            </div>
+            <label class="switch ml-2">
+              <input type="checkbox" />
+              <span class="slider"></span>
+            </label>
+          </div>
+          <select class="form-control">
+            <option value="">Ai Image</option>
+          </select> -->
+      </div>
+    </div>
+    <div class="mb-4">
+      <div class="switch-title mb-3 pb-2 border-bottom">
+        <div class="text1">
+          CTA settings
+          <img
+            class="img-fluid align-center"
+            src="assets/images/help-icon.svg"
+            alt="help-icon"
+            matTooltip="Background pattern"
+            matTooltipPosition="below"
+          />
+        </div>
+        <i
+          class="fa pointer"
+          [class]="isCTASettings ? 'fa-angle-up' : 'fa-angle-down'"
+          aria-hidden="true"
+          (click)="toggleCTAsetting()"
+        ></i>
+      </div>
+      <div class="" [class.d-none]="!isCTASettings">
+        <div class="switch-title mb-3">
+          <div class="text1">
+            Add QR code
+            <img
+              class="img-fluid align-center"
+              src="assets/images/help-icon.svg"
+              alt="help-icon"
+              matTooltip="Add QR code"
+              matTooltipPosition="below"
+            />
+          </div>
+          <label class="switch ml-2">
+            <input type="checkbox" (change)="addQrVisible($event)" />
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="mb-3" *ngIf="isAddQrVisible">
+          <div class="switch-title mb-2">
+            <div class="text1">
+              Text/Url To QR Code
+              <img
+                class="img-fluid align-center"
+                src="assets/images/help-icon.svg"
+                alt="help-icon"
+                matTooltip="text/url to qR code"
+                matTooltipPosition="below"
+              />
+            </div>
+          </div>
+          <div class="text-center mb-2" *ngIf="QRtext && isGenrated">
+            <qrcode
+              [qrdata]="'QRtext'"
+              [width]="100"
+              [errorCorrectionLevel]="'M'"
+            ></qrcode>
+          </div>
+          <div class="position-relative">
+            <input
+              type="text"
+              name=""
+              id=""
+              class="form-control"
+              [(ngModel)]="QRtext"
+              placeholder="e.g. https://identable.io/"
+              (keydown.enter)="genratedQR()"
+            />
+            <img
+              class="set-icon"
+              width="24"
+              src="assets/images/carousels-v2/icons-1.png"
+              alt="icons"
+              (click)="genratedQR()"
+            />
+          </div>
+        </div>
+        <div class="mb-3">
+          <div class="switch-title mb-2">
+            <div class="text1">
+              Add custom text
+              <img
+                class="img-fluid align-center"
+                src="assets/images/help-icon.svg"
+                alt="help-icon"
+                matTooltip="Add custom text"
+                matTooltipPosition="below"
+              />
+            </div>
+            <label class="switch ml-2">
+              <input type="checkbox" (change)="changeActionbtnText($event)" />
+              <span class="slider"></span>
+            </label>
+          </div>
+          <div class="position-relative">
+            <input
+              type="text"
+              name=""
+              id=""
+              class="form-control"
+              [(ngModel)]="actionBtnText"
+              placeholder="e.g call to action"
+              [disabled]="!isActionBtn"
+              (input)="onAddBtnText($event)"
+            />
+            <!-- <img
+              class="set-icon"
+              width="24"
+              src="assets/images/carousels-v2/icons-2.png"
+              alt="icons"
+            /> -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mb-4">
+      <div class="switch-title mb-3 pb-2 border-bottom">
+        <div class="text1">
+          Swipe settings
+          <img
+            class="img-fluid align-center"
+            src="assets/images/help-icon.svg"
+            alt="help-icon"
+            matTooltip="Swipe settings"
+            matTooltipPosition="below"
+          />
+        </div>
+        <i
+          class="fa pointer"
+          [class]="isSwipeSettings ? 'fa-angle-up' : 'fa-angle-down'"
+          aria-hidden="true"
+          (click)="toggleSwipeSettings()"
+        ></i>
+      </div>
+      <div class="" [class.d-none]="!isSwipeSettings">
+        <div class="switch-title mb-3">
+          <div class="text1">Bookmark Button</div>
+          <label class="switch ml-2">
+            <input
+              type="checkbox"
+              (change)="changeBookmarkIndicator($event)"
+              [(ngModel)]="isBookMarkvisible"
+            />
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="switch-title mb-3">
+          <div class="text1">Swipe Indicator</div>
+          <label class="switch ml-2">
+            <input
+              type="checkbox"
+              (change)="changeSwipebtnIndicator($event)"
+              [(ngModel)]="isSwipeBtnvisible"
+            />
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div class="mb-3">
+          <div class="switch-title mb-2">
+            <div class="text1">Swipe Indicator Text</div>
+          </div>
+          <div class="position-relative">
+            <input
+              type="text"
+              name=""
+              id=""
+              class="form-control"
+              [(ngModel)]="isSwipeBtnText"
+              placeholder="e.g swipe to continue"
+              [disabled]="!isSwipeBtnvisible"
+              (input)="onAddSwipeBtnText($event)"
+            />
+            <img
+              class="set-icon"
+              width="24"
+              src="assets/images/carousels-v2/icons-2.png"
+              alt="icons"
+              (click)="isSwipeBtnvisible ? changeSwipebtnText() : ''"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

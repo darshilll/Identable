@@ -1,0 +1,218 @@
+<div class="clg-top-title">
+  <div class="leftside">
+    <h2 class="titles">Scheduler</h2>
+    <p class="desq">
+      View and manage all your upcoming post schedules in one place. This tool
+      helps you stay organized by keeping track of your future content and
+      ensuring timely posting.
+    </p>
+  </div>
+</div>
+
+<div class="calendar_head">
+  <div class="arrow_head">
+    <button class="btn-arrow" (click)="changeWeek(false)">
+      <img src="assets/images/left-arrow-1.png" alt="arrow" />
+    </button>
+    <!-- <span class="prevday">Week</span> -->
+    {{ weekStartDate | date : "MMM dd" }} -
+    {{ weekEndDate | date : "MMM dd, yyyy" }}
+    <button class="btn-arrow" (click)="changeWeek(true)">
+      <img src="assets/images/right-arrow-1.png" alt="arrow" />
+    </button>
+  </div>
+  <div class="dropdown">
+    <a
+      class="btn text-capitalize dropdown-toggle"
+      href="#"
+      role="button"
+      data-toggle="dropdown"
+      aria-expanded="false"
+    >
+      {{ selectedFilter }}
+    </a>
+    <div class="dropdown-menu dropdown-menu-right">
+      <a class="dropdown-item" (click)="getAllPost()">All Post</a>
+      <a class="dropdown-item" (click)="getAllPost('posted')">Posted</a>
+      <a class="dropdown-item" (click)="getAllPost('scheduled')">Scheduled</a>
+      <a class="dropdown-item" (click)="getAllPost('error')">Error</a>
+      <a class="dropdown-item" (click)="getAllPost('draft')">Draft</a>
+    </div>
+  </div>
+  <!-- <a class="btn btn-addpost">1-Click Scheduling</a> -->
+</div>
+<div class="calendar_table">
+  <table class="scheduler-table">
+    <thead>
+      <tr>
+        <th *ngFor="let day of weekDateList">
+          <div class="daytext1">{{ day | date : "EEE" }}</div>
+          <div class="daytext2">{{ day | date : "d" }}</div>
+        </th>
+      </tr>
+    </thead>
+    <tbody *ngIf="post">
+      <tr>
+        <td *ngFor="let day of weekDateList">
+          <div class="postlist-main">
+            <div class="postlist">
+              <div
+                class="posts"
+                *ngFor="let post of setPost(day | date : 'd'); let i = index"
+              >
+                <h4 class="name">{{ post?.timePeriod }}</h4>
+                <div class="timediv">
+                  <span class="tims">{{ post?.timeSlot }}</span>
+                  <span class="menualtxt">
+                    {{ setGeneratedType(post?.generatedType) }}
+                  </span>
+                </div>
+                <div class="post-event">
+                  <div class="calen1">
+                    <a class="btn-1">
+                      <img
+                        class="linkedInIcon"
+                        width="18"
+                        src="assets/images/social/linkedin.png"
+                        alt="linkedin"
+                      />
+                      <img
+                        class="linkedInIcon"
+                        width="18"
+                        [src]="
+                          getProfile(post?.pageId)?.image
+                            ? getProfile(post?.pageId)?.image
+                            : 'assets/images/social/linkedin.png'
+                        "
+                        alt="avatar"
+                      />
+                      <img
+                        [matTooltip]="textFormat(post?.postMediaType)"
+                        matTooltipPosition="below"
+                        matTooltipClass="below"
+                        class="img-fluid"
+                        width="18"
+                        [src]="setMediaType(post?.postMediaType)"
+                        alt="Post Media"
+                      />
+                    </a>
+                    <a class="btn-2 ml-auto"></a>
+                    <a class="btn-3" [class]="setPostStatusClass(post?.status)">
+                      <!-- <img
+                        width="12"
+                        [src]="setPostStatusImage(post?.status)"
+                        alt="file"
+                      /> -->
+                      {{ setPostStatus(post?.status) }}</a
+                    >
+                  </div>
+                  <div class="calen2">
+                    <img
+                      *ngIf="post?.postMedia && post?.postMediaType != 'video'"
+                      [src]="setPostMedia(post)"
+                      alt="image"
+                      class="img-fluid mb-1"
+                    />
+                    <video
+                      *ngIf="post?.postMedia && post?.postMediaType == 'video'"
+                      [src]="setPostMedia(post)"
+                      controls
+                      width="100%"
+                    ></video>
+                    <div
+                      class="desq"
+                      *ngIf="post?.postBody && post?.generatedType != 'article'"
+                      [innerHTML]="post?.postBody"
+                    ></div>
+                    <div
+                      class="desq"
+                      *ngIf="
+                        post?.articleTitle && post?.generatedType == 'article'
+                      "
+                      [innerHTML]="post?.articleTitle"
+                    ></div>
+                  </div>
+                  <div class="calen3">
+                    <a class="btn-1">
+                      <img
+                        width="22"
+                        src="assets/images/t-text-cap.svg"
+                        class="img-fluid"
+                        alt="t-text-cap"
+                    /></a>
+                    <div>
+                      <a
+                        class="btn-2 mr-2"
+                        *ngIf="
+                          post?.status != 'posted' && post?.status != 'posting'
+                        "
+                        (click)="postRescheduleDailog(post)"
+                      >
+                        <img
+                          src="assets/images/calendar-1.svg"
+                          width="16"
+                          alt="evolve"
+                          class="img-fluid"
+                          matTooltip="Post Reschedule"
+                          matTooltipPosition="below"
+                          matTooltipClass="below"
+                        />
+                      </a>
+
+                      <a class="btn-2 mr-2" *ngIf="post?.isBoosting">
+                        <img
+                          src="assets/images/rocket-01.svg"
+                          width="16"
+                          alt="image"
+                          class="img-fluid"
+                          matTooltip="Boosted"
+                          matTooltipPosition="below"
+                          matTooltipClass="below"
+                        />
+                      </a>
+
+                      <a
+                        class="btn-2 mr-2"
+                        *ngIf="!post?.isBoosting"
+                        (click)="avtiveBoosting(post)"
+                      >
+                        <img
+                          src="assets/images/rocket-02.svg"
+                          width="16"
+                          alt="image"
+                          matTooltip="Boosting"
+                          matTooltipPosition="below"
+                          matTooltipClass="below"
+                          class="img-fluid"
+                        />
+                      </a>
+
+                      <a
+                        class="btn-2"
+                        *ngIf="
+                          post?.status != 'posted' && post?.status != 'posting'
+                        "
+                        (click)="openEditPost(post)"
+                      >
+                        <img
+                          src="assets/images/edit-2.svg"
+                          width="16"
+                          alt="image"
+                          matTooltip="Edit"
+                          matTooltipPosition="below"
+                          matTooltipClass="below"
+                          class="img-fluid"
+                        />
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<app-loader></app-loader>

@@ -1,0 +1,35 @@
+<h4 class="labels">One click schedule detail</h4>
+<mat-dialog-content>
+  <div class="popbox">
+    <div class="w-100 d-inline-block postedwith">
+      <p>Your post will be scheduled based on the following time period.</p>
+      <br />
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Day</th>
+            <th>Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let data of scheduleData?.weekData; let i = index">
+            <td>{{ data?.date | date : "MMM dd, yyyy" }}</td>
+            <td>{{ data?.day }}</td>
+            <td>{{ data?.timeSlot }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <br />
+      <p style="color: red;">This action cannot be undone.</p>
+    </div>
+  </div>
+</mat-dialog-content>
+<div class="btnlistdiv">
+  <button type="button" class="btn btn-can" (click)="onCanel(false)">
+    Cancel
+  </button>
+  <button type="button" class="btn btn-saves" (click)="onCanel(true)">
+    Generate one click
+  </button>
+</div>

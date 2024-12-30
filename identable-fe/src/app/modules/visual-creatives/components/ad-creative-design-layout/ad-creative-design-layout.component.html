@@ -1,0 +1,400 @@
+<div class="ide-boxes">
+  <h5 class="ide-title">
+    Design
+    <img
+      class="img-fluid align-center"
+      src="assets/images/help-icon.svg"
+      alt="help-icon"
+      matTooltip="Design"
+      matTooltipPosition="below"
+    />
+  </h5>
+  <div class="ide-boxes-div">
+    <div class="mb-3">
+      <div class="switch-title mb-3">
+        <div class="text1">
+          Layout options
+          <img
+            class="img-fluid align-center"
+            src="assets/images/help-icon.svg"
+            alt="help-icon"
+            matTooltip="Layout options"
+            matTooltipPosition="below"
+          />
+        </div>
+      </div>
+      <div class="layout-slider">
+        <img
+          *ngFor="let item of designLayout?.layouts; let i = index"
+          class="img-fluid"
+          [class.select-img]="item?.isActive"
+          [src]="item?.image"
+          alt="stroy-layout"
+          [width]="item?.width"
+          (click)="selectSlideLayout(item, i)"
+        />
+      </div>
+    </div>
+
+
+    <div class="mb-4">
+      <div class="switch-title mb-2 pb-2 border-bottom">
+        <div class="text1">
+          Background
+          <img
+            class="img-fluid align-center"
+            src="assets/images/help-icon.svg"
+            alt="help-icon"
+            matTooltip="Background pattern"
+            matTooltipPosition="below"
+          />
+        </div>
+        <i
+          class="fa pointer"
+          [class]="isBackgroundSet ? 'fa-angle-up' : 'fa-angle-down'"
+          aria-hidden="true"
+          (click)="toggleShowBackground()"
+        ></i>
+      </div>
+      <div [class.d-none]="!isBackgroundSet">
+
+        <div class="background-div mt-2">
+          <div class="background-box">
+            <div
+              class="background-list"
+              [class.bg-select]="selectedBackgroundOption === 'color'"
+              (click)="selectBackgroundOption('color')"
+            >
+              <img
+                class="img-fluid mb-1"
+                src="assets/images/carousels-v2/bg-media-1.svg"
+                alt="bg-media"
+              />
+              <div>Colour</div>
+            </div>
+            <div
+              class="background-list"
+              [class.bg-select]="selectedBackgroundOption === 'gradients'"
+              (click)="selectBackgroundOption('gradients')"
+            >
+              <img
+                class="img-fluid mb-1"
+                src="assets/images/carousels-v2/bg-media-2.svg"
+                alt="bg-media"
+              />
+              <div>Gradients</div>
+            </div>            
+          </div>
+          <div
+            class="background-color-1"
+            *ngIf="selectedBackgroundOption === 'color'"
+          >
+            <div
+              class="bg-color"
+              *ngFor="let listData of backgroundColorList; let i = index"
+              [ngStyle]="{ 'background-color': listData }"
+              (click)="selectBackgroundColor(listData)"
+            ></div>
+            <div class="bg-custom-img">
+              <input type="color" name="" id="" (input)="onChangeBgColor($event)">
+              <img
+                class="img-fluid"
+                width="39"
+                height="39"
+                src="assets/images/carousels-v2/color-selctor.png"
+                alt="color-selctor"
+              />
+            </div>
+          </div>
+          <div
+            class="background-color-2"
+            *ngIf="selectedBackgroundOption === 'gradients'"
+          >
+            <div
+              class="bg-color"
+              *ngFor="let listData of gradientsColorList; let i = index"
+              [ngStyle]="{ background: listData }"
+              (click)="selectBackgroundGradient(listData)"
+            ></div>
+          </div>          
+        </div>
+      </div>
+    </div>
+
+    <div class="mb-4">
+      <div class="switch-title mb-3">
+        <div class="text1">
+          Logo
+          <img
+            class="img-fluid align-center"
+            src="assets/images/help-icon.svg"
+            alt="help-icon"
+            matTooltip="Logo"
+            matTooltipPosition="below"
+          />
+        </div>
+      </div>
+      <div class="switch-title mb-2">
+        <div class="text1">
+          Use Brand kit settings
+          <img
+            class="img-fluid align-center"
+            src="assets/images/help-icon.svg"
+            alt="help-icon"
+            matTooltip="Use Brand kit settings"
+            matTooltipPosition="below"
+          />
+        </div>
+        <label class="switch ml-2">
+          <input type="checkbox" (change)="switchOnBrandkit($event)" [checked]="applyBrandKit"/>
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div class="profile-avatar">
+        <img alt="avatar" class="img-fluid profile-img mb-1" [src]="currentTemplate?.logoUrl">
+        <label class="file-upload" *ngIf="!applyBrandKit">
+          <input type="file">
+          <img src="assets/images/carousels-v2/editor-images-1.svg" alt="editor-images" class="img-fluid mr-1"> Change image 
+        </label>
+      </div>
+    </div>
+    <div class="mb-4">
+      <div class="switch-title mb-2">
+        <div class="text1">
+          Logo backdrop colour
+          <img
+            class="img-fluid align-center"
+            src="assets/images/help-icon.svg"
+            alt="help-icon"
+            matTooltip="Logo backdrop colour"
+            matTooltipPosition="below"
+          />
+        </div>
+      </div>
+      <div>
+        <div class="opacity-div">
+          <div class="text1">Opacity</div>
+          <div class="text2">50%</div>
+          <input
+            type="range"
+            class="form-control-range"
+            style="accent-color: #001141"
+            min="0"
+            max="100"
+            [(ngModel)]="logoBackgroundOpacity"
+            (input)="onLogoBgOpacityChange($event)"
+          />
+        </div>
+        <label
+          class="logo-backdrop-colour mt-2"
+          [style.background-color]="logoBackgroundColor"          
+        >
+          <i class="fa fa-plus text-light"></i>
+          <input
+            type="color"
+            [(ngModel)]="logoBackgroundColor"
+            (input)="onColorChange($event)"
+          />
+        </label>
+      </div>
+    </div>
+    <div class="mb-4">
+      <div class="switch-title">
+        <div class="text1">
+          Key image
+          <img
+            class="img-fluid align-center"
+            src="assets/images/help-icon.svg"
+            alt="help-icon"
+            matTooltip="Key image"
+            matTooltipPosition="below"
+          />
+        </div>
+      </div>
+      <div class="d-inline-block w-100">
+        <div class="image-generated-div">
+          <label class="radiodiv">
+            <div class="text">Custom image</div>
+            <input
+              type="radio"
+              name="radios"
+              (change)="choiceBackgroundOptions('customImage')"
+              [checked]="isCustomImage"
+            />
+            <div class="radios"></div>
+          </label>
+          <div *ngIf="isCustomImage">
+            <label class="labels"
+              >Choose image
+              <img
+                src="assets/images/help-icon.svg"
+                alt="help-icon"
+                class="img-fluid align-center"
+                matTooltip="Choose image"
+                matTooltipPosition="below"
+              />
+            </label>
+            <label
+              class="upload-image-box"
+              *ngIf="!customBgUrl"
+              (click)="choiceBackgroundMedia()"
+            >
+              <!-- <input type="file" name="" id="" /> -->
+              <img src="assets/images/upload-image.png" alt="upload-image" />
+              Choose image
+            </label>
+            <div class="choose-image" *ngIf="customBgUrl">
+              <img alt="bg-demo" class="img-fluid" [src]="customBgUrl" />
+              <i class="fa fa-times" (click)="removeBgImage('custom')"></i>
+            </div>
+            <label
+              *ngIf="customBgUrl"
+              class="file-change"
+              (click)="choiceBackgroundMedia()"
+              ><img
+                src="assets/images/carousels-v2/editor-images-1.svg"
+                alt="editor-images"
+                class="img-fluid mr-1"
+              />
+              Change image
+            </label>
+          </div>
+        </div>
+
+        <div class="image-generated-div">
+          <label class="radiodiv">
+            <div class="text">Generated image</div>
+            <input
+              type="radio"
+              name="radios"
+              (change)="choiceBackgroundOptions('generatedImage')"
+              [checked]="isAigenratedBgImage"
+            />
+            <div class="radios"></div>
+          </label>
+          <div *ngIf="isAigenratedBgImage">
+            <div *ngIf="!aiGenratedBgUrl">
+              <label class="labels"
+                >Choose Image Source
+                <img
+                  src="assets/images/help-icon.svg"
+                  alt="help-icon"
+                  class="img-fluid align-center"
+                  matTooltip="Choose Image Source"
+                  matTooltipPosition="below"
+                />
+              </label>
+              <select class="form-control mb-2" [(ngModel)]="generateImageType">
+                <option value="ai-Image">Ai Image</option>
+                <option value="pexel-image">Pexel Image</option>
+              </select>
+              <label class="file-change generate-img" (click)="generateImage()"
+                ><img
+                  src="assets/images/carousels-v2/re-fresh.svg"
+                  alt="editor-images"
+                  class="img-fluid mr-1"
+                />
+                Generate image
+                <span
+                  *ngIf="generateImageType == 'ai-Image'"
+                  [matTooltip]="creditMessage"
+                  class="credit-div"
+                  matTooltipPosition="above"
+                  ><i class="fa fa-cubes" aria-hidden="true"></i
+                  >{{ creditDeducated }}</span
+                >
+              </label>
+            </div>
+            <div class="choose-image" *ngIf="aiGenratedBgUrl">
+              <img alt="bg-demo" class="img-fluid" [src]="aiGenratedBgUrl" />
+              <i class="fa fa-times" (click)="removeBgImage('generate')"></i>
+            </div>
+            <label
+              class="file-change"
+              (click)="generateImage()"
+              *ngIf="aiGenratedBgUrl"
+              ><img
+                src="assets/images/carousels-v2/re-fresh.svg"
+                alt="editor-images"
+                class="img-fluid mr-1"
+              />
+              Regenerate image
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="mb-4">
+      <div class="switch-title mb-2">
+        <div class="text1">
+          Handle / Website
+          <img
+            class="img-fluid align-center"
+            src="assets/images/help-icon.svg"
+            alt="help-icon"
+            matTooltip="Handle / Website"
+            matTooltipPosition="below"
+          />
+        </div>
+        <label class="switch ml-2">
+          <input type="checkbox" />
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div class="position-relative">
+        <input type="text" class="form-control" placeholder="xyz@likneidn" />
+      </div>
+    </div> -->
+
+    <div class="mb-4">
+      <div class="switch-title mb-3">
+        <div class="text1">
+          CTA settings
+          <img
+            class="img-fluid align-center"
+            src="assets/images/help-icon.svg"
+            alt="help-icon"
+            matTooltip="CTA settings"
+            matTooltipPosition="below"
+          />
+        </div>
+      </div>
+      <div>
+        <div class="mb-3">
+          <div class="switch-title mb-2">
+            <div class="text1">
+              Add custom text
+              <img
+                class="img-fluid align-center"
+                src="assets/images/help-icon.svg"
+                alt="help-icon"
+                matTooltip="Add custom text"
+                matTooltipPosition="below"
+              />
+            </div>
+            <label class="switch ml-2">
+              <input type="checkbox" (change)="changeActionbtnText($event)" />
+              <span class="slider"></span>
+            </label>
+          </div>
+          <div class="position-relative">
+            <input
+              type="text"
+              class="form-control"
+              [(ngModel)]="actionBtnText"
+              placeholder="e.g call to action"
+              [disabled]="!isActionBtn"
+              (input)="onAddBtnText($event)"
+            />
+            <img
+              width="24"
+              src="assets/images/carousels-v2/icons-2.png"
+              alt="icons"
+              class="set-icon"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

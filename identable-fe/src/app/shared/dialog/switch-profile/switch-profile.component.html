@@ -1,0 +1,38 @@
+<h4 class="labels">Change LinkedIn Profile</h4>
+<mat-dialog-content>
+  <div class="popbox">
+    <div class="w-100 d-inline-block postedwith">
+      <ng-container
+        *ngFor="let list of _utilities.linkedinAccessPageList; let i = index"
+      >
+        <a
+          href="javascript:;"
+          [matTooltip]="list?.name | titlecase"
+          matTooltipPosition="below"
+          matTooltipClass="below"
+          (click)="selectProfileType(list)"
+        >
+          <img
+            [src]="
+              list?.image ? list?.image : 'assets/images/avatar/avatar.png'
+            "
+            [alt]="list?.name"
+            class="img"
+            [class.actives]="list?._id == selectedPageId"
+          />
+        </a>
+      </ng-container>
+    </div>
+  </div>
+</mat-dialog-content>
+<div class="btnlistdiv">
+  <button type="button" class="btn btn-can" (click)="onCanel()">Cancel</button>
+  <button
+    type="button"
+    class="btn btn-saves"
+    *ngIf="_utilities?.linkedinAccessPageList?.length > 1"
+    (click)="changeProfile()"
+  >
+    Save
+  </button>
+</div>

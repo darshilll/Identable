@@ -1,0 +1,65 @@
+<!-- <app-loader></app-loader> -->
+<div class="rightbox">
+  <h3 class="title">Personal Information</h3>
+  <h5 class="titlesub">Your main account Information</h5>
+  <div class="bboxs-main">
+    <div class="bboxs mb-3">
+      <label>Email Address <span class="text-danger">*</span></label>
+      <div class="boxcus">
+        <input
+          type="email"
+          class="form-control"
+          disabled="true"
+          [value]="_utilities.userData?.email"
+        />
+        <!-- <button class="btn btn-save" disabled="true" type="button">Save</button> -->
+      </div>
+    </div>
+    <div class="bboxs">
+      <label>Timezone <span class="text-danger">*</span></label>
+
+      <div class="boxcus">
+        <select class="form-control" [(ngModel)]="selectedTimeZone">
+          <option *ngFor="let timezone of timezoneList" [value]="timezone.id">
+            {{ timezone.name }}
+          </option>
+        </select>
+        <button class="btn btn-save" (click)="saveTimeZone()" type="button">
+          Save
+        </button>
+      </div>
+
+      <!-- <div class="boxcus">
+        <mat-select>
+          <input
+            type="text"
+            class="idt-search-time"
+            [(ngModel)]="searchTimezone"
+            (input)="searchData()"
+            placeholder="Search by name"
+          />
+          <mat-option
+            (click)="choiceTimezone(timezone.id)"
+            *ngFor="let timezone of filteredItems"
+            [value]="timezone.id"
+            >{{ timezone.name }}</mat-option
+          >
+        </mat-select>
+        <button class="btn btn-save" (click)="saveTimeZone()" type="button">
+          Save
+        </button>
+      </div> -->
+    </div>
+  </div>
+  <div class="text-left">
+    <button
+      class="btn btn-next btn-block {{
+        _utilities.userData?.isGeneral ? '' : 'btn-disables'
+      }}"
+      type="button"
+      (click)="onNextStep()"
+    >
+      Save
+    </button>
+  </div>
+</div>

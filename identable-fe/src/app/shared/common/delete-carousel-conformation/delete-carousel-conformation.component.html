@@ -1,0 +1,15 @@
+<h5 class="top-title" *ngIf="data?.isAction == 'save'">Save carousel</h5>
+<h5 class="top-title" *ngIf="data?.isAction == 'delete'">Delete carousel</h5>
+<div class="desq" *ngIf="data?.isAction == 'save'">
+  Don't forget to save your progress before creating a new carousel. Do you want
+  to save your changes now?
+</div>
+<div class="desq" *ngIf="data?.isAction == 'delete'">
+  Do you really want to delete this carousel? This process cannot be undone.
+</div>
+
+<div class="btnlist">
+  <button type="button" class="btn btn-1" (click)="onYesClick()">Yes</button>
+  <button type="button" class="btn btn-2" (click)="onNoClick()">No</button>
+  <button type="button" class="btn btn-2" (click)="onClickClose()">cancel</button>
+</div>

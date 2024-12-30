@@ -1,0 +1,62 @@
+.customdrop-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  border-bottom: 1px solid #eee;
+  padding: 20px;
+  .droptitle {
+    color: #475467;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 24px;
+  }
+}
+.open-label {
+  color: #fff;
+  background: #ec4a0a;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.1;
+  border-radius: 6px;
+  padding: 6px 10px;
+  margin: 0 5px;
+  display: inline-block;
+  vertical-align: middle;
+}
+.btn-verify {
+  color: #fff;
+  background: green;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 1.1;
+  border-radius: 6px;
+  padding: 6px 10px;
+  margin: 0 5px;
+  cursor: pointer;
+}
+.btn-save {
+  width: 100%;
+  color: #fff;
+  background: #ec4a0a;
+  font-weight: 400;
+  font-size: 14px;
+  border-radius: 6px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+mat-dialog-content {
+  background-color: #f7f8f9;
+}
+
+.table {
+  td {
+    font-size: 14px;
+    vertical-align: middle;
+  }
+  th {
+    font-size: 14px;
+    vertical-align: middle;
+  }
+}

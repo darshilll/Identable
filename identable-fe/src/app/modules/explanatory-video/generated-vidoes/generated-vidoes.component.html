@@ -1,0 +1,167 @@
+<div class="clg-top-title">
+  <div class="leftside">
+    <h2 class="titles">Explanatory Video</h2>
+    <p class="desq">
+      Easily create videos that explain your ideas and engage your audience.
+    </p>
+  </div>
+  <div class="rightside">
+    <button
+      type="button"
+      class="byn btn-article"
+      routerLink="/explanatory-video/create"
+    >
+      New Video
+    </button>
+  </div>
+</div>
+<div class="ide-generate-home" *ngIf="genratedVideoList?.length == 0">
+  <img
+    class="img-fluid"
+    src="assets/images/explanator-video.png"
+    alt="explanator-video"
+  />
+  <h3>Create a video to get started</h3>
+  <p>
+    No explanatory videos yet. Start creating engaging videos to simplify your
+    ideas and connect with your audience. <br />Click the button below to begin!
+  </p>
+  <button
+    type="button"
+    class="btn btn-orange"
+    routerLink="/explanatory-video/create"
+  >
+    Get started
+  </button>
+</div>
+
+<div class="ide-article-home" *ngIf="genratedVideoList.length > 0">
+  <div class="cus-head">
+    <div class="pull-left">
+      <h3 class="title-1 mt-1">
+        Generated vidoes
+        <img
+          src="assets/images/help-icon.svg"
+          alt="help-icon"
+          matTooltip="Generated vidoes"
+          matTooltipPosition="above"
+        />
+      </h3>
+    </div>
+    <div class="pull-right">
+      <div class="re-searchbox pull-left">
+        <i class="fa fa-search" (click)="getGenratedVideoList()"></i>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Search"
+          [(ngModel)]="searchVideo"
+          (keyup.enter)="getGenratedVideoList()"
+        />
+        <img
+          class="close-btn pointer"
+          width="16"
+          src="assets/images/close-1.svg"
+          alt="close"
+          (click)="removeSearch()"
+          *ngIf="searchVideo"
+        />
+      </div>
+      <img
+        class="img-fluid pointer align-middle my-1 ml-3"
+        src="assets/images/carousels-v2/icons-4.png"
+        alt="icons"
+      />
+    </div>
+  </div>
+  <div class="cus-article-lists">
+    <div class="add-article" routerLink="/explanatory-video/create">
+      <img
+        src="assets/images/plus-sqare.png"
+        alt="plus-sqare"
+        width="64"
+        class="img-fluid"
+      />
+      <div>Create New Video</div>
+    </div>
+    <div
+      class="article-divs"
+      *ngFor="let list of genratedVideoList; let i = index"
+    >
+      <!-- Status is generating -->
+
+      <div
+        class="w-100 custom-loader-div"
+        *ngIf="list?.status == 'pending' || list?.status == 'processing'"
+      >
+        <div class="custom-loader-main">
+          <div class="custom-loader-sub">
+            <div class="custom-loader"></div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        (click)="linkToSingleVideo(list)"
+        *ngIf="list?.status === 'complete'"
+        class="background pointer"
+        [style.background-image]="
+          list?.thumbUrl
+            ? 'url(' + list?.thumbUrl + ')'
+            : 'assets/images/demoimg-3.jpg'
+        "
+      ></div>
+      <div class="w-100 pt-1">
+        <div
+          class="labels-1"
+          *ngIf="list?.status == 'pending' || list?.status == 'processing'"
+        >
+          Generating
+        </div>
+        <div
+          class="labels-2"
+          *ngIf="!list?.isScheduled && list?.status == 'error'"
+        >
+          Error
+        </div>
+        <div class="labels-2" *ngIf="list?.isScheduled">Scheduled</div>
+
+        <div class="date-group">
+          <div class="names pointer" (click)="linkToSingleVideo(list)">
+            {{ list?.metadata?.title || list?.topic }}
+          </div>
+          <div class="btn-group">
+            <button
+              type="button"
+              data-toggle="dropdown"
+              aria-expanded="false"
+              class="btn dropdown-toggle"
+            >
+              <i aria-hidden="true" class="fa fa-ellipsis-v"></i>
+            </button>
+            <div class="dropdown-menu dropdown-menu-right">
+              <a (click)="removeVideo(list)">Delete</a>
+              <a>Schedule</a>
+              <a>Rename</a>
+              <a>View analytics</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="dates">{{ list?.createdAt | date : "MMM d, y" }}</div>
+
+        <div
+          class="created-progress"
+          *ngIf="list?.status == 'pending' || list?.status == 'processing'"
+        >
+          <div
+            class="insidebar"
+            [style.width.%]="list?.progress"
+            *ngIf="list?.progress > 0"
+          ></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-loader></app-loader>

@@ -1,0 +1,99 @@
+# This workflow uses actions thatare not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service,privacy policy,and support
+# documentation
+
+# GitHub recommends pinning actions to a commit SHA
+# To get a newer version, you will need to update the SHA.
+# You can also reference a tag or branch, but the action may change without warning.
+
+name: Deploy to Amazon ECS
+
+on:
+  push:
+    branches:
+      - main
+
+ 
+  # Allows you to run this workflows manually from the Actions tab
+  workflow_dispatch:
+  pull_request:
+    branches: [ "main" ]
+permissions:
+  contents: read          # Read permission for repository contents
+  issues: write           # Required to create and manage issues for approval
+  pull-requests: write    # Required if approvals are tied to PRs
+  actions: write          # Allows running actions and writing to workflows
+ 
+env:
+  AWS_REGION: me-south-1
+  ECR_REPOSITORY: ${{ vars.ECR_REPOSITORY }}
+  ECS_SERVICE: ${{ vars.ECS_SERVICE }}
+  ECS_CLUSTER: ${{ vars.ECS_CLUSTER }}
+  ECS_TASK_DEFINITION: ${{ vars.ECS_TASK_DEFINITION }}
+  CONTAINER_NAME: default
+ 
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    environment: ${{ vars.ENV }}
+ 
+    steps:
+    # - uses: trstringer/manual-approval@v1
+    #   if: github.ref == 'refs/heads/main'
+    #   with:
+    #     secret: ${{ github.TOKEN }}
+
+    #     approvers: Prateek-Kulkarni-raacom
+    #     minimum-approvals: 1
+    #     issue-title: "Deploying prod from staging"
+    #     issue-body: "Please approve or deny the deployment of version v1.3.5."
+    #     exclude-workflow-initiator-as-approver: false
+    #     additional-approved-words: ''
+    #     additional-denied-words: ''
+ 
+    - name: Checkout
+      uses: actions/checkout@v4
+ 
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@0e613a0980cbf65ed5b322eb7a1e075d28913a83
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+ 
+    - name: Download ECS Task Definition
+      id: download-task-def
+      run: |
+        aws ecs describe-task-definition --task-definition ${{ env.ECS_TASK_DEFINITION }} --query taskDefinition > task-definition.json
+ 
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@62f4f872db3836360b72999f4b87f1ff13310f3a
+ 
+    - name: Build, tag, and push image to Amazon ECR
+      id: build-image
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        IMAGE_TAG: ${{ github.sha }}
+      run: |
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+ 
+    - name: Update ECS task definition
+      id: task-def
+      uses: aws-actions/amazon-ecs-render-task-definition@v1
+      with:
+        task-definition: task-definition.json
+        container-name: ${{ env.CONTAINER_NAME }}
+        image: ${{ steps.build-image.outputs.image }}
+ 
+    - name: Deploy Amazon ECS task definition
+      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+      with:
+        task-definition: ${{ steps.task-def.outputs.task-definition }}
+        service: ${{ env.ECS_SERVICE }}
+        cluster: ${{ env.ECS_CLUSTER }}
+        wait-for-service-stability: true

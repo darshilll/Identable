@@ -1,0 +1,59 @@
+<div class="clg-top-title">
+  <div class="leftside">
+    <img
+      src="assets/images/ai-article/back-button.svg"
+      routerLink="/explanatory-video"
+      alt="back-button.svg"
+      class="img-fluid pointer ide-back-btn"
+      width="26"
+    />
+    <h2 class="titles">Explanatory Video</h2>
+    <p class="desq">
+      Easily create videos that explain your ideas and engage your audience.
+    </p>
+  </div>
+  <div class="rightside position-relative">
+    <button
+      type="button"
+      class="btn btn-simple m-1"
+      [class.disabled]="!this.videoUrl"
+      (click)="downloadVideo()"
+    >
+      <img
+        src="assets/images/ai-article/download.svg"
+        alt="download"
+        width="18"
+        class="img-fluid align-middle"
+      />
+      Download
+    </button>
+    <button
+      type="button"
+      class="btn btn-article m-1"
+      [class.disabled]="this.singleVideoData?.isScheduled || !this.videoUrl"
+      (click)="scheduleDialogOpenClose(true)"
+    >
+      Schedule
+    </button>
+    <div class="schedule-popup" *ngIf="scheduleDialogOpen">
+      <app-post-schedule-dialog
+        [isAdvancedSchedule]="true"
+        (_closeDailog)="scheduleDialogOpenClose(false)"
+        (_postScheduled)="postScheduled($event)"
+      >
+      </app-post-schedule-dialog>
+    </div>
+  </div>
+</div>
+
+<div class="ide-article-home">
+  <div class="cus-explainer-video" *ngIf="videoUrl">
+    <video class="w-100" height="440" controls>
+      <source controls [src]="videoUrl" type="video/mp4" />
+    </video>
+    <div class="desq">
+      {{ singleVideoData?.metadata?.title ||  singleVideoData?.topic }}
+    </div>
+  </div>
+</div>
+<app-loader></app-loader>

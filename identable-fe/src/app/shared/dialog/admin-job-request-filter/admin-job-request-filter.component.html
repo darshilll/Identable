@@ -1,0 +1,56 @@
+<h4 class="labels"><i class="fa fa-filter"></i> Filter</h4>
+<mat-dialog-content>
+  <div class="bboxs">
+    <div class="form-group">
+      <label class="labels">Job Type</label>
+      <select class="form-control" [(ngModel)]="selectedJobType">
+        <option value="" selected>Choose Job Type</option>
+        <option
+          [value]="item"
+          (click)="selectJobType(item)"
+          *ngFor="let item of jobTypeList"
+        >
+          {{ item }}
+        </option>
+      </select>
+    </div>
+  </div>
+  <div class="bboxs">
+    <div class="form-group">
+      <label class="labels">Job Status</label>
+      <select class="form-control" [(ngModel)]="selectedStatus">
+        <option value="" selected>Choose Status</option>
+        <option
+          [value]="item"
+          class="text-capitalize"
+          (click)="selectStatus(item)"
+          *ngFor="let item of statusList; status"
+        >
+          {{ item }}
+        </option>
+      </select>
+    </div>
+  </div>
+  <div class="bboxs calendar-div">
+    <div class="form-group">
+      <label class="labels">Start Date</label>
+      <p-calendar
+        appendTo="body"
+        [(ngModel)]="fromDate"
+        placeholder="Start Date"
+      />
+    </div>
+    <div class="form-group">
+      <label class="labels">End Date</label>
+      <p-calendar appendTo="body" [(ngModel)]="toDate" placeholder="End Date" />
+    </div>
+  </div>
+</mat-dialog-content>
+<div class="btnlistdiv">
+  <button type="button" class="btn btn-can" (click)="onSubmit(false)">
+    Cancel
+  </button>
+  <button type="button" class="btn btn-saves" (click)="onSubmit(true)">
+    Apply
+  </button>
+</div>

@@ -1,0 +1,50 @@
+<mat-dialog-content>
+    <div class="custom-post">
+        <div class="fbpostimg">
+            <div class="postinfo">
+            
+            <img *ngIf="data?.item?.profileImage" class="img" [src]="data?.item?.profileImage" alt="avatar" />
+
+            <img *ngIf="!data?.item?.profileImage" class="img" src="assets/images/demo-avatar.svg" alt="avatar" />
+
+                <div>
+                    <span class="txt1">{{ data?.item?.fullName }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="data?.item?.postType != 'ARTICLE'" class="fbcontent" [innerHTML]="data?.item?.text"></div>
+        <div *ngIf="data?.item?.postType == 'ARTICLE'" class="fbcontent">
+            {{data?.item?.article?.description}} <a href="{{data?.item?.article?.url}}" target="_blank">Read more....</a>
+        </div>
+
+        <div class="right_div" *ngIf="data?.item?.mediaUrls?.length > 1">
+            <ngx-slick-carousel class="carousel" #slickModal="slick-carousel" [config]="slideConfig">
+              <div ngxSlickItem *ngFor="let listside of data?.item?.mediaUrls; let i = index">
+                <div class="slidediv">
+                  <img [src]="listside" alt="slide" />
+                </div>
+              </div>
+            </ngx-slick-carousel>
+        </div>  
+
+        <div class="fbcontent" *ngIf="data?.item?.postType != 'TEXT_WITH_VIDEO'">
+          <img class="img-fluid" *ngIf="data?.item?.mediaUrls?.length == 1" [src]="data?.item?.mediaUrls[0]" alt="img" />
+        </div>
+
+        <div class="fbshare">
+            <a class="sharebtn"><img src="assets/images/fb-like.svg" alt="like" />Like ({{
+                data?.item?.likeCount
+                }})</a>
+            <a class="sharebtn"><img src="assets/images/fb-comment.svg" alt="comment" />Comment ({{
+                data?.item?.commentCount
+                }})</a>
+            <a class="sharebtn"><img src="assets/images/fb-share.svg" alt="Repost" />Repost ({{
+                data?.item?.commentCount
+                }})</a>
+        </div>
+        <div class="fbcount">
+            <a class="sharebtn"><i class="fa fa-eye mr-2"></i>{{ data?.item?.impressionCount }} Engagement</a>
+        </div>
+    </div>
+</mat-dialog-content>

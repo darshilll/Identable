@@ -1,0 +1,31 @@
+.customdrop-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  border-bottom: 1px solid #eee;
+  padding: 15px;
+  .droptitle {
+    color: #475467;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 24px;
+  }
+  .dropclose {
+    cursor: pointer;
+  }
+}
+.text1 {
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+.btn-save {
+  color: #fff;
+  background: #ec4a0a;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.2;
+  border-radius: 6px;
+  padding: 6px 12px;
+  cursor: pointer;
+}

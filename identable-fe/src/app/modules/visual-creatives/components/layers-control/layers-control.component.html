@@ -1,0 +1,219 @@
+<div class="ide-boxes">
+  <h5 class="ide-title">
+    Layers
+    <img
+      class="img-fluid align-center"
+      src="assets/images/help-icon.svg"
+      alt="help-icon"
+      matTooltip="Layers"
+      matTooltipPosition="below"
+    />
+  </h5>
+  <div class="ide-boxes-div" *ngIf="!isAdcreative">
+    <div
+      class="d-inline-block w-100 mb-4"
+      *ngFor="let slide of currentTemplate; let i = index"
+    >
+      <h5 class="ide-sub-title">Slide {{ i + 1 }} ({{formatSlideType(slide?.content?.heading)}})</h5>
+      <div class="d-inline-block w-100">
+        <div
+          class="ide-layers"
+          *ngIf="
+            slide?.type === 'starting_slide' || slide?.type === 'ending_slide'
+          "
+        >
+          <img
+            class="img-fluid"
+            src="assets/images/carousels-v2/editor-text.svg"
+            alt="editor-text"
+          />
+          <div class="text">Sub title</div>
+          <img
+            class="img-fluid ml-auto pointer"
+            [src]="
+              slide?.showSubTitle
+                ? 'assets/images/carousels-v2/editor-eye-1.svg'
+                : 'assets/images/carousels-v2/editor-eye-2.svg'
+            "
+            alt="editor-eye"
+            (click)="toggleSubTitleVisibility(slide, i)"
+          />
+        </div>
+        <div class="ide-layers">
+          <img
+            class="img-fluid"
+            src="assets/images/carousels-v2/editor-text.svg"
+            alt="editor-text"
+          />
+          <div class="text">Title</div>
+          <img
+            class="img-fluid ml-auto pointer"
+            [src]="
+              slide?.showTitle
+                ? 'assets/images/carousels-v2/editor-eye-1.svg'
+                : 'assets/images/carousels-v2/editor-eye-2.svg'
+            "
+            alt="editor-eye"
+            (click)="toggleTitleVisibility(slide, i)"
+          />
+        </div>
+        <div class="ide-layers">
+          <img
+            class="img-fluid"
+            src="assets/images/carousels-v2/editor-text.svg"
+            alt="editor-text"
+          />
+          <div class="text">Description</div>
+          <img
+            class="img-fluid ml-auto pointer"
+            [src]="
+              slide?.showDescription
+                ? 'assets/images/carousels-v2/editor-eye-1.svg'
+                : 'assets/images/carousels-v2/editor-eye-2.svg'
+            "
+            alt="editor-eye"
+            (click)="toggleDescriptionVisibility(slide, i)"
+          />
+        </div>
+        <div
+          class="ide-layers"
+          *ngIf="
+            slide?.type !== 'starting_slide' && slide?.type !== 'ending_slide'
+          "
+        >
+          <img
+            class="img-fluid"
+            src="assets/images/carousels-v2/editor-images.svg"
+            alt="editor-images"
+          />
+          <div class="text">Image</div>
+          <img
+            class="img-fluid ml-auto pointer"
+            [src]="
+              slide?.showImage
+                ? 'assets/images/carousels-v2/editor-eye-1.svg'
+                : 'assets/images/carousels-v2/editor-eye-2.svg'
+            "
+            alt="editor-eye"
+            (click)="toggleImageVisibility(slide, i)"
+          />
+        </div>
+        <div class="ide-layers">
+          <img
+            class="img-fluid"
+            src="assets/images/carousels-v2/editor-profile.svg"
+            alt="editor-profile"
+          />
+          <div class="text">Profile shot</div>
+          <img
+            class="img-fluid ml-auto pointer"
+            [src]="
+              slide?.showProfileShot
+                ? 'assets/images/carousels-v2/editor-eye-1.svg'
+                : 'assets/images/carousels-v2/editor-eye-2.svg'
+            "
+            alt="editor-eye"
+            (click)="toggleProfileShotsVisibility(slide, i)"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ide-boxes-div" *ngIf="isAdcreative">
+    <div class="d-inline-block w-100 mb-4">
+      <div class="d-inline-block w-100">
+        <div class="ide-layers">
+          <img
+            class="img-fluid"
+            src="assets/images/carousels-v2/editor-text.svg"
+            alt="editor-text"
+          />
+          <div class="text">Sub title</div>
+          <img
+            class="img-fluid ml-auto pointer"
+            [src]="
+              currentTemplate?.showSubTitle
+                ? 'assets/images/carousels-v2/editor-eye-1.svg'
+                : 'assets/images/carousels-v2/editor-eye-2.svg'
+            "
+            alt="editor-eye"
+            (click)="toggleSubTitleVisibility(currentTemplate, 0)"
+          />
+        </div>
+        <div class="ide-layers">
+          <img
+            class="img-fluid"
+            src="assets/images/carousels-v2/editor-text.svg"
+            alt="editor-text"
+          />
+          <div class="text">Title</div>
+          <img
+            class="img-fluid ml-auto pointer"
+            [src]="
+              currentTemplate?.showTitle
+                ? 'assets/images/carousels-v2/editor-eye-1.svg'
+                : 'assets/images/carousels-v2/editor-eye-2.svg'
+            "
+            alt="editor-eye"
+            (click)="toggleTitleVisibility(currentTemplate, 0)"
+          />
+        </div>
+        <div class="ide-layers">
+          <img
+            class="img-fluid"
+            src="assets/images/carousels-v2/editor-text.svg"
+            alt="editor-text"
+          />
+          <div class="text">Description</div>
+          <img
+            class="img-fluid ml-auto pointer"
+            [src]="
+              currentTemplate?.showDescription
+                ? 'assets/images/carousels-v2/editor-eye-1.svg'
+                : 'assets/images/carousels-v2/editor-eye-2.svg'
+            "
+            alt="editor-eye"
+            (click)="toggleDescriptionVisibility(currentTemplate, 0)"
+          />
+        </div>
+        <div class="ide-layers">
+          <img
+            class="img-fluid"
+            src="assets/images/carousels-v2/editor-images.svg"
+            alt="editor-images"
+          />
+          <div class="text">Image</div>
+          <img
+            class="img-fluid ml-auto pointer"
+            [src]="
+              currentTemplate?.showImage
+                ? 'assets/images/carousels-v2/editor-eye-1.svg'
+                : 'assets/images/carousels-v2/editor-eye-2.svg'
+            "
+            alt="editor-eye"
+            (click)="toggleImageVisibility(currentTemplate, 0)"
+          />
+        </div>
+        <div class="ide-layers">
+          <img
+            class="img-fluid"
+            src="assets/images/carousels-v2/editor-profile.svg"
+            alt="editor-profile"
+          />
+          <div class="text">CTA</div>
+          <img
+            class="img-fluid ml-auto pointer"
+            [src]="
+              currentTemplate?.showCTA
+                ? 'assets/images/carousels-v2/editor-eye-1.svg'
+                : 'assets/images/carousels-v2/editor-eye-2.svg'
+            "
+            alt="editor-eye"
+            (click)="toggleCTAVisibility(currentTemplate, 0)"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

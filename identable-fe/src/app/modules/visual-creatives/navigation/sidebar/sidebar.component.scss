@@ -1,0 +1,46 @@
+.ide-navbar {
+    position: fixed;
+    top: 58px;
+    bottom: 0;
+    z-index: 9;
+    width: 68px;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #ffffff;
+    border-right: 1px solid rgba(9, 30, 66, 0.14);
+    user-select: none;
+    .ide-menu {
+      width: 100%;
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 14px;
+      text-transform: capitalize;
+      color: #001141;
+      text-align: center;
+      position: relative;
+      padding: 8px 5px;
+      cursor: pointer;
+      .img {
+        margin-bottom: 2px;
+      }
+      &:hover {
+        background-color: #eee;
+      }
+    }
+    .ide-active {
+      background-color: #ffdad1 !important;
+      &:before {
+        content: "";
+        position: absolute;
+        width: 4px;
+        height: 32px;
+        left: 0px;
+        top: calc(50% - 17px);
+        background: #001141;
+        border-radius: 0px 10px 10px 0px;
+      }
+    }
+  }
+  

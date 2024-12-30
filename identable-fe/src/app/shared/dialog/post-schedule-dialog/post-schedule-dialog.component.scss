@@ -1,0 +1,301 @@
+.popbox {
+  padding: 15px 18px;
+  display: inline-block;
+  width: 100%;
+  position: relative;
+  text-align: left;
+
+  .pop-title {
+    color: #172b4d;
+    font-size: 20px;
+    font-weight: 500;
+    margin-bottom: 20px;
+  }
+
+  .close {
+    opacity: 1;
+    float: right;
+    position: absolute;
+    right: 16px;
+    top: 16px;
+    cursor: pointer;
+  }
+
+  .labels {
+    color: #172b4d;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 16px;
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .dotlist {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+
+    .dots {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      margin: 2px;
+      border-radius: 20px;
+      background-color: #ffead5;
+      cursor: pointer;
+    }
+
+    .actives {
+      width: 16px;
+      background-color: #c4320a;
+    }
+  }
+
+  .minpost {
+    min-height: 130px;
+  }
+
+  .cust_rad_btn {
+    position: relative;
+    margin-right: 1%;
+    margin-bottom: 8px;
+    float: left;
+    width: 49%;
+
+    input[type="checkbox"],
+    input[type="radio"] {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      cursor: pointer;
+      opacity: 0;
+    }
+
+    label {
+      border: 1px solid #e4e7ec;
+      background: #f2f4f7;
+      border-radius: 4px;
+      padding: 8px 10px;
+      color: #172b4d;
+      font-weight: 500;
+      font-size: 13px;
+      display: inline-block;
+      width: 100%;
+    }
+
+    input:checked + label {
+      background: #ffedeb;
+      border: 1px solid #ff6f47;
+    }
+  }
+
+  .timeslot {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+
+    .cust_rad_btn {
+      margin-right: 1%;
+      width: 49%;
+    }
+  }
+
+  .timesopt {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    .cust_rad_btn {
+      width: auto;
+      margin-right: 4px;
+    }
+  }
+
+  .postedwith {
+    .img {
+      width: 48px;
+      height: 48px;
+      margin-bottom: 10px;
+      margin-right: 10px;
+      border-radius: 100px;
+      border: 1px solid #fff;
+      background-color: lightgray;
+      cursor: pointer;
+    }
+
+    .actives {
+      border-color: #c4320a;
+    }
+  }
+}
+
+.btnlistdiv {
+  display: flex;
+  justify-content: end;
+  width: 100%;
+  padding: 0px 18px 15px 18px;
+
+  .btn-can {
+    color: #172b4d;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    border-radius: 4px;
+    border: 1px solid #626f86;
+    background: #fff;
+    margin-right: 10px;
+  }
+
+  .btn-saves {
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    border-radius: 4px;
+    border: 1px solid #ec4a0a;
+    background: #ec4a0a;
+  }
+}
+
+.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.labels-credit {
+  color: #344054;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.boostlist {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+
+  .boostype {
+    border-radius: 12px;
+    border: 1px solid #e4e7ec;
+    background: #f9fafb;
+    display: inline-block;
+    width: 48%;
+    padding: 10px 10px;
+    margin: 7px 1%;
+    cursor: pointer;
+    text-align: center;
+
+    &.selected {
+      border-radius: 12px;
+      border: 1px solid #fddcab;
+      background: #fff6ed;
+    }
+
+    .boost {
+      display: inline-block;
+    }
+  }
+
+  .txt1 {
+    color: #101828;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1.1;
+    margin-bottom: 5px;
+    display: block;
+  }
+
+  .txt2 {
+    color: #344054;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.1;
+    display: block;
+  }
+}
+
+.p-calendar {
+  .p-inputtext {
+    border-color: #d0d5dd !important;
+    border-radius: 8px;
+  }
+  .p-button {
+    background: #1fa5ab !important;
+    border-color: #1fa5ab !important;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+  }
+}
+
+p-calendar {
+  .p-datepicker {
+    padding: 0.4rem;
+    border-radius: 24px;
+    border: 1px solid #e7e7e7;
+    background: #fff;
+    table {
+      th {
+        color: #1f3965;
+        text-align: center;
+        font-size: 13px;
+        font-style: normal;
+        font-weight: 400;
+      }
+      td {
+        padding: 0 !important;
+        color: #1f3965;
+        text-align: center;
+        font-size: 13px;
+        font-style: normal;
+        font-weight: 400;
+      }
+      td > span {
+        border-radius: 100px;
+      }
+      td > span.p-highlight {
+        background: #1fa5ab !important;
+      }
+      td.p-datepicker-today > span {
+        color: #000 !important;
+        border-color: #1fa5ab;
+        background: transparent !important;
+      }
+    }
+    .p-datepicker-header .p-datepicker-title select {
+      margin-right: 0.2rem;
+      border-radius: 8px;
+      background: #e9f6f7;
+      color: #1fa5ab;
+      font-size: 13px;
+      font-style: normal;
+      font-weight: 600;
+      padding: 6px;
+      border: none;
+      box-shadow: none !important;
+      text-align: center;
+    }
+  }
+}
+.bestPostTime {
+  font-size: 9px;
+  color: #ec4a0a;
+  padding: 2px 2px;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.best-tag {
+  background: #ec4a0a;
+  color: white;
+  border-radius: 5px;
+  font-size: 8px;
+  padding: 4px 4px;
+  line-height: 1.3;
+  position: absolute;
+  top: -8px;
+  right: 0;
+}

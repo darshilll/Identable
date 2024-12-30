@@ -1,0 +1,383 @@
+<div class="customdrop-head">
+  <h3 class="droptitle">Cover image settings</h3>
+</div>
+<mat-dialog-content class="p-2">
+  <div class="article-details">
+    <div class="article-detail-left">
+      <div class="mb-4 w-100">
+        <div class="label-title mb-2 w-100">
+          Choose Headline
+          <img
+            src="assets/images/help-icon.svg"
+            alt="help-icon"
+            matTooltip="Choose Headline"
+            matTooltipPosition="above"
+          />
+        </div>
+        <input
+          [(ngModel)]="headline"
+          type="text"
+          placeholder="How Product Photography Narrates a Product's Story"
+          class="form-control choose-head-input"
+        />
+        <div class="invalid-feedback d-block" *ngIf="isSubmit && !headline">
+          Please enter headline.
+        </div>
+      </div>
+      <div class="mb-3 w-100">
+        <div class="label-title mb-2 w-100">
+          Banner image
+          <img
+            src="assets/images/help-icon.svg"
+            alt="help-icon"
+            matTooltip="Banner image"
+            matTooltipPosition="above"
+          />
+        </div>
+        <div class="banner-image-div">
+          <img alt="bg-demo" class="img-fluid banner-img" [src]="coverImage" />
+          <label class="file-upload mt-2" (click)="choiceMediaOptions()">
+            <img
+              src="assets/images/carousels-v2/editor-images-1.svg"
+              alt="editor-images"
+              class="img-fluid mr-1"
+            />
+            Change image
+          </label>
+        </div>
+      </div>
+      <div class="mb-3 w-100">
+        <div class="label-title mb-3 w-100">
+          Banner Colour
+          <img
+            src="assets/images/help-icon.svg"
+            alt="help-icon"
+            matTooltip="Banner Colour"
+            matTooltipPosition="above"
+          />
+        </div>
+        <div class="switch-title mb-1">
+          <div class="text1">
+            Use Brand kit settings
+            <img
+              src="assets/images/help-icon.svg"
+              alt="help-icon"
+              matTooltip="Use Brand kit settings"
+              matTooltipPosition="above"
+            />
+          </div>
+          <label class="switch mx-3">
+            <input
+              type="checkbox"
+              (change)="selectBrandkit($event)"
+              [(ngModel)]="isBrandkit"
+            />
+            <span class="slider"></span>
+          </label>
+        </div>
+        <!-- <div class="label-title-sub mb-3 w-100">
+          Background Colours
+          <img
+            src="assets/images/help-icon.svg"
+            alt="help-icon"
+            matTooltip="Choose Headline"
+            matTooltipPosition="above"
+          />
+        </div> -->
+        <div class="coloues-box">
+          <div class="lists text-center">
+            <div
+              class="boxs"
+              [style.background-color]="bannerColor"
+              [class.isDisble]="isBrandkit"
+            >
+              <img
+                *ngIf="bannerColor && !isBrandkit"
+                width="22"
+                src="assets/images/close-2.png"
+                alt="close"
+                class="ide-close pointer"
+              /><input
+                type="color"
+                [(ngModel)]="bannerColor"
+                (input)="onColorChange($event, 'bannerColor')"
+              />
+              <span *ngIf="!bannerColor"> +</span>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="coloues-box">
+          <div class="lists text-center">
+            <div
+              class="boxs"
+              [style.background-color]="primaryColor"
+              [class.isDisble]="isBrandkit"
+            >
+              <img
+                *ngIf="primaryColor && !isBrandkit"
+                (click)="removeColor('primaryColor')"
+                width="22"
+                src="assets/images/close-2.png"
+                alt="close"
+                class="ide-close pointer"
+              /><input
+                type="color"
+                [(ngModel)]="primaryColor"
+                (input)="onColorChange($event, 'primaryColor')"
+              />
+              <span *ngIf="!primaryColor"> +</span>
+            </div>
+            <div class="text1 mt-2">Primary Colour</div>
+          </div>
+          <div class="lists text-center">
+            <div class="boxs" [style.background-color]="overlayColor">
+              <img
+                *ngIf="overlayColor"
+                (click)="removeColor('overlayColor')"
+                width="22"
+                src="assets/images/close-2.png"
+                alt="close"
+                class="ide-close pointer"
+              /><input
+                type="color"
+                [(ngModel)]="overlayColor"
+                (input)="onColorChange($event, 'overlayColor')"
+              />
+              <span *ngIf="!overlayColor"> +</span>
+            </div>
+            <div class="text1 mt-2">Overlay Colour</div>
+          </div>
+        </div> -->
+        <div class="invalid-feedback d-block" *ngIf="isSubmit && !bannerColor">
+          Please select banner color.
+        </div>
+      </div>
+      <!-- <div class="mb-0 w-100">
+        <div class="label-title mb-2 w-100">
+          Background image type
+          <img
+            src="assets/images/help-icon.svg"
+            alt="help-icon"
+            matTooltip="Background image type"
+            matTooltipPosition="above"
+          />
+        </div>
+        <div
+          class="invalid-feedback d-block"
+          *ngIf="isSubmit && !aiGenratedBgUrl && !customBgUrl"
+        >
+          Please select any image.
+        </div>
+        <div class="background-images">
+          <div class="image-generated-div">
+            <label class="radiodiv">
+              <div class="text">Generated image</div>
+              <input
+                type="radio"
+                name="radios"
+                (change)="choiceBackgroundOptions('generatedImage')"
+                [checked]="isAigenratedBgImage"
+              />
+              <div class="radios"></div>
+            </label>
+            <div *ngIf="isAigenratedBgImage" class="mt-4">
+              <div *ngIf="!aiGenratedBgUrl">
+                <label class="labels"
+                  >Choose Image Source
+                  <img
+                    src="assets/images/help-icon.svg"
+                    alt="help-icon"
+                    class="img-fluid align-center"
+                    matTooltip="Choose Image Source"
+                    matTooltipPosition="below"
+                  />
+                </label>
+                <select
+                  class="form-control mb-2"
+                  [(ngModel)]="generateImageType"
+                >
+                  <option value="ai-Image">Ai Image</option>
+                  <option value="pexel-image">Pexel Image</option>
+                </select>
+                <label
+                  class="file-change generate-img"
+                  (click)="generateImage()"
+                  ><img
+                    src="assets/images/carousels-v2/re-fresh.svg"
+                    alt="editor-images"
+                    class="img-fluid mr-1"
+                  />
+                  Generate image
+                  <span
+                    *ngIf="generateImageType == 'ai-Image'"
+                    [matTooltip]="aiCreditMessage"
+                    class="credit-div"
+                    matTooltipPosition="above"
+                    ><i class="fa fa-cubes" aria-hidden="true"></i
+                    >{{ aiCreditDeducated }}</span
+                  >
+                </label>
+              </div>
+              <div class="choose-image" *ngIf="aiGenratedBgUrl">
+                <img alt="bg-demo" class="img-fluid" [src]="aiGenratedBgUrl" />
+                <i class="fa fa-times" (click)="removeBgImage('generate')"></i>
+              </div>
+              <label
+                class="file-change"
+                *ngIf="aiGenratedBgUrl"
+                (click)="generateImage()"
+                ><img
+                  src="assets/images/carousels-v2/re-fresh.svg"
+                  alt="editor-images"
+                  class="img-fluid mr-1"
+                />
+                Regenerate image
+              </label>
+            </div>
+          </div>
+          <div class="image-generated-div">
+            <label class="radiodiv">
+              <div class="text">Custom image</div>
+              <input
+                type="radio"
+                name="radios"
+                (change)="choiceBackgroundOptions('customImage')"
+                [checked]="isCustomImage"
+              />
+              <div class="radios"></div>
+            </label>
+            <div *ngIf="isCustomImage" class="mt-4">
+              <label
+                *ngIf="!customBgUrl"
+                class="labels"
+                (change)="choiceBackgroundOptions('customImage')"
+                >Choose image
+                <img
+                  src="assets/images/help-icon.svg"
+                  alt="help-icon"
+                  class="img-fluid align-center"
+                  matTooltip="Upload image"
+                  matTooltipPosition="below"
+                />
+              </label>
+              <label
+                class="upload-image-box"
+                *ngIf="!customBgUrl"
+                (click)="choiceBackgroundMedia()"
+              >
+                <img src="assets/images/upload-image.png" alt="upload-image" />
+                Choose image
+              </label>
+              <div class="choose-image" *ngIf="customBgUrl">
+                <img alt="bg-demo" class="img-fluid" [src]="customBgUrl" />
+                <i class="fa fa-times" (click)="removeBgImage('custom')"></i>
+              </div>
+              <label
+                *ngIf="customBgUrl"
+                class="file-change"
+                (click)="choiceBackgroundMedia()"
+                ><img
+                  src="assets/images/carousels-v2/editor-images-1.svg"
+                  alt="editor-images"
+                  class="img-fluid mr-1"
+                />
+                Change image
+              </label>
+            </div>
+          </div>
+        </div>
+      </div> -->
+    </div>
+    <div class="article-detail-right">
+      <div class="label-title bg-white w-100">
+        Layout Options
+        <img
+          src="assets/images/help-icon.svg"
+          alt="help-icon"
+          matTooltip="Layout Options"
+          matTooltipPosition="above"
+        />
+      </div>
+      <div class="layout-option-list">
+        <!-- <img
+          *ngFor="let layoutItem of articleLayout; let i = index"
+          class="img-fluid"
+          [class.select-img]="selectLayout === layoutItem?.layout"
+          (click)="onSelectLayout(layoutItem?.layout)"
+          [src]="layoutItem?.image"
+          alt="cover-image"
+        /> -->
+
+        <div
+          class="article-imgdiv-1"
+          (click)="onSelectLayout('center')"
+          [class.select-img]="selectLayout === 'center'"
+        >
+          <div class="main-img">
+            <div class="img-layer"></div>
+            <img class="img-fluid" [src]="coverImage" alt="demoimg-1" />
+          </div>
+
+          <div class="imgdiv-content" [style.background-color]="bannerColor">
+            <img
+              class="img-fluid avtar-img"
+              [src]="profileImage"
+              alt="avatar"
+            />
+            <div class="text">
+              {{ headline }}
+            </div>
+          </div>
+        </div>
+        <div
+          class="article-imgdiv-2"
+          (click)="onSelectLayout('right')"
+          [class.select-img]="selectLayout === 'right'"
+        >
+          <div class="main-img">
+            <div class="img-layer"></div>
+            <img class="img-fluid" [src]="coverImage" alt="demoimg-1" />
+          </div>
+
+          <div class="imgdiv-content" [style.background-color]="bannerColor">
+            <img
+              class="img-fluid avtar-img"
+              [src]="profileImage"
+              alt="avatar"
+            />
+            <div class="text">
+              {{ headline }}
+            </div>
+          </div>
+        </div>
+        <div
+          class="article-imgdiv-3"
+          (click)="onSelectLayout('left')"
+          [class.select-img]="selectLayout === 'left'"
+        >
+          <div class="main-img">
+            <div class="img-layer"></div>
+            <img class="img-fluid" [src]="coverImage" alt="demoimg-1" />
+          </div>
+
+          <div class="imgdiv-content" [style.background-color]="bannerColor">
+            <img
+              class="img-fluid avtar-img"
+              [src]="profileImage"
+              alt="avatar"
+            />
+            <div class="text">
+              {{ headline }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+<div class="btnlistdiv">
+  <button type="button" class="btn btn-cancel mr-2" [mat-dialog-close]="false">
+    Cancel
+  </button>
+  <button type="button" class="btn btn-apply" (click)="save()">Continue</button>
+</div>

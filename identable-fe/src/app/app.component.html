@@ -1,0 +1,8 @@
+<!-- sidebar -->
+<app-sidebar *ngIf="ifHeader"></app-sidebar>
+
+<!-- Header id="main" -->
+<div [id]="ifHeader == true ? 'main':''">
+  <app-header *ngIf="ifHeader"></app-header>
+  <router-outlet></router-outlet>
+</div>

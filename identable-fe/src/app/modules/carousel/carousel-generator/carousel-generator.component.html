@@ -1,0 +1,3030 @@
+<div class="manual-list">
+  <div class="boxs-save">
+    <i class="fa fa-angle-left fa-2x mr-2 pointer" (click)="onBack()"></i>
+    <h4 class="carousel-title" (click)="onBack()">Carousel Template</h4>
+    <button
+      type="button"
+      class="btn-schedule ml-auto"
+      (click)="onSaveAction()"
+      *ngIf="isCarouselGenerated"
+      matTooltip="Download"
+      matTooltipPosition="below"
+    >
+      <i class="fa fa-download text-white"></i>
+    </button>
+    <button
+      type="button"
+      class="btn-schedule"
+      matTooltip="Edit"
+      matTooltipPosition="below"
+      (click)="openEditPost()"
+      *ngIf="isCarouselGenerated"
+    >
+      <img
+        src="assets/images/edit/edit-1.svg"
+        alt="edit"
+        class="img"
+        width="20"
+        style="filter: brightness(2)"
+      />
+    </button>
+    <div class="position-relative" *ngIf="isCarouselGenerated">
+      <button
+        type="button"
+        class="btn-schedule"
+        (click)="scheduleDialogOpenClose(true)"
+        matTooltip="Schedule"
+        matTooltipPosition="below"
+      >
+        <img
+          src="assets/images/calendar-white-icon.svg"
+          alt="calendar"
+          width="20"
+        />
+      </button>
+      <div class="schedule-popup" *ngIf="scheduleDialogOpen">
+        <app-post-schedule-dialog
+          [isAdvancedSchedule]="true"
+          (_closeDailog)="scheduleDialogOpenClose(false)"
+          (_postScheduled)="generatePDF($event)"
+        >
+        </app-post-schedule-dialog>
+      </div>
+    </div>
+  </div>
+  <div class="boxs-select">
+    <div class="boxdiv">
+      <label class="labels" for="">Select carousel length</label>
+      <div class="select-length">
+        <input
+          type="number"
+          class="form-control"
+          placeholder="3"
+          [(ngModel)]="carouselLength"
+        />
+        <a class="btns plusbtn" (click)="carouselLengthCount(true)">+</a>
+        <a class="btns minusbtn" (click)="carouselLengthCount(false)">-</a>
+      </div>
+    </div>
+    <div class="boxdiv">
+      <label class="labels" for="">Select Theme</label>
+      <select class="form-control" [(ngModel)]="selectedPromtTheme">
+        <option value="General">General</option>
+        <option value="Pain Points">Pain Points</option>
+        <option value="Common Mistakes">Common Mistakes</option>
+        <option value="Misconceptions">Misconceptions</option>
+        <option value="eBook">eBook</option>
+      </select>
+    </div>
+  </div>
+  <label class="labels mb-1"
+    >Topic:
+    <img
+      (click)="oneIdeaDailog()"
+      class="align-middle"
+      width="22"
+      src="assets/images/bulb-1.svg"
+      alt="bulb"
+      style="cursor: pointer"
+  /></label>
+  <div class="boxs-search">
+    <input
+      type="text"
+      class="searchinput"
+      placeholder="Enter a topic for your carousel"
+      [(ngModel)]="topic"
+    />
+    <button
+      type="button"
+      class="btn-addpost {{ !topic ? 'btn-disables' : '' }}"
+      (click)="generateCarousel()"
+    >
+      <img width="20" src="assets/images/star-two-white.svg" alt="star" />
+      Generate Carousel
+      <span
+        [matTooltip]="creditMessage"
+        class="credit-div"
+        *ngIf="creditDeducated"
+        matTooltipPosition="above"
+        ><i class="fa fa-cubes" aria-hidden="true"></i
+        >{{ creditDeducated }}</span
+      >
+    </button>
+  </div>
+  <div class="boxs-1" *ngIf="isCarouselGenerated">
+    <div class="boxs-tabs">
+      <ul class="tablist">
+        <li
+          class="nav-link"
+          [class.active]="contentSetting"
+          (click)="changeSetting('content')"
+        >
+          <i class="fa fa-pencil"></i> Content
+        </li>
+        <li
+          class="nav-link"
+          [class.active]="userInfoSetting"
+          (click)="changeSetting('userInfo')"
+        >
+          <i class="fa fa-user-circle-o"></i> Profile info
+        </li>
+        <li
+          class="nav-link"
+          [class.active]="themeSetting"
+          (click)="changeSetting('theme')"
+        >
+          <i class="fa fa-picture-o"></i> Background
+        </li>
+        <li
+          class="nav-link"
+          [class.active]="previewSetting"
+          (click)="changeSetting('preview')"
+        >
+          <i class="fa fa-eye"></i> Preview
+        </li>
+      </ul>
+    </div>
+
+    <div class="boxs-div" *ngIf="contentSetting">
+      <div class="boxs-head">
+        <h3>Content Edit (#Slide {{ selectedSlideIndex + 1 }})</h3>
+      </div>
+      <div class="boxs-body">
+        <div class="form-group" *ngIf="content.isTitle">
+          <label for="">Title </label>
+          <input
+            type="text"
+            name=""
+            class="form-control"
+            value=""
+            [(ngModel)]="content.titleValue"
+          />
+        </div>
+        <div class="form-group" *ngIf="content.isContent">
+          <label for="">Description</label>
+          <textarea
+            rows="5"
+            name=""
+            class="form-control"
+            [(ngModel)]="content.contentValue"
+          ></textarea>
+        </div>
+        <div class="form-group" *ngIf="content.isContentBackground">
+          <label for="">Content Pic (Recommended size 450 x 550)</label>
+          <div class="file-upload">
+            <img
+              *ngIf="content.contentBackgroundValue"
+              class="imgs"
+              [src]="content.contentBackgroundValue"
+              alt="icons"
+            />
+            <div class="btn">
+              <input
+                type="file"
+                name=""
+                (change)="onFileChanged($event, 'content')"
+                accept=".jpg, .jpeg, .png"
+              />
+              Select Image
+            </div>
+            <i
+              class="fa fa-trash text-danger m-3"
+              (click)="onContentPicDelete()"
+            ></i>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="boxs-div" *ngIf="userInfoSetting">
+      <div class="boxs-head">
+        <h3>User Info Edit (#Slide {{ selectedSlideIndex + 1 }})</h3>
+      </div>
+      <div class="boxs-body">
+        <div class="form-group">
+          <label for=""
+            >Your name
+            <div class="custom-control custom-switch pull-right">
+              <input
+                type="checkbox"
+                class="custom-control-input"
+                id="customSwitch1"
+                [(ngModel)]="isName"
+              />
+              <label class="custom-control-label" for="customSwitch1"></label>
+            </div>
+          </label>
+          <input
+            type="text"
+            name=""
+            class="form-control"
+            value="Identable"
+            [(ngModel)]="userName"
+            maxlength="30"
+          />
+        </div>
+        <div class="form-group">
+          <label for=""
+            >LinkedIn Handle
+            <div class="custom-control custom-switch pull-right">
+              <input
+                type="checkbox"
+                class="custom-control-input"
+                id="customSwitch2"
+                [(ngModel)]="isHandler"
+              />
+              <label class="custom-control-label" for="customSwitch2"></label>
+            </div>
+          </label>
+          <input
+            type="text"
+            name=""
+            class="form-control"
+            value="identable_123"
+            [(ngModel)]="userHandler"
+          />
+        </div>
+        <div class="form-group">
+          <label for=""
+            >Profile Pic (Recommended size 80 x 80)
+            <div class="custom-control custom-switch pull-right">
+              <input
+                type="checkbox"
+                class="custom-control-input"
+                id="customSwitch3"
+                [(ngModel)]="isProfilePic"
+              />
+              <label class="custom-control-label" for="customSwitch3"></label>
+            </div>
+          </label>
+          <div class="file-upload">
+            <img
+              *ngIf="userProfilePic"
+              class="imgs"
+              [src]="userProfilePic"
+              alt="icons"
+            />
+            <div class="btn">
+              <input
+                type="file"
+                (change)="onFileChanged($event, 'profile')"
+                name=""
+                accept=".jpg, .jpeg, .png"
+              />
+              Select Image
+            </div>
+            <!-- <i class="fa fa-trash text-danger m-3"></i> -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="boxs-div" *ngIf="themeSetting">
+      <div class="boxs-head">
+        <h3>Background (#Slide {{ selectedSlideIndex + 1 }})</h3>
+      </div>
+      <div class="boxs-body">
+        <div class="subtab">
+          <button
+            class="btn"
+            [class.btn-active]="theme.isSolidBackground"
+            type="button"
+            (click)="changeSetting('themesolid')"
+          >
+            Solid
+          </button>
+          <button
+            class="btn"
+            [class.btn-active]="!theme.isSolidBackground"
+            type="button"
+            (click)="changeSetting('themeimage')"
+          >
+            Image
+          </button>
+        </div>
+
+        <div *ngIf="theme.isSolidBackground">
+          <div class="form-group">
+            <label for="">Background Primary Color</label>
+            <div class="ide-color-select">
+              <ngx-colors
+                ngx-colors-trigger
+                class="ide-colors"
+                [(ngModel)]="theme.backgroundColor"
+              ></ngx-colors>
+              <input
+                type="text"
+                name=""
+                class="form-control"
+                value="#FFFFFF"
+                [(ngModel)]="theme.backgroundColor"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group" *ngIf="!theme.isSolidBackground">
+          <label for="">Background Images (Recommended size 400 x 500)</label>
+          <div class="file-upload">
+            <img
+              class="imgs"
+              src="{{
+                theme.backgroundImage
+                  ? theme.backgroundImage
+                  : 'assets/images/icons-2.png'
+              }}"
+              alt="icons"
+            />
+            <div class="btn">
+              <input
+                type="file"
+                name=""
+                (change)="onFileChanged($event, 'background')"
+                accept=".jpg, .jpeg, .png"
+              />
+              Select Image
+            </div>
+            <!-- <i class="fa fa-trash text-danger m-3"></i> -->
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="">Primary Color</label>
+          <div class="ide-color-select">
+            <ngx-colors
+              ngx-colors-trigger
+              class="ide-colors"
+              [(ngModel)]="theme.primaryColor"
+            ></ngx-colors>
+            <input
+              type="text"
+              name=""
+              class="form-control"
+              value="#FFFFFF"
+              [(ngModel)]="theme.primaryColor"
+            />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="">Secondary Color</label>
+          <div class="ide-color-select">
+            <ngx-colors
+              ngx-colors-trigger
+              class="ide-colors"
+              [(ngModel)]="theme.secondaryColor"
+            ></ngx-colors>
+            <input
+              type="text"
+              name=""
+              class="form-control"
+              value="#FFFFFF"
+              [(ngModel)]="theme.secondaryColor"
+            />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="">Primary Font</label>
+          <select name="" class="form-control" [(ngModel)]="theme.primaryFont">
+            <option value="Play">Play</option>
+            <option value="Sora">Sora</option>
+            <option value="Inter">Inter</option>
+            <option value="Roboto">Roboto</option>
+            <option value="Lobster">Lobster</option>
+            <option value="Poppins">Poppins</option>
+            <option value="PT Serif">PT Serif</option>
+            <option value="Varela Round">Varela Round</option>
+            <option value="Dancing Script">Dancing Script</option>
+            <option value="PT Sans Narrow">PT Sans Narrow</option>
+            <option value="Playfair Display">Playfair Display</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="">Secondary Font</label>
+          <select
+            name=""
+            class="form-control"
+            [(ngModel)]="theme.secondaryFont"
+          >
+            <option value="Play">Play</option>
+            <option value="Sora">Sora</option>
+            <option value="Inter">Inter</option>
+            <option value="Roboto">Roboto</option>
+            <option value="Lobster">Lobster</option>
+            <option value="Poppins">Poppins</option>
+            <option value="PT Serif">PT Serif</option>
+            <option value="Varela Round">Varela Round</option>
+            <option value="Dancing Script">Dancing Script</option>
+            <option value="PT Sans Narrow">PT Sans Narrow</option>
+            <option value="Playfair Display">Playfair Display</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="boxs-div" *ngIf="previewSetting">
+      <div class="boxs-head">
+        <h3>Preview</h3>
+      </div>
+      <div class="boxs-body">
+        <ngx-slick-carousel
+          class="carousel"
+          #slickModal="slick-carousel"
+          [config]="slideConfig"
+        >
+          <div
+            ngxSlickItem
+            *ngFor="
+              let item of _utilities.selectedTheme?.slideHtml;
+              let i = index
+            "
+          >
+            <div class="slidediv">
+              <div [innerHTML]="getHtml(item, i)" #slide></div>
+            </div>
+          </div>
+        </ngx-slick-carousel>
+      </div>
+    </div>
+
+    <!-- <div class="d-inline-block w-100 text-left">
+      <button type="button" class="btn-addpost">
+        <img width="20" src="assets/images/star-two-white.svg" alt="star" />
+        Generate Carousel
+      </button>
+    </div> -->
+  </div>
+
+  <div class="boxs-2">
+    <!-- <div class="postlist">
+      <div class="d-inline-block w-100 mb-4">
+        <div class="slide-head">
+          <h5>Slide 1</h5>
+          <div class="ml-auto">
+            <img class="m-2 pointer" src="assets/images/carousel/copy-slide.png" alt="copy" width="24" />
+            <img class="m-2 pointer" src="assets/images/carousel/trash-slide.png" alt="trash" width="24" />
+          </div>
+        </div>
+        <div style="
+            width: 100%;
+            display: inline-block;
+            padding: 20px;
+            background-color: #162107;
+            background-image: url(assets/images/carousel/theme-3/flowers.png);
+            background-position: bottom left;
+            background-repeat: no-repeat;
+            background-size: auto;
+            min-height: 490px;
+            cursor: pointer;
+          ">
+          <div style="
+              width: 100%;
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+              border-bottom: 1px solid #4c551e;
+              padding-bottom: 10px;
+            ">
+            <span style="
+                display: inline-block;
+                color: #badd80;
+                font-size: 20px;
+                font-weight: 500;
+                line-height: 1.2;
+                text-transform: capitalize;
+                padding-bottom: 5px;
+              "><img src="assets/images/avatar/avatar.png" alt="profile" style="
+                  width: 40px;
+                  height: 40px;
+                  display: inline-block;
+                  border-radius: 50%;
+                " />
+              Akshay</span>
+            <span style="
+                display: inline-block;
+                color: #badd80;
+                font-size: 16px;
+                line-height: 1.2;
+                padding-bottom: 5px;
+              ">@akshayyj</span>
+          </div>
+          <div style="
+              color: #badd80;
+              font-size: 44px;
+              font-weight: 400;
+              line-height: 1.3;
+              height: 380px;
+              overflow: hidden;
+              display: flex;
+              text-align: center;
+              align-items: center;
+            ">
+            Content Ideas for Social Media
+          </div>
+        </div>
+      </div>
+      <div class="d-inline-block w-100 mb-4">
+        <div class="slide-head">
+          <h5>Slide 2</h5>
+          <div class="ml-auto">
+            <img class="m-2 pointer" src="assets/images/carousel/copy-slide.png" alt="copy" width="24" />
+            <img class="m-2 pointer" src="assets/images/carousel/trash-slide.png" alt="trash" width="24" />
+          </div>
+        </div>
+        <div style="
+            width: 100%;
+            display: inline-block;
+            padding: 20px;
+            background-color: #162107;
+            background-image: url(assets/images/carousel/theme-3/flowers.png);
+            background-position: bottom left;
+            background-repeat: no-repeat;
+            background-size: auto;
+            min-height: 490px;
+            cursor: pointer;
+          ">
+          <div style="
+              width: 100%;
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+              border-bottom: 1px solid #4c551e;
+              padding-bottom: 10px;
+            ">
+            <span style="
+                display: inline-block;
+                color: #badd80;
+                font-size: 20px;
+                font-weight: 500;
+                line-height: 1.2;
+                text-transform: capitalize;
+                padding-bottom: 5px;
+              "><img src="assets/images/avatar/avatar.png" alt="profile" style="
+                  width: 40px;
+                  height: 40px;
+                  display: inline-block;
+                  border-radius: 50%;
+                " />
+              Akshay</span>
+            <span style="
+                display: inline-block;
+                color: #badd80;
+                font-size: 16px;
+                line-height: 1.2;
+                padding-bottom: 5px;
+              ">@akshayyj</span>
+          </div>
+          <div style="
+              display: flex;
+              flex-wrap: wrap;
+              text-align: center;
+              justify-content: center;
+              align-items: center;
+              align-content: center;
+              padding: 10px 0;
+              height: 360px;
+            ">
+            <div style="
+                color: #badd80;
+                font-size: 38px;
+                font-weight: 400;
+                line-height: 1.3;
+                max-height: 150px;
+                overflow: hidden;
+                margin-bottom: 10px;
+              ">
+              Day In The Life
+            </div>
+            <div style="
+                color: #badd80;
+                font-size: 20px;
+                font-weight: 400;
+                line-height: 1.3;
+                max-height: 160px;
+                overflow: hidden;
+              ">
+              It doesn’t have to be 1000 words long. Or be super funny. Or
+              feature a selfie. Or be the most original post ever written.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="d-inline-block w-100 mb-4">
+        <div class="slide-head">
+          <h5>Slide 3</h5>
+          <div class="ml-auto">
+            <img class="m-2 pointer" src="assets/images/carousel/copy-slide.png" alt="copy" width="24" />
+            <img class="m-2 pointer" src="assets/images/carousel/trash-slide.png" alt="trash" width="24" />
+          </div>
+        </div>
+        <div style="
+            width: 100%;
+            display: inline-block;
+            padding: 20px;
+            background-color: #162107;
+            background-image: url(assets/images/carousel/theme-3/flowers.png);
+            background-position: bottom left;
+            background-repeat: no-repeat;
+            background-size: auto;
+            min-height: 490px;
+            cursor: pointer;
+          ">
+          <div style="
+              width: 100%;
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+              border-bottom: 1px solid #4c551e;
+              padding-bottom: 10px;
+            ">
+            <span style="
+                display: inline-block;
+                color: #badd80;
+                font-size: 20px;
+                font-weight: 500;
+                line-height: 1.2;
+                text-transform: capitalize;
+                padding-bottom: 5px;
+              "><img src="assets/images/avatar/avatar.png" alt="profile" style="
+                  width: 40px;
+                  height: 40px;
+                  display: inline-block;
+                  border-radius: 50%;
+                " />
+              Akshay</span>
+            <span style="
+                display: inline-block;
+                color: #badd80;
+                font-size: 16px;
+                line-height: 1.2;
+                padding-bottom: 5px;
+              ">@akshayyj</span>
+          </div>
+          <div style="
+              display: flex;
+              flex-wrap: wrap;
+              text-align: center;
+              justify-content: center;
+              align-items: center;
+              align-content: center;
+              padding: 10px 0;
+              height: 360px;
+            ">
+            <div style="
+                color: #badd80;
+                font-size: 38px;
+                font-weight: 400;
+                line-height: 1.3;
+                max-height: 150px;
+                overflow: hidden;
+                margin-bottom: 10px;
+              ">
+              Expectation Vs Reality
+            </div>
+            <div style="
+                color: #badd80;
+                font-size: 20px;
+                font-weight: 400;
+                line-height: 1.3;
+                max-height: 160px;
+                overflow: hidden;
+              ">
+              It doesn’t have to be 1000 words long. Or be super funny. Or
+              feature a selfie. Or be the most original post ever written.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="d-inline-block w-100 mb-4">
+        <div class="slide-head">
+          <h5>Slide 4</h5>
+          <div class="ml-auto">
+            <img class="m-2 pointer" src="assets/images/carousel/copy-slide.png" alt="copy" width="24" />
+            <img class="m-2 pointer" src="assets/images/carousel/trash-slide.png" alt="trash" width="24" />
+          </div>
+        </div>
+        <div style="
+            width: 100%;
+            display: inline-block;
+            padding: 20px;
+            background-color: #162107;
+            background-image: url(assets/images/carousel/theme-3/flowers.png);
+            background-position: bottom left;
+            background-repeat: no-repeat;
+            background-size: auto;
+            min-height: 490px;
+            cursor: pointer;
+          ">
+          <div style="
+              width: 100%;
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+              border-bottom: 1px solid #4c551e;
+              padding-bottom: 10px;
+            ">
+            <span style="
+                display: inline-block;
+                color: #badd80;
+                font-size: 20px;
+                font-weight: 500;
+                line-height: 1.2;
+                text-transform: capitalize;
+                padding-bottom: 5px;
+              "><img src="assets/images/avatar/avatar.png" alt="profile" style="
+                  width: 40px;
+                  height: 40px;
+                  display: inline-block;
+                  border-radius: 50%;
+                " />
+              Akshay</span>
+            <span style="
+                display: inline-block;
+                color: #badd80;
+                font-size: 16px;
+                line-height: 1.2;
+                padding-bottom: 5px;
+              ">@akshayyj</span>
+          </div>
+          <div style="
+              display: flex;
+              flex-wrap: wrap;
+              text-align: center;
+              justify-content: center;
+              align-items: center;
+              align-content: center;
+              padding: 10px 0;
+              height: 360px;
+            ">
+            <div style="
+                color: #badd80;
+                font-size: 38px;
+                font-weight: 400;
+                line-height: 1.3;
+                max-height: 150px;
+                overflow: hidden;
+                margin-bottom: 10px;
+              ">
+              Worst Advice
+            </div>
+            <div style="
+                color: #badd80;
+                font-size: 20px;
+                font-weight: 400;
+                line-height: 1.3;
+                max-height: 160px;
+                overflow: hidden;
+              ">
+              It doesn’t have to be 1000 words long. Or be super funny. Or
+              feature a selfie. Or be the most original post ever written.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="d-inline-block w-100 mb-4">
+        <div class="slide-head">
+          <h5>Slide 5</h5>
+          <div class="ml-auto">
+            <img class="m-2 pointer" src="assets/images/carousel/copy-slide.png" alt="copy" width="24" />
+            <img class="m-2 pointer" src="assets/images/carousel/trash-slide.png" alt="trash" width="24" />
+          </div>
+        </div>
+        <div style="
+            width: 100%;
+            display: inline-block;
+            padding: 20px;
+            background-color: #162107;
+            background-image: url(assets/images/carousel/theme-3/flowers.png);
+            background-position: bottom left;
+            background-repeat: no-repeat;
+            background-size: auto;
+            min-height: 490px;
+            cursor: pointer;
+          ">
+          <div style="
+              width: 100%;
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
+              border-bottom: 1px solid #4c551e;
+              padding-bottom: 10px;
+            ">
+            <span style="
+                display: inline-block;
+                color: #badd80;
+                font-size: 20px;
+                font-weight: 500;
+                line-height: 1.2;
+                text-transform: capitalize;
+                padding-bottom: 5px;
+              "><img src="assets/images/avatar/avatar.png" alt="profile" style="
+                  width: 40px;
+                  height: 40px;
+                  display: inline-block;
+                  border-radius: 50%;
+                " />
+              Akshay</span>
+            <span style="
+                display: inline-block;
+                color: #badd80;
+                font-size: 16px;
+                line-height: 1.2;
+                padding-bottom: 5px;
+              ">@akshayyj</span>
+          </div>
+          <div style="
+              display: flex;
+              flex-wrap: wrap;
+              text-align: center;
+              justify-content: center;
+              align-items: center;
+              align-content: center;
+              padding: 10px 0;
+              height: 360px;
+            ">
+            <img src="assets/images/avatar/avatar.png" alt="profile" style="
+                width: 80px;
+                height: 80px;
+                display: inline-block;
+                border-radius: 50%;
+                margin-bottom: 10px;
+              " />
+            <div style="
+                color: #badd80;
+                font-size: 38px;
+                font-weight: 400;
+                line-height: 1.3;
+                max-height: 100px;
+                overflow: hidden;
+                margin-bottom: 10px;
+              ">
+              Was This Helpful?
+            </div>
+            <div style="
+                color: #badd80;
+                font-size: 20px;
+                font-weight: 400;
+                line-height: 1.3;
+                max-height: 105px;
+                overflow: hidden;
+              ">
+              It doesn’t have to be 1000 words long. Or be super funny.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>-->
+
+    <!-- <div class="postlist">
+      <div class="d-inline-block w-100 mb-4">
+        <div class="slide-head">
+          <h5>Slide 1</h5>
+          <div class="ml-auto">
+            <img class="m-2 pointer" src="assets/images/carousel/copy-slide.png" alt="copy" width="24" />
+            <img class="m-2 pointer" src="assets/images/carousel/trash-slide.png" alt="trash" width="24" />
+          </div>
+        </div>
+        <div style="
+            width: 100%;
+            display: inline-block;
+            background-color: #f7ab20;
+            min-height: 490px;
+            cursor: pointer;
+          ">
+          <img src="assets/images/carousel/theme-4/bg-1.jpg" alt="bg" width="100%" height="240" />
+          <div style="padding: 20px">
+            <div style="
+                color: #fff;
+                font-size: 30px;
+                font-weight: 600;
+                line-height: 1.3;
+                margin-bottom: 10px;
+                max-height: 76px;
+                overflow: hidden;
+              ">
+              Film all designers must watch
+            </div>
+            <div style="
+                color: #fff;
+                font-size: 14px;
+                font-weight: 400;
+                line-height: 1.3;
+                white-space: pre-line;
+                max-height: 54px;
+                overflow: hidden;
+                margin-bottom: 20px;
+              ">
+              Here are 5 tips to get you going. (phase 1)
+            </div>
+            <div style="display: flex; width: 100%">
+              <div style="
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                  padding-left: 55px;
+                  position: relative;
+                  min-height: 45px;
+                ">
+                <img src="assets/images/avatar/avatar.png" alt="profile" style="
+                    width: 44px;
+                    height: 44px;
+                    display: inline-block;
+                    border-radius: 50%;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                  " />
+                <span style="
+                    display: block;
+                    color: #fff;
+                    font-size: 20px;
+                    font-weight: 600;
+                    line-height: 1.2;
+                    text-transform: capitalize;
+                  ">Akshay Italiya</span>
+                <span style="
+                    display: block;
+                    color: #fff;
+                    font-size: 14px;
+                    line-height: 1.2;
+                  ">@akshayyjfdssfsbj</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="d-inline-block w-100 mb-4">
+        <div class="slide-head">
+          <h5>Slide 2</h5>
+          <div class="ml-auto">
+            <img class="m-2 pointer" src="assets/images/carousel/copy-slide.png" alt="copy" width="24" />
+            <img class="m-2 pointer" src="assets/images/carousel/trash-slide.png" alt="trash" width="24" />
+          </div>
+        </div>
+        <div style="
+            width: 100%;
+            display: inline-block;
+            background-color: #f6e9d3;
+            min-height: 490px;
+            cursor: pointer;
+          ">
+          <img src="assets/images/carousel/theme-4/bg-2.jpg" alt="bg" width="100%" height="200" />
+          <div style="padding: 20px">
+            <div style="
+                color: #222222;
+                font-size: 30px;
+                font-weight: 600;
+                line-height: 1.2;
+                margin-bottom: 10px;
+                max-height: 110px;
+                overflow: hidden;
+              ">
+              Making software accessible for everyone.
+            </div>
+            <div style="
+                color: #222222;
+                font-size: 14px;
+                font-weight: 400;
+                line-height: 1.3;
+                white-space: pre-line;
+                max-height: 54px;
+                overflow: hidden;
+                margin-bottom: 20px;
+              ">
+              It doesn’t have to be 1000 words long. Or be super funny. Or
+              feature a selfie. Or be the most original post ever written.
+            </div>
+            <div style="display: flex; width: 100%">
+              <div style="
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                  padding-left: 55px;
+                  position: relative;
+                  min-height: 45px;
+                ">
+                <img src="assets/images/avatar/avatar.png" alt="profile" style="
+                    width: 44px;
+                    height: 44px;
+                    display: inline-block;
+                    border-radius: 50%;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                  " />
+                <span style="
+                    display: block;
+                    color: #222222;
+                    font-size: 20px;
+                    font-weight: 600;
+                    line-height: 1.2;
+                    text-transform: capitalize;
+                  ">Akshay Italiya</span>
+                <span style="
+                    display: block;
+                    color: #222222;
+                    font-size: 14px;
+                    line-height: 1.2;
+                  ">@akshayyjfdssfsbj</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="d-inline-block w-100 mb-4">
+        <div class="slide-head">
+          <h5>Slide 3</h5>
+          <div class="ml-auto">
+            <img class="m-2 pointer" src="assets/images/carousel/copy-slide.png" alt="copy" width="24" />
+            <img class="m-2 pointer" src="assets/images/carousel/trash-slide.png" alt="trash" width="24" />
+          </div>
+        </div>
+        <div style="
+            width: 100%;
+            display: inline-block;
+            background-color: #f6e9d3;
+            min-height: 490px;
+            cursor: pointer;
+          ">
+          <img src="assets/images/carousel/theme-4/bg-3.jpg" alt="bg" width="100%" height="200" />
+          <div style="padding: 20px">
+            <div style="
+                color: #222222;
+                font-size: 30px;
+                font-weight: 600;
+                line-height: 1.2;
+                margin-bottom: 10px;
+                max-height: 110px;
+                overflow: hidden;
+              ">
+              Making software accessible for everyone.
+            </div>
+            <div style="
+                color: #222222;
+                font-size: 14px;
+                font-weight: 400;
+                line-height: 1.3;
+                white-space: pre-line;
+                max-height: 54px;
+                overflow: hidden;
+                margin-bottom: 20px;
+              ">
+              It doesn’t have to be 1000 words long. Or be super funny. Or
+              feature a selfie. Or be the most original post ever written.
+            </div>
+            <div style="display: flex; width: 100%">
+              <div style="
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                  padding-left: 55px;
+                  position: relative;
+                  min-height: 45px;
+                ">
+                <img src="assets/images/avatar/avatar.png" alt="profile" style="
+                    width: 44px;
+                    height: 44px;
+                    display: inline-block;
+                    border-radius: 50%;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                  " />
+                <span style="
+                    display: block;
+                    color: #222222;
+                    font-size: 20px;
+                    font-weight: 600;
+                    line-height: 1.2;
+                    text-transform: capitalize;
+                  ">Akshay Italiya</span>
+                <span style="
+                    display: block;
+                    color: #222222;
+                    font-size: 14px;
+                    line-height: 1.2;
+                  ">@akshayyjfdssfsbj</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="d-inline-block w-100 mb-4">
+        <div class="slide-head">
+          <h5>Slide 4</h5>
+          <div class="ml-auto">
+            <img class="m-2 pointer" src="assets/images/carousel/copy-slide.png" alt="copy" width="24" />
+            <img class="m-2 pointer" src="assets/images/carousel/trash-slide.png" alt="trash" width="24" />
+          </div>
+        </div>
+        <div style="
+            width: 100%;
+            display: inline-block;
+            background-color: #f6e9d3;
+            min-height: 490px;
+            cursor: pointer;
+          ">
+          <img src="assets/images/carousel/theme-4/bg-4.jpg" alt="bg" width="100%" height="200" />
+          <div style="padding: 20px">
+            <div style="
+                color: #222222;
+                font-size: 30px;
+                font-weight: 600;
+                line-height: 1.2;
+                margin-bottom: 10px;
+                max-height: 110px;
+                overflow: hidden;
+              ">
+              Making software accessible for everyone.
+            </div>
+            <div style="
+                color: #222222;
+                font-size: 14px;
+                font-weight: 400;
+                line-height: 1.3;
+                white-space: pre-line;
+                max-height: 54px;
+                overflow: hidden;
+                margin-bottom: 20px;
+              ">
+              It doesn’t have to be 1000 words long. Or be super funny. Or
+              feature a selfie. Or be the most original post ever written.
+            </div>
+            <div style="display: flex; width: 100%">
+              <div style="
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                  padding-left: 55px;
+                  position: relative;
+                  min-height: 45px;
+                ">
+                <img src="assets/images/avatar/avatar.png" alt="profile" style="
+                    width: 44px;
+                    height: 44px;
+                    display: inline-block;
+                    border-radius: 50%;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                  " />
+                <span style="
+                    display: block;
+                    color: #222222;
+                    font-size: 20px;
+                    font-weight: 600;
+                    line-height: 1.2;
+                    text-transform: capitalize;
+                  ">Akshay Italiya</span>
+                <span style="
+                    display: block;
+                    color: #222222;
+                    font-size: 14px;
+                    line-height: 1.2;
+                  ">@akshayyjfdssfsbj</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="d-inline-block w-100 mb-4">
+        <div class="slide-head">
+          <h5>Slide 5</h5>
+          <div class="ml-auto">
+            <img class="m-2 pointer" src="assets/images/carousel/copy-slide.png" alt="copy" width="24" />
+            <img class="m-2 pointer" src="assets/images/carousel/trash-slide.png" alt="trash" width="24" />
+          </div>
+        </div>
+        <div style="
+            width: 100%;
+            display: inline-block;
+            background-color: #f6e9d3;
+            min-height: 490px;
+            cursor: pointer;
+          ">
+          <div style="padding: 20px">
+            <div style="display: flex; width: 100%">
+              <div style="
+                  width: 100%;
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                  justify-content: center;
+                  text-align: center;
+                ">
+                <img src="assets/images/carousel/theme-4/thanks.png" alt="thanks"
+                  style="display: block; margin-top: 20px" />
+                <img src="assets/images/carousel/theme-4/follow.png" alt="thanks"
+                  style="display: block; margin-bottom: 10px" />
+                <img src="assets/images/avatar/avatar.png" alt="profile" style="
+                    width: 80px;
+                    height: 80px;
+                    display: block;
+                    border-radius: 50%;
+                    margin-bottom: 10px;
+                  " />
+                <span style="
+                    display: block;
+                    color: #222222;
+                    font-size: 20px;
+                    font-weight: 600;
+                    line-height: 1.2;
+                    text-transform: capitalize;
+                  ">Akshay Italiya</span>
+                <span style="
+                    display: block;
+                    color: #222222;
+                    font-size: 14px;
+                    line-height: 1.2;
+                  ">@akshayyjfdssfsbj</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+    <!-- <div class="postlist">
+      <div class="d-inline-block w-100 mb-4">
+        <div class="slide-head">
+          <h5>Slide 1</h5>
+          <div class="ml-auto">
+            <img
+              class="m-2 pointer"
+              src="assets/images/carousel/copy-slide.png"
+              alt="copy"
+              width="24"
+            />
+            <img
+              class="m-2 pointer"
+              src="assets/images/carousel/trash-slide.png"
+              alt="trash"
+              width="24"
+            />
+          </div>
+        </div>
+        <div
+          style="
+            width: 100%;
+            display: inline-block;
+            padding: 30px;
+            background: linear-gradient(90deg, #ff0f7b 0%, #f89c2a 100%);
+            min-height: 490px;
+            cursor: pointer;
+          "
+        >
+          <div
+            style="
+              color: #fff;
+              font-size: 44px;
+              font-weight: 400;
+              line-height: 1.3;
+              height: 380px;
+              overflow: hidden;
+            "
+          >
+            The best Taplio features that no one knows about.
+          </div>
+          <div style="display: flex; width: 100%">
+            <div
+              style="
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                padding-left: 55px;
+                position: relative;
+                min-height: 45px;
+              "
+            >
+              <img
+                src="assets/images/avatar/avatar.png"
+                alt="profile"
+                style="
+                  width: 44px;
+                  height: 44px;
+                  display: inline-block;
+                  border-radius: 50%;
+                  position: absolute;
+                  top: 0;
+                  left: 0;
+                "
+              />
+              <span
+                style="
+                  display: block;
+                  color: #fff;
+                  font-size: 20px;
+                  font-weight: 600;
+                  line-height: 1.2;
+                  text-transform: capitalize;
+                "
+                >Akshay Italiya</span
+              >
+              <span
+                style="
+                  display: block;
+                  color: rgba(255, 255, 255, 0.6);
+                  font-size: 14px;
+                  line-height: 1.2;
+                "
+                >@akshayyjfdssfsbj</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="d-inline-block w-100 mb-4">
+        <div class="slide-head">
+          <h5>Slide 2</h5>
+          <div class="ml-auto">
+            <img
+              class="m-2 pointer"
+              src="assets/images/carousel/copy-slide.png"
+              alt="copy"
+              width="24"
+            />
+            <img
+              class="m-2 pointer"
+              src="assets/images/carousel/trash-slide.png"
+              alt="trash"
+              width="24"
+            />
+          </div>
+        </div>
+        <div
+          style="
+            width: 100%;
+            display: inline-block;
+            padding: 50px 30px 30px 30px;
+            position: relative;
+            background: linear-gradient(90deg, #ff0f7b 0%, #f89c2a 100%);
+            min-height: 490px;
+            cursor: pointer;
+          "
+        >
+          <div
+            style="
+              color: #fff;
+              font-size: 30px;
+              font-weight: 600;
+              line-height: 1.3;
+              margin-bottom: 10px;
+              max-height: 76px;
+              overflow: hidden;
+            "
+          >
+            Text snippets
+          </div>
+          <div
+            style="
+              color: #fff;
+              font-size: 18px;
+              font-weight: 400;
+              line-height: 1.3;
+              white-space: pre-line;
+              max-height: 140px;
+              overflow: hidden;
+              margin-bottom: 20px;
+            "
+          >
+            Add your CTA or post conclusion to all your posts in 1 click.
+          </div>
+          <img
+            src="assets/images/carousel/demo-1.jpg"
+            alt=""
+            width="100%"
+            height="160"
+          />
+        </div>
+      </div>
+      <div class="d-inline-block w-100 mb-4">
+        <div class="slide-head">
+          <h5>Slide 3</h5>
+          <div class="ml-auto">
+            <img
+              class="m-2 pointer"
+              src="assets/images/carousel/copy-slide.png"
+              alt="copy"
+              width="24"
+            />
+            <img
+              class="m-2 pointer"
+              src="assets/images/carousel/trash-slide.png"
+              alt="trash"
+              width="24"
+            />
+          </div>
+        </div>
+        <div
+          style="
+            width: 100%;
+            display: inline-block;
+            padding: 50px 30px 30px 30px;
+            position: relative;
+            background: linear-gradient(90deg, #ff0f7b 0%, #f89c2a 100%);
+            min-height: 490px;
+            cursor: pointer;
+          "
+        >
+          <div
+            style="
+              color: #fff;
+              font-size: 30px;
+              font-weight: 600;
+              line-height: 1.3;
+              margin-bottom: 10px;
+              max-height: 76px;
+              overflow: hidden;
+            "
+          >
+            Links to your post before they’re posted
+          </div>
+          <div
+            style="
+              color: #fff;
+              font-size: 18px;
+              font-weight: 400;
+              line-height: 1.3;
+              white-space: pre-line;
+              max-height: 140px;
+              overflow: hidden;
+              margin-bottom: 20px;
+            "
+          >
+            Shareable post preview links that redirect to the actual post when
+            it goes live.
+          </div>
+          <img
+            src="assets/images/carousel/demo-2.jpg"
+            alt=""
+            width="100%"
+            height="160"
+          />
+        </div>
+      </div>
+      <div class="d-inline-block w-100 mb-4">
+        <div class="slide-head">
+          <h5>Slide 4</h5>
+          <div class="ml-auto">
+            <img
+              class="m-2 pointer"
+              src="assets/images/carousel/copy-slide.png"
+              alt="copy"
+              width="24"
+            />
+            <img
+              class="m-2 pointer"
+              src="assets/images/carousel/trash-slide.png"
+              alt="trash"
+              width="24"
+            />
+          </div>
+        </div>
+        <div
+          style="
+            width: 100%;
+            display: inline-block;
+            padding: 50px 30px 30px 30px;
+            position: relative;
+            background: linear-gradient(90deg, #ff0f7b 0%, #f89c2a 100%);
+            min-height: 490px;
+            cursor: pointer;
+          "
+        >
+          <div
+            style="
+              color: #fff;
+              font-size: 30px;
+              font-weight: 600;
+              line-height: 1.3;
+              margin-bottom: 10px;
+              max-height: 76px;
+              overflow: hidden;
+            "
+          >
+            Scheduling with a company page
+          </div>
+          <div
+            style="
+              color: #fff;
+              font-size: 18px;
+              font-weight: 400;
+              line-height: 1.3;
+              white-space: pre-line;
+              max-height: 140px;
+              overflow: hidden;
+              margin-bottom: 20px;
+            "
+          >
+            Select any company page you’re an admin of, and use it to post on
+            LinkedIn.
+          </div>
+          <img
+            src="assets/images/carousel/demo-3.jpg"
+            alt=""
+            width="100%"
+            height="160"
+          />
+        </div>
+      </div>
+      <div class="d-inline-block w-100 mb-4">
+        <div class="slide-head">
+          <h5>Slide 5</h5>
+          <div class="ml-auto">
+            <img
+              class="m-2 pointer"
+              src="assets/images/carousel/copy-slide.png"
+              alt="copy"
+              width="24"
+            />
+            <img
+              class="m-2 pointer"
+              src="assets/images/carousel/trash-slide.png"
+              alt="trash"
+              width="24"
+            />
+          </div>
+        </div>
+        <div
+          style="
+            width: 100%;
+            display: inline-block;
+            padding: 50px 30px 30px 30px;
+            position: relative;
+            background: linear-gradient(90deg, #ff0f7b 0%, #f89c2a 100%);
+            min-height: 490px;
+            cursor: pointer;
+          "
+        >
+          <div
+            style="
+              color: #fff;
+              font-size: 30px;
+              font-weight: 600;
+              line-height: 1.3;
+              margin-bottom: 10px;
+              max-height: 76px;
+              overflow: hidden;
+            "
+          >
+            Identify people who engage with you
+          </div>
+          <div
+            style="
+              color: #fff;
+              font-size: 18px;
+              font-weight: 400;
+              line-height: 1.3;
+              white-space: pre-line;
+              max-height: 140px;
+              overflow: hidden;
+              margin-bottom: 20px;
+            "
+          >
+            People who like or reply to your posts are automatically added to
+            your lists of contacts.
+          </div>
+          <img
+            src="assets/images/carousel/demo.jpg"
+            alt=""
+            width="100%"
+            height="160"
+          />
+        </div>
+      </div>
+      <div class="d-inline-block w-100 mb-4">
+        <div class="slide-head">
+          <h5>Slide 6</h5>
+          <div class="ml-auto">
+            <img
+              class="m-2 pointer"
+              src="assets/images/carousel/copy-slide.png"
+              alt="copy"
+              width="24"
+            />
+            <img
+              class="m-2 pointer"
+              src="assets/images/carousel/trash-slide.png"
+              alt="trash"
+              width="24"
+            />
+          </div>
+        </div>
+        <div
+          style="
+            width: 100%;
+            display: inline-block;
+            padding: 80px 30px 30px 30px;
+            position: relative;
+            background: linear-gradient(90deg, #ff0f7b 0%, #f89c2a 100%);
+            min-height: 490px;
+            cursor: pointer;
+          "
+        >
+          <div
+            style="
+              color: #fff;
+              font-size: 30px;
+              font-weight: 600;
+              line-height: 1.3;
+              margin-bottom: 10px;
+            "
+          >
+            Learned something?
+          </div>
+          <div
+            style="
+              color: #fff;
+              font-size: 30px;
+              font-weight: 400;
+              line-height: 1.3;
+              margin-bottom: 20px;
+            "
+          >
+            Let’s connect and talk LinkedIn growth!
+          </div>
+          <div style="display: flex; width: 100%">
+            <div
+              style="
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                padding-left: 55px;
+                position: relative;
+                min-height: 45px;
+              "
+            >
+              <img
+                src="assets/images/avatar/avatar.png"
+                alt="profile"
+                style="
+                  width: 44px;
+                  height: 44px;
+                  display: inline-block;
+                  border-radius: 50%;
+                  position: absolute;
+                  top: 0;
+                  left: 0;
+                "
+              />
+              <span
+                style="
+                  display: block;
+                  color: #fff;
+                  font-size: 20px;
+                  font-weight: 600;
+                  line-height: 1.2;
+                  text-transform: capitalize;
+                "
+                >Akshay Italiya</span
+              >
+              <span
+                style="
+                  display: block;
+                  color: rgba(255, 255, 255, 0.6);
+                  font-size: 14px;
+                  line-height: 1.2;
+                "
+                >@akshayyjfdssfsbj</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>  -->
+
+    <!-- <div class="postlist">
+      <div class="d-inline-block w-100 mb-4">
+        <div class="slide-head">
+          <h5>Slide 1</h5>
+          <div class="ml-auto">
+            <img
+              class="m-2 pointer"
+              src="assets/images/carousel/copy-slide.png"
+              alt="copy"
+              width="24"
+            />
+            <img
+              class="m-2 pointer"
+              src="assets/images/carousel/trash-slide.png"
+              alt="trash"
+              width="24"
+            />
+          </div>
+        </div>
+        <div
+          style="
+            width: 100%;
+            display: inline-block;
+            padding: 30px;
+            position: relative;
+            background-color: #252640;
+            min-height: 490px;
+            cursor: pointer;
+          "
+        >
+          <div
+            style="
+              color: #fff;
+              font-size: 40px;
+              font-weight: 400;
+              line-height: 1.3;
+              margin-bottom: 10px;
+              max-height: 210px;
+              overflow: hidden;
+            "
+          >
+            Amazing catchy title here
+          </div>
+          <div
+            style="
+              color: #fff;
+              font-size: 30px;
+              font-weight: 400;
+              white-space: nowrap;
+              line-height: 1.3;
+              margin-bottom: 15px;
+              overflow: hidden;
+              text-overflow: ellipsis;
+            "
+          >
+            Amazing catchy title here
+          </div>
+          <div style="text-align: right; margin-bottom: 15px">
+            <img
+              style="display: block; margin-left: auto"
+              src="assets/images/carousel/right-arrow-white.png"
+              alt=""
+              width="50"
+            />
+          </div>
+          <div style="display: inline-block; width: 100%; text-align: center">
+            <img
+              src="assets/images/avatar/avatar.png"
+              alt="profile"
+              style="
+                width: 130px;
+                height: 130px;
+                display: block;
+                border-radius: 50%;
+                margin: 0 auto;
+              "
+            />
+            <span
+              style="
+                display: inline-block;
+                color: #000;
+                font-size: 20px;
+                font-weight: 600;
+                line-height: 1.2;
+                text-transform: capitalize;
+                background-color: #fff;
+                padding: 5px 14px;
+                border-radius: 5px;
+              "
+              >Akshay Italiya</span
+            >
+          </div>
+        </div>
+      </div>
+      <div class="d-inline-block w-100 mb-4">
+        <div class="slide-head">
+          <h5>Slide 2</h5>
+          <div class="ml-auto">
+            <img
+              class="m-2 pointer"
+              src="assets/images/carousel/copy-slide.png"
+              alt="copy"
+              width="24"
+            />
+            <img
+              class="m-2 pointer"
+              src="assets/images/carousel/trash-slide.png"
+              alt="trash"
+              width="24"
+            />
+          </div>
+        </div>
+        <div
+          style="
+            width: 100%;
+            display: inline-block;
+            padding: 50px 30px 30px 30px;
+            position: relative;
+            background-color: #252640;
+            min-height: 490px;
+            cursor: pointer;
+          "
+        >
+          <div
+            style="
+              color: #fff;
+              font-size: 30px;
+              font-weight: 600;
+              line-height: 1.3;
+              margin-bottom: 10px;
+              max-height: 122px;
+              overflow: hidden;
+            "
+          >
+            1. Send a DM to anyone
+          </div>
+          <div
+            style="
+              color: #4a4a4a;
+              font-size: 18px;
+              font-weight: 400;
+              line-height: 1.3;
+              padding: 10px;
+              border-radius: 5px;
+              background-color: #fff;
+              white-space: pre-line;
+              max-height: 248px;
+              overflow: hidden;
+            "
+          >
+            One thing that’s nice about Twitter is you can reach out to mostly
+            anyone in their DMs. If you’ve never talked to them, it’ll go into a
+            “muted” inbox (much like a spam folder) which the recipient can
+            choose to check occasionally, or not.
+          </div>
+        </div>
+      </div>
+      <div class="d-inline-block w-100 mb-4">
+        <div class="slide-head">
+          <h5>Slide 3</h5>
+          <div class="ml-auto">
+            <img
+              class="m-2 pointer"
+              src="assets/images/carousel/copy-slide.png"
+              alt="copy"
+              width="24"
+            />
+            <img
+              class="m-2 pointer"
+              src="assets/images/carousel/trash-slide.png"
+              alt="trash"
+              width="24"
+            />
+          </div>
+        </div>
+        <div
+          style="
+            width: 100%;
+            display: inline-block;
+            padding: 50px 30px 30px 30px;
+            position: relative;
+            background-color: #252640;
+            min-height: 490px;
+            cursor: pointer;
+          "
+        >
+          <div
+            style="
+              color: #fff;
+              font-size: 30px;
+              font-weight: 600;
+              line-height: 1.3;
+              margin-bottom: 10px;
+              max-height: 122px;
+              overflow: hidden;
+            "
+          >
+            2. Filter keywords or people in your feed
+          </div>
+          <div
+            style="
+              color: #4a4a4a;
+              font-size: 18px;
+              font-weight: 400;
+              line-height: 1.3;
+              padding: 10px;
+              border-radius: 5px;
+              background-color: #fff;
+              white-space: pre-line;
+              max-height: 248px;
+              overflow: hidden;
+            "
+          >
+            Let’s be honest. There’s a few people here you’re connected to but
+            you just don’t care about what they say. Or some topics you simply
+            don’t want to see in your feed. How about some filters?
+          </div>
+        </div>
+      </div>
+      <div class="d-inline-block w-100 mb-4">
+        <div class="slide-head">
+          <h5>Slide 4</h5>
+          <div class="ml-auto">
+            <img
+              class="m-2 pointer"
+              src="assets/images/carousel/copy-slide.png"
+              alt="copy"
+              width="24"
+            />
+            <img
+              class="m-2 pointer"
+              src="assets/images/carousel/trash-slide.png"
+              alt="trash"
+              width="24"
+            />
+          </div>
+        </div>
+        <div
+          style="
+            width: 100%;
+            display: inline-block;
+            padding: 50px 30px 30px 30px;
+            position: relative;
+            background-color: #252640;
+            min-height: 490px;
+            cursor: pointer;
+          "
+        >
+          <div
+            style="
+              color: #fff;
+              font-size: 30px;
+              font-weight: 600;
+              line-height: 1.3;
+              margin-bottom: 10px;
+              max-height: 122px;
+              overflow: hidden;
+            "
+          >
+            3. Use more 3rd-party tools
+          </div>
+          <div
+            style="
+              color: #4a4a4a;
+              font-size: 18px;
+              font-weight: 400;
+              line-height: 1.3;
+              padding: 10px;
+              border-radius: 5px;
+              background-color: #fff;
+              white-space: pre-line;
+              max-height: 248px;
+              overflow: hidden;
+            "
+          >
+            LinkedIn never liked 3rd party tools. Which is ironic for a company
+            (Microsoft) that always blamed Apple for being “too closed up”. It’s
+            partly because they’re afraid of spam. Mostly because 3rd party
+            tools are better at most of what makes LinkedIn money.
+          </div>
+        </div>
+      </div>
+      <div class="d-inline-block w-100 mb-4">
+        <div class="slide-head">
+          <h5>Slide 5</h5>
+          <div class="ml-auto">
+            <img
+              class="m-2 pointer"
+              src="assets/images/carousel/copy-slide.png"
+              alt="copy"
+              width="24"
+            />
+            <img
+              class="m-2 pointer"
+              src="assets/images/carousel/trash-slide.png"
+              alt="trash"
+              width="24"
+            />
+          </div>
+        </div>
+        <div
+          style="
+            width: 100%;
+            display: inline-block;
+            padding: 50px 30px 30px 30px;
+            position: relative;
+            background-color: #252640;
+            min-height: 490px;
+            cursor: pointer;
+          "
+        >
+          <div
+            style="
+              color: #fff;
+              font-size: 30px;
+              font-weight: 600;
+              line-height: 1.3;
+              margin-bottom: 10px;
+              max-height: 122px;
+              overflow: hidden;
+            "
+          >
+            4. Get email notifications for new posts
+          </div>
+          <div
+            style="
+              color: #4a4a4a;
+              font-size: 18px;
+              font-weight: 400;
+              line-height: 1.3;
+              padding: 10px;
+              border-radius: 5px;
+              background-color: #fff;
+              white-space: pre-line;
+              max-height: 248px;
+              overflow: hidden;
+            "
+          >
+            I’d love to know whenever my co-founder Tibo or someone interesting
+            like Justin Welsh publishes something new. Instead, I have to login
+            and check my in-app notifications.
+          </div>
+        </div>
+      </div>
+      <div class="d-inline-block w-100 mb-4">
+        <div class="slide-head">
+          <h5>Slide 6</h5>
+          <div class="ml-auto">
+            <img
+              class="m-2 pointer"
+              src="assets/images/carousel/copy-slide.png"
+              alt="copy"
+              width="24"
+            />
+            <img
+              class="m-2 pointer"
+              src="assets/images/carousel/trash-slide.png"
+              alt="trash"
+              width="24"
+            />
+          </div>
+        </div>
+        <div
+          style="
+            width: 100%;
+            display: inline-block;
+            padding: 50px 30px 30px 30px;
+            position: relative;
+            background-color: #252640;
+            min-height: 490px;
+            cursor: pointer;
+          "
+        >
+          <div
+            style="
+              color: #fff;
+              font-size: 30px;
+              font-weight: 600;
+              line-height: 1.3;
+              margin-bottom: 10px;
+              max-height: 76px;
+              overflow: hidden;
+            "
+          >
+            Let me help with that last one!
+          </div>
+          <div
+            style="
+              color: #fff;
+              font-size: 18px;
+              font-weight: 400;
+              line-height: 1.3;
+              white-space: pre-line;
+              max-height: 140px;
+              overflow: hidden;
+              margin-bottom: 20px;
+            "
+          >
+            I made 8 LinkedIn carousel designs in Figma. Just say 👋 in the
+            comments and I’ll send a connection invite along with the link.
+          </div>
+          <img
+            src="assets/images/carousel/demo.jpg"
+            alt=""
+            width="100%"
+            height="160"
+          />
+        </div>
+      </div>
+      <div class="d-inline-block w-100 mb-4">
+        <div class="slide-head">
+          <h5>Slide 7</h5>
+          <div class="ml-auto">
+            <img
+              class="m-2 pointer"
+              src="assets/images/carousel/copy-slide.png"
+              alt="copy"
+              width="24"
+            />
+            <img
+              class="m-2 pointer"
+              src="assets/images/carousel/trash-slide.png"
+              alt="trash"
+              width="24"
+            />
+          </div>
+        </div>
+        <div
+          style="
+            width: 100%;
+            display: inline-block;
+            padding: 80px 30px 30px 30px;
+            position: relative;
+            background-color: #252640;
+            min-height: 490px;
+            cursor: pointer;
+          "
+        >
+          <div
+            style="
+              color: #fff;
+              font-size: 30px;
+              font-weight: 600;
+              line-height: 1.3;
+              margin-bottom: 10px;
+            "
+          >
+            Learned something?
+          </div>
+          <div
+            style="
+              color: #fff;
+              font-size: 30px;
+              font-weight: 400;
+              line-height: 1.3;
+              margin-bottom: 20px;
+            "
+          >
+            Let’s connect and talk LinkedIn growth!
+          </div>
+          <div style="text-align: right; margin-bottom: 20px">
+            <img
+              style="display: block; margin-left: auto"
+              src="assets/images/carousel/fast-forward.png"
+              alt=""
+              width="27"
+            />
+          </div>
+          <div style="display: flex; width: 100%">
+            <div
+              style="
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                padding-left: 55px;
+                position: relative;
+                min-height: 45px;
+              "
+            >
+              <img
+                src="assets/images/avatar/avatar.png"
+                alt="profile"
+                style="
+                  width: 44px;
+                  height: 44px;
+                  display: inline-block;
+                  border-radius: 50%;
+                  position: absolute;
+                  top: 0;
+                  left: 0;
+                "
+              />
+              <span
+                style="
+                  display: block;
+                  color: #fff;
+                  font-size: 20px;
+                  font-weight: 600;
+                  line-height: 1.2;
+                  text-transform: capitalize;
+                "
+                >Akshay Italiya</span
+              >
+              <span
+                style="
+                  display: block;
+                  color: rgba(255, 255, 255, 0.6);
+                  font-size: 14px;
+                  line-height: 1.2;
+                "
+                >@akshayyjfdssfsbj</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+    <!-- <div class="postlist">
+      <div class="d-inline-block w-100 mb-4 current-active">
+        <div class="slide-head">
+          <h5>Slide 1</h5>
+          <div class="ml-auto">
+            <img
+              src="assets/images/carousel/copy-slide.png"
+              alt="copy"
+              width="24"
+              class="m-2 pointer"
+            />
+          </div>
+        </div>
+        <div>
+          <div
+            style="
+              width: 100%;
+              display: inline-block;
+              padding: 80px 30px 30px 30px;
+              position: relative;
+              background-color: #3d41a6;
+              background-image: url(assets/images/carousel/theme-1-bg.jpg);
+              background-size: 100% 100%;
+              background-repeat: no-repeat;
+              height: 490px;
+              cursor: pointer;
+            "
+          >
+            <div
+              style="
+                color: #fff;
+                font-family: Inter;
+                font-size: 40px;
+                font-weight: 400;
+                line-height: 1.3;
+                margin-bottom: 20px;
+                text-transform: uppercase;
+              "
+            >
+              Welcome to the world of web design and development!
+            </div>
+            <div style="text-align: right; margin-bottom: 20px">
+              <img
+                style="display: block; margin-left: auto"
+                src="assets/images/carousel/fast-forward.png"
+                alt=""
+                width="27"
+              />
+            </div>
+            <div
+              style="
+                display: flex;
+                position: absolute;
+                bottom: 40px;
+                left: 30px;
+                right: 30px;
+              "
+            >
+              <div
+                style="
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                  padding-left: 55px;
+                  position: relative;
+                  min-height: 45px;
+                "
+              >
+                <img
+                  src="assets/images/avatar/avatar.png"
+                  alt=""
+                  style="
+                    width: 44px;
+                    height: 44px;
+                    display: inline-block;
+                    border-radius: 50%;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                  "
+                />
+                <span
+                  style="
+                    display: block;
+                    color: #fff;
+                    font-size: 20px;
+                    font-weight: 600;
+                    line-height: 1.2;
+                    text-transform: capitalize;
+                  "
+                  >Akshay Italiya</span
+                >
+                <span
+                  style="
+                    display: block;
+                    color: rgba(255, 255, 255, 0.6);
+                    font-size: 14px;
+                    line-height: 1.2;
+                  "
+                ></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="d-inline-block w-100 mb-4">
+        <div class="slide-head">
+          <h5>Slide 2</h5>
+          <div class="ml-auto">
+            <img
+              src="assets/images/carousel/copy-slide.png"
+              alt="copy"
+              width="24"
+              class="m-2 pointer"
+            />
+          </div>
+        </div>
+        <div>
+          <div
+            style="
+              width: 100%;
+              display: inline-block;
+              padding: 30px 30px 30px 30px;
+              position: relative;
+              background-color: #3d41a6;
+              background-image: url(assets/images/carousel/theme-1-bg.jpg);
+              background-size: 100% 100%;
+              background-repeat: no-repeat;
+              height: 490px;
+              cursor: pointer;
+            "
+          >
+            <div
+              style="
+                color: #fff;
+                font-family: Inter;
+                font-size: 24px;
+                font-weight: 400;
+                line-height: 1.3;
+                margin-bottom: 20px;
+              "
+            >
+              Responsive Design
+            </div>
+            <div
+              style="
+                color: #fff;
+                font-family: Inter;
+                font-size: 21px;
+                font-weight: 400;
+                line-height: 1.3;
+                margin-bottom: 20px;
+                white-space: pre-line;
+              "
+            >
+              Ensure your website looks great on all devices with **responsive
+              design**. This approach allows your site to adapt to different
+              screen sizes, providing a seamless experience for users whether
+              they're on a desktop, tablet, or mobile phone.
+            </div>
+            <div style="margin-bottom: 20px">
+              <img style="width: 100%; max-height: 180px" src="" alt="" />
+            </div>
+            <div
+              style="
+                display: flex;
+                width: 100%;
+                justify-content: center;
+                position: absolute;
+                bottom: 40px;
+                left: 0;
+              "
+            >
+              <img
+                src="assets/images/avatar/avatar.png"
+                alt=""
+                style="width: 44px; height: 44px; border-radius: 50%"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="d-inline-block w-100 mb-4">
+        <div class="slide-head">
+          <h5>Slide 3</h5>
+          <div class="ml-auto">
+            <img
+              src="assets/images/carousel/copy-slide.png"
+              alt="copy"
+              width="24"
+              class="m-2 pointer"
+            /><img
+              src="assets/images/carousel/trash-slide.png"
+              alt="trash"
+              width="24"
+              class="m-2 pointer"
+            />
+          </div>
+        </div>
+        <div>
+          <div
+            style="
+              width: 100%;
+              display: inline-block;
+              padding: 30px 30px 30px 30px;
+              position: relative;
+              background-color: #3d41a6;
+              background-image: url(assets/images/carousel/theme-1-bg.jpg);
+              background-size: 100% 100%;
+              background-repeat: no-repeat;
+              height: 490px;
+              cursor: pointer;
+            "
+          >
+            <div
+              style="
+                color: #fff;
+                font-family: Inter;
+                font-size: 24px;
+                font-weight: 400;
+                line-height: 1.3;
+                margin-bottom: 20px;
+              "
+            >
+              SEO Optimization
+            </div>
+            <div
+              style="
+                color: #fff;
+                font-family: Inter;
+                font-size: 21px;
+                font-weight: 400;
+                line-height: 1.3;
+                margin-bottom: 20px;
+                white-space: pre-line;
+              "
+            >
+              Boost your website's visibility on search engines with **SEO
+              optimization**. By incorporating relevant keywords, meta tags, and
+              high-quality content, you can improve your site's ranking and
+              attract more organic traffic.
+            </div>
+            <div style="margin-bottom: 20px">
+              <img style="width: 100%; max-height: 180px" src="" alt="" />
+            </div>
+            <div
+              style="
+                display: flex;
+                width: 100%;
+                justify-content: center;
+                position: absolute;
+                bottom: 40px;
+                left: 0;
+              "
+            >
+              <img
+                src="assets/images/avatar/avatar.png"
+                alt=""
+                style="width: 44px; height: 44px; border-radius: 50%"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="d-inline-block w-100 mb-4">
+        <div class="slide-head">
+          <h5>Slide 4</h5>
+          <div class="ml-auto">
+            <img
+              src="assets/images/carousel/copy-slide.png"
+              alt="copy"
+              width="24"
+              class="m-2 pointer"
+            /><img
+              src="assets/images/carousel/trash-slide.png"
+              alt="trash"
+              width="24"
+              class="m-2 pointer"
+            />
+          </div>
+        </div>
+        <div>
+          <div
+            style="
+              width: 100%;
+              display: inline-block;
+              padding: 30px 30px 30px 30px;
+              position: relative;
+              background-color: #3d41a6;
+              background-image: url(assets/images/carousel/theme-1-bg.jpg);
+              background-size: 100% 100%;
+              background-repeat: no-repeat;
+              height: 490px;
+              cursor: pointer;
+            "
+          >
+            <div
+              style="
+                color: #fff;
+                font-family: Inter;
+                font-size: 24px;
+                font-weight: 400;
+                line-height: 1.3;
+                margin-bottom: 20px;
+              "
+            >
+              User Experience (UX) Design
+            </div>
+            <div
+              style="
+                color: #fff;
+                font-family: Inter;
+                font-size: 21px;
+                font-weight: 400;
+                line-height: 1.3;
+                margin-bottom: 20px;
+                white-space: pre-line;
+              "
+            >
+              Create a user-friendly website with **UX design** principles.
+              Focus on intuitive navigation, clear call-to-action buttons, and
+              fast loading times to enhance the overall experience for visitors
+              and keep them engaged.
+            </div>
+            <div style="margin-bottom: 20px">
+              <img style="width: 100%; max-height: 180px" src="" alt="" />
+            </div>
+            <div
+              style="
+                display: flex;
+                width: 100%;
+                justify-content: center;
+                position: absolute;
+                bottom: 40px;
+                left: 0;
+              "
+            >
+              <img
+                src="assets/images/avatar/avatar.png"
+                alt=""
+                style="width: 44px; height: 44px; border-radius: 50%"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="d-inline-block w-100 mb-4">
+        <div class="slide-head">
+          <h5>Slide 5</h5>
+          <div class="ml-auto">
+            <img
+              src="assets/images/carousel/copy-slide.png"
+              alt="copy"
+              width="24"
+              class="m-2 pointer"
+            />
+          </div>
+        </div>
+        <div>
+          <div
+            style="
+              width: 100%;
+              display: inline-block;
+              padding: 30px 30px 30px 30px;
+              position: relative;
+              background-color: #3d41a6;
+              background-image: url(assets/images/carousel/theme-1-bg.jpg);
+              background-size: 100% 100%;
+              background-repeat: no-repeat;
+              height: 490px;
+              cursor: pointer;
+            "
+          >
+            <div
+              style="
+                color: #fff;
+                font-family: Inter;
+                font-size: 28px;
+                font-weight: 400;
+                line-height: 1.3;
+                margin-bottom: 60px;
+                text-align: center;
+                height: 36px;
+                overflow: hidden;
+              "
+            >
+              Learned something?
+            </div>
+            <div style="margin-bottom: 40px">
+              <img
+                src="assets/images/carousel/hit-link.png"
+                alt=""
+                class="w-100"
+              />
+            </div>
+            <div style="display: flex; justify-content: center; width: 100%">
+              <div
+                style="
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                  padding-left: 55px;
+                  position: relative;
+                  min-height: 45px;
+                "
+              >
+                <img
+                  src="assets/images/avatar/avatar.png"
+                  alt=""
+                  style="
+                    width: 44px;
+                    height: 44px;
+                    display: inline-block;
+                    border-radius: 50%;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                  "
+                />
+                <span
+                  style="
+                    display: block;
+                    color: #fff;
+                    font-size: 20px;
+                    font-weight: 600;
+                    line-height: 1.2;
+                    text-transform: capitalize;
+                  "
+                  >Akshay Italiya</span
+                >
+                <span
+                  style="
+                    display: block;
+                    color: rgba(255, 255, 255, 0.6);
+                    font-size: 14px;
+                    line-height: 1.2;
+                  "
+                ></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+    <!-- <div class="postlist">
+      <div class="d-inline-block w-100 mb-4">
+        <div class="slide-head">
+          <h5>Slide 1</h5>
+          <div class="ml-auto">
+            <img
+              class="m-2 pointer"
+              src="assets/images/carousel/copy-slide.png"
+              alt="copy"
+              width="24"
+            />
+            <img
+              class="m-2 pointer"
+              src="assets/images/carousel/trash-slide.png"
+              alt="trash"
+              width="24"
+            />
+          </div>
+        </div>
+        <div
+          style="
+            width: 100%;  
+            display: flex;
+            align-items: center;
+            position: relative;
+            height: 490px;
+            cursor: pointer;
+            background-color: #143442;
+            background-image: url(assets/images/carousel/white-lines.png);
+            background-position: center center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-blend-mode: overlay;
+          "
+        >
+          <div style="padding: 20px">
+            <div
+              style="
+                color: #fff;
+                font-size: 50px;
+                font-weight: 600;
+                line-height: 1.2;
+                margin-bottom: 10px;
+              "
+            >
+              Film all designers must watch
+            </div>
+            <div
+              style="
+                color: #fff;
+                font-size: 14px;
+                font-weight: 400;
+                line-height: 1.2;
+                white-space: pre-line;
+              "
+            >
+              Here are 5 tips to get you going. (phase 1)
+            </div>
+            <div
+              style="
+                display: flex;
+                position: absolute;
+                bottom: 20px;
+                left: 20px;
+                right: 20px;
+              "
+            >
+              <div
+                style="
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                  padding-left: 55px;
+                  position: relative;
+                  min-height: 45px;
+                "
+              >
+                <img
+                  src="assets/images/carousel/top-avatar.png"
+                  alt="profile"
+                  style="
+                    width: 44px;
+                    height: 44px;
+                    display: inline-block;
+                    border-radius: 50%;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                  "
+                />
+                <span
+                  style="
+                    display: block;
+                    color: #fff;
+                    font-size: 20px;
+                    font-weight: 600;
+                    line-height: 1.2;
+                    text-transform: capitalize;
+                  "
+                  >Kevin</span
+                >
+                <span
+                  style="
+                    display: block;
+                    color: #fff;
+                    font-size: 14px;
+                    line-height: 1.2;
+                  "
+                  >@kevin_mlz</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-inline-block w-100 mb-4">
+        <div class="slide-head">
+          <h5>Slide 2</h5>
+          <div class="ml-auto">
+            <img
+              class="m-2 pointer"
+              src="assets/images/carousel/copy-slide.png"
+              alt="copy"
+              width="24"
+            />
+            <img
+              class="m-2 pointer"
+              src="assets/images/carousel/trash-slide.png"
+              alt="trash"
+              width="24"
+            />
+          </div>
+        </div>
+        <div
+          style="
+            width: 100%;
+            display: flex;
+            align-items: center;
+            position: relative;
+            height: 490px;
+            cursor: pointer;
+            background-color: #143442;
+            background-image: url(assets/images/carousel/white-lines.png);
+            background-position: center center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-blend-mode: overlay;
+          "
+        >
+          <div style="padding: 20px">
+            <div
+              style="
+                color: #fff;
+                font-size: 35px;
+                font-weight: 600;
+                line-height: 1.2;
+                margin-bottom: 20px;
+              "
+            >
+              Making software accessible for everyone.
+            </div>
+            <div
+              style="
+                color: #fff;
+                font-size: 16px;
+                font-weight: 400;
+                line-height: 1.5;
+                white-space: pre-line;
+              "
+            >
+              It doesn’t have to be 1000 words long. Or be super funny. Or
+              feature a selfie. Or be the most original post ever written.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-inline-block w-100 mb-4">
+        <div class="slide-head">
+          <h5>Slide 3</h5>
+          <div class="ml-auto">
+            <img
+              class="m-2 pointer"
+              src="assets/images/carousel/copy-slide.png"
+              alt="copy"
+              width="24"
+            />
+            <img
+              class="m-2 pointer"
+              src="assets/images/carousel/trash-slide.png"
+              alt="trash"
+              width="24"
+            />
+          </div>
+        </div>
+        <div
+          style="
+            width: 100%;
+            display: flex;
+            align-items: center;
+            position: relative;
+            height: 490px;
+            cursor: pointer;
+            background-color: #143442;
+            background-image: url(assets/images/carousel/white-lines.png);
+            background-position: center center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-blend-mode: overlay;
+          "
+        >
+          <div style="padding: 20px">
+            <div
+              style="
+                color: #fff;
+                font-size: 35px;
+                font-weight: 600;
+                line-height: 1.2;
+                margin-bottom: 20px;
+              "
+            >
+              Making software accessible for everyone.
+            </div>
+            <div
+              style="
+                color: #fff;
+                font-size: 16px;
+                font-weight: 400;
+                line-height: 1.5;
+                white-space: pre-line;
+              "
+            >
+              It doesn’t have to be 1000 words long. Or be super funny. Or
+              feature a selfie. Or be the most original post ever written.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-inline-block w-100 mb-4">
+        <div class="slide-head">
+          <h5>Slide 4</h5>
+          <div class="ml-auto">
+            <img
+              class="m-2 pointer"
+              src="assets/images/carousel/copy-slide.png"
+              alt="copy"
+              width="24"
+            />
+            <img
+              class="m-2 pointer"
+              src="assets/images/carousel/trash-slide.png"
+              alt="trash"
+              width="24"
+            />
+          </div>
+        </div>
+        <div
+          style="
+            width: 100%;
+            display: inline-block;
+            height: 490px;
+            cursor: pointer;
+            background-color: #143442;
+            background-image: url(assets/images/carousel/white-lines.png);
+            background-position: center center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-blend-mode: overlay;
+          "
+        >
+          <div style="padding: 20px">
+            <div style="display: flex; width: 100%">
+              <div
+                style="
+                  width: 100%;
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                  justify-content: center;
+                  text-align: center;
+                "
+              >
+                <img
+                  src="assets/images/carousel/theme-4/thanks.png"
+                  alt="thanks"
+                  style="display: block; margin-top: 20px"
+                />
+                <img
+                  src="assets/images/carousel/theme-4/follow.png"
+                  alt="thanks"
+                  style="display: block; margin-bottom: 10px"
+                />
+                <img
+                  src="assets/images/carousel/top-avatar.png"
+                  alt="profile"
+                  style="
+                    width: 80px;
+                    height: 80px;
+                    display: block;
+                    border-radius: 50%;
+                    margin-bottom: 10px;
+                  "
+                />
+                <span
+                  style="
+                    display: block;
+                    color: #fff;
+                    font-size: 20px;
+                    font-weight: 600;
+                    line-height: 1.2;
+                    text-transform: capitalize;
+                  "
+                  >Kevin</span
+                >
+                <span
+                  style="
+                    display: block;
+                    color: #fff;
+                    font-size: 14px;
+                    line-height: 1.2;
+                  "
+                  >@kevin_mlz</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> -->
+
+    <div class="postlist" *ngIf="isCarouselGenerated">
+      <div
+        [class.current-active]="i == selectedSlideIndex"
+        class="d-inline-block w-100 mb-4"
+        *ngFor="let item of _utilities.selectedTheme?.slideHtml; let i = index"
+        (click)="onSlideAction(item, i)"
+      >
+        <div class="slide-head">
+          <h5>Slide {{ i + 1 }}</h5>
+          <div class="ml-auto">
+            <img
+              class="m-2 pointer"
+              src="assets/images/carousel/copy-slide.png"
+              alt="copy"
+              width="24"
+              (click)="onCopySlide(item, i)"
+            />
+            <img
+              class="m-2 pointer"
+              src="assets/images/carousel/trash-slide.png"
+              alt="trash"
+              width="24"
+              *ngIf="
+                i != 0 &&
+                i != 1 &&
+                i != _utilities.selectedTheme?.slideHtml?.length - 1
+              "
+              (click)="onDeleteSlide(item, i)"
+            />
+          </div>
+        </div>
+        <div [innerHTML]="getHtml(item, i)" #slide></div>
+      </div>
+    </div>
+  </div>
+
+  <app-loader></app-loader>
+</div>

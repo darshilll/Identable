@@ -1,0 +1,50 @@
+<mat-dialog-content>
+  <div class="w-100 d-inline-block">
+    <div class="w-100 d-inline-block timeslot">
+      <label class="labels">Choose time slot</label>
+      <div
+        class="cust_rad_btn"
+        [class.disabled]="!tp?.isAvailable"
+        *ngFor="let tp of timePeriod; let i = index"
+      >
+        <input
+          type="radio"
+          value=""
+          name="timeslot"
+          (change)="selectTime(tp.period, 'timeslot')"
+          [checked]="
+            isSelectedTimePeriod == tp.period && tp.isAvailable == true
+          "
+        /><label>{{ tp.period }}</label>
+      </div>
+    </div>
+    <div class="w-100 d-inline-block timesopt">
+      <label class="labels">Optimised Time </label>
+      <div
+        class="cust_rad_btn"
+        [class.disabled]="!time?.isAvailable"
+        *ngFor="let time of isSelectedTimeSlot?.time; let i = index"
+      >
+        <span class="bestPostTime" title="" *ngIf="time?.isBestPostTime"
+          ><i class="fa fa-star"></i
+        ></span>
+        <input
+          type="radio"
+          value=""
+          name="timeopt"
+          (change)="selectTime(time.time, 'time')"
+          [checked]="isSelectedTime == time.time && time.isAvailable == true"
+        /><label>{{ time.time }} {{ isSelectedTimeSlot?.meridiem }}</label>
+      </div>
+      <p *ngIf="!isSelectedTimeSlot">
+        Today, there are no available slots for scheduled postings.
+      </p>
+    </div>
+  </div>
+</mat-dialog-content>
+<div class="text-center p-2 pt-0">
+  <button type="button" class="btn btn-cancel" (click)="cancel()">
+    Cancel
+  </button>
+  <button type="button" class="btn btn-save" (click)="submit()">Submit</button>
+</div>

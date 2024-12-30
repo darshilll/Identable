@@ -1,0 +1,130 @@
+.freez-table-div {
+  width: 100%;
+  overflow: auto;
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 1000px;
+
+    th {
+      font-weight: 600;
+      font-size: 12px;
+      line-height: 20px;
+      color: #001141;
+      padding: 20px 20px;
+      white-space: nowrap;
+      min-width: 250px;
+      vertical-align: middle;
+      border-bottom: 1px solid #dcdfe4;
+    }
+
+    td {
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 20px;
+      color: #172b4d;
+      padding: 12px 20px;
+      //white-space: nowrap;
+      min-width: 200px;
+      vertical-align: middle;
+      border-bottom: 1px solid #dcdfe4;
+    }
+
+    td:first-child,
+    th:first-child {
+      position: sticky;
+      left: 0;
+      z-index: 0;
+      background-color: #f9f9f9;
+      min-width: 360px;
+      border-right: 1px solid #dcdfe4;
+    }
+
+    .ide-cust-class{
+      z-index: 1 !important;
+    }
+
+    .acoount-text {
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 16px;
+      display: flex;
+      align-items: center;
+      color: #172b4d;
+    }
+
+    .posted-info {
+      display: flex;
+      align-items: center;
+
+      .user-avatar {
+        width: 40px;
+        height: 40px;
+        object-fit: cover;
+      }
+
+      .text1 {
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 16px;
+        color: #172b4d;
+        margin-right: 5px;
+      }
+
+      .text1.connected {
+        color: #ec4a0a;
+      }
+
+      .text2 {
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 18px;
+        color: #525252;
+      }
+
+      .posted-drop {
+        margin-left: auto;
+
+        .dropdown-toggle {
+          padding: 0px;
+          isolation: isolate;
+          width: 24px;
+          height: 24px;
+          border-radius: 4px;
+
+          &:after {
+            display: none;
+          }
+
+          &:hover {
+            background: rgba(9, 30, 66, 0.14);
+          }
+        }
+
+        .dropdown-menu {
+            min-width: 180px;
+          padding: 0;
+          filter: drop-shadow(0px 0px 1px rgba(9, 30, 66, 0.31))
+            drop-shadow(0px 8px 12px rgba(9, 30, 66, 0.15));
+          border-radius: 4px;
+
+          a {
+            display: flex;
+            align-items: center;
+            padding: 6px 10px;
+            cursor: pointer;
+            font-weight: 400;
+            font-size: 13px;
+            line-height: 14px;
+            color: #001141;
+
+            &:hover {
+              background-color: #FDF5ED;
+            }
+          }
+        }
+      }
+    }
+  }
+}

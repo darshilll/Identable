@@ -1,0 +1,475 @@
+<app-loader></app-loader>
+<div style="position: absolute">
+  <div style="text-align: center" #htmlContent>
+    <img
+      [src]="
+        currentProfile?.image ? base64Img : 'assets/images/avatar/avatar.png'
+      "
+      alt="User Image"
+      style="width: 400px; height: 400px; border-radius: 50%"
+    />
+  </div>
+</div>
+<div class="manual-list">
+  <!-- <div class="lock-screen">
+    <div class="subdiv">
+      <img class="imgs" src="assets/images/lock-icon.svg" alt="lock" />
+      <h4>This Features has been Locked</h4>
+      <p>
+        Unlock Your LinkedIn Potential with Identable's Power Pack! 🚀 Upgrade
+        to Your-Growing Package for Limitless Career Growth and Influence. 🌟🔓
+      </p>
+      <a class="btn btn-upgrade" routerLink="/subscription/plan" > Upgrade </a>
+    </div>
+  </div> -->
+  <div class="boxs-1">
+    <div class="boxs-div">
+      <div class="post-type-main">
+        <h3 class="titled">Select Carousel Style</h3>
+        <div class="post-style-div">
+          <a class="add-slide" (click)="openAddCustomCarouselDialog()">
+            <span class="plusicon">+</span>
+            ADD CUSTOM
+          </a>
+          <ngx-slick-carousel
+            class="carousel"
+            #slickModal="slick-carousel"
+            [config]="slideConfig"
+          >
+            <div
+              ngxSlickItem
+              *ngFor="let theme of carouselTheme; let i = index"
+            >
+              <div
+                class="poststyle"
+                [class.selected]="selectedTheme?._id == theme?._id"
+                [style.background]="
+                  theme?.backgroundColor ? theme?.backgroundColor : ''
+                "
+                [style.background-image]="
+                  theme?.backgroundMedia
+                    ? 'url(' + theme?.backgroundMedia + ')'
+                    : ''
+                "
+                (click)="selectTheme(theme)"
+              >
+                <img
+                  *ngIf="!theme?.defaultTheme"
+                  class="deletebtn"
+                  src="assets/images/trash-button.svg"
+                  (click)="deleteTheme(theme?._id)"
+                  alt="trash"
+                />
+                <div
+                  class="titles"
+                  [style.color]="
+                    theme?.fontColor ? theme?.fontColor : '#777777'
+                  "
+                >
+                  Lorem ipsum dolor sit amt is consectet?
+                </div>
+                <div
+                  class="desq"
+                  [style.color]="
+                    theme?.fontColor ? theme?.fontColor : '#777777'
+                  "
+                >
+                  Lorem ipsum dolor sit amet consectetur. Odio sed dignissim cum
+                  a ultrices tempor praesent. Egestas commodo at semper non
+                  ridiculus orci suspendisse. Id urna ut ante magnis nam commodo
+                  nisi. Massa purus vel in quis aliquet purus leo feugiat eget.
+                  Habitasse blandit dapibus in
+                </div>
+                <div
+                  class="d-flex w-100"
+                  [class.rightalign]="theme?.signatureAlign == 'right'"
+                >
+                  <div class="nameicon" *ngIf="!theme?.defaultThem">
+                    <img
+                      class="imgss"
+                      [src]="
+                        currentProfile?.image
+                          ? currentProfile?.image
+                          : 'assets/images/avatar/avatar.png'
+                      "
+                      alt="profile"
+                    />
+                    <span
+                      class="txt1"
+                      [style.color]="
+                        theme?.fontColor ? theme?.fontColor : '#777777'
+                      "
+                      >{{ currentProfile?.name }}</span
+                    >
+                    <!-- <span
+                      class="txt2"
+                      [style.color]="
+                        theme?.fontColor ? theme?.fontColor : '#777777'
+                      "
+                      >{{currentProfile?.designation}}</span
+                    > -->
+                  </div>
+                  <div class="nameicon" *ngIf="theme?.defaultThem">
+                    <img
+                      class="imgss"
+                      src="assets/images/demo-avatar.svg"
+                      alt="Identable"
+                    />
+                    <span
+                      class="txt1"
+                      [style.color]="
+                        theme?.fontColor ? theme?.fontColor : '#777777'
+                      "
+                      >Identable</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ngx-slick-carousel>
+        </div>
+        <div class="d-inline-block w-100 mt-3">
+          <p class="labels-credit mb-3">
+            You have
+            <span [style.color]="isCarouselCredit > 0 ? 'green' : 'red'">
+              {{ isCarouselCredit < 50 ? isCarouselCredit : "Unlimited" }}
+            </span>
+            credits remaining for generate carousel.
+          </p>
+          <label class="labels" for="">Select carousel length</label>
+          <div
+            class="select-length"
+            [class.disable]="isSelectedPromtTheme == 'eBook'"
+          >
+            <input
+              type="number"
+              class="form-control"
+              [value]="carouselLength"
+            />
+            <a class="btns plusbtn" (click)="carouselLengthCount(true)">+</a>
+            <a class="btns minusbtn" (click)="carouselLengthCount(false)">-</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="boxs-div">
+      <div class="boxs-head">
+        <h3>Suggest a Topic</h3>
+        <!-- <p>These companies have purchased in the last 12 months.</p> -->
+      </div>
+      <div class="boxs-body">
+        <div class="form-group">
+          <input
+            type="text"
+            name="topic"
+            [(ngModel)]="topic"
+            class="form-control"
+            placeholder="Please, enter keywords or topic"
+          />
+          <div class="invalid-feedback d-block" *ngIf="isSubmited && !topic">
+            Please enter keyword and topic.
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="boxs-div">
+      <div class="select-theme">
+        <h3 class="titles">Select Theme</h3>
+        <div>
+          <div class="cust_rad_btn" *ngFor="let theme of promtTheme">
+            <input
+              type="radio"
+              (click)="selectPromtTheme(theme)"
+              name="themes"
+              [checked]="isSelectedPromtTheme == theme"
+            /><label>{{ theme }}</label>
+          </div>
+          <div
+            class="invalid-feedback d-block"
+            *ngIf="isSubmited && !isSelectedPromtTheme"
+          >
+            Please select any theme.
+          </div>
+        </div>
+      </div>
+      <div class="ordiv">
+        <span>Or</span>
+      </div>
+      <div class="select-theme disable">
+        <h3 class="titles">Using URL</h3>
+        <input
+          type="text"
+          name=""
+          id=""
+          class="form-control"
+          placeholder="Tweet, reddit post or image url"
+        />
+      </div>
+    </div>
+    <div class="d-inline-block w-100 text-left">
+      <button
+        type="button"
+        class="btn-addpost"
+        [class.disable]="isCarouselCredit == 0"
+        (click)="generateCarousel()"
+      >
+        <img width="20" src="assets/images/star-two-white.svg" alt="star" />
+        Generate Carousel
+      </button>
+    </div>
+  </div>
+  <div class="boxs-2">
+    <div class="boxs-head2">
+      <div class="bxtitle">
+        <img width="20" src="assets/images/star-two.svg" alt="star" />
+        Generated Carousel
+      </div>
+      <div class="schedule-btndiv">
+        <button
+          type="button"
+          class="btn btn-schedule"
+          (click)="scheduleDialogOpenClose(true)"
+          [class.disable]="!carousel"
+        >
+          <img
+            src="assets/images/calendar-white-icon.svg"
+            alt="calendar"
+            class="mr-1"
+          />Schedule
+        </button>
+        <div class="schedule-popup" *ngIf="scheduleDialogOpen">
+          <app-post-schedule-dialog
+            [isAdvancedSchedule]="true"
+            (_closeDailog)="scheduleDialogOpenClose(false)"
+            (_postScheduled)="generatePDF($event)"
+          >
+          </app-post-schedule-dialog>
+        </div>
+      </div>
+    </div>
+    <div class="postlist">
+      <div
+        *ngIf="!carousel"
+        class="generatpost"
+        [style.background]="
+          selectedTheme?.backgroundColor ? selectedTheme?.backgroundColor : ''
+        "
+        [style.background-image]="
+          selectedTheme?.backgroundMedia
+            ? 'url(' + selectedTheme?.backgroundMedia + ')'
+            : ''
+        "
+      >
+        <div class="number">1</div>
+        <div class="editordiv">
+          <img
+            class="drag pointer"
+            src="assets/images/drag-more.svg"
+            alt="drag-more"
+          />
+        </div>
+        <div>
+          <div
+            class="titles"
+            [style.color]="
+              selectedTheme?.fontColor ? selectedTheme?.fontColor : '#777777'
+            "
+          >
+            {{ dumyTopic }}
+          </div>
+          <div
+            class="desq"
+            [style.color]="
+              selectedTheme?.fontColor ? selectedTheme?.fontColor : '#777777'
+            "
+          >
+            {{ dumyPost }}
+          </div>
+        </div>
+        <div
+          class="d-flex w-100"
+          [class.rightalign]="selectedTheme?.signatureAlign == 'right'"
+        >
+          <div class="nameicon" *ngIf="!selectedTheme?.defaultThem">
+            <img
+              class="imgss"
+              [src]="
+                currentProfile?.image
+                  ? currentProfile?.image
+                  : 'assets/images/avatar/avatar.png'
+              "
+              alt="profile"
+            />
+            <span
+              class="txt1"
+              [style.color]="
+                selectedTheme?.fontColor ? selectedTheme?.fontColor : '#777777'
+              "
+              >{{ currentProfile?.name }}</span
+            >
+            <!-- <span
+              class="txt2"
+              [style.color]="
+                selectedTheme?.fontColor ? selectedTheme?.fontColor : '#777777'
+              "
+              >{{currentProfile?.designation}}</span
+            > -->
+          </div>
+          <div class="nameicon" *ngIf="selectedTheme?.defaultThem">
+            <img
+              class="imgss"
+              src="assets/images/demo-avatar.svg"
+              alt="Identable"
+            />
+            <span
+              class="txt1"
+              [style.color]="
+                selectedTheme?.fontColor ? selectedTheme?.fontColor : '#777777'
+              "
+              >Identable</span
+            >
+          </div>
+        </div>
+      </div>
+
+      <div *ngFor="let post of carousel; let i = index">
+        <button type="button" class="btn btn-addslide" (click)="addSlide(i)">
+          <i class="fa fa-plus"></i> Add Slide
+        </button>
+        <div
+          class="generatpost"
+          [style.background]="
+            selectedTheme?.backgroundColor ? selectedTheme?.backgroundColor : ''
+          "
+          [style.background-image]="
+            selectedTheme?.backgroundMedia
+              ? 'url(' + selectedTheme?.backgroundMedia + ')'
+              : ''
+          "
+        >
+          <div class="number">{{ i + 1 }}</div>
+          <div class="editordiv">
+            <img
+              class="drag pointer"
+              src="assets/images/drag-more.svg"
+              alt="drag-more"
+            />
+
+            <div class="btn-group">
+              <button
+                type="button"
+                data-toggle="dropdown"
+                aria-expanded="false"
+                class="btn dropdown-toggle"
+              >
+                <img
+                  src="assets/images/edit-1.svg"
+                  alt="edit"
+                  width="20"
+                  class="edit pointer"
+                />
+              </button>
+              <div class="dropdown-menu dropdown-menu-right">
+                <a (click)="editSlide(i)">Edit</a>
+                <a (click)="removeSlide(i)">Delete</a>
+              </div>
+            </div>
+          </div>
+          <div class="editor-tag" *ngIf="post?.isCustomSlide && !post?.isSave">
+            <form [formGroup]="customSliderDataForm">
+              <angular-editor
+                [config]="editorConfig"
+                formControlName="customTopic"
+                [style.color]="selectedTheme?.fontColor"
+              ></angular-editor>
+              <angular-editor
+                [config]="editorConfig"
+                formControlName="customPost"
+                [style.color]="selectedTheme?.fontColor"
+              ></angular-editor>
+            </form>
+          </div>
+
+          <div *ngIf="!post?.isCustomSlide">
+            <div
+              *ngIf="post?.title"
+              class="titles"
+              [style.color]="
+                selectedTheme?.fontColor ? selectedTheme?.fontColor : '#777777'
+              "
+              [innerHTML]="post?.title"
+            ></div>
+            <div
+              *ngIf="post?.content"
+              class="desq"
+              [style.color]="
+                selectedTheme?.fontColor ? selectedTheme?.fontColor : '#777777'
+              "
+              [innerHTML]="formatString(post?.content)"
+            ></div>
+          </div>
+          <div
+            class="d-flex w-100"
+            [class.rightalign]="!isSignatureAlign || post?.nameIcon"
+            [class.nameicon-editer]="post?.isCustomSlide && !post?.isSave"
+          >
+            <div
+              class="editor-align"
+              *ngIf="post?.isCustomSlide && !post?.isSave"
+            >
+              <i
+                class="fa fa-align-left actives"
+                [class.actives]="isSignatureAlign"
+                aria-hidden="true"
+                (click)="signatureAlign(true)"
+              ></i>
+              <i
+                class="fa fa-align-right"
+                [class.actives]="!isSignatureAlign"
+                aria-hidden="true"
+                (click)="signatureAlign(false)"
+              ></i>
+            </div>
+            <div class="nameicon" *ngIf="!selectedTheme?.defaultThem">
+              <img
+                class="imgss"
+                [src]="
+                  currentProfile?.image
+                    ? currentProfile?.image
+                    : 'assets/images/avatar/avatar.png'
+                "
+                alt="profile"
+              />
+              <span class="txt1">{{ currentProfile?.name }}</span>
+              <!-- <span class="txt2">{{currentProfile?.designation}}</span> -->
+            </div>
+            <div class="nameicon" *ngIf="selectedTheme?.defaultThem">
+              <img
+                class="imgss"
+                src="assets/images/demo-avatar.svg"
+                alt="Identable"
+              />
+              <span class="txt1">Identable</span>
+            </div>
+          </div>
+        </div>
+        <div class="editbtnlist" *ngIf="post?.isCustomSlide && !post?.isSave">
+          <button type="button" class="btn btn-cancel" (click)="removeSlide(i)">
+            Cancel
+          </button>
+          <button type="button" class="btn btn-save" (click)="saveSlide(i)">
+            Save
+          </button>
+        </div>
+        <button
+          type="button"
+          *ngIf="carousel && carousel.length == i + 1"
+          (click)="addSlide(i + 1)"
+          class="btn btn-addslide"
+        >
+          <i class="fa fa-plus"></i> Add Slide
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

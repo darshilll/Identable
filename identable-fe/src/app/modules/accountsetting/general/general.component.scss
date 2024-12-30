@@ -1,0 +1,97 @@
+.rightbox {
+  width: 100%;
+  display: inline-block;
+  max-width: 880px;
+  padding: 40px;
+  background: #ffffff;
+  box-shadow: 0px 0px 1px rgba(9, 30, 66, 0.12),
+    0px 0px 8px rgba(9, 30, 66, 0.16);
+  border-radius: 8px;
+  .title {
+    font-weight: 600;
+    font-size: 28px;
+    line-height: 36px;
+    color: #172b4d;
+    margin-bottom: 8px;
+  }
+  .titlesub {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    color: #44546f;
+    margin-bottom: 40px;
+  }
+  .bboxs-main {
+    margin-bottom: 50px;
+    width: 100%;
+    display: inline-block;
+  }
+  .bboxs {
+    display: inline-block;
+    width: 100%;
+    label {
+      color: #344054;
+      font-weight: 500;
+      font-size: 14px;
+      margin-bottom: 2px;
+      display: block;
+    }
+  }
+  .boxcus {
+    display: flex;
+    align-items: center;
+    .form-control {
+      height: auto;
+      font-size: 14px;
+      color: #2c3e5d;
+      padding: 8px;
+    }
+    .btn-save {
+      border: 1px solid #d0d5dd;
+      background: #ffffff;
+      color: #344054;
+      font-weight: 500;
+      font-size: 14px;
+      margin-left: 12px;
+    }
+    mat-select {
+      width: calc(100% - 74px);
+    }
+  }
+  .btn-next {
+    color: #fff;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1.2;
+    padding: 8px 14px;
+    background-color: #ec4a0a;
+  }
+  .btn-disables {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+}
+
+::ng-deep {
+  .idt-search-time {
+    width: 100%;
+    margin-bottom: 12px;
+    box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+    border-radius: 8px;
+    border: 1px solid #d0d5dd;
+    background: #ffffff;
+    padding: 10px 14px;
+  }
+  .mat-mdc-select-trigger {
+    box-shadow: 0px 1px 2px rgba(16, 24, 40, 0.05);
+    border-radius: 8px;
+    border: 1px solid #d0d5dd;
+    background: #ffffff;
+    padding: 10px 14px;
+    height: 44px;
+    width: 100%;
+  }
+  .mat-mdc-option.mdc-list-item {
+    font-size: 15px;
+  }
+}

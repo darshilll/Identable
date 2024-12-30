@@ -1,0 +1,98 @@
+<div class="clg-top-title">
+  <h2>Content Autopilot</h2>
+  <p>Automate your content calender with a single click</p>
+</div>
+
+<div class="ide-autopilot-home" *ngIf="!campaignList?.length">
+  <img class="img-fluid" src="assets/images/autopilot-home.png" alt="" />
+  <h3>start autopilot</h3>
+  <p>create your content campaign with just one click</p>
+  <button
+    type="button"
+    class="btn btn-orange"
+    [routerLink]="['/oneclick/createcampaign']"
+  >
+    Get started
+  </button>
+</div>
+
+<div class="ide-autopilot-main" *ngIf="campaignList?.length">
+  <h3 class="titles">
+    Current Campaigns
+    <img class="img-fluid" src="assets/images/icons/info-icon.svg" alt="" />
+  </h3>
+  <div class="ide-autopilot-divs">
+    <div class="add-autopilot" [routerLink]="['/oneclick/createcampaign']">
+      <img class="img-fluid" src="assets/images/plus-sqare.png" alt="" />
+      <div>Create campaign</div>
+    </div>
+    <div class="add-boxs" *ngFor="let item of campaignList">
+      <div class="created-date">
+        Created on <span>{{ item?.createdAt | date : "MMM d, y" }}</span>
+      </div>
+      <div class="created-data">
+        {{ item?.goal }}
+      </div>
+      <div class="created-progress">
+        <div class="insidebar" [style.width.%]="item?.campaignProgress"></div>
+      </div>
+      <div
+        class="created-status-progress text-capitalize"
+        *ngIf="item?.status == 'In Progress'"
+      >
+        {{ item?.status }}
+      </div>
+      <div
+        class="created-status-completed text-capitalize"
+        *ngIf="item?.status == 'Completed'"
+      >
+        {{ item?.status }}
+      </div>
+      <div class="d-flex w-100 align-items-center mt-4">
+        <button
+          [class.disabled]="item?.status == 'In Progress'"
+          type="button"
+          class="btn btn-view"
+          (click)="getCampaign(item?._id)"
+        >
+          View schedule
+        </button>
+        <div class="btn-group">
+          <button
+            type="button"
+            data-toggle="dropdown"
+            aria-expanded="false"
+            class="btn dropdown-toggle"
+            *ngIf="!item?.isBoostCampaign"
+          >
+            <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+          </button>
+          <button
+            *ngIf="item?.isBoostCampaign"
+            type="button"
+            data-toggle="dropdown"
+            aria-expanded="false"
+            class="btn dropdown-toggle"
+          >
+            <img
+              src="assets/images/rocket-01.svg"
+              alt="image"
+              class="img-fluid"
+              matTooltip="Campaign Boosted"
+              matTooltipPosition="below"
+              matTooltipClass="below"
+            />
+          </button>
+          <div
+            *ngIf="!item?.isBoostCampaign"
+            class="dropdown-menu dropdown-menu-right"
+            (click)="getCampaignBoostCredit(item?._id)"
+          >
+            <a>Boost campaign</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-loader></app-loader>

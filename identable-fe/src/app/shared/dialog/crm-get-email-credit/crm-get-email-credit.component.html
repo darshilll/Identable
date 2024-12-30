@@ -1,0 +1,28 @@
+<h4 class="labels">Discover Email</h4>
+<mat-dialog-content>
+  <div class="popbox">
+    <div class="w-100 d-inline-block postedwith">
+      <p class="labels-credit mb-3">
+        You have
+        <span
+          [style.color]="
+            _utilities.userData?.subscription?.discoverEmailCredit > 0
+              ? 'green'
+              : 'red'
+          "
+        >
+          {{ _utilities.userData?.subscription?.discoverEmailCredit }}
+        </span>
+        email credits remaining in your account.
+      </p>
+    </div>
+  </div>
+</mat-dialog-content>
+<div class="btnlistdiv">
+  <button type="button" class="btn btn-can" (click)="onSubmit(false)">
+    Cancel
+  </button>
+  <button type="button" class="btn btn-saves" (click)="onSubmit(true)">
+    Proceed
+  </button>
+</div>

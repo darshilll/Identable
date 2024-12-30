@@ -1,0 +1,313 @@
+<div class="topdiv">
+  <h2 class="main-title">AI Article Generation</h2>
+</div>
+<!-- <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    Please don't refresh the page because video generation may take a few minutes
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div> -->
+<div class="manual-list">
+  <div class="boxs-1">
+    <div class="boxs-div">
+      <div class="boxs-head">
+        <h3>Blog</h3>
+        <!-- <p>These companies have purchased in the last 12 months.</p> -->
+      </div>
+      <div class="boxs-body">
+        <div [class.disabled]="isTopicGeneration">
+          <div class="form-group">
+            <label class="labels mb-1"
+              >Topic:
+              <img
+                (click)="oneIdeaDailog()"
+                class="align-middle"
+                width="22"
+                src="assets/images/bulb-1.svg"
+                alt="bulb"
+                style="cursor: pointer"
+            /></label>
+            <input
+              type="text"
+              placeholder="Enter Topic"
+              [(ngModel)]="topic"
+              class="form-control"
+            />
+            <div
+              class="invalid-feedback d-block"
+              *ngIf="isSubmitTopic && !topic"
+            >
+              Please enter topic.
+            </div>
+          </div>
+          <!-- <div class="form-group">
+            <div class="custom-control custom-switch">
+              <input
+                type="checkbox"
+                class="custom-control-input"
+                [(ngModel)]="identableFeatures"
+                id="features"
+              />
+              <label class="custom-control-label" for="features"
+                >Identable features</label
+              >
+            </div>
+          </div> -->
+        </div>
+        <div *ngIf="isTopicGeneration" [class.disabled]="isTopicSelected">
+          <div class="form-group" *ngIf="articleTopicList">
+            <div class="sagest-txt">Choose Headline</div>
+            <div class="choose-topic">
+              <div
+                class="cust_rad_btn"
+                *ngFor="let articleTopic of articleTopicList; let i = index"
+              >
+                <input
+                  [checked]="isSelectedTopicIndex == i"
+                  type="radio"
+                  name=""
+                  (click)="selectTopic(i)"
+                />
+                <label>{{ articleTopic?.title }}</label>
+              </div>
+            </div>
+            <div class="regenrate-link">
+              Not happy with that output?
+              <a (click)="generateTopic()">Regenerate</a>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="sagest-txt">Edit Headline</div>
+            <input
+              type="text"
+              placeholder="Headline"
+              class="form-control"
+              [value]="selectedTopic?.title"
+              (change)="changeTopicTitle($event)"
+            />
+          </div>
+        </div>
+        <div *ngIf="isTopicSelected">
+          <div class="form-group">
+            <div class="sagest-txt-big">Outline Output</div>
+            <div class="outline-output-btn">
+              <button
+                type="button"
+                *ngFor="let article of articleOutline; let i = index"
+                (click)="selectArticle(i)"
+                class="btn"
+                [class.btn-active]="isSelectedArticleIndex == i"
+              >
+                Output {{ i + 1 }}
+              </button>
+            </div>
+            <div class="outline-output">
+              <div
+                *ngFor="
+                  let heading of selectedArticle?.headingdata;
+                  let i = index
+                "
+                cdkDropList
+                (cdkDropListDropped)="drop($event, i)"
+              >
+                <div class="ide-head" *ngIf="heading?.h2" cdkDrag>
+                  <span class="ide-h">H2</span> {{ heading?.h2 }}
+                  <div class="ide-action">
+                    <img
+                      src="assets/images/drag-gray.svg"
+                      alt="drag"
+                      width="20"
+                    />
+                    <img
+                      (click)="removeHeading(i, 'heading')"
+                      class="trashimg"
+                      src="assets/images/trash-red.svg"
+                      alt="trash"
+                    />
+                  </div>
+                </div>
+                <div
+                  class="ide-head ide-head-sub"
+                  *ngFor="let subHeading of heading?.h3; let j = index"
+                  cdkDrag
+                  [cdkDragData]="subHeading"
+                >
+                  <span class="ide-h">H3</span> {{ subHeading }}
+                  <div class="ide-action">
+                    <img
+                      src="assets/images/drag-gray.svg"
+                      alt="drag"
+                      width="20"
+                    />
+                    <img
+                      (click)="removeHeading(i, 'subHeading', j)"
+                      class="trashimg"
+                      src="assets/images/trash-red.svg"
+                      alt="trash"
+                    />
+                  </div>
+                </div>
+              </div>
+              <a class="add-plus" (click)="addHeadline()">+</a>
+            </div>
+            <div class="regenrate-link">
+              Not happy with that output?
+              <a (click)="generateOutlineOutput()">Regenerate</a>
+            </div>
+          </div>
+          <!-- <div class="form-group">
+            <div class="sagest-txt">Internal Link(optional)</div>
+            <input type="text" placeholder="Enter link" class="form-control" />
+          </div> -->
+        </div>
+      </div>
+    </div>
+    <div class="text-left">
+      <button type="button" (click)="nextSubmit()" class="btn-addpost">
+        {{ navigationBtn }}
+        <span
+          [matTooltip]="creditMessage"
+          class="credit-div"
+          *ngIf="creditDeducated && isStep == 3"
+          matTooltipPosition="above"
+          ><i class="fa fa-cubes" aria-hidden="true"></i
+          >{{ creditDeducated }}</span
+        >
+      </button>
+    </div>
+  </div>
+  <div class="boxs-2" *ngIf="article">
+    <div class="boxs-head2">
+      <div class="bxtitle">
+        <img width="20" src="assets/images/star-two.svg" alt="star" />
+        Generated Blog
+      </div>
+      <div
+        class="schedule-btndiv"
+        [class.disabled]="!article || !this.articleTitle"
+      >
+        <button
+          type="button"
+          (click)="articleScheduled()"
+          class="btn fbtn btn-cancel"
+        >
+          Save as Draft
+        </button>
+        <button
+          type="button"
+          class="btn btn-schedule"
+          (click)="scheduleDialogOpenClose(true)"
+          matTooltip="Schedule"
+          matTooltipPosition="above"
+        >
+          <img
+            src="assets/images/icons/icon-evolve.svg"
+            alt="evolve"
+            class="img"
+            width="18"
+            style="filter: brightness(2)"
+          />
+        </button>
+        <div class="schedule-popup" *ngIf="scheduleDialogOpen">
+          <app-post-schedule-dialog
+            [data]="editData"
+            (_closeDailog)="scheduleDialogOpenClose(false)"
+            (_postScheduled)="articleScheduled($event)"
+          >
+          </app-post-schedule-dialog>
+        </div>
+      </div>
+    </div>
+    <div class="article-post">
+      <div class="article-post-sub1" *ngIf="!coverImage">
+        <img class="img" src="assets/images/no-post.svg" alt="no-post" />
+        <h4>
+          We recommend uploading or dragging in an image that is 1920x1080
+          pixels
+        </h4>
+        <button class="ide-custom-btn" (click)="generateAIArticleBanner()">
+          AI Generated Banner
+        </button>
+        <button class="ide-custom-btn" (click)="generateArticleBanner()">
+          Profile Banner
+        </button>
+        <label for="article-file-input" class="file-input">
+          <div class="d-flex flex-row align-items-center">
+            <i class="fa fa-upload mr-2"></i>
+            Upload from computer
+          </div> </label
+        ><br />
+        <input
+          (change)="uploadCoverImage($event)"
+          accept="image/*"
+          id="article-file-input"
+          class="invisible"
+          type="file"
+        />
+      </div>
+      <div class="article-post-sub2" *ngIf="coverImage">
+        <i
+          (click)="removeCoverImage()"
+          class="fa fa-times"
+          matTooltip="Remove Banner"
+          matTooltipPosition="above"
+        ></i>
+        <img
+          class="img"
+          [src]="coverImage"
+          alt="demoimg"
+          width="100%"
+          height="300"
+        />
+      </div>
+    </div>
+    <div class="article-editor">
+      <div class="bboxs">
+        <label class="labels">Article Title </label>
+        <input
+          type="input"
+          class="form-control"
+          [(ngModel)]="articleTitle"
+          placeholder="Enter your article title"
+        />
+        <div
+          class="invalid-feedback d-block"
+          *ngIf="isSubmited && !articleTitle"
+        >
+          Please enter article title.
+        </div>
+      </div>
+    </div>
+    <div class="article-editor">
+      <angular-editor
+        [(ngModel)]="article"
+        [config]="config"
+        placeholder="Enter your article"
+      ></angular-editor>
+      <div class="invalid-feedback d-block" *ngIf="isSubmited && !article">
+        Please enter article.
+      </div>
+    </div>
+
+    <!-- <div class="bloglists">
+      <div class="subbox">
+        <h4>website developments</h4>
+        <p>
+          H2IntroductionH3Overview of website buildingH3Importance of avoiding
+          common mistakesH2Mistake #1: Lack of PlanningH3Explanation of the
+          importance of planningH2Mistake
+        </p>
+        <span class="create-date">Created: 20 August 2023</span>
+        <a class="generating-btn"
+          ><img class="img" src="assets/images/refresh-ccw.svg" alt="refresh" />
+          Generating</a
+        >
+      </div>
+    </div>
+    <div class="no-post">
+      <img class="img" src="assets/images/no-post.svg" alt="no-post" />
+      <h4>No Article Generated</h4>
+    </div> -->
+  </div>
+</div>
+<app-loader></app-loader>

@@ -1,0 +1,105 @@
+<div class="customdrop-head">
+  <h3 class="droptitle">
+    {{ data.isAdCreative ? 'Ad creatives preview' : 'Carousel Preview'}}
+    <img
+      class="img-fluid align-center"
+      src="assets/images/help-icon.svg"
+      alt="help-icon"
+      matTooltip="Carousel Preview"
+      matTooltipPosition="below"
+    />
+  </h3>
+  <div class="btn-group" *ngIf="isAllowExport">
+    <button
+      type="button"
+      class="btn btn-download dropdown-toggle"
+      data-toggle="dropdown"
+      aria-expanded="false"
+    >
+      <img
+        class="img-fluid align-center"
+        src="assets/images/export.svg"
+        alt="help-icon"
+      />
+      Export
+    </button>
+    <div class="dropdown-menu dropdown-menu-right">
+      <a class="droplink" (click)="download('png')">Export as PNG</a>
+      <a class="droplink" (click)="download('pdf')">Export as PDF</a>
+      <a class="droplink" (click)="download('jpeg')">Export as JPEG</a>
+    </div>
+  </div>
+  <!-- <span class="dropclose" [mat-dialog-close]="false">
+    <img
+      class="img-fluid"
+      width="18"
+      src="assets/images/close-1.svg"
+      alt="close"
+    />
+  </span> -->
+</div>
+<mat-dialog-content>
+  <ngx-slick-carousel
+    *ngIf="!data?.isAdcreative"
+    class="carousel"
+    #slickModal="slick-carousel"
+    [config]="slideConfig"
+  >
+    <div
+      ngxSlickItem
+      *ngFor="let item of slideList"
+      class="position-relative m-2"
+    >
+      <div class="slidediv" *ngIf="item">
+        <img class="img-fluid" [src]="item" alt="slide" />
+      </div>
+      <div class="custom-loader-main" *ngIf="!item">
+        <div class="custom-loader-sub">
+          <div class="custom-text">Rendering</div>
+          <div class="custom-loader"></div>
+        </div>
+      </div>
+    </div>
+  </ngx-slick-carousel>
+
+  <div class="text-center" *ngIf="isSlideGenereated && !data?.isAdcreative">
+    <div
+      cdkDropList
+      (cdkDropListDropped)="drop($event)"
+      class="ide-custom-layers"
+      cdkDropListOrientation="horizontal"
+    >
+      <div
+        class="ide-layers"
+        cdkDrag
+        [cdkDragData]="item"
+        *ngFor="let item of slideList"
+      >
+        <img
+          class="img-fluid img-drag"
+          src="assets/images/carousels-v2/editor-drag.svg"
+          alt="editor-drag"
+        />
+        <div class="ide-layer-box">
+          <img class="img-fluid" [src]="item" alt="slide" width="36" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ad creative image -->
+
+  <div class="text-center" *ngIf="data?.isAdCreative">
+    <img
+      class="img-fluid ide-creative-img"
+      [src]="adCreativeImage"
+      alt=""
+    />
+  </div>
+
+</mat-dialog-content>
+<div class="custom-foot">
+  <button type="button" class="btn btn-cancel" [mat-dialog-close]="false">
+    cancel
+  </button>
+</div>

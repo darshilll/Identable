@@ -1,0 +1,75 @@
+.searchbox {
+  margin: 20px;
+  margin-bottom: 0;
+  .input-group {
+    border: 1px solid #ced4da;
+    border-radius: 15px;
+    overflow: hidden;
+  }
+  .input-group-text {
+    background-color: transparent;
+    border: none;
+    color: #ec4a0a;
+  }
+  .form-control {
+    border: none;
+  }
+  .titles {
+    font-weight: 600;
+    color: #000;
+    font-size: 18px;
+    margin-top: 15px;
+  }
+}
+.giphylist {
+  display: flex;
+  width: 100%;
+  flex-wrap: wrap;
+  .giphy {
+    width: 19%;
+    margin: 0.5%;
+    float: left;
+    border: 3px solid #ddd;
+    cursor: pointer;
+    img {
+      width: 100%;
+      height: 130px;
+      object-fit: cover;
+    }
+  }
+}
+
+.input-group-prepend {
+  cursor: pointer;
+}
+
+@media screen and (max-width: 991px) {
+  .giphylist {
+    .giphy {
+      img {
+        height: 100px;
+      }
+    }
+  }
+}
+@media screen and (max-width: 767px) {
+  .giphylist {
+    .giphy {
+      width: 24%;
+    }
+  }
+}
+@media screen and (max-width: 640px) {
+  .giphylist {
+    .giphy {
+      width: 32.33%;
+    }
+  }
+}
+@media screen and (max-width: 480px) {
+  .giphylist {
+    .giphy {
+      width: 49%;
+    }
+  }
+}

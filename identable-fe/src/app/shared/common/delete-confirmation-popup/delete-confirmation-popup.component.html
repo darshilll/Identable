@@ -1,0 +1,20 @@
+<mat-dialog-content class="text-center">
+  <div class="icon-box">
+    <i class="fa fa-times"></i>
+  </div>
+  <h4>Are you sure?</h4>
+  <p>
+    {{deleteMessage}}
+    🤔
+  </p>
+  <div class="foot_div">
+    <div class="text-center">
+      <button type="button" class="btn btn-cancel" (click)="onNoClick()">
+        Cancel
+      </button>
+      <button type="button" class="btn btn-delete" (click)="onYesClick()">
+        Delete
+      </button>
+    </div>
+  </div>
+</mat-dialog-content>

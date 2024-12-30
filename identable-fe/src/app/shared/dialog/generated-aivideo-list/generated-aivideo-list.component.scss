@@ -1,0 +1,62 @@
+.custom_modal_div {
+  .modal-head {
+    width: 100%;
+    display: inline-block;
+    border-bottom: 1px solid #d0d5dd;
+    position: relative;
+    padding: 18px;
+    text-align: center;
+    .title1 {
+      color: #101828;
+      font-style: normal;
+      font-weight: 700;
+      font-size: 20px;
+    }
+  }
+  .modal-footer {
+    padding: 10px 15px;
+    justify-content: center;
+    .fbtn {
+      margin: 5px 10px;
+      border-radius: 8px;
+      padding: 10px 20px;
+    }
+    .btn-cancel {
+      border: 1px solid #d0d5dd;
+      background-color: transparent;
+      color: #344054;
+    }
+    .btn-disable {
+      pointer-events: none;
+      filter: grayscale(1);
+      opacity: 0.6;
+    }
+  }
+  .no-data {
+    padding: 20px 0.75rem;
+    text-align: center;
+    font-weight: 600;
+    font-size: 18px;
+  }
+}
+
+.btn-addpost {
+  color: #fff;
+  font-weight: 500;
+  font-size: 12px;
+  padding: 5px 8px;
+  background: #ec4a0a;
+  border: 1px solid #ec4a0a;
+  border-radius: 8px;
+  margin: 2px;
+}
+.badge-primary {
+  background-color: #fff6ed;
+  color: #fb6514;
+  font-weight: 500;
+}
+.badge-success {
+  color: #039855;
+  background-color: #ecfdf3;
+  font-weight: 500;
+}

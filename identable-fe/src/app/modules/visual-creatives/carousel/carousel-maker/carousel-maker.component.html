@@ -1,0 +1,1527 @@
+<!-- Load Header -->
+<app-top-header
+  [slideHtml]="slides"
+  [slideSetting]="currentTemplate"
+  [carouselName]="carouselName"
+  [carouselId]="carouselId"
+  [carouselIdea]="carouselIdea"
+  [carouselLength]="carouselLength"
+></app-top-header>
+
+<!-- Load Sidebar -->
+<app-sidebar (controlSelected)="onMenuSelected($event)"></app-sidebar>
+
+<div class="ide-editor-main" [class.ide-closebar]="selectedControl === ''">
+  <div class="ide-editor-list">
+    <div class="close-btn" (click)="closeSideBar()">close</div>
+
+    <app-design-control
+      [carouselIdea]="carouselIdea"
+      (onchangeBackground)="handleBackground($event)"
+      (onchangeBackgroundOpacity)="handleBackgroundOpacity($event)"
+      (onpatternOpacity)="setPatternOpacity($event)"
+      (onselectPattern)="setPatternDesign($event)"
+      (onselectQRvisible)="handleQRvisible($event)"
+      (onchangeActionBtnText)="handleActionBtnText($event)"
+      (onChangeSwipeIndicator)="handleSwipeIndicator($event)"
+      (onchangeBookmarkIndicator)="handleBookmarkIndicator($event)"
+      *ngIf="selectedControl === 'Design'"
+    ></app-design-control>
+
+    <app-layers-control
+      *ngIf="selectedControl === 'Layers'"
+      [isAdcreative]="false"
+      (toggleImage)="handleToggleImage($event)"
+      (toggleSubTitle)="handleToggleSubTitle($event)"
+      (toggleTitle)="handleToggleTitle($event)"
+      (toggleDescription)="handleToggleDescription($event)"
+      (toggleProfileShots)="handleProfileShots($event)"
+    >
+    </app-layers-control>
+
+    <app-slide-control
+      *ngIf="selectedControl === 'Slides'"
+      (slideOrderChanged)="onSlideOrderChanged($event)"
+      (slideVisibility)="changeSlideVisibility($event)"
+    ></app-slide-control>
+
+    <app-choice-carousel-templates *ngIf="selectedControl === 'Templates'">
+    </app-choice-carousel-templates>
+
+    <app-text-setting
+      *ngIf="selectedControl === 'Text'"
+      (changeFontPair)="handleFontPair($event)"
+      (changeTitleFont)="handleTitleFont($event)"
+      (changeDescriptionFont)="handleDescriptionFont($event)"
+      (changeTitleFontSize)="handleTitleFontSize($event)"
+      (changeDescriptionFontSize)="handleDescriptionFontSize($event)"
+    ></app-text-setting>
+
+    <app-color-setting
+      *ngIf="selectedControl === 'Colors'"
+      (changeColorSetting)="handleChangeColorSetting($event)"
+    ></app-color-setting>
+
+    <app-profile-shots
+      *ngIf="selectedControl === 'Profile'"
+      (changeHandleDesigText)="toHandleDesigText($event)"
+      (changeHandleProfileVisible)="toHandleProfileVisible($event)"
+    ></app-profile-shots>
+  </div>
+  <div class="ide-editor-content">
+    <div class="ide-top-editor" *ngIf="isContentImgTool">
+      <button type="button" class="btn btn-regenerate">
+        <img
+          src="assets/images/carousels-v2/re-fresh.svg"
+          alt="re-fresh"
+          width="22"
+        />
+        Regenerate Image
+      </button>
+      <div class="m-auto">
+        <div class="editor-icons-list">
+          <img
+            class="img-fluid"
+            width="24"
+            src="assets/images/carousels-v2/editor-icons-13.png"
+            alt="editor-icons"
+          />
+          <img
+            class="img-fluid"
+            width="24"
+            src="assets/images/carousels-v2/editor-icons-14.png"
+            alt="editor-icons"
+          />
+        </div>
+        <div class="editor-icons-list border-left">
+          <img
+            class="img-fluid"
+            width="24"
+            src="assets/images/carousels-v2/editor-icons-15.png"
+            alt="editor-icons"
+            (click)="applyImageAlignTools('alignRight', '')"
+          />
+          <img
+            class="img-fluid"
+            width="24"
+            src="assets/images/carousels-v2/editor-icons-16.png"
+            alt="editor-icons"
+            (click)="applyImageAlignTools('alignCenter', '')"
+          />
+          <img
+            class="img-fluid"
+            width="24"
+            src="assets/images/carousels-v2/editor-icons-17.png"
+            alt="editor-icons"
+            (click)="applyImageAlignTools('alignLeft', '')"
+          />
+          <img
+            class="img-fluid"
+            width="24"
+            src="assets/images/carousels-v2/editor-icons-18.png"
+            alt="editor-icons"
+            (click)="applyImageFit('imgFull', '')"
+          />
+          <img
+            class="img-fluid"
+            width="24"
+            src="assets/images/carousels-v2/editor-icons-19.png"
+            alt="editor-icons"
+            (click)="applyImageFit('imgMinimize', '')"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="ide-top-editor">
+      <div class="ide-top-editor-sub" *ngIf="isShowHeaderEditor">
+        <button
+          type="button"
+          class="btn btn-regenerate mr-1"
+          (click)="onToolbarRegenerateClick()"
+        >
+          <img
+            src="assets/images/carousels-v2/re-fresh.svg"
+            alt="re-fresh"
+            width="22"
+          />
+          Regenerate Content
+        </button>
+        <button
+          type="button"
+          class="btn btn-emoji"
+          (click)="executeEditorEmojiAction()"
+          id="emoji-picker-button"
+        >
+          <img
+            src="assets/images/carousels-v2/editor-emoji.svg"
+            alt="editor-emoji"
+            width="22"
+          />
+          Add Emoji’s
+        </button>
+        <div class="editor-icons-list ml-auto">
+          <img
+            class="img-fluid select-icon"
+            width="24"
+            src="assets/images/carousels-v2/editor-icons-1.png"
+            alt="editor-icons"
+            (click)="executeEditorColorAction()"
+            id="color-picker-button"
+            matTooltip="Text Color"
+            matTooltipPosition="above"
+          />
+          <img
+            class="img-fluid"
+            width="24"
+            src="assets/images/carousels-v2/editor-icons-2.png"
+            alt="editor-icons"
+            (click)="executeEditorAction('bold')"
+            id="btn-bold"
+            matTooltip="Bold"
+            matTooltipPosition="above"
+          />
+          <img
+            class="img-fluid"
+            width="24"
+            src="assets/images/carousels-v2/editor-icons-3.png"
+            alt="editor-icons"
+            (click)="executeEditorAction('italic')"
+            id="btn-italic"
+            matTooltip="Italic"
+            matTooltipPosition="above"
+          />
+          <img
+            class="img-fluid"
+            width="24"
+            src="assets/images/carousels-v2/editor-icons-4.png"
+            alt="editor-icons"
+            (click)="executeEditorAction('underline')"
+            matTooltip="Underline"
+            matTooltipPosition="above"
+          />
+        </div>
+        <div class="editor-icons-list border-right border-left">
+          <img
+            class="img-fluid"
+            width="24"
+            src="assets/images/carousels-v2/editor-icons-5.png"
+            alt="editor-icons"
+            (click)="executeEditorAction('justifyLeft')"
+            matTooltip="justify Left"
+            matTooltipPosition="above"
+          />
+          <img
+            class="img-fluid"
+            width="24"
+            src="assets/images/carousels-v2/editor-icons-6.png"
+            alt="editor-icons"
+            (click)="executeEditorAction('justifyCenter')"
+            matTooltip="justify Center"
+            matTooltipPosition="above"
+          />
+          <img
+            class="img-fluid"
+            width="24"
+            src="assets/images/carousels-v2/editor-icons-7.png"
+            alt="editor-icons"
+            (click)="executeEditorAction('justifyRight')"
+            matTooltip="justify Right"
+            matTooltipPosition="above"
+          />
+          <img
+            class="img-fluid"
+            width="24"
+            src="assets/images/carousels-v2/editor-icons-8.png"
+            alt="editor-icons"
+            (click)="executeEditorAction('unorderedlist')"
+            matTooltip="Unordered List"
+            matTooltipPosition="above"
+          />
+          <img
+            class="img-fluid"
+            width="24"
+            src="assets/images/carousels-v2/editor-icons-9.png"
+            alt="editor-icons"
+            (click)="executeEditorAction('orderedlist')"
+            matTooltip="Ordered List"
+            matTooltipPosition="above"
+          />
+        </div>
+        <div class="editor-icons-list">
+          <img
+            class="img-fluid"
+            width="24"
+            src="assets/images/carousels-v2/editor-icons-10.png"
+            alt="editor-icons"
+            (click)="applyHeading('h5')"
+            matTooltip="Small"
+            matTooltipPosition="above"
+          />
+          <img
+            class="img-fluid"
+            width="24"
+            src="assets/images/carousels-v2/editor-icons-11.png"
+            alt="editor-icons"
+            (click)="applyHeading('h4')"
+            matTooltip="Medium"
+            matTooltipPosition="above"
+          />
+          <img
+            class="img-fluid"
+            width="24"
+            src="assets/images/carousels-v2/editor-icons-12.png"
+            alt="editor-icons"
+            (click)="applyHeading('h3')"
+            matTooltip="Large"
+            matTooltipPosition="above"
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="ide-editor-boxes">
+      <swiper
+        #swiperVirtualRef
+        [slidesPerView]="3"
+        [spaceBetween]="10"
+        [pagination]="{ type: 'fraction' }"
+        [virtual]="false"
+        slideActiveClass="swiper-active whyWouldIuseCustomClass"
+        [centeredSlides]="true"
+        [navigation]="true"
+        [allowTouchMove]="false"
+        class="mySwiper"
+        id="mySwiperID"
+      >
+        <!-- Intro Slide -->
+
+        <ng-template
+          swiperSlide
+          *ngFor="let slide of currentTemplate?.slides; let i = index"
+        >
+          <div class="slide-content-main">
+            <div class="slide-content-tool">
+              <div>
+                <img
+                  class="bg-image-menu pointer"
+                  src="assets/images/carousels-v2/re-fresh.svg"
+                  alt="re-fresh"
+                  width="24"
+                  matTooltip="Regenerate Slide"
+                  matTooltipPosition="above"
+                  (click)="generateCarouselSlide(slide)"
+                />
+                <span class="bg-image-menu pointer" [matMenuTriggerFor]="menu1">
+                  <img
+                    src="assets/images/carousels-v2/editor-copy.svg"
+                    alt="editor-copy"
+                    width="24"
+                /></span>
+
+                <mat-menu #menu1="matMenu">
+                  <div
+                    (click)="$event.stopPropagation()"
+                    (keydown)="$event.stopPropagation()"
+                  >
+                    <div class="ide-layers-divs">
+                      <div class="ide-layers1">
+                        <img
+                          class="img-fluid"
+                          src="assets/images/carousels-v2/editor-text.svg"
+                          alt="editor-text"
+                        />
+                        <div class="text">Sub title</div>
+                        <img
+                          class="img-fluid ml-auto pointer"
+                          [src]="
+                            slide?.showSubTitle
+                              ? 'assets/images/carousels-v2/editor-eye-1.svg'
+                              : 'assets/images/carousels-v2/editor-eye-2.svg'
+                          "
+                          alt="editor-eye"
+                          (click)="toggleVisibility('showSubTitle', slide, i)"
+                        />
+                      </div>
+
+                      <div class="ide-layers1">
+                        <img
+                          class="img-fluid"
+                          src="assets/images/carousels-v2/editor-text.svg"
+                          alt="editor-text"
+                        />
+                        <div class="text">Title</div>
+                        <img
+                          class="img-fluid ml-auto pointer"
+                          [src]="
+                            slide?.showTitle
+                              ? 'assets/images/carousels-v2/editor-eye-1.svg'
+                              : 'assets/images/carousels-v2/editor-eye-2.svg'
+                          "
+                          alt="editor-eye"
+                          (click)="toggleVisibility('showTitle', slide, i)"
+                        />
+                      </div>
+
+                      <div class="ide-layers1">
+                        <img
+                          class="img-fluid"
+                          src="assets/images/carousels-v2/editor-text.svg"
+                          alt="editor-text"
+                        />
+                        <div class="text">Description</div>
+                        <img
+                          class="img-fluid ml-auto pointer"
+                          [src]="
+                            slide?.showDescription
+                              ? 'assets/images/carousels-v2/editor-eye-1.svg'
+                              : 'assets/images/carousels-v2/editor-eye-2.svg'
+                          "
+                          alt="editor-eye"
+                          (click)="
+                            toggleVisibility('showDescription', slide, i)
+                          "
+                        />
+                      </div>
+
+                      <div
+                        class="ide-layers1"
+                        *ngIf="
+                          slide?.type !== 'starting_slide' &&
+                          slide?.type !== 'ending_slide'
+                        "
+                      >
+                        <img
+                          class="img-fluid"
+                          src="assets/images/carousels-v2/editor-images.svg"
+                          alt="editor-images"
+                        />
+                        <div class="text">Image</div>
+                        <img
+                          class="img-fluid ml-auto pointer"
+                          [src]="
+                            slide?.showImage
+                              ? 'assets/images/carousels-v2/editor-eye-1.svg'
+                              : 'assets/images/carousels-v2/editor-eye-2.svg'
+                          "
+                          alt="editor-eye"
+                          (click)="toggleVisibility('showImage', slide, i)"
+                        />
+                      </div>
+
+                      <div class="ide-layers1">
+                        <img
+                          class="img-fluid"
+                          src="assets/images/carousels-v2/editor-profile.svg"
+                          alt="editor-profile"
+                        />
+                        <div class="text">Profile shot</div>
+                        <img
+                          class="img-fluid ml-auto pointer"
+                          [src]="
+                            slide?.showProfileShot
+                              ? 'assets/images/carousels-v2/editor-eye-1.svg'
+                              : 'assets/images/carousels-v2/editor-eye-2.svg'
+                          "
+                          alt="editor-eye"
+                          (click)="
+                            toggleVisibility('showProfileShot', slide, i)
+                          "
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </mat-menu>
+
+                <img
+                  *ngIf="!slide?.backgroundImage"
+                  class="pointer"
+                  src="assets/images/carousels-v2/editor-bg.svg"
+                  (click)="choiceBackgroundMedia('bgImage', slide, i)"
+                  alt="editor-bg"
+                  width="24"
+                  matTooltip="Add Background Image"
+                  matTooltipPosition="above"
+                />
+
+                <span
+                  *ngIf="slide?.backgroundImage"
+                  class="bg-image-menu pointer"
+                  [matMenuTriggerFor]="menu"
+                >
+                  <img
+                    src="assets/images/carousels-v2/editor-bg.svg"
+                    alt="editor-bg"
+                    width="24"
+                    matTooltip="Update Background Image"
+                    matTooltipPosition="above"
+                  />
+                </span>
+
+                <mat-menu #menu="matMenu">
+                  <div class="update-background-image">
+                    <img
+                      alt="Gradient 01"
+                      class="img-fluid"
+                      [src]="slide?.backgroundImage"
+                    />
+                    <div
+                      class="choose-file"
+                      (click)="choiceBackgroundMedia('bgImage', slide, i)"
+                    >
+                      Choose Image
+                    </div>
+                    <div class="opacity-div">
+                      <div class="text1">Image Opacity</div>
+                      <div class="text2">{{ bgImageOpacity }} %</div>
+                      <input
+                        type="range"
+                        class="form-control-range"
+                        style="accent-color: #001141"
+                        [(ngModel)]="bgImageOpacity"
+                        (input)="onBgImageOpacityChange($event, i)"
+                        min="0"
+                        max="100"
+                      />
+                    </div>
+                  </div>
+                </mat-menu>
+              </div>
+              <div>
+                <img
+                  class="bg-image-menu pointer"
+                  [class.disable-class]="
+                    i === 0 || i === currentTemplate?.slides?.length - 1
+                  "
+                  src="assets/images/carousels-v2/editor-duplicat.svg"
+                  alt="editor-duplicat"
+                  width="24"
+                  matTooltip="Duplicate"
+                  matTooltipPosition="above"
+                  (click)="duplicateSlide(slide, i)"
+                />
+                <img
+                  class="bg-image-menu pointer"
+                  [class.disable-class]="
+                    i === 0 || i === currentTemplate?.slides?.length - 1
+                  "
+                  src="assets/images/carousels-v2/editor-trash.svg"
+                  alt="editor-trash"
+                  width="24"
+                  matTooltip="Delete"
+                  matTooltipPosition="above"
+                  (click)="deleteSlide(i)"
+                />
+                <img
+                  class="bg-image-menu pointer"
+                  [class.disable-class]="
+                    i === currentTemplate?.slides?.length - 1
+                  "
+                  src="assets/images/carousels-v2/editor-add.svg"
+                  alt="editor-add"
+                  width="24"
+                  matTooltip="Add Slide"
+                  matTooltipPosition="above"
+                  (click)="addNewSlide(i)"
+                />
+              </div>
+            </div>
+            <div
+              #carouselSlide
+              class="slide-content"
+              [class.flex-column-reverse]="
+                slideLayout === 'upparCenter' ||
+                slideLayout === 'upparLeft' ||
+                slideLayout === 'upparRight'
+              "
+              [ngStyle]="{
+                'background-color': slide?.backgroundColor
+                  ? slide?.backgroundColor
+                  : '',
+                background: slide?.backgroundGradients
+                  ? slide?.backgroundGradients
+                  : slide?.backgroundColor
+              }"
+            >
+              <div
+                *ngIf="slide?.backgroundImage"
+                class="slide-content-bg"
+                [style.background-image]="
+                  'url(' + slide?.backgroundImage + ') !important'
+                "
+                [style.opacity]="slide?.bgImageOpacity"
+              ></div>
+
+              <div
+                *ngIf="patternDesign"
+                class="slide-content-pattern"
+                [style.opacity]="patternOpacity"
+                [style.background-image]="
+                  'url(' + patternDesign + ') !important'
+                "
+              ></div>
+
+              <!-- Swipper Button -->
+
+              <div
+                class="onlybtn-div text-right mt-2"
+                *ngIf="
+                  slideLayout === 'upparCenter' ||
+                  slideLayout === 'upparLeft' ||
+                  slideLayout === 'upparRight'
+                "
+              >
+                <div
+                  class="custom-btn-1"
+                  *ngIf="
+                    i != currentTemplate?.slides?.length - 1 &&
+                    currentTemplate?.isSwipeBtnvisible
+                  "
+                  [style.background-color]="slide?.subColor"
+                  [style.color]="slide?.textColor"
+                >
+                  <span *ngIf="currentTemplate?.isSwipeBtnText">
+                    {{ currentTemplate?.isSwipeBtnText }}
+                  </span>
+                  <img
+                    class="align-middle"
+                    width="20"
+                    src="assets/images/carousels-v2/right-arrow.png"
+                    alt="right-arrow"
+                  />
+                </div>
+              </div>
+
+              <!-- Starting Slide -->
+
+              <div
+                class="slide-content-sub m-auto"
+                [class.slide-content-sub-box]="currentTemplate?.isBoxBg"
+                [class.text-center]="
+                  slideLayout == 'center' || slideLayout == 'upparCenter'
+                "
+                [class.text-left]="
+                  slideLayout == 'left' || slideLayout == 'upparLeft'
+                "
+                [class.text-right]="
+                  slideLayout == 'right' || slideLayout == 'upparRight'
+                "
+                *ngIf="slide?.type === 'starting_slide'"
+                [ngStyle]="{
+                  'background-color': currentTemplate?.isBoxBg
+                    ? slide?.subBackgroundColor
+                    : ''
+                }"
+              >
+                <div
+                  #editor
+                  class="main-text1"
+                  *ngIf="slide?.showSubTitle"
+                  [ngStyle]="{
+                    color: slide?.textColor,
+                    'font-family': descriptionFamily
+                  }"
+                  (click)="showToolbar($event)"
+                  appMediumEditor
+                  contenteditable="true"
+                  [editorConfig]="editorConfig"
+                  [innerHTML]="slide?.content?.sub_heading"
+                  (focus)="setCurrentEditor(editor, slide)"
+                  (blur)="onEditorBlur(editor)"
+                ></div>
+
+                <div
+                  #editor
+                  class="main-text2"
+                  *ngIf="slide?.showTitle"
+                  [ngStyle]="{
+                    'font-family': titleFamily,
+                    'font-size': titlefontSize,
+                    color: slide?.textColor
+                  }"
+                  appMediumEditor
+                  contenteditable="true"
+                  (click)="showToolbar($event)"
+                  [editorConfig]="editorConfig"
+                  [innerHTML]="slide?.content?.heading"
+                  (focus)="setCurrentEditor(editor, slide)"
+                  (blur)="onEditorBlur(editor)"
+                ></div>
+                <div
+                  #editor
+                  class="main-text3"
+                  *ngIf="slide?.showDescription"
+                  [ngStyle]="{
+                    'font-family': descriptionFamily,
+                    'font-size': descriptionFontSize,
+                    color: slide?.textColor
+                  }"
+                  appMediumEditor
+                  [editorConfig]="editorConfig"
+                  [innerHTML]="slide?.content?.description"
+                  (focus)="setCurrentEditor(editor, slide)"
+                  (blur)="onEditorBlur(editor)"
+                ></div>
+              </div>
+
+              <!-- Body Slide -->
+
+              <div
+                class="slide-content-sub m-auto"
+                [class.slide-content-sub-box]="currentTemplate?.isBoxBg"
+                [class.text-center]="
+                  slideLayout == 'center' || slideLayout == 'upparCenter'
+                "
+                [class.text-left]="
+                  slideLayout == 'left' || slideLayout == 'upparLeft'
+                "
+                [class.text-right]="
+                  slideLayout == 'right' || slideLayout == 'upparRight'
+                "
+                *ngIf="slide?.type === 'body_slide'"
+                [ngStyle]="{
+                  'background-color': currentTemplate?.isBoxBg
+                    ? slide?.subBackgroundColor
+                    : ''
+                }"
+              >
+                <div
+                  #editor
+                  class="sub-text1"
+                  *ngIf="slide?.showTitle"
+                  [ngStyle]="{
+                    'font-family': titleFamily,
+                    color: slide?.textColor
+                  }"
+                  appMediumEditor
+                  [editorConfig]="editorConfig"
+                  [innerHTML]="slide?.content?.heading"
+                  (focus)="setCurrentEditor(editor, slide)"
+                  (blur)="onEditorBlur(editor)"
+                ></div>
+                <div
+                  #editor
+                  class="sub-text2"
+                  *ngIf="slide?.showDescription"
+                  [ngStyle]="{
+                    'font-family': descriptionFamily,
+                    'font-size': descriptionFontSize,
+                    color: slide?.textColor
+                  }"
+                  appMediumEditor
+                  [editorConfig]="editorConfig"
+                  [innerHTML]="slide?.content?.description"
+                  (focus)="setCurrentEditor(editor, slide)"
+                  (blur)="onEditorBlur(editor)"
+                >
+                  <!-- {{slide?.content?.description}} -->
+                </div>
+                <label
+                  class="add-bg image-select-lable"
+                  *ngIf="slide?.showImage"
+                  matTooltip="Add Image"
+                  matTooltipPosition="above"
+                  (click)="choiceBackgroundMedia('contentImg', slide, i)"
+                >
+                  <i class="fa fa-picture-o" aria-hidden="true"></i>
+                  <!-- <input class="file-input" type="file" name="" id="" /> -->
+                </label>
+
+                <!-- (click)="showContentImgTools(slide, i)" -->
+                <div
+                  class="bg-images"
+                  [class.text-center]="slide?.contentImgAlign === 'alignCenter'"
+                  [class.text-left]="slide?.contentImgAlign === 'alignLeft'"
+                  [class.text-right]="slide?.contentImgAlign === 'alignRight'"
+                  *ngIf="slide?.contentImage"
+                >
+                  <div class="bg-images-action">
+                    <img
+                      class="pointer m-2"
+                      width="24"
+                      src="assets/images/carousels-v2/editor-icons-14.png"
+                      alt="editor-icons"
+                      matTooltip="Add Image"
+                      matTooltipPosition="above"
+                      (click)="choiceBackgroundMedia('contentImg', slide, i)"
+                    />
+                    <img
+                      class="pointer m-2"
+                      width="24"
+                      src="assets/images/carousels-v2/editor-icons-13.png"
+                      alt="editor-icons"
+                      matTooltip="Remove Image"
+                      matTooltipPosition="above"
+                      (click)="removeSlideContentImg('contentImg', slide, i)"
+                    />
+                    <img
+                      class="pointer m-2"
+                      width="24"
+                      src="assets/images/carousels-v2/editor-icons-18.png"
+                      alt="editor-icons"
+                      matTooltip="Fit Image"
+                      matTooltipPosition="above"
+                      (click)="applyImageFit('imgFull', i)"
+                    />
+                    <img
+                      class="pointer m-2"
+                      width="24"
+                      src="assets/images/carousels-v2/editor-icons-19.png"
+                      alt="editor-icons"
+                      matTooltip="Minimize Image"
+                      matTooltipPosition="above"
+                      (click)="applyImageFit('imgMinimize', i)"
+                    />
+                    <div class="w-100"></div>
+                    <img
+                      class="pointer m-2"
+                      width="24"
+                      src="assets/images/carousels-v2/editor-icons-17.png"
+                      alt="editor-icons"
+                      matTooltip="Position Left"
+                      matTooltipPosition="below"
+                      (click)="applyImageAlignTools('alignLeft', i)"
+                    />
+                    <img
+                      class="pointer m-2"
+                      width="24"
+                      src="assets/images/carousels-v2/editor-icons-16.png"
+                      alt="editor-icons"
+                      matTooltip="Position Center"
+                      matTooltipPosition="below"
+                      (click)="applyImageAlignTools('alignCenter', i)"
+                    />
+                    <img
+                      class="pointer m-2"
+                      width="24"
+                      src="assets/images/carousels-v2/editor-icons-15.png"
+                      alt="editor-icons"
+                      matTooltip="Position Right"
+                      matTooltipPosition="below"
+                      (click)="applyImageAlignTools('alignRight', i)"
+                    />
+                    <!-- <img
+                      class="pointer m-2"
+                      width="32"
+                      src="assets/images/carousels-v2/bg-replace.png"
+                      alt="bg-replace"
+                      matTooltip="Add Image"
+                      matTooltipPosition="above"
+                      (click)="choiceBackgroundMedia('contentImg', slide, i)"
+                    />
+                    <img
+                      class="pointer m-2"
+                      width="32"
+                      src="assets/images/carousels-v2/bg-remove.png"
+                      alt="bg-remove"
+                      matTooltip="Remove Image"
+                      matTooltipPosition="above"
+                      (click)="removeSlideContentImg('contentImg', slide, i)"
+                    /> -->
+                  </div>
+                  <img
+                    class="img-fluid"
+                    [src]="slide?.contentImage"
+                    alt="bg-images"
+                    [class.ide-img-fit]="slide?.contentImgFit === 'imgFull'"
+                    [class.ide-img-mini]="
+                      slide?.contentImgFit === 'imgMinimize'
+                    "
+                  />
+                </div>
+              </div>
+
+              <!-- Ending Slide -->
+
+              <div
+                class="slide-content-sub m-auto"
+                [class.slide-content-sub-box]="currentTemplate?.isBoxBg"
+                [class.text-center]="
+                  slideLayout == 'center' || slideLayout == 'upparCenter'
+                "
+                [class.text-left]="
+                  slideLayout == 'left' || slideLayout == 'upparLeft'
+                "
+                [class.text-right]="
+                  slideLayout == 'right' || slideLayout == 'upparRight'
+                "
+                *ngIf="slide?.type === 'ending_slide'"
+                [ngStyle]="{
+                  'background-color': currentTemplate?.isBoxBg
+                    ? slide?.subBackgroundColor
+                    : ''
+                }"
+              >
+                <!-- <div
+                  #editor
+                  class="main-text1"
+                  *ngIf="slide?.showSubTitle"
+                  [ngStyle]="{
+                    color: slide?.textColor,
+                    'font-family': descriptionFamily
+                  }"
+                  appMediumEditor
+                  [editorConfig]="editorConfig"
+                  [innerHTML]="slide?.content?.heading"
+                  (focus)="setCurrentEditor(editor)"
+                  (blur)="onEditorBlur(editor)"
+                ></div> -->
+
+                <div
+                  #editor
+                  class="main-text2"
+                  *ngIf="slide?.showTitle"
+                  [ngStyle]="{
+                    'font-family': titleFamily,
+                    'font-size': titlefontSize,
+                    color: slide?.textColor
+                  }"
+                  appMediumEditor
+                  [editorConfig]="editorConfig"
+                  [innerHTML]="slide?.content?.heading"
+                  (focus)="setCurrentEditor(editor, slide)"
+                  (blur)="onEditorBlur(editor)"
+                ></div>
+
+                <div class="text-center">
+                  <a
+                    class="btn main-btn"
+                    [style.background-color]="slide?.subColor"
+                    [style.color]="slide?.textColor"
+                    >{{ currentTemplate?.actionBtnText }}</a
+                  >
+                </div>
+
+                <div
+                  class="text-center mt-2"
+                  *ngIf="currentTemplate?.isQRvisible"
+                >
+                  <qrcode
+                    [qrdata]="currentTemplate?.QRtext"
+                    [width]="100"
+                    [errorCorrectionLevel]="'M'"
+                  ></qrcode>
+                </div>
+              </div>
+
+              <div
+                class="user-info"
+                [class]="
+                  slideLayout == 'upparCenter' ||
+                  slideLayout == 'upparLeft' ||
+                  slideLayout === 'upparRight'
+                    ? 'mb-2'
+                    : 'mt-2'
+                "
+              >
+                <div
+                  class="user-info-sub"
+                  *ngIf="slide?.showProfileShot"
+                  [class.ml-auto]="slideLayout === 'upparRight'"
+                >
+                  <img
+                    class="img-fluid mr-2"
+                    width="30"
+                    [src]="currentTemplate?.profileAvtar"
+                    alt="avatar"
+                    *ngIf="currentTemplate?.isProfileAvtarVisible"
+                  />
+                  <div>
+                    <div
+                      class="info-text1"
+                      [ngStyle]="{
+                        'font-family': titleFamily,
+                        color: slide?.textColor
+                      }"
+                    >
+                      {{ _utilities.currentProfile?.name }}
+                    </div>
+                    <div
+                      *ngIf="currentTemplate?.isHandleVisible"
+                      class="info-text2"
+                      [ngStyle]="{
+                        'font-family': descriptionFamily,
+                        color: slide?.textColor
+                      }"
+                    >
+                      {{ currentTemplate?.profileHandle }}
+                    </div>
+                  </div>
+                </div>
+
+                <div
+                  class="custom-btn-1 ml-auto"
+                  *ngIf="
+                    i != currentTemplate?.slides?.length - 1 &&
+                    currentTemplate?.isSwipeBtnvisible &&
+                    slideLayout !== 'upparCenter' &&
+                    slideLayout !== 'upparLeft' &&
+                    slideLayout !== 'upparRight'
+                  "
+                  [style.background-color]="slide?.subColor"
+                  [style.color]="slide?.textColor"
+                >
+                  <span *ngIf="currentTemplate?.isSwipeBtnText">
+                    {{ currentTemplate?.isSwipeBtnText }}
+                  </span>
+                  <img
+                    class="align-middle"
+                    width="20"
+                    src="assets/images/carousels-v2/right-arrow.png"
+                    alt="right-arrow"
+                  />
+                </div>
+                <div
+                  class="bookmark-btn ml-auto"
+                  *ngIf="
+                    i == currentTemplate?.slides?.length - 1 &&
+                    currentTemplate?.isBookMarkvisible
+                  "
+                  [style.background-color]="slide?.subColor"
+                >
+                  <img
+                    class="img"
+                    src="assets/images/carousels-v2/bookmark.png"
+                    alt="bookmark"
+                    width="30"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-template>
+      </swiper>
+
+      <!-- Starting Drag Drop -->
+
+      <div
+        cdkDropList
+        (cdkDropListDropped)="drop($event)"
+        class="ide-custom-layers"
+        cdkDropListOrientation="horizontal"
+      >
+        <div
+          class="ide-layers"
+          *ngFor="let slide of currentTemplate?.slides; let i = index"
+          cdkDrag
+        >
+          <img
+            class="img-fluid img-drag"
+            src="assets/images/carousels-v2/editor-drag.svg"
+            alt="editor-drag"
+          />
+          <div class="ide-layer-box mySwiper">
+            <div class="slide-content-main">
+              <div
+                class="slide-content"
+                [class.flex-column-reverse]="
+                  slideLayout === 'upparCenter' ||
+                  slideLayout === 'upparLeft' ||
+                  slideLayout === 'upparRight'
+                "
+                [ngStyle]="{
+                  'background-color': slide?.backgroundColor
+                    ? slide?.backgroundColor
+                    : '',
+                  background: slide?.backgroundGradients
+                    ? slide?.backgroundGradients
+                    : slide?.backgroundColor
+                }"
+              >
+                <div
+                  *ngIf="slide?.backgroundImage"
+                  class="slide-content-bg"
+                  [style.background-image]="
+                    'url(' + slide?.backgroundImage + ') !important'
+                  "
+                  [style.opacity]="slide?.bgImageOpacity"
+                ></div>
+
+                <div
+                  *ngIf="patternDesign"
+                  class="slide-content-pattern"
+                  [style.opacity]="patternOpacity"
+                  [style.background-image]="
+                    'url(' + patternDesign + ') !important'
+                  "
+                ></div>
+
+                <!-- Swipper Button -->
+
+                <div
+                  class="onlybtn-div text-right mt-2"
+                  *ngIf="
+                    slideLayout === 'upparCenter' ||
+                    slideLayout === 'upparLeft' ||
+                    slideLayout === 'upparRight'
+                  "
+                >
+                  <div
+                    class="custom-btn-1"
+                    *ngIf="
+                      i != currentTemplate?.slides?.length - 1 &&
+                      currentTemplate?.isSwipeBtnvisible
+                    "
+                    [style.background-color]="slide?.subColor"
+                    [style.color]="slide?.textColor"
+                  >
+                    <span *ngIf="currentTemplate?.isSwipeBtnText">
+                      {{ currentTemplate?.isSwipeBtnText }}
+                    </span>
+                    <img
+                      class="align-middle"
+                      width="20"
+                      src="assets/images/carousels-v2/right-arrow.png"
+                      alt="right-arrow"
+                    />
+                  </div>
+                </div>
+
+                <!-- Starting Slide -->
+
+                <div
+                  class="slide-content-sub m-auto"
+                  [class.slide-content-sub-box]="currentTemplate?.isBoxBg"
+                  [class.text-center]="
+                    slideLayout == 'center' || slideLayout == 'upparCenter'
+                  "
+                  [class.text-left]="
+                    slideLayout == 'left' || slideLayout == 'upparLeft'
+                  "
+                  [class.text-right]="
+                    slideLayout == 'right' || slideLayout == 'upparRight'
+                  "
+                  *ngIf="slide?.type === 'starting_slide'"
+                  [ngStyle]="{
+                    'background-color': currentTemplate?.isBoxBg
+                      ? slide?.subBackgroundColor
+                      : ''
+                  }"
+                >
+                  <div
+                    #editor
+                    class="main-text1"
+                    *ngIf="slide?.showSubTitle"
+                    [ngStyle]="{
+                      color: slide?.textColor,
+                      'font-family': descriptionFamily
+                    }"
+                    (click)="showToolbar($event)"
+                    appMediumEditor
+                    contenteditable="true"
+                    [editorConfig]="editorConfig"
+                    [innerHTML]="slide?.content?.sub_heading"
+                    (focus)="setCurrentEditor(editor, slide)"
+                    (blur)="onEditorBlur(editor)"
+                  ></div>
+
+                  <div
+                    #editor
+                    class="main-text2"
+                    *ngIf="slide?.showTitle"
+                    [ngStyle]="{
+                      'font-family': titleFamily,
+                      'font-size': titlefontSize,
+                      color: slide?.textColor
+                    }"
+                    appMediumEditor
+                    contenteditable="true"
+                    (click)="showToolbar($event)"
+                    [editorConfig]="editorConfig"
+                    [innerHTML]="slide?.content?.heading"
+                    (focus)="setCurrentEditor(editor, slide)"
+                    (blur)="onEditorBlur(editor)"
+                  ></div>
+                  <div
+                    #editor
+                    class="main-text3"
+                    *ngIf="slide?.showDescription"
+                    [ngStyle]="{
+                      'font-family': descriptionFamily,
+                      'font-size': descriptionFontSize,
+                      color: slide?.textColor
+                    }"
+                    appMediumEditor
+                    [editorConfig]="editorConfig"
+                    [innerHTML]="slide?.content?.description"
+                    (focus)="setCurrentEditor(editor, slide)"
+                    (blur)="onEditorBlur(editor)"
+                  ></div>
+                </div>
+
+                <!-- Body Slide -->
+
+                <div
+                  class="slide-content-sub m-auto"
+                  [class.slide-content-sub-box]="currentTemplate?.isBoxBg"
+                  [class.text-center]="
+                    slideLayout == 'center' || slideLayout == 'upparCenter'
+                  "
+                  [class.text-left]="
+                    slideLayout == 'left' || slideLayout == 'upparLeft'
+                  "
+                  [class.text-right]="
+                    slideLayout == 'right' || slideLayout == 'upparRight'
+                  "
+                  *ngIf="slide?.type === 'body_slide'"
+                  [ngStyle]="{
+                    'background-color': currentTemplate?.isBoxBg
+                      ? slide?.subBackgroundColor
+                      : ''
+                  }"
+                >
+                  <div
+                    #editor
+                    class="sub-text1"
+                    *ngIf="slide?.showTitle"
+                    [ngStyle]="{
+                      'font-family': titleFamily,
+                      color: slide?.textColor
+                    }"
+                    appMediumEditor
+                    [editorConfig]="editorConfig"
+                    [innerHTML]="slide?.content?.heading"
+                    (focus)="setCurrentEditor(editor, slide)"
+                    (blur)="onEditorBlur(editor)"
+                  ></div>
+                  <div
+                    #editor
+                    class="sub-text2"
+                    *ngIf="slide?.showDescription"
+                    [ngStyle]="{
+                      'font-family': descriptionFamily,
+                      'font-size': descriptionFontSize,
+                      color: slide?.textColor
+                    }"
+                    appMediumEditor
+                    [editorConfig]="editorConfig"
+                    [innerHTML]="slide?.content?.description"
+                    (focus)="setCurrentEditor(editor, slide)"
+                    (blur)="onEditorBlur(editor)"
+                  >
+                    <!-- {{slide?.content?.description}} -->
+                  </div>
+                  <label
+                    class="add-bg image-select-lable"
+                    *ngIf="slide?.showImage"
+                    matTooltip="Add Image"
+                    matTooltipPosition="above"
+                    (click)="choiceBackgroundMedia('contentImg', slide, i)"
+                  >
+                    <i class="fa fa-picture-o" aria-hidden="true"></i>
+                    <!-- <input class="file-input" type="file" name="" id="" /> -->
+                  </label>
+
+                  <!-- (click)="showContentImgTools(slide, i)" -->
+                  <div
+                    class="bg-images"
+                    [class.text-center]="
+                      slide?.contentImgAlign === 'alignCenter'
+                    "
+                    [class.text-left]="slide?.contentImgAlign === 'alignLeft'"
+                    [class.text-right]="slide?.contentImgAlign === 'alignRight'"
+                    *ngIf="slide?.contentImage"
+                  >
+                    <div class="bg-images-action">
+                      <img
+                        class="pointer m-2"
+                        width="24"
+                        src="assets/images/carousels-v2/editor-icons-14.png"
+                        alt="editor-icons"
+                        matTooltip="Add Image"
+                        matTooltipPosition="above"
+                        (click)="choiceBackgroundMedia('contentImg', slide, i)"
+                      />
+                      <img
+                        class="pointer m-2"
+                        width="24"
+                        src="assets/images/carousels-v2/editor-icons-13.png"
+                        alt="editor-icons"
+                        matTooltip="Remove Image"
+                        matTooltipPosition="above"
+                        (click)="removeSlideContentImg('contentImg', slide, i)"
+                      />
+                      <img
+                        class="pointer m-2"
+                        width="24"
+                        src="assets/images/carousels-v2/editor-icons-18.png"
+                        alt="editor-icons"
+                        matTooltip="Fit Image"
+                        matTooltipPosition="above"
+                        (click)="applyImageFit('imgFull', i)"
+                      />
+                      <img
+                        class="pointer m-2"
+                        width="24"
+                        src="assets/images/carousels-v2/editor-icons-19.png"
+                        alt="editor-icons"
+                        matTooltip="Minimize Image"
+                        matTooltipPosition="above"
+                        (click)="applyImageFit('imgMinimize', i)"
+                      />
+                      <div class="w-100"></div>
+                      <img
+                        class="pointer m-2"
+                        width="24"
+                        src="assets/images/carousels-v2/editor-icons-17.png"
+                        alt="editor-icons"
+                        matTooltip="Position Left"
+                        matTooltipPosition="below"
+                        (click)="applyImageAlignTools('alignLeft', i)"
+                      />
+                      <img
+                        class="pointer m-2"
+                        width="24"
+                        src="assets/images/carousels-v2/editor-icons-16.png"
+                        alt="editor-icons"
+                        matTooltip="Position Center"
+                        matTooltipPosition="below"
+                        (click)="applyImageAlignTools('alignCenter', i)"
+                      />
+                      <img
+                        class="pointer m-2"
+                        width="24"
+                        src="assets/images/carousels-v2/editor-icons-15.png"
+                        alt="editor-icons"
+                        matTooltip="Position Right"
+                        matTooltipPosition="below"
+                        (click)="applyImageAlignTools('alignRight', i)"
+                      />
+                      <!-- <img
+                      class="pointer m-2"
+                      width="32"
+                      src="assets/images/carousels-v2/bg-replace.png"
+                      alt="bg-replace"
+                      matTooltip="Add Image"
+                      matTooltipPosition="above"
+                      (click)="choiceBackgroundMedia('contentImg', slide, i)"
+                    />
+                    <img
+                      class="pointer m-2"
+                      width="32"
+                      src="assets/images/carousels-v2/bg-remove.png"
+                      alt="bg-remove"
+                      matTooltip="Remove Image"
+                      matTooltipPosition="above"
+                      (click)="removeSlideContentImg('contentImg', slide, i)"
+                    /> -->
+                    </div>
+                    <img
+                      class="img-fluid"
+                      [src]="slide?.contentImage"
+                      alt="bg-images"
+                      [class.ide-img-fit]="slide?.contentImgFit === 'imgFull'"
+                      [class.ide-img-mini]="
+                        slide?.contentImgFit === 'imgMinimize'
+                      "
+                    />
+                  </div>
+                </div>
+
+                <!-- Ending Slide -->
+
+                <div
+                  class="slide-content-sub m-auto"
+                  [class.slide-content-sub-box]="currentTemplate?.isBoxBg"
+                  [class.text-center]="
+                    slideLayout == 'center' || slideLayout == 'upparCenter'
+                  "
+                  [class.text-left]="
+                    slideLayout == 'left' || slideLayout == 'upparLeft'
+                  "
+                  [class.text-right]="
+                    slideLayout == 'right' || slideLayout == 'upparRight'
+                  "
+                  *ngIf="slide?.type === 'ending_slide'"
+                  [ngStyle]="{
+                    'background-color': currentTemplate?.isBoxBg
+                      ? slide?.subBackgroundColor
+                      : ''
+                  }"
+                >
+                  <!-- <div
+                  #editor
+                  class="main-text1"
+                  *ngIf="slide?.showSubTitle"
+                  [ngStyle]="{
+                    color: slide?.textColor,
+                    'font-family': descriptionFamily
+                  }"
+                  appMediumEditor
+                  [editorConfig]="editorConfig"
+                  [innerHTML]="slide?.content?.heading"
+                  (focus)="setCurrentEditor(editor)"
+                  (blur)="onEditorBlur(editor)"
+                ></div> -->
+
+                  <div
+                    #editor
+                    class="main-text2"
+                    *ngIf="slide?.showTitle"
+                    [ngStyle]="{
+                      'font-family': titleFamily,
+                      'font-size': titlefontSize,
+                      color: slide?.textColor
+                    }"
+                    appMediumEditor
+                    [editorConfig]="editorConfig"
+                    [innerHTML]="slide?.content?.heading"
+                    (focus)="setCurrentEditor(editor, slide)"
+                    (blur)="onEditorBlur(editor)"
+                  ></div>
+
+                  <div class="text-center">
+                    <a
+                      class="btn main-btn"
+                      [style.background-color]="slide?.subColor"
+                      [style.color]="slide?.textColor"
+                      >{{ currentTemplate?.actionBtnText }}</a
+                    >
+                  </div>
+
+                  <div
+                    class="text-center mt-2"
+                    *ngIf="currentTemplate?.isQRvisible"
+                  >
+                    <qrcode
+                      [qrdata]="currentTemplate?.QRtext"
+                      [width]="100"
+                      [errorCorrectionLevel]="'M'"
+                    ></qrcode>
+                  </div>
+                </div>
+
+                <div
+                  class="user-info"
+                  [class]="
+                    slideLayout == 'upparCenter' ||
+                    slideLayout == 'upparLeft' ||
+                    slideLayout === 'upparRight'
+                      ? 'mb-2'
+                      : 'mt-2'
+                  "
+                >
+                  <div
+                    class="user-info-sub"
+                    *ngIf="slide?.showProfileShot"
+                    [class.ml-auto]="slideLayout === 'upparRight'"
+                  >
+                    <img
+                      class="img-fluid mr-2"
+                      width="30"
+                      [src]="currentTemplate?.profileAvtar"
+                      alt="avatar"
+                      *ngIf="currentTemplate?.isProfileAvtarVisible"
+                    />
+                    <div>
+                      <div
+                        class="info-text1"
+                        [ngStyle]="{
+                          'font-family': titleFamily,
+                          color: slide?.textColor
+                        }"
+                      >
+                        {{ _utilities.currentProfile?.name }}
+                      </div>
+                      <div
+                        *ngIf="currentTemplate?.isHandleVisible"
+                        class="info-text2"
+                        [ngStyle]="{
+                          'font-family': descriptionFamily,
+                          color: slide?.textColor
+                        }"
+                      >
+                        {{ currentTemplate?.profileHandle }}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div
+                    class="custom-btn-1 ml-auto"
+                    *ngIf="
+                      i != currentTemplate?.slides?.length - 1 &&
+                      currentTemplate?.isSwipeBtnvisible &&
+                      slideLayout !== 'upparCenter' &&
+                      slideLayout !== 'upparLeft' &&
+                      slideLayout !== 'upparRight'
+                    "
+                    [style.background-color]="slide?.subColor"
+                    [style.color]="slide?.textColor"
+                  >
+                    <span *ngIf="currentTemplate?.isSwipeBtnText">
+                      {{ currentTemplate?.isSwipeBtnText }}
+                    </span>
+                    <img
+                      class="align-middle"
+                      width="20"
+                      src="assets/images/carousels-v2/right-arrow.png"
+                      alt="right-arrow"
+                    />
+                  </div>
+                  <div
+                    class="bookmark-btn ml-auto"
+                    *ngIf="
+                      i == currentTemplate?.slides?.length - 1 &&
+                      currentTemplate?.isBookMarkvisible
+                    "
+                    [style.background-color]="slide?.subColor"
+                  >
+                    <img
+                      class="img"
+                      src="assets/images/carousels-v2/bookmark.png"
+                      alt="bookmark"
+                      width="30"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="promt-box-div">
+        <div class="position-relative">
+          <textarea
+            [(ngModel)]="carouselIdea"
+            class="form-control"
+            rows="3"
+            placeholder="Type here.."
+          ></textarea>
+          <div class="promt-action">
+            <img
+              (click)="oneIdeaDailog()"
+              class="img-fluid pointer m-1"
+              src="assets/images/carousels-v2/icons-3.png"
+              alt="icons"
+            />
+            <!-- <img
+              (click)="reGenerateTopic()"
+              class="img-fluid pointer m-1"
+              src="assets/images/carousels-v2/icons-2.png"
+              alt="icons"
+            /> -->
+            <img
+              (click)="generateCarousel()"
+              class="img-fluid pointer m-1"
+              src="assets/images/carousels-v2/icons-1.png"
+              alt="icons"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<input
+  type="color"
+  id="color-input"
+  style="display: none"
+  (input)="onColorChange($event)"
+/>
+<button
+  id="editor-regenerate-content"
+  style="display: none"
+  (click)="onToolbarRegenerateClick()"
+></button>
+<app-loader></app-loader>

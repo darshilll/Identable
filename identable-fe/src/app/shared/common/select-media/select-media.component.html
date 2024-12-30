@@ -1,0 +1,148 @@
+<div class="customdrop-head">
+  <h3 class="droptitle">
+    Select Media
+    <img class="img-fluid align-center" src="assets/images/help-icon.svg" alt="help-icon" matTooltip="Select Media"
+      matTooltipPosition="below" />
+  </h3>
+  <img class="img-fluid align-center dropclose" src="assets/images/close-1.svg" alt="close"
+    [mat-dialog-close]="false" />
+</div>
+<div class="upload-main">
+  <div class="upload-left">
+    <button type="button" class="btn btn-block" [class.btn-disabled]="item?.isComming"
+      [class.btn-active]="item?.lable === choiceMediaOptions" *ngFor="let item of choiceMediaTabs; let i = index"
+      (click)="changeTheTabs(item)">
+      <img class="img-fluid align-middle" [src]="item?.icon" alt="upload-icon-24" width="24" />
+      {{ item?.lable }}
+      <span class="coming" *ngIf="item?.isComming">(Coming Soon)</span>
+    </button>
+  </div>
+  <div class="upload-right">
+    <div class="w-100" *ngIf="choiceMediaOptions === 'Upload Media'">
+      <mat-dialog-content class="p-2">
+        <div class="upload-container" (dragover)="onDragOver($event)" (drop)="onDrop($event)"
+          (dragleave)="onDragLeave($event)">
+          <label class="upload-file-div mb-3">
+            <input type="file" class="custom-input" (change)="uploadImage($event)" />
+            <img class="img-fluid" src="assets/images/claude.png" alt="claude" width="160" />
+            <div class="btn">Upload</div>
+            <div class="text1">or drag & drop files here</div>
+          </label>
+        </div>
+
+        <h3 class="title-1">
+          Recent
+          <img class="img-fluid align-middle" src="assets/images/help-icon.svg" alt="help-icon" matTooltip="Recent"
+            matTooltipPosition="below" />
+        </h3>
+        <div class="imageslist">
+          <div class="imagess" *ngFor="let item of recentMedia?.items; let i = index">
+            <img (click)="choiceRecentImage(item?.mediaUrl)" class="img-fluid" [src]="
+                item?.mediaUrl ? item?.mediaUrl : 'assets/images/demoimg-1.jpg'
+              " alt="demoimg-1" />
+          </div>
+        </div>
+      </mat-dialog-content>
+    </div>
+
+    <div class="w-100" *ngIf="choiceMediaOptions === 'Ai image'">
+      <mat-dialog-content class="p-0">
+        <form [formGroup]="genratedImageForm" class="text-left">
+        <div class="mb-3">
+          <div class="title-1 w-100">
+            Image idea
+            <img src="assets/images/help-icon.svg" alt="help-icon" matTooltip="Image idea" matTooltipPosition="above" />
+          </div>
+          <div class="idea-box mb-1">
+            <textarea rows="3" formControlName="topic" placeholder="Image idea..." class="form-control"></textarea>
+            <div class="promt-action">
+              <img src="assets/images/carousels-v2/icons-3.png" (click)="getAIImageIdea()" alt="icons" class="img-fluid pointer m-1" /><!-- <img
+                src="assets/images/generate.png" alt="generate" class="img-fluid pointer m-1" /> -->
+            </div>            
+          </div>
+          <div class="invalid-feedback d-block" *ngIf="submitted && hasError('topic', 'required')">
+            Please enter topic.
+          </div>
+        </div>
+        <div class="mb-3">
+          <div class="title-1 w-100">
+            Image style
+            <img src="assets/images/help-icon.svg" alt="help-icon" matTooltip="Image style"
+              matTooltipPosition="above" />
+          </div>
+          <textarea class="form-control custom-textarea-1" formControlName="imageStyle" rows="3"
+            placeholder="Optional : describe the colours, style, or mood to use"></textarea>
+            <div class="invalid-feedback d-block" *ngIf="submitted && hasError('imageStyle', 'required')">
+              Please enter image style.
+            </div>
+        </div>
+        <div class="mb-4">
+          <button type="button" class="btn-generate" (click)="generateImage()">
+            <img width="16" src="assets/images/star-three-white.svg" alt="star" />
+            Generate Images
+            <span [matTooltip]="creditMessage" class="credit-div" matTooltipPosition="above"><i class="fa fa-cubes"
+                aria-hidden="true"></i>{{ creditDeducated }}</span>
+          </button>
+        </div>
+      </form>
+        <div class="mb-2" *ngIf="!genratedImageList">
+          <div class="ide-no-img">Generate an image to get started</div>
+        </div>
+        <div class="mb-2" *ngIf="genratedImageList">
+          <div class="imageslist">
+            <div class="imagess" *ngFor="let item of genratedImageList; let i = index">
+              <img (click)="choiceRecentImage(item?.imageUrl)" class="img-fluid" [src]="
+                item?.imageUrl ? item?.imageUrl : 'assets/images/demoimg-1.jpg'
+              "/>              
+            </div>            
+          </div>
+        </div>
+      </mat-dialog-content>
+    </div>
+
+    <div class="w-100" *ngIf="choiceMediaOptions === 'Pexels'">
+      <div class="searchbox-div">
+        <div class="searchbox">
+          <i class="fa fa-search pointer" (click)="searchPixelVideoAndImage()"></i>
+          <input type="text" class="form-control" placeholder="Search here..." [(ngModel)]="serchPixelByText"
+            (keyup.enter)="searchPixelVideoAndImage()" />
+        </div>
+        <select class="form-control ide-option ml-2" (change)="onChangeSearchType($event)">
+          <option value="image">Images</option>
+          <option value="video">Videos</option>
+        </select>
+      </div>
+      <mat-dialog-content class="p-0">
+        <div class="imageslist" *ngIf="serchPixelType == 'image'">
+          <div class="imagess" *ngFor="let listimgdata of pixelImagelist; let i = index">
+            <img class="img-fluid" [src]="listimgdata?.src?.medium" alt="demoimg-1"
+              (click)="addPexelsImageVideo(listimgdata?.src?.medium)" />
+          </div>
+        </div>
+        <div class="videoslist" *ngIf="serchPixelType == 'video'">
+          <video loop="" controls="" class="videos" *ngFor="let videoData of pixelVideolist; let i = index"
+            (click)="addPexelsImageVideo(videoData?.video_files[3]?.link)">
+            <source [src]="videoData?.video_files[3]?.link" [type]="videoData?.video_files[3]?.file_type" />
+          </video>
+        </div>
+      </mat-dialog-content>
+    </div>
+    <div class="w-100" *ngIf="choiceMediaOptions === 'Giphy'">
+      <div class="searchbox-div">
+        <div class="searchbox">
+          <i class="fa fa-search pointer" (click)="searchGifs()"></i>
+          <input type="text" [(ngModel)]="searchGiphyQuery" (keyup.enter)="searchGifs()" class="form-control"
+            placeholder="Search..." />
+        </div>
+      </div>
+      <mat-dialog-content class="p-0">
+        <div class="giphylist">
+          <div class="giphy" *ngFor="let listdata of allGiphyList; let i = index">
+            <img [src]="listdata?.images.preview_gif?.url" (click)="selectGiphy(listdata?.images.preview_gif?.url)" />
+          </div>
+        </div>
+      </mat-dialog-content>
+    </div>
+  </div>
+</div>
+<app-loader></app-loader>

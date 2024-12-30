@@ -1,0 +1,227 @@
+<div class="ide-boxes">
+  <h5 class="ide-title">
+    Colour
+    <img
+      class="img-fluid align-center"
+      src="assets/images/help-icon.svg"
+      alt="help-icon"
+      matTooltip="Colour"
+      matTooltipPosition="below"
+    />
+  </h5>
+  <div class="ide-boxes-div">
+    <div class="mb-3">
+      <div class="switch-title mb-1">
+        <div class="text1">
+          Brand colors
+          <img
+            class="img-fluid align-center"
+            src="assets/images/help-icon.svg"
+            alt="help-icon"
+            matTooltip="Brand colors"
+            matTooltipPosition="below"
+          />
+        </div>
+        <label class="switch ml-2">
+          <input type="checkbox" (change)="switchOnBrandkit($event)" [checked]="applyBrandKit"/>
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div class="main-color" [class.disabled-div]="applyBrandKit">
+        <div class="color-box select-color">
+          <div class="colors" [style.background-color]="backgroundColor">
+            <input
+              type="color"
+              [(ngModel)]="backgroundColor"
+              (input)="onColorChange($event, 'backgroundColor')"
+            />
+          </div>
+          <div class="colors" [style.background-color]="textColor">
+            <input
+              type="color"
+              [(ngModel)]="textColor"
+              (input)="onColorChange($event, 'textColor')"
+            />
+          </div>
+          <div class="colors" [style.background-color]="subColor">
+            <input
+              type="color"
+              [(ngModel)]="subColor"
+              (input)="onColorChange($event, 'subColor')"
+            />
+          </div>
+          <div class="colors" [style.background-color]="subBackgroundColor">
+            <input
+              type="color"
+              [(ngModel)]="subBackgroundColor"
+              (input)="onColorChange($event, 'subBackgroundColor')"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mb-3">
+      <div class="switch-title mb-1">
+        <div class="text1">
+          Palettes
+          <img
+            class="img-fluid align-center"
+            src="assets/images/help-icon.svg"
+            alt="help-icon"
+            matTooltip="Palettes"
+            matTooltipPosition="below"
+          />
+        </div>
+      </div>
+      <div class="sub-color" [class.disabled-div]="applyBrandKit">
+        <div class="inline-block w-100 mb-1">
+          <div class="color-name">Bold & Bright</div>
+          <div class="color-themes">
+            <div
+              class="color-box"
+              (click)="
+                toggleColorSetting('#11004D', '#ffffff', '#BB0088', '#332288')
+              "
+            >
+              <div class="colors" style="background-color: #11004d"></div>
+              <div class="colors" style="background-color: #ffffff"></div>
+              <div class="colors" style="background-color: #bb0088"></div>
+              <div class="colors" style="background-color: #332288"></div>
+            </div>
+            <div
+              class="color-box"
+              (click)="
+                toggleColorSetting('#2222BB', '#ffffff', '#AA77CC', '#4444DD')
+              "
+            >
+              <div class="colors" style="background-color: #2222bb"></div>
+              <div class="colors" style="background-color: #ffffff"></div>
+              <div class="colors" style="background-color: #aa77cc"></div>
+              <div class="colors" style="background-color: #4444dd"></div>
+            </div>
+            <div
+              class="color-box"
+              (click)="
+                toggleColorSetting('#771144', '#ffffff', '#EE3377', '#992255')
+              "
+            >
+              <div class="colors" style="background-color: #771144"></div>
+              <div class="colors" style="background-color: #ffffff"></div>
+              <div class="colors" style="background-color: #ee3377"></div>
+              <div class="colors" style="background-color: #992255"></div>
+            </div>
+            <div
+              class="color-box"
+              (click)="
+                toggleColorSetting('#280647', '#B3AEE9', '#96F7D2', '#342355')
+              "
+            >
+              <div class="colors" style="background-color: #280647"></div>
+              <div class="colors" style="background-color: #b3aee9"></div>
+              <div class="colors" style="background-color: #96f7d2"></div>
+              <div class="colors" style="background-color: #342355"></div>
+            </div>
+          </div>
+        </div>
+        <div class="inline-block w-100 mb-1">
+          <div class="color-name">Cool & Clean</div>
+          <div class="color-themes">
+            <div
+              class="color-box"
+              (click)="
+                toggleColorSetting('#F2DEC8', '#847459', '#C08552', '#F8E8D9')
+              "
+            >
+              <div class="colors" style="background-color: #f2dec8"></div>
+              <div class="colors" style="background-color: #847459"></div>
+              <div class="colors" style="background-color: #c08552"></div>
+              <div class="colors" style="background-color: #f8e8d9"></div>
+            </div>
+            <div
+              class="color-box"
+              (click)="
+                toggleColorSetting('#F8E8D9', '#8B786D', '#AC8179', '#FFFEF9')
+              "
+            >
+              <div class="colors" style="background-color: #f8e8d9"></div>
+              <div class="colors" style="background-color: #8b786d"></div>
+              <div class="colors" style="background-color: #ac8179"></div>
+              <div class="colors" style="background-color: #fffef9"></div>
+            </div>
+            <div
+              class="color-box"
+              (click)="
+                toggleColorSetting('#1E140F', '#FBE1B7', '#FF9A8D', '#3B2923')
+              "
+            >
+              <div class="colors" style="background-color: #1e140f"></div>
+              <div class="colors" style="background-color: #fbe1b7"></div>
+              <div class="colors" style="background-color: #ff9a8d"></div>
+              <div class="colors" style="background-color: #3b2923"></div>
+            </div>
+            <div
+              class="color-box"
+              (click)="
+                toggleColorSetting('#397A59', '#FFFCFA', '#FCCE19', '#4D8A6D')
+              "
+            >
+              <div class="colors" style="background-color: #397a59"></div>
+              <div class="colors" style="background-color: #fffcfa"></div>
+              <div class="colors" style="background-color: #fcce19"></div>
+              <div class="colors" style="background-color: #4d8a6d"></div>
+            </div>
+          </div>
+        </div>
+        <div class="inline-block w-100 mb-1">
+          <div class="color-name">Warm & Friendly</div>
+          <div class="color-themes">
+            <div
+              class="color-box"
+              (click)="
+                toggleColorSetting('#FFF2E4', '#7A552B', '#C65911', '#FFEDDA')
+              "
+            >
+              <div class="colors" style="background-color: #fff2e4"></div>
+              <div class="colors" style="background-color: #7a552b"></div>
+              <div class="colors" style="background-color: #c65911"></div>
+              <div class="colors" style="background-color: #ffedda"></div>
+            </div>
+            <div
+              class="color-box"
+              (click)="
+                toggleColorSetting('#FFEDD9', '#B66328', '#DF842D', '#FFF4E5')
+              "
+            >
+              <div class="colors" style="background-color: #ffedd9"></div>
+              <div class="colors" style="background-color: #b66328"></div>
+              <div class="colors" style="background-color: #df842d"></div>
+              <div class="colors" style="background-color: #fff4e5"></div>
+            </div>
+            <div
+              class="color-box"
+              (click)="
+                toggleColorSetting('#FEF1DA', '#CE8035', '#C26F27', '#FFF8E8')
+              "
+            >
+              <div class="colors" style="background-color: #fef1da"></div>
+              <div class="colors" style="background-color: #ce8035"></div>
+              <div class="colors" style="background-color: #c26f27"></div>
+              <div class="colors" style="background-color: #fff8e8"></div>
+            </div>
+            <div
+              class="color-box"
+              (click)="
+                toggleColorSetting('#F4B94D', '#FFFFFF', '#1D1D76', '#F8E4B5')
+              "
+            >
+              <div class="colors" style="background-color: #f4b94d"></div>
+              <div class="colors" style="background-color: #ffffff"></div>
+              <div class="colors" style="background-color: #1d1d76"></div>
+              <div class="colors" style="background-color: #f8e4b5"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

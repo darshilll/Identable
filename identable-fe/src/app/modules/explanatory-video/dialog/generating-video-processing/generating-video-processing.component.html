@@ -1,0 +1,24 @@
+<div class="customdrop-head">
+  <h3 class="droptitle"></h3>
+  <span class="dropclose pointer" (click)="onClose()">
+    <img class="img-fluid" src="assets/images/close-1.svg" alt="close-1" />
+  </span>
+</div>
+<mat-dialog-content>
+  <div class="custom-loader-main">
+    <div class="custom-loader-sub">
+      <div class="custom-text">Generating video</div>
+      <div class="custom-loader"></div>
+    </div>
+  </div>
+  <div class="desq">
+    Your explanatory video is being generated and may take some time to complete
+    In the meantime, feel free to explore other features and activities within
+    the product!"
+  </div>
+</mat-dialog-content>
+<div class="customdrop-foot text-right">
+  <button type="button" class="btn btn-cancel" (click)="onClose()">
+    Cancel
+  </button>
+</div>

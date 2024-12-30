@@ -1,0 +1,76 @@
+<div class="custom_modal_div">
+  <div class="modal-head">
+    <h2 class="title1">Follower List</h2>
+  </div>
+  <mat-dialog-content>
+    <div class="input-group">
+      <input
+        type="text"
+        class="form-control"
+        [(ngModel)]="campaignName"
+        placeholder="Campaign Name"
+      />
+    </div>
+    <div class="input-group mb-3 mt-3">
+      <div class="input-group-prepend">
+        <div class="input-group-text"><i class="fa fa-search"></i></div>
+      </div>
+      <form method="post">
+        <input
+          type="text"
+          [(ngModel)]="searchText"
+          (keyup.enter)="searchFollower($event)"
+          placeholder="Search"
+          class="form-control"
+        />
+      </form>
+    </div>
+
+    <div class="follower-lists">
+      <div
+        mat-dialog-content
+        class="dialog-content"
+        infiniteScroll
+        [infiniteScrollDistance]="1"
+        [infiniteScrollThrottle]="300"
+        [scrollWindow]="false"
+        (scrolled)="onScrollDown()"
+      >
+        <div class="follower" *ngFor="let item of items">
+          <div class="div1">
+            <input
+              type="checkbox"
+              (click)="selectFollower($event)"
+              name=""
+              [value]="item?._id"
+              id=""
+            />
+          </div>
+          <div class="div2">
+            <div class="nameicon">
+              <img alt="demo" [src]="item?.profileImagUrl" /><span
+                class="txt1 text-capitalize"
+                >{{ item?.name }}</span
+              ><span class="txt2 text-capitalize">{{
+                item?.primarySubTitle
+              }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <div class="modal-footer">
+    <button
+      type="button"
+      [class.disabled]="!selectedFollower.length"
+      (click)="sendInvitaion()"
+      class="btn btn-addpost"
+    >
+      send Invitation
+      <!-- <span class="credit-div" matTooltip="Credit" matTooltipPosition="above"
+        ><i class="fa fa-cubes" aria-hidden="true"></i>400</span
+      > -->
+    </button>
+  </div>
+</div>

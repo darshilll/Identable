@@ -1,0 +1,196 @@
+.customdrop-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  border-bottom: 1px solid #eee;
+  padding: 15px 20px;
+  .droptitle {
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 24px;
+    color: #172b4d;
+  }
+  .btn-download {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 18px;
+    color: #172b4d;
+    background: #ffffff;
+    border: 1px solid rgba(0, 29, 108, 0.75);
+    border-radius: 4px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 8px 14px;
+    gap: 10px;
+  }
+  .dropdown-menu {
+    padding: 5px 0;
+    background: #ffffff;
+    border: 1px solid #f2f4f7;
+    box-shadow: 0px 12px 16px -4px rgba(16, 24, 40, 0.08),
+      0px 4px 6px -2px rgba(16, 24, 40, 0.03);
+    border-radius: 4px;
+    overflow: hidden;
+    .droplink {
+      color: #172b4d;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.2;
+      padding: 6px 14px;
+      display: block;
+      cursor: pointer;
+      &:hover {
+        background: #edf3fe;
+      }
+    }
+  }
+}
+
+.ide-creative-img {
+  max-width: 400px;
+  width: 100%;
+}
+
+.mat-mdc-dialog-content {
+  background: #e8e9eb;
+}
+
+.custom-foot {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  width: 100%;
+  border-top: 1px solid #eee;
+  padding: 15px 20px;
+  .btn-cancel {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    text-align: center;
+    text-transform: capitalize;
+    color: #172b4d;
+    padding: 4px 12px;
+    border: 1px solid #626f86;
+    border-radius: 4px;
+  }
+}
+
+.carousel {
+  ::ng-deep {
+    .slick-prev {
+      left: -20px;
+      width: 36px;
+      height: 36px;
+      background: #ffffff;
+      box-shadow: 0px 0px 1.66667px rgba(9, 30, 66, 0.31),
+        0px 13.3333px 20px rgba(9, 30, 66, 0.15) !important;
+      border-radius: 20px;
+      z-index: 1;
+      &:before {
+        content: "prev";
+        font-family: swiper-icons;
+        color: #172b4d;
+        opacity: 1;
+      }
+    }
+    .slick-next {
+      right: -20px;
+      width: 36px;
+      height: 36px;
+      background: #ffffff;
+      box-shadow: 0px 0px 1.66667px rgba(9, 30, 66, 0.31),
+        0px 13.3333px 20px rgba(9, 30, 66, 0.15) !important;
+      border-radius: 20px;
+      z-index: 1;
+      &:before {
+        content: "next";
+        font-family: swiper-icons;
+        color: #172b4d;
+        opacity: 1;
+      }
+    }
+  }
+  .custom-loader-main {
+    top: 0;
+    left: 0;
+    z-index: 9;
+    width: 100%;
+    height: 300px;
+    overflow: hidden;
+    .custom-loader-sub {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform: scale(1.5);
+      .custom-text {
+        font-style: normal;
+        font-weight: 500;
+        font-size: 16px;
+        color: #ffffff;
+        position: relative;
+        z-index: 1;
+      }
+      .custom-loader {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: conic-gradient(
+          from 180deg at 50% 50%,
+          #feb967 0deg,
+          #ff5f0b 106.2deg,
+          #ff5780 235.8deg,
+          #c4b5fd 307.99deg,
+          #feb967 360deg
+        );
+        -webkit-animation: rotate-border 8s linear infinite;
+        -moz-animation: rotate-border 8s linear infinite;
+        -o-animation: rotate-border 8s linear infinite;
+        animation: rotate-border 8s linear infinite;
+      }
+      @keyframes rotate-border {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    }
+  }
+}
+
+.ide-custom-layers {
+  width: fit-content;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: 10px auto;
+  padding: 8px;
+  gap: 14px;
+  background: #f9f9f9;
+  border-radius: 4px;
+  overflow: auto;
+  .ide-layers {
+    display: flex;
+    align-items: center;
+    margin: 5px;
+    cursor: pointer;
+    .img-drag {
+      padding: 4px 0px;
+      background: #ffffff;
+      border-radius: 4px;
+    }
+    .ide-layer-box {
+      width: 36px;
+      height: 36px;
+      background: #ffffff;
+      border-radius: 4px;
+      display: inline-block;
+      overflow: hidden;
+    }
+  }
+}

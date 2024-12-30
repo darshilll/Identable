@@ -1,0 +1,51 @@
+<div class="ide-boxes">
+  <h5 class="ide-title">
+    Templates
+    <img
+      class="img-fluid align-center"
+      src="assets/images/help-icon.svg"
+      alt="help-icon"
+      matTooltip="Templates"
+      matTooltipPosition="below"
+    />
+  </h5>
+  <div class="ide-boxes-div">
+    <div class="middle-content">
+      <div
+        class="themeimg"
+        *ngFor="let listItem of carouselTemplates; let i = index"
+      >
+        <div class="themeimgdiv">
+          <div class="themebtns">
+            <i
+              class="fa fa-plus-circle m-1"
+              matTooltip="Use Theme"
+              matTooltipPosition="above"
+              (click)="choiceNewTemplate(listItem)"
+            ></i>
+            <i
+              class="fa fa-eye m-1"
+              matTooltip="View Theme"
+              matTooltipPosition="above"
+              (click)="previewTemplate(listItem)"
+            ></i>
+            <!-- <img
+              class="editimg"
+              src="assets/images/carousel/eye.png"
+              alt="view"
+              width="40"
+              matTooltip="View Theme"
+              matTooltipPosition="above"
+              (click)="previewTemplate(listItem)"
+            /> -->
+          </div>
+          <!-- <span class="counts">1 of 3</span> -->
+          <img class="imgs" [src]="listItem?.thumbnailImage" alt="theme" />
+        </div>
+        <div class="temp-title-1">1080 x1080 px</div>
+        <div class="temp-title-2">linkedin</div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-loader></app-loader>

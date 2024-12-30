@@ -1,0 +1,108 @@
+<div class="topdiv">
+  <h2 class="main-title d-flex align-items-center">User</h2>
+  <div class="btn-addpost">
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <div class="input-group-text"><i class="fa fa-search"></i></div>
+      </div>
+      <form method="post" [formGroup]="searchUserForm">
+        <input
+          (keyup)="searchUser()"
+          type="text"
+          class="form-control"
+          placeholder="Search"
+          formControlName="searchText"
+        />
+      </form>
+    </div>
+    <button
+      type="button"
+      class="filter-btn"
+      matTooltip=""
+      matTooltipPosition="below"
+      matTooltipClass="below"
+      (click)="openFilterDailog()"
+    >
+      <i class="fa fa-filter"></i>
+    </button>
+  </div>
+</div>
+<div class="boxviewlist">
+  <div class="table_box">
+    <div class="table_responsive">
+      <table class="table">
+        <colgroup>
+          <col width="30%" />
+          <col width="10%" />
+          <col width="10%" />
+          <col width="10%" />
+          <col width="10%" />
+          <col width="10%" />
+          <col width="10%" />
+          <col width="10%" />
+        </colgroup>
+        <thead>
+          <tr>
+            <th>User Name & Email</th>
+            <th>Plan</th>
+            <th>Status</th>
+            <th>Signup Date</th>
+            <th>Last Login</th>
+            <th>Ai Setting</th>
+            <th>Page</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="userList?.length == 0 || !isDataLoaded">
+            <td colspan="7" class="text-center pt-3 pb-3">
+              {{ isDataLoaded ? "No records found" : "Loading..." }}
+            </td>
+          </tr>
+          <tr *ngFor="let item of userList" class="tr-userlist">
+            <td>
+              <div class="nameicon">
+                <img
+                  [src]="
+                    item?.profileImagUrl
+                      ? item?.profileImagUrl
+                      : 'assets/images/avatar/avatar.png'
+                  "
+                  alt="User Profile"
+                />
+                <span class="txt1">{{ item?.name }}</span>
+                <span class="txt2">{{ item?.email }}</span>
+              </div>
+            </td>
+            <td class="text-uppercase">
+              {{ item?.planName }}
+            </td>
+            <td class="text-capitalize">
+              {{ item?.subscriptionStatus }}
+            </td>
+            <td>
+              {{ item?.createdAt | date : "MMM d, y" }}
+            </td>
+            <td>
+              {{ item?.lastActiveDate | date : "MMM d, y" }}
+            </td>
+            <td>
+              {{ item?.isAISetting ? "Yes" : "No" }}
+            </td>
+            <td>{{ item?.linkedinpages?.length }}</td>
+
+            <td>
+              <div class="jobdiv"></div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <app-pagination
+      [currentPage]="currentPage"
+      [totalPages]="totalPages"
+      (pageChanged)="onPageChange($event)"
+    ></app-pagination>
+  </div>
+</div>
+<app-loader></app-loader>

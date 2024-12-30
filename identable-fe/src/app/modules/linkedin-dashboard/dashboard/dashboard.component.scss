@@ -1,0 +1,108 @@
+.ide-pops {
+  width: 100%;
+  display: inline-block;
+  color: #ffffff;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.2;
+  background: #001141;
+  border-radius: 3px;
+  padding: 10px 25px 10px 10px;
+  margin-bottom: 5px;
+  position: relative;
+  .spans {
+    color: #ff6f47;
+  }
+  .ide-close {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+}
+.topdiv {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  .leftside {
+    .main-title {
+      font-style: normal;
+      font-weight: 500;
+      font-size: 24px;
+      line-height: 28px;
+      color: #001141;
+      margin-bottom: 8px;
+    }
+    .sub-title {
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 16px;
+      color: #393939;
+    }
+  }
+  .rightside {
+    .dropdown {
+      float: left;
+      .dropdown-toggle {
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 18px;
+        color: #282c5f;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 4px 10px;
+        min-height: 38px;
+        background-color: #fff;
+        border: 1px solid rgba(0, 29, 108, 0.75);
+        border-radius: 4px;
+      }
+      .dropdown-menu {
+        padding: 0;
+        filter: drop-shadow(0px 0px 1px rgba(9, 30, 66, 0.31))
+          drop-shadow(0px 8px 12px rgba(9, 30, 66, 0.15));
+        border-radius: 4px;
+      }
+    }
+    .account-drop-menu {
+      .account-drop {
+        display: flex;
+        align-items: center;
+        padding: 8px 16px;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 18px;
+        color: #001141;
+        cursor: pointer;
+        &:hover {
+          background-color: #e0e0e0;
+        }
+      }
+      .subdrop {
+        .subdrop-menu {
+          top: 0;
+          left: 100%;
+          filter: drop-shadow(0px 0px 1px rgba(9, 30, 66, 0.31))
+            drop-shadow(0px 8px 12px rgba(9, 30, 66, 0.15));
+          border-radius: 4px;
+        }
+        &:hover {
+          .subdrop-menu {
+            display: block;
+            margin: 0;
+          }
+        }
+      }
+    }
+    .date-drop-menu {
+      padding: 5px 10px !important;
+      .radiobtn-1 {
+        text-transform: capitalize;
+        margin: 5px 0;
+      }
+    }
+  }
+}

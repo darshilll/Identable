@@ -1,0 +1,135 @@
+<mat-dialog-content>
+  <div class="stepone" *ngIf="isStepOne">
+    <div class="stepdiv">
+      <div class="steps active_step">
+        <div class="stepcirclr"></div>
+        <span class="text1">Campaign Info</span>
+      </div>
+      <div class="steps">
+        <div class="stepcirclr"></div>
+        <span class="text1">Invite Connection</span>
+      </div>
+    </div>
+    <div class="camptype_main">
+      <h4 class="camptitle">Campaign name</h4>
+
+      <form [formGroup]="campaignForm">
+        <div class="row">
+          <div class="col-12 col-lg-12">
+            <div class="form-group">
+              <input
+                type="text"
+                formControlName="campaignName"
+                class="form-control"
+                placeholder="Campaign name"
+              />
+              <div
+                class="invalid-feedback d-block"
+                *ngIf="
+                  submittedCampaign && hasError('campaignName', 'required')
+                "
+              >
+                Please enter campaign name.
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="stepone" *ngIf="isStepTwo">
+    <div class="stepdiv">
+      <div class="steps active_step">
+        <div class="stepcirclr"></div>
+        <span class="text1">Campaign Info</span>
+      </div>
+      <div class="steps active_step">
+        <div class="stepcirclr"></div>
+        <span class="text1">Invite Connection</span>
+      </div>
+    </div>
+    <div class="camptype_main">
+      <h4 class="camptitle">Connections</h4>
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <div class="input-group-text"><i class="fa fa-search"></i></div>
+        </div>
+        <form method="post">
+          <input
+            type="text"
+            [(ngModel)]="searchText"
+            [ngModelOptions]="{ standalone: true }"
+            (keyup.enter)="searchFollower($event)"
+            placeholder="Search here..."
+            class="form-control"
+          />
+        </form>
+      </div>
+      <div class="follower-lists">
+        <div
+          mat-dialog-content
+          class="dialog-content"
+          infiniteScroll
+          [infiniteScrollDistance]="1"
+          [infiniteScrollThrottle]="300"
+          [scrollWindow]="false"
+          (scrolled)="onScrollDown()"
+        >
+          <div class="follower" *ngFor="let item of items; let i = index">
+            <div class="div1">
+              <input
+                type="checkbox"
+                (click)="selectFollower($event)"
+                [value]="item?._id"
+              />
+            </div>
+            <div class="div2">
+              <div class="nameicon">
+                <img
+                  *ngIf="!item?.imageSrc"
+                  alt="demo"
+                  src="assets/images/avatar/avatar.png"
+                  alt="avatar"
+                />
+                <img *ngIf="item?.imageSrc" alt="demo" [src]="item?.imageSrc" />
+                <span class="txt1 text-capitalize">{{ item?.name }}</span>
+                <span class="txt2 text-capitalize">
+                  {{ item?.occupation }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot_div">
+    <button
+      type="button"
+      *ngIf="!isStepOne"
+      (click)="nextStep(false)"
+      class="btn btn-back pull-left"
+    >
+      <i class="fa fa-arrow-left"></i> Back
+    </button>
+    <div class="pull-right">
+      <button type="button" class="btn btn-cancel" (click)="cancel()">
+        Cancel
+      </button>
+      <button type="button" class="btn btn-next" (click)="nextStep(true)">
+        {{ isStepOne ? "Next" : "Submit" }}
+        <span
+          *ngIf="!isStepOne"
+          [matTooltip]="creditMessage"
+          class="credit-div"
+          matTooltipPosition="above"
+          ><i class="fa fa-cubes" aria-hidden="true"></i
+          >{{ creditDeducated }}</span
+        >
+      </button>
+    </div>
+  </div>
+</mat-dialog-content>
+<app-loader></app-loader>

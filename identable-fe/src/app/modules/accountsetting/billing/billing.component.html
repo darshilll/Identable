@@ -1,0 +1,137 @@
+<div class="rightbox">
+  <h3 class="title">Billing</h3>
+  <h5 class="titlesub">Your Billing information</h5>
+
+  <!-- <div class="bboxs-main">
+    <h5 class="subtitle1">Email to send invoices</h5>
+    <h6 class="subtitle2">
+      Lorem ipsum dolor sit amet consectetur. Sed porttitor maecenas.
+    </h6>
+    <form [formGroup]="saveBillingEmailForm" novalidate>
+      <div class="boxcus">
+        <input
+          type="email"
+          class="form-control"
+          formControlName="billingEmail"
+          placeholder="invoice@gmail.com"
+        />
+        <button class="btn btn-save" (click)="saveBillingEmail()" type="button">
+          Save
+        </button>
+      </div>
+    </form>
+    <div
+      class="invalid-feedback d-block"
+      *ngIf="submitted && hasError('billingEmail', 'required')"
+    >
+      Please enter billing email address.
+    </div>
+  </div> -->
+
+  <!-- <div class="bboxs-main1 appsumodiv" [class.disabled]="isCouponCode">
+    <div class="bboxs1">
+      <span class="title1">Apply Coupon</span>
+      <span class="txt2">Check your Redemption Details.</span>
+    </div>
+    <div class="bboxs2">
+      <form [formGroup]="applyCouponForm" novalidate>
+        <div class="boxcus" *ngIf="!isValidCouponCode">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Redeem code"
+            formControlName="couponCode"
+          />
+          <button
+            class="btn btn-save"
+            (click)="onApplyCouponCode()"
+            type="button"
+          >
+            Submit
+          </button>
+        </div>
+      </form>
+      <div
+        class="invalid-feedback d-block"
+        *ngIf="couponSubmitted && couponCodeHasError('couponCode', 'required')"
+      >
+        Please enter coupon code.
+      </div>
+      <div
+        class="alert alert-success p-2 mb-3"
+        *ngIf="isValidCouponCode"
+        role="alert"
+      >
+        Coupon Applied
+      </div>
+      <div
+        class="alert alert-danger p-2 mb-3 mt-3"
+        *ngIf="isCouponFailedToValid"
+        role="alert"
+      >
+        Unvalid Code. Please tray again.
+      </div>
+    </div>
+  </div> -->
+  <!-- <div class="user-subscription" *ngIf="!userSubscription">
+    <div class="btnlist">
+      <button
+        class="btn buySubBtn"
+        routerLink="/subscription/plan"
+        type="button"
+      >
+        Buy ok our subscription
+      </button>
+    </div>
+  </div> -->
+  <div class="user-subscription">
+    <div class="bboxs-main1">
+      <div class="bboxs1">
+        <span class="title1"
+          >{{ _utilities.userData?.plan?.planName }} plan</span
+        >
+        <span
+          class="price"
+          *ngIf="
+            _utilities.userData?.subscription?.subscriptionStatus == 'trial'
+          "
+          >Your trial period is expiring in
+          {{
+            calculateDateDiff(_utilities.userData?.subscription?.renewCycleDate)
+          }}
+          day</span
+        >
+        <span
+          class="price"
+          *ngIf="
+            _utilities.userData?.subscription?.subscriptionStatus != 'trial'
+          "
+        >
+          {{ getPlanPrice() }}</span
+        >
+        <span class="txt2">{{
+          _utilities.userData?.plan?.planDescription
+        }}</span>
+      </div>
+      <div class="bboxs2">
+        <button class="btn btn-upgrade" type="button" (click)="movedToPlan()">
+          Upgrade your plan
+          <i class="fa fa-arrow-up fa-rotate-90" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+    <div class="btnlist">
+      <!-- <button class="btn btn-invoice" type="button" (click)="saveContinue()">
+        <img
+          class="align-middle"
+          src="assets/images/invoice-icon.svg"
+          width="15"
+          alt="invoice"
+        />
+        Save & Continue
+      </button> -->
+      <button class="btn btn-next" type="button" (click)="saveContinue()">Next Step <i class="fa fa-angle-double-right"></i></button>
+      <button class="btn btn-cancel pull-right" type="button" (click)="onCancelSubscription()">Cancel Subscription</button>
+    </div>
+  </div>
+</div>

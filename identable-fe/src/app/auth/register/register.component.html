@@ -1,0 +1,114 @@
+<div class="register_midd">
+  <div class="right_div">
+    <div class="tophead">
+      <a href="/" class="logo">
+        <img class="avatar" src="assets/images/logo/logo.svg" alt="logo" width="160" />
+      </a>
+    </div>
+    <div>
+      <div class="slidediv">
+        <img src="assets/images/slider/signup.svg" alt="slide" />
+        <!-- <h4>Intelligent content recommendations</h4> -->
+      </div>
+    </div>
+
+    <!-- <ngx-slick-carousel class="carousel" #slickModal="slick-carousel">
+      
+      <div ngxSlickItem>
+        <div class="slidediv">
+          <img src="assets/images/slider/slide-2.svg" alt="slide" />
+          <h4>Reposting with New Content</h4>
+        </div>
+      </div>
+      <div ngxSlickItem>
+        <div class="slidediv">
+          <img src="assets/images/slider/slide-3.svg" alt="slide" />
+          <h4>Smart Scheduling and Automation</h4>
+        </div>
+      </div>
+    </ngx-slick-carousel> -->
+  </div>
+  <div class="left_div text-center">
+    <div class="formcontent">
+      <h3 class="title-1">Get started with identable</h3>
+      <p class="title-2">Let’s gets started your 7-day free trial.</p>
+
+      <a class="googlebtn" (click)="loginWithlinkedin()">
+        <img class="mr-2" src="assets/images/social/linkedin.png" alt="linkedin" width="20" />
+        Sign In With LinkedIn
+      </a>
+
+      <div class="ordiv">
+        <span>or</span>
+      </div>
+
+      <div class="Error" *ngIf="errorMessage">
+        <div>
+          <img class="mr-2" src="assets/images/error.svg" alt="Error" width="17" />
+        </div>
+
+        <span style="font-size: 14px">{{ errorMessage }}</span>
+      </div>
+
+      <form [formGroup]="signupForm" class="text-left">
+        <div class="form-group">
+          <label>Name <span style="color: red">*</span></label>
+          <input type="text" formControlName="name" class="form-control" placeholder="Enter your name" maxlength="30" />
+          <div class="invalid-feedback d-block" *ngIf="
+              (submitted && hasError('name', 'required')) ||
+              (signupForm.get('name')?.touched && hasError('name', 'required'))
+            ">
+            Please enter your name.
+          </div>
+          <div class="invalid-feedback d-block" *ngIf="
+              (submitted && hasError('name', 'maxlength')) ||
+              (signupForm.get('name')?.touched && hasError('name', 'maxlength'))
+            ">
+            Please Enter a valid name: only letters and spaces, up to 30
+            characters
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Email <span style="color: red">*</span></label>
+          <input type="email" formControlName="email" class="form-control" placeholder="Enter your email" />
+          <div class="invalid-feedback d-block" *ngIf="
+              (submitted && hasError('email', 'pattern')) ||
+              (signupForm.get('email')?.touched &&
+                hasError('email', 'required'))
+            ">
+            Please enter a valid email address.
+          </div>
+          <div class="invalid-feedback d-block" *ngIf="submitted && hasError('email', 'required')">
+            Please enter email.
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Password <span style="color: red">*</span></label>
+          <div class="password-div">
+            <input [type]="showPassword ? 'text' : 'password'" formControlName="password" class="form-control"
+              placeholder="Enter your password" minlength="8" maxlength="30" />
+            <i [ngClass]="showPassword ? 'fa-eye' : 'fa-eye-slash'" (click)="togglePasswordVisibility()"
+              class="fa pointer"></i>
+          </div>
+          <div class="invalid-feedback d-block" *ngIf="
+              (submitted && hasError('password', 'required')) ||
+              (signupForm.get('password')?.touched &&
+                hasError('password', 'required'))
+            ">
+            Please enter password.
+          </div>
+          <div class="invalid-feedback d-block" *ngIf="submitted && hasError('password', 'minlength')">
+            Password must be at least 8 characters long.
+          </div>
+        </div>
+        <button type="submit" (click)="OnSubmit()" class="btn btn-block btn-submit">
+          Get Started
+        </button>
+        <div class="bottomtxt">
+          Already have an account? <a routerLink="/auth/login">Log in</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<app-loader></app-loader>

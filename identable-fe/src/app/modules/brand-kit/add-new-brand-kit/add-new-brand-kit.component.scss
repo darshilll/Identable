@@ -1,0 +1,200 @@
+.topdiv {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  .leftside {
+    .main-title {
+      font-style: normal;
+      font-weight: 500;
+      font-size: 24px;
+      line-height: 28px;
+      color: #001141;
+      margin-bottom: 8px;
+    }
+    .sub-title {
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 16px;
+      color: #393939;
+    }
+  }
+}
+.cus-boxes {
+  display: inline-block;
+  width: 100%;
+  margin: 5px 0;
+  background: #ffffff;
+  border-radius: 4px;
+  .cus-head {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 10px 25px;
+    border-bottom: 1px solid #eaecf0;
+    .title-1 {
+      font-weight: 500;
+      font-size: 20px;
+      line-height: 20px;
+      color: #001141;
+    }
+    .btn-save {
+      font-size: 14px;
+      font-weight: 500;
+      padding: 4px 12px;
+      border: 1px solid #626f86;
+      border-radius: 4px;
+    }
+  }
+  .cus-body {
+    width: 100%;
+    display: inline-block;
+    padding: 15px 25px;
+    .title-sub {
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 18px;
+      color: #172b4d;
+      margin-bottom: 10px;
+    }
+    .upload-logo {
+      display: inline-block;
+      padding: 16px;
+      width: 152px;
+      height: 152px;
+      background: #ffffff;
+      border: 1px solid #dcdfe4;
+      border-radius: 4px;
+      cursor: pointer;
+      position: relative;
+      .file-input {
+        position: absolute;
+        opacity: 0;
+      }
+      .ide-close {
+        position: absolute;
+        right: 0px;
+        top: 0px;
+      }
+      .ide-logo-edit {
+        opacity: 0;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      }
+      &:hover {
+        .ide-logo-edit {
+          opacity: 1;
+        }
+      }
+    }
+    .coloues-box {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      padding: 20px;
+      gap: 24px;
+      background: #ffffff;
+      border: 1px solid #dcdfe4;
+      border-radius: 4px;
+      min-height: 160px;
+      .lists {
+        text-align: center;
+        .boxs {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding: 20px;
+          font-size: 24px;
+          width: 64px;
+          height: 64px;
+          background-color: #f7f8f9;
+          border: 2px solid #dcdfe4;
+          border-radius: 4px;
+          margin-bottom: 10px;
+          cursor: pointer;
+          position: relative;
+          input {
+            opacity: 0;
+            position: absolute;
+          }
+        }
+        .boxs:hover {
+          border: 2px solid #e53701;
+          transition: 0.5s;
+        }
+        .text1 {
+          font-weight: 400;
+          font-size: 14px;
+          line-height: 16px;
+          color: #172b4d;
+        }
+        .text2 {
+          display: none;
+          font-weight: 400;
+          font-size: 12px;
+          line-height: 14px;
+          color: #ffffff;
+          padding: 2px 4px;
+          background: #44546f;
+          border-radius: 3px;
+          margin-top: 5px;
+        }
+        .ide-close {
+          position: absolute;
+          right: 0px;
+          top: 0px;
+          opacity: 0;
+        }
+        &:hover {
+          .ide-close {
+            opacity: 1;
+          }
+          .text2 {
+            display: block;
+            transition: 0.5s;
+          }
+        }
+      }
+    }
+    .fonts-box {
+      width: 100%;
+      display: inline-block;
+      padding: 20px;
+      background: #ffffff;
+      border: 1px solid #dcdfe4;
+      border-radius: 4px;
+      .text-fonts {
+        font-weight: 400;
+        font-size: 40px;
+        line-height: 1.2;
+        color: #172b4d;
+        margin-bottom: 10px;
+      }
+      .fonts-label {
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 16px;
+        color: #172b4d;
+        margin-bottom: 5px;
+      }
+      .form-control {
+        font-weight: 500;
+        font-size: 14px;
+        background: #ffffff;
+        border: 1px solid #dcdfe4;
+        border-radius: 4px;
+        box-shadow: none;
+      }
+    }
+  }
+}
+.ide-logo-close {
+  display: none;
+}
+.logo-image:hover .ide-logo-close {
+  display: block;
+  transition: 0.4s;
+}

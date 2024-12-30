@@ -1,0 +1,344 @@
+<div class="tophead">
+  <a href="/" class="logo"
+    ><img
+      src="assets/images/logo/logo.svg"
+      alt="logo"
+      width="140"
+      class="avatar"
+  /></a>
+  <a class="logout-btn" (click)="logout()">Log out</a>
+</div>
+<!-- <div class="payboxmain">
+  <div class="paybox">
+    <img src="assets/images/bill.png" alt="bill" />
+    <h4>You have already subscription</h4>
+    <h6>
+      This plan will be expire on MM dd, yyyy.
+    </h6>
+    <button class="btn" routerLink="/" type="button">Go to Dashobard</button>
+  </div>
+</div> -->
+
+<div class="middsec">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-lg-12 text-center">
+        <h3 class="title">Choose the plan that suits your needs</h3>
+        <h6 class="subtitle">Finish your account setup and start posting</h6>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 col-lg-12 text-center">
+        <div class="plan-switch">
+          <a
+            class="ide-btn{{ recurringType == 'Yearly' ? ' ide-active' : '' }}"
+            (click)="onChangeRecurringType('Yearly')"
+            >Yearly</a
+          ><a
+            class="ide-btn{{ recurringType == 'Monthly' ? ' ide-active' : '' }}"
+            (click)="onChangeRecurringType('Monthly')"
+            >Monthly</a
+          >
+        </div>
+      </div>
+      <div class="col-12 col-lg-12">
+        <div class="plantable-list">
+          <table class="table">
+            <colgroup>
+              <col width="31%" />
+              <col width="23%" />
+              <col width="23%" />
+              <col width="23%" />
+            </colgroup>
+            <thead>
+              <tr>
+                <th></th>
+                <th>
+                  <div
+                    class="headbox {{
+                      getPopularDiv(_utilities.PLAN.TRY_IT_ON)
+                    }}"
+                  >
+                    <div
+                      class="popular-label"
+                      *ngIf="isShowCurrent(_utilities.PLAN.TRY_IT_ON)"
+                    >
+                      Current
+                    </div>
+                    <h4 class="plan-title">Basic</h4>
+                    <div class="ide-price" *ngIf="recurringType == 'Yearly'">
+                      <span class="custprice-bold"><span> $</span>190/</span
+                      ><span class="txt2-bold">year</span>
+                    </div>
+                    <div class="ide-price" *ngIf="recurringType == 'Monthly'">
+                      <span class="custprice-bold"><span> $</span>19/</span
+                      ><span class="txt2-bold">month</span>
+                    </div>
+                    <div class="discount" *ngIf="recurringType == 'Yearly'">
+                      <del><span> $</span>19/month</del>
+                    </div>
+                    <div class="discount" *ngIf="recurringType == 'Monthly'">
+                      &nbsp;
+                    </div>
+                    <div class="worktext">
+                      Billed
+                      {{
+                        recurringType == "Yearly"
+                          ? "annually (Save 2 month)"
+                          : "monthly"
+                      }}
+                    </div>
+                    <a
+                      class="ide-btn"
+                      (click)="onGetStarted(_utilities.PLAN.TRY_IT_ON)"
+                    >
+                      {{
+                        _utilities.userData?.subscription?.subscriptionStatus ==
+                        "trial"
+                          ? "Get Started"
+                          : _utilities.userData?.subscription?.planId ==
+                            _utilities.PLAN.TRY_IT_ON
+                          ? "Manage Subscription"
+                          : "Upgrade Plan"
+                      }}</a
+                    >
+                  </div>
+                </th>
+                <th>
+                  <div
+                    class="headbox {{
+                      getPopularDiv(_utilities.PLAN.YOUR_GROWING)
+                    }}"
+                  >
+                    <!-- <div class="popular-label" *ngIf="isShowPopular()">
+                      Popular
+                    </div> -->
+                    <div
+                      class="popular-label"
+                      *ngIf="isShowCurrent(_utilities.PLAN.YOUR_GROWING)"
+                    >
+                      Current
+                    </div>
+                    <h4 class="plan-title">Pro <span>Most Popular</span></h4>
+                    <div class="ide-price" *ngIf="recurringType == 'Yearly'">
+                      <span class="custprice-bold"><span> $</span>690/</span
+                      ><span class="txt2-bold">year</span>
+                    </div>
+                    <div class="ide-price" *ngIf="recurringType == 'Monthly'">
+                      <span class="custprice-bold"><span> $</span>69/</span
+                      ><span class="txt2-bold">month</span>
+                    </div>
+                    <div class="discount" *ngIf="recurringType == 'Yearly'">
+                      <del><span> $</span>69/month</del>
+                    </div>
+                    <div class="discount" *ngIf="recurringType == 'Monthly'">
+                      &nbsp;
+                    </div>
+                    <div class="worktext">
+                      Billed
+                      {{
+                        recurringType == "Yearly"
+                          ? "annually (Save 2 month)"
+                          : "monthly"
+                      }}
+                    </div>
+                    <a
+                      class="ide-btn"
+                      (click)="onGetStarted(_utilities.PLAN.YOUR_GROWING)"
+                    >
+                      {{
+                        _utilities.userData?.subscription?.subscriptionStatus ==
+                        "trial"
+                          ? "Get Started"
+                          : _utilities.userData?.subscription?.planId ==
+                            _utilities.PLAN.YOUR_GROWING
+                          ? "Manage Subscription"
+                          : "Upgrade Plan"
+                      }}
+                    </a>
+                  </div>
+                </th>
+                <th>
+                  <div
+                    class="headbox {{ getPopularDiv(_utilities.PLAN.MASTER) }}"
+                  >
+                    <div
+                      class="popular-label"
+                      *ngIf="isShowCurrent(_utilities.PLAN.MASTER)"
+                    >
+                      Current
+                    </div>
+                    <h4 class="plan-title">
+                      Enterprise <span>Most Value</span>
+                    </h4>
+                    <div class="ide-price" *ngIf="recurringType == 'Yearly'">
+                      <span class="custprice-bold"><span> $</span>1990/</span
+                      ><span class="txt2-bold">year</span>
+                    </div>
+                    <div class="ide-price" *ngIf="recurringType == 'Monthly'">
+                      <span class="custprice-bold"><span> $</span>199/</span
+                      ><span class="txt2-bold">month</span>
+                    </div>
+                    <div class="discount" *ngIf="recurringType == 'Yearly'">
+                      <del><span> $</span>199/month</del>
+                    </div>
+                    <div class="discount" *ngIf="recurringType == 'Monthly'">
+                      &nbsp;
+                    </div>
+                    <div class="worktext">
+                      Billed
+                      {{
+                        recurringType == "Yearly"
+                          ? "annually (Save 2 month)"
+                          : "monthly"
+                      }}
+                    </div>
+                    <a
+                      class="ide-btn"
+                      (click)="onGetStarted(_utilities.PLAN.MASTER)"
+                    >
+                      {{
+                        _utilities.userData?.subscription?.subscriptionStatus ==
+                        "trial"
+                          ? "Get Started"
+                          : _utilities.userData?.subscription?.planId ==
+                            _utilities.PLAN.MASTER
+                          ? "Manage Subscription"
+                          : "Upgrade Plan"
+                      }}</a
+                    >
+                  </div>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td colspan="4" class="td-subtitle">Product Features</td>
+              </tr>
+              <tr>
+                <td>LinkedIn integration</td>
+                <td><i class="fa fa-check"></i></td>
+                <td><i class="fa fa-check"></i></td>
+                <td><i class="fa fa-check"></i></td>
+              </tr>
+              <tr>
+                <td>Advanced Analytics</td>
+                <td><i class="fa fa-check"></i></td>
+                <td><i class="fa fa-check"></i></td>
+                <td><i class="fa fa-check"></i></td>
+              </tr>
+              <tr>
+                <td>Inspire Me</td>
+                <td><i class="fa fa-check"></i></td>
+                <td><i class="fa fa-check"></i></td>
+                <td><i class="fa fa-check"></i></td>
+              </tr>
+              <tr>
+                <td>Manual Research</td>
+                <td><i class="fa fa-check"></i></td>
+                <td><i class="fa fa-check"></i></td>
+                <td><i class="fa fa-check"></i></td>
+              </tr>
+              <tr>
+                <td>Trending News</td>
+                <td><i class="fa fa-check"></i></td>
+                <td><i class="fa fa-check"></i></td>
+                <td><i class="fa fa-check"></i></td>
+              </tr>
+              <tr>
+                <td>Trending Posts <span class="coming">Coming Soon</span></td>
+                <td><i class="fa fa-times"></i></td>
+                <td><i class="fa fa-check"></i></td>
+                <td><i class="fa fa-check"></i></td>
+              </tr>
+              <tr>
+                <td>Carousel</td>
+                <td><i class="fa fa-times"></i></td>
+                <td><i class="fa fa-check"></i></td>
+                <td><i class="fa fa-check"></i></td>
+              </tr>
+              <tr>
+                <td>AI Video</td>
+                <td><i class="fa fa-times"></i></td>
+                <td><i class="fa fa-check"></i></td>
+                <td><i class="fa fa-check"></i></td>
+              </tr>
+              <tr>
+                <td>Boosting</td>
+                <td><i class="fa fa-check"></i></td>
+                <td><i class="fa fa-check"></i></td>
+                <td><i class="fa fa-check"></i></td>
+              </tr>
+              <tr>
+                <td>Advanced Schedule</td>
+                <td><i class="fa fa-check"></i></td>
+                <td><i class="fa fa-check"></i></td>
+                <td><i class="fa fa-check"></i></td>
+              </tr>
+              <tr>
+                <td>
+                  Relationship Builder <span class="coming">Coming Soon</span>
+                </td>
+                <td><i class="fa fa-check"></i></td>
+                <td><i class="fa fa-check"></i></td>
+                <td><i class="fa fa-check"></i></td>
+              </tr>
+              <tr></tr>
+              <tr>
+                <td>1-Click Scheduling</td>
+                <td><i class="fa fa-check"></i></td>
+                <td><i class="fa fa-check"></i></td>
+                <td><i class="fa fa-check"></i></td>
+              </tr>
+              <tr>
+                <td colspan="4" class="td-subtitle">Monthly Limits</td>
+              </tr>
+              <tr>
+                <td>LinkedIn integration</td>
+                <td>Personal Profile Only</td>
+                <td>Personal Profile Only</td>
+                <td>Personal and One Company Profile</td>
+              </tr>
+              <tr>
+                <td>Carousel</td>
+                <td>No Custom Templates</td>
+                <td>1 Custom Templates</td>
+                <td>Unlimited</td>
+              </tr>
+              <tr>
+                <td>AI Video</td>
+                <td>-</td>
+                <td>5 Video</td>
+                <td>10 Video</td>
+              </tr>
+              <tr>
+                <td>Boosting</td>
+                <td>12 Credit</td>
+                <td>Unlimited</td>
+                <td>Unlimited</td>
+              </tr>
+              <tr>
+                <td>Advanced Schedule</td>
+                <td>24 Posts</td>
+                <td>Unlimited</td>
+                <td>Unlimited</td>
+              </tr>
+              <tr>
+                <td>Relationship Builder</td>
+                <td>20 Connection Requests</td>
+                <td>200 Connection Request</td>
+                <td>1000 Connection Requests</td>
+              </tr>
+              <tr>
+                <td>1-Click Scheduling</td>
+                <td>3 Credit</td>
+                <td>Unlimited</td>
+                <td>Unlimited</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

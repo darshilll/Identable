@@ -1,0 +1,146 @@
+<div class="tophead">
+  <a href="/" class="logo"
+    ><img
+      src="assets/images/logo/logo.svg"
+      alt="logo"
+      width="140"
+      class="avatar"
+  /></a>
+  <a class="logout-btn" (click)="logout()">Log out</a>
+</div>
+<div class="payboxmain">
+  <div
+    class="paybox"
+    *ngIf="
+      _utilities.userData?.subscription?.subscriptionStatus ==
+      _utilities.SUBSCRIPTION_STATUS.TRIAL
+    "
+  >
+    <img src="assets/images/bill.png" alt="bill" />
+    <h4>You are in trial period</h4>
+    <h6>
+      Your trial plan will be expire on
+      {{
+        _utilities.userData?.subscription?.renewCycleDate
+          | date : "MMM dd, yyyy"
+      }}.
+    </h6>
+    <button class="btn btn-1 m-2" routerLink="/subscription/plan" type="button">
+      Upgrade Plan
+    </button>
+    <button class="btn btn-2 m-2" routerLink="/" type="button">
+      Go to Dashboard
+    </button>
+    <p>
+      If you want learn more about the product and features, please reach out to
+      <a>team@identable.club</a> to get a free 1-1 demo.
+    </p>
+  </div>
+  <div
+    class="paybox"
+    *ngIf="
+      _utilities.userData?.subscription?.subscriptionStatus ==
+      _utilities.SUBSCRIPTION_STATUS.PAST_DUE
+    "
+  >
+    <img src="assets/images/bill.png" alt="bill" />
+    <h4>
+      Plan <b>{{ _utilities.userData?.plan?.planName }} </b>
+      {{ _utilities.userData?.subscription?.recurringType }}
+    </h4>
+    <h6>
+      Payment failed. Your latest payment has failed. Update your payment method
+      to continue this plan.
+    </h6>
+    <button class="btn btn-2 m-2" type="button" (click)="manageSubscription()">
+      Manage Subscription
+    </button>
+    <p>
+      If you want learn more about the product and features, please reach out to
+      <a>team@identable.club</a> to get a free 1-1 demo.
+    </p>
+  </div>
+  <div
+    class="paybox"
+    *ngIf="
+      _utilities.userData?.subscription?.subscriptionStatus ==
+      _utilities.SUBSCRIPTION_STATUS.ACTIVE
+    "
+  >
+    <img src="assets/images/bill.png" alt="bill" />
+    <h4>
+      Plan <b>{{ _utilities.userData?.plan?.planName }} </b>
+      {{ _utilities.userData?.subscription?.recurringType }}
+    </h4>
+    <h6>
+      Your plan will be expired on
+      {{
+        _utilities.userData?.subscription?.renewCycleDate
+          | date : "MMM dd, yyyy"
+      }}.
+    </h6>
+    <button class="btn btn-2 m-2" routerLink="/" type="button">
+      Go to Dashboard
+    </button>
+    <p>
+      If you want learn more about the product and features, please reach out to
+      <a>team@identable.club</a> to get a free 1-1 demo.
+    </p>
+  </div>
+  <div
+    *ngIf="
+      _utilities.userData?.subscription?.subscriptionStatus ==
+      _utilities.SUBSCRIPTION_STATUS.CANCEL
+    "
+  >
+    <div
+      class="paybox"
+      *ngIf="
+        _utilities.userData?.subscription?.cancelReason ==
+        _utilities.CANCEL_REASON.TRIAL_END
+      "
+    >
+      <img src="assets/images/bill.png" alt="bill" />
+      <h4>Your free trial has expired!</h4>
+      <h6>
+        Thank you for trying To continue enjoying your benefits, please upgrade
+        your plan.
+      </h6>
+      <button
+        class="btn btn-2 m-2"
+        routerLink="/subscription/plan"
+        type="button"
+      >
+        Upgrade Plan
+      </button>
+      <p>
+        If you want learn more about the product and features, please reach out
+        to
+        <a>team@identable.club</a> to get a free 1-1 demo.
+      </p>
+    </div>
+    <div
+      class="paybox"
+      *ngIf="
+        _utilities.userData?.subscription?.cancelReason !=
+        _utilities.CANCEL_REASON.TRIAL_END
+      "
+    >
+      <img src="assets/images/bill.png" alt="bill" />
+      <h4>Your current plan has expired!</h4>
+      <h6>To continue enjoying your benefits, please upgrade your plan.</h6>
+      <button
+        class="btn btn-2 m-2"
+        routerLink="/subscription/plan"
+        type="button"
+      >
+        Upgrade Plan
+      </button>
+      <p>
+        If you want learn more about the product and features, please reach out
+        to
+        <a>team@identable.club</a> to get a free 1-1 demo.
+      </p>
+    </div>
+  </div>
+</div>

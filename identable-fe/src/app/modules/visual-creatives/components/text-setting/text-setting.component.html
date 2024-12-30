@@ -1,0 +1,142 @@
+<div class="ide-boxes">
+  <h5 class="ide-title">
+    Text settings
+    <img class="img-fluid align-center" src="assets/images/help-icon.svg" alt="help-icon" matTooltip="Text settings"
+      matTooltipPosition="below" />
+  </h5>
+  <div class="ide-boxes-div">
+    <div class="mb-3">
+      <div class="switch-title mb-1">
+        <div class="text1">
+          Brand kit settings
+          <img class="img-fluid align-center" src="assets/images/help-icon.svg" alt="help-icon"
+            matTooltip="Brand kit settings" matTooltipPosition="below" />
+        </div>
+        <label class="switch ml-2">
+          <input type="checkbox" (change)="switchOnBrandkit($event)" [checked]="applyBrandKit" />
+          <span class="slider"></span>
+        </label>
+      </div>
+    </div>
+    <div class="mb-3">
+      <div class="switch-title mb-1">
+        <div class="text1">
+          Font pair
+          <img class="img-fluid align-center" src="assets/images/help-icon.svg" alt="help-icon" matTooltip="Font pair"
+            matTooltipPosition="below" />
+        </div>
+        <label class="switch ml-2">
+          <input type="checkbox" [checked]="isPairFont" (change)="switchOffFontPair($event)"
+            [disabled]="applyBrandKit" />
+          <span class="slider"></span>
+        </label>
+      </div>
+      <select name="" class="form-control" (change)="onChangeFontPair($event)" [(ngModel)]="fontPair"
+        [disabled]="!isPairFont">
+        <option value="">Select Font</option>
+        <option *ngFor="let fontItem of pairFontFamilyList; let i = index" [value]="fontItem?.value"
+          [attr.data-fontOne]="fontItem?.fontOne" [attr.data-fontTwo]="fontItem?.fontTwo">{{fontItem?.value}}</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <div class="switch-title mb-1">
+        <div class="text1">
+          Title font
+          <img class="img-fluid align-center" src="assets/images/help-icon.svg" alt="help-icon" matTooltip="Title font"
+            matTooltipPosition="below" />
+        </div>
+      </div>
+      <select name="" class="form-control" (change)="onChangeTitleFont($event)" [(ngModel)]="titlefont"
+        [disabled]="isPairFont || applyBrandKit" [ngStyle]="{'font-family': titlefont}">
+        <option value="">Select Font</option>
+        <option *ngFor="let fontItem of fontFamilyList; let i = index" [value]="fontItem"
+          [ngStyle]="{'font-family': fontItem}">{{fontItem}}</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <div class="switch-title mb-1">
+        <div class="text1">
+          Title font size
+          <img class="img-fluid align-center" src="assets/images/help-icon.svg" alt="help-icon"
+            matTooltip="Title font size" matTooltipPosition="below" />
+        </div>
+      </div>
+      <div class="ide-font-sizediv">
+        <div class="sizediv" [class.active-size]="selectedTitleFontSize === '40px'"
+          (click)="selectTitleFontSize('Small', '40px')">
+          <div class="boxs">
+            <img class="img-fluid" width="14" src="assets/images/carousels-v2/editor-text-size.svg"
+              alt="carousels-v2" />
+          </div>
+          Small
+        </div>
+        <div class="sizediv" [class.active-size]="selectedTitleFontSize === '44px'"
+          (click)="selectTitleFontSize('Medium', '44px')">
+          <div class="boxs">
+            <img class="img-fluid" width="17" src="assets/images/carousels-v2/editor-text-size.svg"
+              alt="carousels-v2" />
+          </div>
+          Medium
+        </div>
+        <div class="sizediv" [class.active-size]="selectedTitleFontSize === '48px'"
+          (click)="selectTitleFontSize('Large', '48px')">
+          <div class="boxs">
+            <img class="img-fluid" width="20" src="assets/images/carousels-v2/editor-text-size.svg"
+              alt="carousels-v2" />
+          </div>
+          Large
+        </div>
+      </div>
+    </div>
+    <div class="mb-3">
+      <div class="switch-title mb-1">
+        <div class="text1">
+          Description font
+          <img class="img-fluid align-center" src="assets/images/help-icon.svg" alt="help-icon"
+            matTooltip="Description font" matTooltipPosition="below" />
+        </div>
+      </div>
+      <select name="" class="form-control" (change)="onChangeDescriptionFont($event)" [(ngModel)]="descriptionFont"
+        [disabled]="isPairFont || applyBrandKit" [ngStyle]="{'font-family': descriptionFont}">
+        <option value="">Select Font</option>
+        <option *ngFor="let fontItem of fontFamilyList; let i = index" [value]="fontItem"
+          [ngStyle]="{'font-family': fontItem}">{{fontItem}}</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <div class="switch-title mb-1">
+        <div class="text1">
+          Description font size
+          <img class="img-fluid align-center" src="assets/images/help-icon.svg" alt="help-icon"
+            matTooltip="Description font size" matTooltipPosition="below" />
+        </div>
+      </div>
+      <div class="ide-font-sizediv">
+        <div class="sizediv" [class.active-size]="selectedDescriptionFontSize === '14px'"
+          (click)="selectDescriptionFontSize('Small', '14px')">
+          <div class="boxs">
+            <img class="img-fluid" width="14" src="assets/images/carousels-v2/editor-text-size.svg"
+              alt="carousels-v2" />
+          </div>
+          Small
+        </div>
+        <div class="sizediv" [class.active-size]="selectedDescriptionFontSize === '16px'"
+          (click)="selectDescriptionFontSize('Medium', '16px')">
+          <div class="boxs">
+            <img class="img-fluid" width="17" src="assets/images/carousels-v2/editor-text-size.svg"
+              alt="carousels-v2" />
+          </div>
+          Medium
+        </div>
+        <div class="sizediv" [class.active-size]="selectedDescriptionFontSize === '18px'"
+          (click)="selectDescriptionFontSize('Large', '18px')">
+          <div class="boxs">
+            <img class="img-fluid" width="20" src="assets/images/carousels-v2/editor-text-size.svg"
+              alt="carousels-v2" />
+          </div>
+          Large
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

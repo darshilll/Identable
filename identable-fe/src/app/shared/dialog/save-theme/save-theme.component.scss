@@ -1,0 +1,45 @@
+.savemodal-main {
+    position: relative;
+    .img {
+      width: 48px;
+      margin-bottom: 20px;
+    }
+    .close {
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+    .titles {
+      color: #101828;
+      font-size: 18px;
+      font-weight: 500;
+      margin-bottom: 5px;
+    }
+    .desq {
+      color: #667085;
+      font-size: 14px;
+      font-weight: 400;
+      margin-bottom: 20px;
+    }
+    .btn-cancel {
+      min-width: 160px;
+      margin: 5px;
+      color: #344054;
+      font-size: 16px;
+      font-weight: 500;
+      border-radius: 8px;
+      border: 1px solid #d0d5dd;
+      background: #fff;
+    }
+    .btn-save {
+      min-width: 160px;
+      margin: 5px;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 500;
+      border-radius: 8px;
+      border: 1px solid #ec4a0a;
+      background: #ec4a0a;
+    }
+  }
+  

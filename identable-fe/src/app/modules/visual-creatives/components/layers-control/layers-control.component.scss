@@ -1,0 +1,45 @@
+.ide-boxes {
+    padding: 8px;
+    height: 100%;
+    background-color: #FAF9F7;
+    .ide-title {
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 20px;
+      color: #001141;
+      padding: 0 8px;
+    }
+    .ide-boxes-div {
+      margin-top: 16px;
+      overflow: auto;
+      height: calc(100vh - 115px);
+      padding: 8px 4px 8px 8px;
+      background: #ffffff;
+      border-radius: 4px;
+    }
+    .ide-sub-title {
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 16px;
+      color: #001141;
+      margin-bottom: 10px;
+    }
+    .ide-layers {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      padding: 4px;
+      border-bottom: 1px solid #c6c6c6;
+      &:hover {
+        background: #f4f4f4;
+      }
+      .text {
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 14px;
+        color: #525252;
+        padding: 5px;
+      }
+    }
+  }
+  

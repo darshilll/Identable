@@ -1,0 +1,76 @@
+<div class="custom_modal_div">
+  <div class="modal-head">
+    <h2 class="title1">Generated Videolist</h2>
+  </div>
+  <mat-dialog-content>
+    <table class="table table-bordered table-sm">
+      <colgroup>
+        <col width="5%" />
+        <col width="50%" />
+        <col width="15%" />
+        <col width="10%" />
+        <col width="20%" />
+      </colgroup>
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Topic</th>
+          <th scope="col">CreateAt</th>
+          <th scope="col">Type</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let list of videoList; let i = index">
+          <th scope="row">{{ i + 1 }}</th>
+          <td class="text-break">
+            {{ list?.topic ? list?.topic : list?.videoUrl }}
+          </td>
+          <td>{{ list?.createdAt | date : "MMM d, y" }}</td>
+          <td>
+            <span *ngIf="!list?.isScheduled" class="badge badge-primary"
+              >New</span
+            >
+            <span *ngIf="list?.isScheduled" class="badge badge-success"
+              >Posted</span
+            >
+          </td>
+          <td>
+            <button
+              *ngIf="!list?.isScheduled"
+              type="button"
+              (click)="userSchedule(list)"
+              class="btn btn-addpost"
+            >
+              <i class="fa fa fa-eye" aria-hidden="true"></i> View
+            </button>
+
+            <button
+              *ngIf="list?.isScheduled"
+              type="button"
+              class="btn btn-addpost"
+              (click)="onPreview(list)"
+            >
+              <i class="fa fa fa-eye" aria-hidden="true"></i> Preview
+            </button>
+          </td>
+        </tr>
+
+        <tr *ngIf="videoList?.length == 0">
+          <td colspan="7" class="no-data">No Data Found</td>
+        </tr>
+      </tbody>
+    </table>
+  </mat-dialog-content>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn fbtn btn-cancel"
+      data-dismiss="modal"
+      aria-label="Close"
+      (click)="onClose()"
+    >
+      Cancel
+    </button>
+  </div>
+</div>

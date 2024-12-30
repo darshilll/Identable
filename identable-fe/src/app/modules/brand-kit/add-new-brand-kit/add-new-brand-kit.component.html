@@ -1,0 +1,334 @@
+<div class="topdiv">
+  <div class="leftside">
+    <h2 class="main-title">Brand Kit</h2>
+    <h5 class="sub-title">
+      Create and store your brand's key assets—logos, colours, fonts—all in one
+      place for easy access and consistent content creation.
+    </h5>
+  </div>
+</div>
+
+<div class="cus-boxes">
+  <div class="cus-head">
+    <h3 class="title-1 text-capitalize">
+      {{ currentProfile?.name }} brand kit
+    </h3>
+    <button type="button" class="btn btn-save ml-auto" (click)="saveBrandKit()">
+      {{ brandKitData ? "Saved" : "Save" }}
+    </button>
+  </div>
+  <div class="cus-body">
+    <div class="w-100 d-inline-block mb-4">
+      <h5 class="title-sub">
+        Logo
+        <img
+          src="assets/images/help-icon.svg"
+          alt="help-icon"
+          matTooltip="Logo"
+          matTooltipPosition="above"
+        />
+      </h5>
+      <label class="upload-logo logo-image mr-2" *ngIf="logoUrl">
+        <img
+          class="ide-close ide-logo-close pointer"
+          (click)="removeLogo()"
+          width="22"
+          src="assets/images/close-2.png"
+          alt="close"
+        />
+        <img
+          (click)="viewBrandLogo()"
+          class="ide-logo-edit pointer"
+          width="26"
+          src="assets/images/bg-edit.png"
+          alt="bg-edit"
+        />
+        <img
+          [src]="logoUrl"
+          alt="upload-logo"
+          width="120"
+        />
+      </label>
+      <label class="upload-logo" *ngIf="!logoUrl">
+        <input
+          type="file"
+          (change)="onSelectFile($event)"
+          accept="image/*"
+          class="file-input"
+          name=""
+          id=""
+        />
+        <img
+          src="assets/images/upload-logo.svg"
+          alt="upload-logo"
+          width="120"
+        />
+      </label>
+      <div class="invalid-feedback d-block" *ngIf="isSubmitted && !logoUrl">
+        Please select image for logo.
+      </div>
+    </div>
+    <div class="w-100 d-inline-block mb-4">
+      <h5 class="title-sub">
+        Colours
+        <img
+          src="assets/images/help-icon.svg"
+          alt="help-icon"
+          matTooltip="Colours"
+          matTooltipPosition="above"
+        />
+      </h5>
+      <div class="coloues-box">
+        <div class="lists">
+          <div class="boxs" [style.background-color]="primaryColor">
+            <img
+              (click)="removeColor('primary')"
+              class="ide-close pointer"
+              width="22"
+              src="assets/images/close-2.png"
+              alt="close"
+            />
+            <input
+              type="color"
+              (input)="onColorChange($event, 'primary')"
+              name=""
+              id=""
+            />
+            <span *ngIf="!primaryColor"> +</span>
+          </div>
+          <div class="text1">Primary</div>
+          <div class="text2" *ngIf="primaryColor">{{ primaryColor }}</div>
+        </div>
+        <div class="lists">
+          <div class="boxs" [style.background-color]="secondaryColor">
+            <img
+              (click)="removeColor('secondary')"
+              class="ide-close pointer"
+              width="22"
+              src="assets/images/close-2.png"
+              alt="close"
+            />
+            <input
+              type="color"
+              (input)="onColorChange($event, 'secondary')"
+              name=""
+              id=""
+            />
+            <span *ngIf="!secondaryColor"> +</span>
+          </div>
+          <div class="text1">Secondary</div>
+          <div class="text2" *ngIf="secondaryColor">{{ secondaryColor }}</div>
+        </div>
+        <div class="lists">
+          <div class="boxs" [style.background-color]="accent1Color">
+            <img
+              *ngIf="accent1Color"
+              (click)="removeColor('accent1')"
+              class="ide-close pointer"
+              width="22"
+              src="assets/images/close-2.png"
+              alt="close"
+            />
+            <input
+              type="color"
+              (input)="onColorChange($event, 'accent1')"
+              name=""
+              id=""
+            />
+            <span *ngIf="!accent1Color"> +</span>
+          </div>
+          <div class="text1">Accent 1</div>
+          <div class="text2" *ngIf="accent1Color">{{ accent1Color }}</div>
+        </div>
+        <div class="lists">
+          <div class="boxs" [style.background-color]="accent2Color">
+            <img
+              *ngIf="accent2Color"
+              (click)="removeColor('accent2')"
+              class="ide-close pointer"
+              width="22"
+              src="assets/images/close-2.png"
+              alt="close"
+            />
+            <input
+              type="color"
+              (input)="onColorChange($event, 'accent2')"
+              name=""
+              id=""
+            />
+            <span *ngIf="!accent2Color"> +</span>
+          </div>
+          <div class="text1">Accent 2</div>
+          <div class="text2" *ngIf="accent2Color">{{ accent2Color }}</div>
+        </div>
+      </div>
+      <div
+        class="invalid-feedback d-block"
+        *ngIf="isSubmitted && !primaryColor"
+      >
+        Please select primary colour.
+      </div>
+      <div
+        class="invalid-feedback d-block"
+        *ngIf="isSubmitted && !secondaryColor"
+      >
+        Please select secondary colour.
+      </div>
+    </div>
+    <div class="w-100 d-inline-block mb-4">
+      <h5 class="title-sub">
+        Fonts
+        <img
+          src="assets/images/help-icon.svg"
+          alt="help-icon"
+          matTooltip="Fonts"
+          matTooltipPosition="above"
+        />
+      </h5>
+      <div class="row">
+        <div class="col-12 col-lg-6">
+          <div class="fonts-box">
+            <div class="text-fonts" [ngStyle]="{ 'font-family': titleFont }">
+              Title
+            </div>
+            <div class="fonts-label">
+              Title font
+              <img
+                src="assets/images/help-icon.svg"
+                alt="help-icon"
+                matTooltip="Title font"
+                matTooltipPosition="above"
+              />
+            </div>
+            <select
+              name=""
+              [(ngModel)]="titleFont"
+              class="form-control"
+              (change)="onChangeTitleFont($event)"
+              [ngStyle]="{ 'font-family': titleFont }"
+            >
+              <option value="" selected>Select title font</option>
+              <option
+                *ngFor="let fontItem of fontFamilyList; let i = index"
+                [value]="fontItem"
+                [ngStyle]="{ 'font-family': fontItem }"
+              >
+                {{ fontItem }}
+              </option>
+            </select>
+            <div
+              class="invalid-feedback d-block"
+              *ngIf="isSubmitted && !titleFont"
+            >
+              Please select any font for title.
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-lg-6">
+          <div class="fonts-box">
+            <div class="text-fonts" [ngStyle]="{ 'font-family': bodyFont }">
+              Body
+            </div>
+            <div class="fonts-label">
+              Body font
+              <img
+                src="assets/images/help-icon.svg"
+                alt="help-icon"
+                matTooltip="Body font"
+                matTooltipPosition="above"
+              />
+            </div>
+            <select
+              name=""
+              class="form-control"
+              [(ngModel)]="bodyFont"
+              (change)="onChangeBodyFont($event)"
+              [ngStyle]="{ 'font-family': bodyFont }"
+            >
+              <option value="">Select body font</option>
+              <option
+                *ngFor="let fontItem of fontFamilyList; let i = index"
+                [value]="fontItem"
+                [ngStyle]="{ 'font-family': fontItem }"
+              >
+                {{ fontItem }}
+              </option>
+            </select>
+            <div
+              class="invalid-feedback d-block"
+              *ngIf="isSubmitted && !bodyFont"
+            >
+              Please select any font for body.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="w-100 d-inline-block mb-4">
+      <h5 class="title-sub">
+        Handle
+        <img
+          src="assets/images/help-icon.svg"
+          alt="help-icon"
+          matTooltip="Handle"
+          matTooltipPosition="above"
+        />
+      </h5>
+      <div class="row">
+        <div class="col-12 col-lg-12">
+          <div class="fonts-box">
+            <div class="row">
+              <div class="col-12 col-lg-6">
+                <div class="fonts-label">
+                  Website
+                  <img
+                    src="assets/images/help-icon.svg"
+                    alt="help-icon"
+                    matTooltip="Website"
+                    matTooltipPosition="above"
+                  />
+                </div>
+                <input
+                  maxlength="40"
+                  type="text"
+                  [(ngModel)]="website"
+                  class="form-control"
+                />
+                <div
+                  class="invalid-feedback d-block"
+                  *ngIf="isSubmitted && isInvalidWebsiteUrl"
+                >
+                  Please enter valid website url.
+                </div>
+              </div>
+              <div class="col-12 col-lg-6">
+                <div class="fonts-label">
+                  Contact
+                  <img
+                    src="assets/images/help-icon.svg"
+                    alt="help-icon"
+                    matTooltip="Contact"
+                    matTooltipPosition="above"
+                  />
+                </div>
+                <input
+                  type="text"
+                  maxlength="20"
+                  [(ngModel)]="contact"
+                  class="form-control"
+                />
+                <div
+                  class="invalid-feedback d-block"
+                  *ngIf="isSubmitted && isInvalidContact"
+                >
+                  Please enter valid contact number.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-loader></app-loader>

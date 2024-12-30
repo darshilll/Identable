@@ -1,0 +1,35 @@
+<mat-dialog-content>
+  <button type="button" class="close" [mat-dialog-close]="false">
+    &times;
+  </button>
+  <!-- <div class="text-center mt-3">
+    <img class="main-img" [src]="selectedImage" alt="theme" />
+  </div>
+  <div class="slides-div">
+    <img
+      *ngFor="let img of data?.item?.previewImage; let i = index"
+      (click)="onImage(img)"
+      class="slides {{ selectedImage == img ? 'actslide' : '' }}"
+      [src]="img"
+      alt="theme"
+    />
+  </div> -->
+
+  <ngx-slick-carousel
+    class="carousel"
+    #slickModal="slick-carousel"
+    [config]="slideConfig"
+  >
+    <div ngxSlickItem *ngFor="let item of slideList; let i = index">
+      <div class="slidediv p-2">
+        <img class="img-fluid" [src]="item" alt="theme" />
+      </div>
+    </div>
+  </ngx-slick-carousel>
+
+  <div class="text-center">
+    <button type="button" class="btn btn-usethis" (click)="onUseTemplate()">
+      Use this template
+    </button>
+  </div>
+</mat-dialog-content>

@@ -1,0 +1,208 @@
+<app-loader></app-loader>
+<div class="manual-list">
+  <div class="boxs-1">
+    <div class="boxs-div">
+      <div class="post-type-main">
+        <h3 class="titled">Content Strategy:</h3>
+        <label class="labels mb-2">
+          Implement an Content strategy to enhance your content's search engine
+          visibility.
+        </label>
+        <div class="custom_editor">
+          <label class="labels mb-1"
+            >Topic Idea
+            <img
+              (click)="oneIdeaDailog()"
+              class="align-middle"
+              width="22"
+              src="assets/images/bulb-1.svg"
+              alt="bulb"
+              style="cursor: pointer"
+          /></label>
+          <textarea
+            class="form-control"
+            rows="5"
+            placeholder="Type here..."
+            [(ngModel)]="topic"
+          ></textarea>
+          <div *ngIf="isSubmited && !topic" class="invalid-feedback d-block">
+            Please enter a topic idea.
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="boxs-div">
+      <div class="post-type-main">
+        <div class="row">
+          <div class="col-12 col-lg-12">
+            <div class="custom_editor">
+              <div class="custom-control custom-checkbox">
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  id="customCheck123"
+                  [checked]="true"
+                  [disabled]="true"
+                />
+                <label class="custom-control-label" for="customCheck123"
+                  >Inspire Me</label
+                >
+              </div>
+              <div
+                *ngIf="isSubmited && isInspireMeSelected == false"
+                class="invalid-feedback d-block"
+              >
+                Please select Inspire Me.
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-lg-12">
+            <div class="custom_editor">
+              <div class="custom-control custom-checkbox">
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  id="customCheck22"
+                  [checked]="isTrendingNewsSelected"
+                  (click)="slectTrendingNews()"
+                />
+                <label class="custom-control-label" for="customCheck22"
+                  >Include Trending News</label
+                >
+              </div>
+            </div>
+
+            <div class="custom_editor">
+              <div class="custom-control custom-checkbox">
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  id="customCheck23"
+                  [checked]="isAIVideoInclude"
+                  (click)="slectAivideo()"
+                />
+                <label class="custom-control-label" for="customCheck23"
+                  >Include AI Video</label
+                >
+              </div>
+            </div>
+
+            <div class="custom_editor">
+              <div class="custom-control custom-checkbox">
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  id="customCheck24"
+                  [checked]="isCarouselInclude"
+                  (click)="slectCarousel()"
+                />
+                <label class="custom-control-label" for="customCheck24"
+                  >Include Carousel</label
+                >
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-lg-12">
+            <div class="custom_editor">
+              <label class="label">Daily Post</label>
+              <div class="select-length">
+                <input
+                  type="number"
+                  class="form-control"
+                  readonly="true"
+                  placeholder="0"
+                  [value]="isDailyPostNumber"
+                />
+                <a class="btns plusbtn" (click)="postCounter('dailyPost', true)"
+                  >+</a
+                >
+                <a
+                  class="btns minusbtn"
+                  (click)="postCounter('dailyPost', false)"
+                  >-</a
+                >
+              </div>
+              <div class="sublabel">Maximum 3 post per day</div>
+            </div>
+          </div>
+          <div class="col-12 col-lg-12">
+            <div class="custom_editor">
+              <div class="custom-control custom-checkbox">
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  id="customCheck1"
+                  [checked]="isWeekendInclude"
+                  (click)="selectWeekendInclude()"
+                />
+                <label class="custom-control-label" for="customCheck1"
+                  >Include Weekend</label
+                >
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-lg-12">
+            <div class="bboxs">
+              <div class="radiolist">
+                <label class="radiobtn" for="radioDuration1">
+                  This Week
+                  <input
+                    type="radio"
+                    [value]="'this week'"
+                    [(ngModel)]="duration"
+                    id="radioDuration1"
+                  />
+                  <span class="checkmark"></span>
+                </label>
+                <label class="radiobtn" for="radioDuration2">
+                  15 Days
+                  <input
+                    type="radio"
+                    [value]="'15 days'"
+                    [(ngModel)]="duration"
+                    id="radioDuration2"
+                  />
+                  <span class="checkmark"></span>
+                </label>
+                <label class="radiobtn" for="radioDuration3">
+                  30 Days
+                  <input
+                    type="radio"
+                    [value]="'30 days'"
+                    [(ngModel)]="duration"
+                    id="radioDuration3" />
+                  <span class="checkmark"></span
+                ></label>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-lg-12">
+            <p class="labels-credit mb-3">
+              You have
+              <span [style.color]="isOneClickCredit > 5 ? 'green' : 'red'">
+                {{ isOneClickCredit > 5 ? "Unlimited" : isOneClickCredit }}
+              </span>
+              oneClick generate credits remaining in your account.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-inline-block w-100 text-left">
+      <button type="button" class="btn-addpost" (click)="getOneClickSchedule()">
+        <img width="20" src="assets/images/star-two-white.svg" alt="star" />
+        One click
+      </button>
+    </div>
+  </div>
+  <div class="boxs-2">
+    <div class="boxs-head2">
+      <div class="bxtitle">
+        <img width="20" src="assets/images/star-two.svg" alt="star" />
+        Content Strategy
+      </div>
+      <div class="schedule-btndiv"></div>
+    </div>
+    <div class="postlist"></div>
+  </div>
+</div>

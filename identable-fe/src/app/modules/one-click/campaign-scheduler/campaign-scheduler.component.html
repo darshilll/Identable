@@ -1,0 +1,111 @@
+<div class="ide-autopilot-steps">
+  <div class="ide-autopilot-sub">
+    <div class="clg-top-title">
+      <div>
+        <h2>
+          {{ isPostSchedule ? "Campaign scheduler" : "Review campaign" }}
+
+          <img
+            class="ml-1"
+            src="assets/images/icons/info-icon.svg"
+            matTooltip="Campaign scheduler"
+            matTooltipPosition="above"
+          />
+        </h2>
+        <p *ngIf="!isPostSchedule">Total Content: {{ totalContent }}</p>
+      </div>
+      <div>
+        <div
+          *ngIf="isPostSchedule"
+          class="backto mb-2"
+          [routerLink]="['/oneclick']"
+        >
+          <i class="fa fa-arrow-left"></i> Back
+        </div>
+        <!-- <div
+          *ngIf="!isPostSchedule"
+          class="backto mb-2"
+        >
+        
+        </div> -->
+      </div>
+    </div>
+    <div class="calendar">
+      <div class="calendar-nav">
+        <h3>{{ months[currentMonth] }} {{ currentYear }}</h3>
+        <div>
+          <button (click)="prevMonth()" class="fa fa-angle-left"></button>
+          <button (click)="nextMonth()" class="fa fa-angle-right"></button>
+        </div>
+      </div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th *ngFor="let day of daysOfWeek">{{ day }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let week of weeks">
+            <td
+              *ngFor="let date of week"
+              [class.other-month]="!date.currentMonth"
+            >
+              <div class="event-info">
+                <span>{{ date.date }}</span>
+                <div
+                  class="review-label"
+                  *ngFor="let item of getTodayData(date); let i = index"
+                  (mouseenter)="openPostPreview(item)"
+                >
+                  <p [innerHTML]="setPostBody(item)"></p>
+                  <div class="review-times">
+                    <i class="fa fa-clock-o" aria-hidden="true"></i>
+                    {{ item?.timeSlot }}
+                  </div>
+                  <i
+                    class="fa fa-linkedin-square color-blue ml-1"
+                    aria-hidden="true"
+                  ></i>
+                </div>
+                <div
+                  class="review-card"
+                  *ngIf="isOpenPostPreview && checkIsOpenPostPreviee(date)"
+                >
+                  <app-post-preview-dialog
+                    (_closePostView)="closePostView()"
+                    (_deletePost)="deletePost($event)"
+                    (_saveEditPost)="updateEditPost($event)"
+                    (_editPost)="editPost($event)"
+                    (_boostPost)="boostPost($event)"
+                    (_deleteScheduledPost)="deleteScheduledPost($event)"
+                    [data]="isSelectedPost"
+                    [isPreSchedule]="isPreSchedule"
+                    [isPostSchedule]="isPostSchedule"
+                  >
+                  </app-post-preview-dialog>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="created-btnlist" *ngIf="isUpcomingPostPreview">
+      <button type="button" (click)="back()" class="btn btn-back mb-1 mr-2">
+        Back
+      </button>
+      <button type="button" (click)="submit()" class="btn btn-next mb-1">
+        Activate Autopilot
+        <span
+          [matTooltip]="creditMessage"
+          class="credit-div"
+          *ngIf="creditDeducated"
+          matTooltipPosition="above"
+          ><i class="fa fa-cubes" aria-hidden="true"></i
+          >{{ creditDeducated }}</span
+        >
+      </button>
+    </div>
+  </div>
+</div>
+<app-loader></app-loader>

@@ -1,0 +1,144 @@
+.topdiv {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  .topleft {
+    margin-bottom: 10px;
+    .top-title {
+      color: #101828;
+      font-weight: 600;
+      font-size: 22px;
+      margin-bottom: 5px;
+    }
+    .top-text {
+      color: #667085;
+      font-weight: 500;
+      font-size: 14px;
+    }
+  }
+}
+
+.middle-div {
+  width: 100%;
+  display: inline-block;
+  .middle-title-div {
+    width: 100%;
+    display: inline-block;
+    margin: 15px 0;
+    .middle-title {
+      color: #101828;
+      font-weight: 600;
+      font-size: 18px;
+      margin-bottom: 5px;
+    }
+    .middle-text {
+      color: #667085;
+      font-weight: 500;
+      font-size: 14px;
+    }
+  }
+  .middle-content {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    .themeimg {
+      width: 19%;
+      margin: 1%;
+      margin-top: 0;
+      margin-left: 0;
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+      &:before {
+        content: "";
+        border-radius: 20px;
+        background-color: rgba(0, 0, 0, 0.8);
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        opacity: 0;
+      }
+      &:hover {
+        &:before {
+          opacity: 1;
+        }
+        .themebtns {
+          opacity: 1;
+        }
+        .counts {
+          opacity: 1;
+        }
+      }
+    }
+    .themebtns {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      opacity: 0;
+      cursor: pointer;
+      transform: translate(-50%, -50%);
+      img {
+        cursor: pointer;
+        margin: 3px;
+      }
+    }
+    .imgs {
+      display: block;
+      width: 100%;
+    }
+    .counts {
+      opacity: 0;
+      color: #fff;
+      font-size: 14px;
+      line-height: 1.1;
+      padding: 5px 8px;
+      border-radius: 6px;
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      background-color: #2f3164;
+    }
+  }
+}
+
+@media screen and (max-width: 991px) {
+  .middle-div {
+    .middle-content {
+      .themeimg {
+        width: 24%;
+      }
+    }
+  }
+}
+@media screen and (max-width: 767px) {
+  .middle-div {
+    .middle-content {
+      .themeimg {
+        width: 32.33%;
+      }
+    }
+  }
+}
+@media screen and (max-width: 640px) {
+  .middle-div {
+    .middle-content {
+      .themeimg {
+        width: 49%;
+      }
+    }
+  }
+}
+@media screen and (max-width: 480px) {
+  .middle-div {
+    .middle-content {
+      .themeimg {
+        width: 99%;
+      }
+    }
+  }
+}

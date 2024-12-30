@@ -1,0 +1,145 @@
+<app-loader></app-loader>
+<div class="clg-top-title">
+  <div class="leftside">
+    <h2 class="titles">Generate article</h2>
+    <p class="desq">
+      Start with an idea, and we’ll handle the writing for you.
+    </p>
+  </div>
+  <div class="rightside">
+    <button type="button" class="byn btn-article" (click)="createNewArticle()">
+      New Article
+    </button>
+  </div>
+</div>
+<div
+  class="ide-generate-home"
+  *ngIf="!articleList?.length && !isSearch && isDataLoaded"
+>
+  <img
+    class="img-fluid"
+    src="assets/images/generate-article.png"
+    alt="generate-article"
+  />
+  <h3>Oops, no article yet</h3>
+  <p>Enter a topic to get started, and we’ll generate one for you.</p>
+  <button type="button" class="btn btn-orange" (click)="createNewArticle()">
+    Get started
+  </button>
+</div>
+
+<div class="ide-article-home" *ngIf="articleList?.length || isSearch">
+  <div class="cus-head">
+    <div class="pull-left">
+      <h3 class="title-1 mt-1">
+        All Articles
+        <img
+          src="assets/images/help-icon.svg"
+          alt="help-icon"
+          matTooltip="All Articles"
+          matTooltipPosition="above"
+        />
+      </h3>
+    </div>
+    <div class="pull-right">
+      <div class="re-searchbox pull-left">
+        <i class="fa fa-search"></i>
+        <input
+          type="text"
+          (keyup.enter)="searchTemplate($event)"
+          [(ngModel)]="searchText"
+          class="form-control"
+          placeholder="Search"
+        />
+        <img
+          class="close-btn pointer"
+          width="16"
+          src="assets/images/close-1.svg"
+          alt="close"
+        />
+        <img
+          (click)="clearSearchText()"
+          *ngIf="searchText"
+          class="close-btn pointer"
+          width="16"
+          src="assets/images/close-1.svg"
+          alt="close"
+        />
+      </div>
+      <img
+        (click)="onShort()"
+        class="img-fluid pointer align-middle my-1 ml-3"
+        src="assets/images/carousels-v2/icons-4.png"
+        alt="icons"
+      />
+    </div>
+  </div>
+  <div class="cus-article-lists">
+    <div class="add-article" (click)="createNewArticle()">
+      <img
+        src="assets/images/plus-sqare.png"
+        alt="plus-sqare"
+        width="64"
+        class="img-fluid"
+      />
+      <div>Create new article</div>
+    </div>
+    <div class="article-divs" *ngFor="let item of articleList">
+      <div
+        class="background"
+        [style.backgroundImage]="
+          'url(' + (item?.bannerImage || 'assets/images/demo.png') + ')'
+        "
+      ></div>
+      <div class="labels-1" *ngIf="!item?.isScheduled">Draft</div>
+      <div class="labels-2" *ngIf="item?.isScheduled">Scheduled</div>
+
+      <div class="names hadline">{{ item?.headline }}</div>
+      <div class="date-group">
+        <div class="dates">{{ item?.createdAt | date : "MMM d, y" }}</div>
+        <div class="btn-group">
+          <button
+            type="button"
+            data-toggle="dropdown"
+            aria-expanded="false"
+            class="btn dropdown-toggle"
+          >
+            <i aria-hidden="true" class="fa fa-ellipsis-v"></i>
+          </button>
+          <div class="dropdown-menu dropdown-menu-right">
+            <a (click)="editArticle(item)">Edit</a>
+            <a (click)="deleteArticle(item?._id)">Delete</a>
+            <a (click)="scheduleArticle(item)">Schedule</a>
+            <a (click)="renameArticle(item)">Rename</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="article-divs">
+      <div
+        class="background"
+        style="background-image: url(assets/images/demo.png)"
+      ></div>
+      <div class="labels-2">Scheduled</div>
+      <div class="position-relative">
+        <div class="btn-group">
+          <button
+            type="button"
+            data-toggle="dropdown"
+            aria-expanded="false"
+            class="btn dropdown-toggle"
+          >
+            <i aria-hidden="true" class="fa fa-ellipsis-v"></i>
+          </button>
+          <div class="dropdown-menu dropdown-menu-right">
+            <a>Delete</a>
+            <a>Schedule</a>
+            <a>Rename</a>
+          </div>
+        </div>
+        <div class="names">Storytelling through Product Photography</div>
+        <div class="dates">10-08-24</div>
+      </div>
+    </div> -->
+  </div>
+</div>

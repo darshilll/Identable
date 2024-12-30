@@ -1,0 +1,690 @@
+<app-loader></app-loader>
+<div class="clg-top-title">
+  <h2>Content Autopilot</h2>
+  <p>Automate your content calender with a single click</p>
+</div>
+
+<div class="ide-autopilot-steps" *ngIf="currentPage != 6">
+  <div class="ide-autopilot-sub">
+    <div class="created-progress">
+      <div class="insidebar" [style.width.%]="progression"></div>
+    </div>
+    <form [formGroup]="campaignForm">
+      <div
+        class="d-inline-block w-100 my-2 sentence-case"
+        *ngIf="currentPage == 1"
+      >
+        <div class="step-title">
+          <h3>What is the goal of your campaign ?</h3>
+          <p>this helps us to craft a content in alignment with the goals</p>
+        </div>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Your campaign goal"
+          formControlName="goal"
+        />
+        <div
+          class="invalid-feedback d-block"
+          *ngIf="submitted('campaignGoal') && hasError('goal', 'required')"
+        >
+          Please enter valid campaign goal.
+        </div>
+        <div class="d-inline-block w-100 mt-5">
+          <h3 class="seggest-title">Suggested based on your activity</h3>
+          <div class="d-inline-block w-100 position-relative loader-height">
+            <ngx-ui-loader
+              [loaderId]="'CAMPAIGN-GOAL'"
+              [overlayColor]="'#ffffff'"
+              [fgsColor]="'#f05a28'"
+              [hasProgressBar]="false"
+            >
+            </ngx-ui-loader>
+            <button
+              type="button"
+              class="btn btn-simple"
+              [class.active-suggetion]="checkActiveGoalSuggetion(item?.data)"
+              (click)="selectCampaignGoalSuggestion(item?.data)"
+              *ngFor="let item of suggestionGoalOfCampaign"
+            >
+              {{ item?.data }}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-inline-block w-100 my-2" *ngIf="currentPage == 2">
+        <div class="step-title">
+          <h3>Topic Idea?</h3>
+          <p>Prompt your idea for generating content</p>
+        </div>
+        <textarea
+          class="form-control"
+          placeholder="Enter your topic"
+          formControlName="topic"
+          rows="4"
+        ></textarea>
+        <div
+          class="invalid-feedback d-block"
+          *ngIf="submitted('topic') && hasError('topic', 'required')"
+        >
+          Please enter valid topic.
+        </div>
+        <div class="text-right mt-1">
+          <button
+            type="button"
+            class="btn btn-auto-generate"
+            (click)="autoGenerateTopic()"
+          >
+            <img src="assets/images/icon-stars.png" alt="" /> auto generate
+          </button>
+        </div>
+        <div class="d-inline-block w-100 mt-5">
+          <h3 class="seggest-title">Suggested based on your activity</h3>
+          <div class="d-inline-block w-100 position-relative loader-height">
+            <ngx-ui-loader
+              [loaderId]="'CAMPAIGN-TOPIC'"
+              [overlayColor]="'#ffffff'"
+              [fgsColor]="'#f05a28'"
+              [hasProgressBar]="false"
+            >
+            </ngx-ui-loader>
+            <div
+              class="top-ideas"
+              [class.active-suggetion]="checkActiveTopicSuggetion(item?.data)"
+              (click)="selectTopicSuggestion(item?.data)"
+              *ngFor="let item of suggestionTopic"
+            >
+              <img src="assets/images/bulbs.png" alt="" width="32" />
+              {{ item?.data }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-inline-block w-100 my-2" *ngIf="currentPage == 3">
+        <div class="step-title">
+          <h3>Keywords</h3>
+          <p>add relent keywords to optimize for better reach</p>
+        </div>
+        <tag-input
+          formControlName="keyword"
+          [maxItems]="10"
+          [separatorKeyCodes]="[188, 9]"
+          placeholder="Enter keywords"
+        >
+        </tag-input>
+        <div
+          class="invalid-feedback d-block"
+          *ngIf="submitted('keyword') && hasError('keyword', 'required')"
+        >
+          Please enter keyword.
+        </div>
+        <div class="mt-4 d-inline-block w-100 suggested-div">
+          <h5>Suggested based on your activity</h5>
+          <div class="suggested-list position-relative">
+            <ngx-ui-loader
+              [loaderId]="'CAMPAIGN-KEYWORD'"
+              [overlayColor]="'#ffffff'"
+              [fgsColor]="'#f05a28'"
+              [hasProgressBar]="false"
+            >
+            </ngx-ui-loader>
+            <div
+              class="suggested"
+              [class.on-active]="checkSelectedKeyword(item?.data)"
+              *ngFor="let item of suggestionKeyword"
+            >
+              <span (click)="selectKeyword(item?.data)">
+                {{ item?.data }}
+              </span>
+              <i
+                class="fa"
+                *ngIf="checkSelectedKeyword(item?.data)"
+                (click)="removeKeyword(item?.data)"
+                >&#10006;</i
+              >
+            </div>
+            <!-- <div class="suggested on-active">
+              Color theory <i class="fa">&#10006;</i>
+            </div> -->
+          </div>
+        </div>
+        <div class="step-title mt-4 mb-2">
+          <h3>Include content type ?</h3>
+        </div>
+        <!-- <div class="d-flex flex-wrap w-100">
+          <label class="custom-check-1" *ngFor="let item of includeList">
+            <img [src]="item?.image" alt="" width="32" />
+            {{ item?.title }}
+            <input type="checkbox" [value]="item?.value" (click)="selectInclude($event)"
+              [checked]="isIncludeChecked(item?.value)" name="" id="" />
+          </label>
+        </div> -->
+
+        <div
+          class="btn-group-toggle d-flex flex-wrap w-100"
+          data-toggle="buttons"
+        >
+          <label
+            class="btn custom-check-1"
+            *ngFor="let item of includeList"
+            [class.active]="isIncludeChecked(item?.value)"
+            [class.disabled]="item?.isReadOnly"
+          >
+            <img [src]="item?.image" alt="" width="32" />
+            {{ item?.title }}
+
+            <input
+              type="checkbox"
+              [value]="item?.value"
+              (change)="selectInclude($event)"
+              [checked]="isIncludeChecked(item?.value)"
+              [disabled]="item?.isReadOnly"
+            />
+          </label>
+        </div>
+
+        <div
+          class="invalid-feedback d-block"
+          *ngIf="
+            submitted('includeContentType') &&
+            hasError('includeContentType', 'required')
+          "
+        >
+          Please select any content type.
+        </div>
+      </div>
+
+      <div class="d-inline-block w-100 my-2" *ngIf="currentPage == 4">
+        <div class="step-title">
+          <h3>Quantity & frequency</h3>
+        </div>
+        <div class="d-inline-block w-100 mb-4">
+          <div class="switch-title mb-2">
+            <div class="text1">Schedule start date of the campaign</div>
+            <label class="switch mx-2">
+              <input
+                type="checkbox"
+                (click)="setStartImmediately($event)"
+                formControlName="isStartImmediately"
+              />
+              <span class="slider"></span>
+            </label>
+            <div class="text2">(Start immediately)</div>
+          </div>
+          <input
+            type="date"
+            [class.disabled]="isCampaignStartDateDisabled"
+            formControlName="startDate"
+            class="form-control quanti-dates"
+          />
+        </div>
+        <div class="d-inline-block w-100 mb-3">
+          <div class="switch-title mb-2">
+            <div class="text1">Time period of Campaign</div>
+          </div>
+          <div class="btn-group-toggle" data-toggle="buttons">
+            <label
+              class="btn btn-simple text-capitalize"
+              [class.active]="isCampaignTimeChecked(item)"
+              *ngFor="let item of campaignTimePeriodList"
+            >
+              <input
+                type="radio"
+                [value]="item"
+                formControlName="duration"
+                [checked]="isCampaignTimeChecked(item)"
+              />
+              {{ item }}
+            </label>
+          </div>
+        </div>
+        <div class="d-inline-block w-100 mb-3">
+          <div class="switch-title mb-1">
+            <div class="text1">Include weekends</div>
+            <label class="switch mx-2">
+              <input type="checkbox" formControlName="isWeekendInclude" />
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+        <div class="d-inline-block w-100 mb-3">
+          <div class="switch-title mb-2">
+            <div class="text1 mr-3">No of posts per day</div>
+            <div class="text2">( max 2 posts per day)</div>
+          </div>
+          <div class="select-length">
+            <a class="btns plusbtn" (click)="inquiriesNumberOfPostDay()">+</a>
+            <input
+              type="number"
+              class="form-control"
+              formControlName="dailyPost"
+              placeholder="0"
+            />
+            <a class="btns minusbtn" (click)="decreaseNumberOfPostDay()">-</a>
+          </div>
+        </div>
+        <div class="d-inline-block w-100 mb-2" *ngIf="checkDailyPostCount()">
+          <div class="switch-title mb-2">
+            <div class="text1">A & B Version</div>
+            <label class="switch mx-2">
+              <input
+                type="checkbox"
+                formControlName="isABVersion"
+                (change)="selectABVersion($event)"
+              />
+              <span class="slider"></span>
+            </label>
+          </div>
+          <div class="row" *ngIf="activeABVersion()">
+            <div class="col-12 col-xl-6">
+              <div class="custom-group mb-2">
+                <label for="">Version A theme</label>
+                <select
+                  (change)="onSelectVersionA($event)"
+                  formControlName="themeVersionA"
+                  class="form-control mt-1"
+                >
+                  <option value="" chek>Select version A theme</option>
+                  <option
+                    *ngFor="let item of versionAList"
+                    [disabled]="item?.isReadOnly"
+                    [value]="item?.item"
+                  >
+                    {{ item?.item }}
+                  </option>
+                </select>
+                <div
+                  class="invalid-feedback d-block"
+                  *ngIf="
+                    submitted('themeVersionA') &&
+                    hasError('themeVersionA', 'required')
+                  "
+                >
+                  Please select any theme.
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-xl-6">
+              <div class="custom-group mb-2">
+                <label for="">Version B theme</label>
+                <select
+                  (change)="onSelectVersionB($event)"
+                  formControlName="themeVersionB"
+                  class="form-control mt-1"
+                >
+                  <option value="" chek>Select version B theme</option>
+                  <option
+                    *ngFor="let item of versionBList"
+                    [value]="item?.item"
+                    [disabled]="item?.isReadOnly"
+                  >
+                    {{ item?.item }}
+                  </option>
+                </select>
+                <div
+                  class="invalid-feedback d-block"
+                  *ngIf="
+                    submitted('themeVersionB') &&
+                    hasError('themeVersionB', 'required')
+                  "
+                >
+                  Please select any theme.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-inline-block w-100 my-2" *ngIf="currentPage == 5">
+        <div class="step-title">
+          <h3>Media Settings</h3>
+        </div>
+        <div class="row">
+          <div class="col-12 col-xl-6">
+            <div class="d-inline-block w-100 mb-3">
+              <div class="switch-title mb-1">
+                <div class="text1">Colour</div>
+                <!-- <label class="switch mx-2">
+                  <input type="checkbox" formControlName="isBrandKit" />
+                  <span class="slider"></span>
+                </label>
+                <div class="text2">(choose from the brand kit)</div> -->
+              </div>
+              <ngx-colors
+                ngx-colors-trigger
+                [(ngModel)]="themColor"
+                formControlName="color"
+              ></ngx-colors>
+              <div class="invalid-feedback d-block" *ngIf="!themColor">
+                Please select any color.
+              </div>
+              <div class="custom-group mt-3">
+                <label for="">Video length</label>
+                <select formControlName="videoLength" class="form-control">
+                  <option
+                    *ngFor="let item of videoLengthList"
+                    [value]="item"
+                    class="text-capitalize"
+                  >
+                    {{ item }}
+                  </option>
+                </select>
+              </div>
+              <div class="custom-group">
+                <label for="">Video Aspect Ratio</label>
+                <select formControlName="videoRatio" class="form-control">
+                  <option
+                    *ngFor="let item of videoRatioList"
+                    [value]="item"
+                    class="text-capitalize"
+                  >
+                    {{ item }}
+                  </option>
+                </select>
+              </div>
+              <div class="custom-group">
+                <label for="">Video Voice</label>
+                <div class="position-relative custom_arrow">
+                  <input
+                    placeholder="Select video collection"
+                    type="text"
+                    class="form-control"
+                    [value]="selectedVideoVoiceName"
+                    (click)="openVideoVoiceList()"
+                    readonly
+                  />
+                  <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                </div>
+                <audio
+                  controls
+                  class="form-control mb-2 mt-2 p-0 border-0"
+                  *ngIf="selectedVideoVoice"
+                >
+                  <source
+                    [src]="selectedVideoVoice?.audioUrl"
+                    type="audio/mpeg"
+                  />
+                </audio>
+                <div
+                  class="invalid-feedback d-block"
+                  *ngIf="
+                    submitted('videoVoice') &&
+                    hasError('videoVoice', 'required')
+                  "
+                >
+                  Please select any video voice.
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-xl-6">
+            <div class="custom-group">
+              <label for="">Video Image Style</label>
+              <div class="position-relative custom_arrow">
+                <input
+                  placeholder="Select video collection"
+                  type="text"
+                  class="form-control"
+                  formControlName="videoCollection"
+                  (click)="videoImageStyleDailog()"
+                  readonly
+                />
+                <i class="fa fa-chevron-down" aria-hidden="true"></i>
+              </div>
+              <div
+                class="invalid-feedback d-block"
+                *ngIf="
+                  submitted('videoCollection') &&
+                  hasError('videoCollection', 'required')
+                "
+              >
+                Please select any video collection.
+              </div>
+            </div>
+            <div class="custom-group">
+              <label for="">Carousel template</label>
+              <div class="position-relative custom_arrow sentence-case">
+                <input
+                  placeholder="Select carousel template"
+                  type="text"
+                  class="form-control"
+                  formControlName="carouselTemplate"
+                  (click)="carouselTemplateListDialog()"
+                  readonly
+                />
+                <i class="fa fa-chevron-down" aria-hidden="true"></i>
+              </div>
+              <div
+                class="invalid-feedback d-block"
+                *ngIf="
+                  submitted('carouselTemplate') &&
+                  hasError('carouselTemplate', 'required')
+                "
+              >
+                Please select any carousel template.
+              </div>
+            </div>
+            <div class="custom-group">
+              <label for="" class="d-block">Image style</label>
+              <mat-form-field class="w-100 ide-custom-select">
+                <mat-select
+                  (selectionChange)="selectImageStyle($event)"
+                  [(value)]="selectedImageStyle"
+                  placeholder="Select image style"
+                >
+                  <mat-select-trigger>
+                    <img
+                      [src]="selectedImageStyle?.icon"
+                      alt="{{ selectedImageStyle?.label }}"
+                      class="icon"
+                    />
+                    {{ selectedImageStyle?.label }}
+                  </mat-select-trigger>
+                  <mat-option *ngFor="let item of imageStyles" [value]="item">
+                    <img
+                      [src]="item.icon"
+                      alt="{{ item.label }}"
+                      class="icon"
+                    />
+                    {{ item.label }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <div
+                class="invalid-feedback d-block"
+                *ngIf="
+                  submitted('imageStyle') && hasError('imageStyle', 'required')
+                "
+              >
+                Please select any image style.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="d-inline-block w-100 my-2" *ngIf="currentPage == 7">
+        <div class="step-title">
+          <h3>Article Settings</h3>
+        </div>
+        <div class="row ide-custom-check-1-full">
+          <div class="col-12 col-lg-4 mb-3">
+            <label
+              class="custom-check-1"
+              [class.active]="campaignForm.value.isFAQ"
+            >
+              FAQ’s, title, & desc.
+              <input type="checkbox" checked formControlName="isFAQ"
+            /></label>
+          </div>
+          <div class="col-12 col-lg-4 mb-3">
+            <label class="custom-check-1">
+              Conclusion
+              <input
+                type="checkbox"
+                formControlName="isConclusion"
+                [class.active]="campaignForm.value.isConclusion"
+            /></label>
+          </div>
+          <div class="col-12 col-lg-4 mb-3">
+            <label class="custom-check-1">
+              Handle
+              <input
+                type="checkbox"
+                formControlName="isHandle"
+                [class.active]="campaignForm.value.isHandle"
+            /></label>
+          </div>
+          <div class="col-12 col-lg-6 mb-3">
+            <label class="mb-2 custom-check-1">
+              YouTube Videos ( max 2 custom links)
+              <input type="checkbox" formControlName="isYoutubeInclude"
+            /></label>
+            <div *ngIf="campaignForm.value.isYoutubeInclude">
+              <div class="switch-title mb-2">
+                <div class="text1">Include search engine results</div>
+                <label class="switch mx-2">
+                  <input type="checkbox" />
+                  <span class="slider"></span>
+                </label>
+              </div>
+              <div
+                class="custom-tabsearch mb-2"
+                [class.disabled]="youtubeVideos?.length > 1"
+              >
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Add custom link"
+                  [(ngModel)]="youtubeLink"
+                  [ngModelOptions]="{ standalone: true }"
+                />
+                <img
+                  class="img-fluid ml-2 pointer"
+                  src="assets/images/add-button.png"
+                  alt="add-button"
+                  width="32"
+                  (click)="addYoutubeLink()"
+                />
+              </div>
+              <div
+                class="invalid-feedback d-block"
+                *ngIf="isInvalidYoutubeLink"
+              >
+                Please enter valid youtube link.
+              </div>
+              <div class="custom-links-div" *ngIf="youtubeVideos?.length">
+                <div
+                  class="cus-link"
+                  *ngFor="let item of youtubeVideos; let i = index"
+                >
+                  <span class="link-span" [title]="item">{{ item }}</span
+                  ><i class="fa" (click)="deleteYoutubeLink(i)">✖</i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-lg-6 mb-3">
+            <label class="mb-2 custom-check-1">
+              authority links ( max 3 custom links)
+              <input type="checkbox" value=""
+            /></label>
+            <div *ngIf="campaignForm.value.isAuthorityLinkInclude">
+              <div class="switch-title mb-2">
+                <div class="text1">Include search engine results</div>
+                <label class="switch mx-2">
+                  <input type="checkbox" />
+                  <span class="slider"></span>
+                </label>
+              </div>
+              <div
+                class="custom-tabsearch mb-2"
+                [class.disabled]="authorityLinks?.length > 2"
+              >
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Add custom link"
+                  [(ngModel)]="authoLink"
+                  [ngModelOptions]="{ standalone: true }"
+                />
+                <img
+                  class="img-fluid ml-2 pointer"
+                  src="assets/images/add-button.png"
+                  alt="add-button"
+                  width="32"
+                  (click)="addAuthorityLink()"
+                />
+              </div>
+              <div class="custom-links-div" *ngIf="authorityLinks?.length">
+                <div
+                  class="cus-link"
+                  *ngFor="let item of authorityLinks; let i = index"
+                >
+                  <span class="link-span" [title]="item">{{ item }}</span
+                  ><i class="fa" (click)="deleteAuthorityLink(i)">✖</i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row ide-custom-check-1-full">
+          <div class="col-12 col-lg-12">
+            <label class="mb-2 custom-check-1">
+              Call to action (max 2)
+              <input type="checkbox"
+            /></label>
+            <tag-input class="mb-2" placeholder="Enter keywords"></tag-input>
+            <div class="custom-tabsearch mb-2">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Add CTA text"
+              />
+              <img
+                class="img-fluid ml-2 pointer"
+                src="assets/images/add-button.png"
+                alt="add-button"
+                width="32"
+              />
+            </div>
+            <div class="custom-links-div">
+              <div class="cus-link">
+                <span>https://www.identable.io</span><i class="fa">✖</i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> -->
+    </form>
+
+    <div class="created-btnlist">
+      <button
+        type="button"
+        class="btn btn-back mb-1 mr-2"
+        (click)="onClickBack()"
+        *ngIf="currentPage != 1"
+      >
+        Back
+      </button>
+      <button type="button" class="btn btn-next mb-1" (click)="onclickNext()">
+        Continue
+      </button>
+    </div>
+  </div>
+</div>
+<div
+  class="ide-autopilot-Calender d-inline-block w-100 my-2"
+  *ngIf="currentPage == 6"
+>
+  <app-campaign-scheduler
+    [isUpcomingPostPreview]="true"
+    [scheduleData]="scheduleData"
+    [isPreSchedule]="true"
+    (_back)="onClickBack()"
+    (_createCampaign)="saveCampaign($event)"
+  ></app-campaign-scheduler>
+</div>

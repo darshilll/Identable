@@ -1,0 +1,135 @@
+<div class="ide-pops mb-3" *ngIf="isDsahboardLoaded">
+  🙏 Greetings! We’re reaching out to connect with your LinkedIn Profile. Give
+  us a little time to unveil your dashboard with your real data. until then take
+  a peek at this <span class="spans"> preview dashboard</span>
+  <!-- <span class="ide-close">x</span> -->
+</div>
+<div class="topdiv">
+  <div class="leftside">
+    <h2 class="main-title">Insights</h2>
+    <h5 class="sub-title">Review performance and more</h5>
+  </div>
+  <div class="rightside">
+    <div class="dropdown">
+      <a
+        class="btn dropdown-toggle text-capitalize"
+        role="button"
+        data-toggle="dropdown"
+        aria-expanded="false"
+      >
+        <img
+          class="img-fluid mr-2"
+          width="18"
+          src="assets/images/social/linkedin.png"
+          alt="linkedin"
+        />
+        {{ selectedPage?.name ? selectedPage?.name : "N/A" }}
+      </a>
+      <div class="dropdown-menu account-drop-menu">
+        <a class="account-drop"
+          ><img
+            class="img-fluid mr-2"
+            width="18"
+            src="assets/images/social/all.png"
+            alt="all"
+          />
+          All channels</a
+        >
+        <div class="position-relative subdrop">
+          <a class="account-drop subdrop-toggle"
+            ><img
+              class="img-fluid mr-2"
+              width="18"
+              src="assets/images/social/linkedin.png"
+              alt="linkedin" />
+            LinkedIn <i class="fa fa-angle-right ml-auto"></i
+          ></a>
+          <div class="dropdown-menu subdrop-menu">
+            <a
+              class="account-drop text-capitalize"
+              (click)="selectPage(item)"
+              *ngFor="let item of linkedInPageList"
+              ><img
+                class="img-fluid mr-2"
+                width="18"
+                [src]="item?.image"
+                alt="linkedIn"
+              />
+              {{ item?.name }}</a
+            >
+          </div>
+        </div>
+        <!-- <a class="account-drop"><img class="img-fluid mr-2" width="18" src="assets/images/social/fb.png"
+            alt="fb" />UX.charan
+        </a>
+        <a class="account-drop"><img class="img-fluid mr-2" width="18" src="assets/images/social/insta.png"
+            alt="insta" />UX.charan
+        </a>
+        <a class="account-drop"><img class="img-fluid mr-2" width="18" src="assets/images/social/x.png" alt="x" />X
+        </a>
+        <a class="account-drop"><img class="img-fluid mr-2" width="18" src="assets/images/social/dots.png"
+            alt="dots" />charan_writes
+        </a> -->
+      </div>
+    </div>
+    <div class="dropdown ml-3">
+      <a
+        class="btn dropdown-toggle"
+        role="button"
+        data-toggle="dropdown"
+        aria-expanded="false"
+      >
+        {{ filterStartDate | date : "MMM dd, yyyy" }} -
+        {{ filterEndDate | date : "MMM dd, yyyy" }}
+      </a>
+      <div class="dropdown-menu date-drop-menu">
+        <label class="radiobtn-1" *ngFor="let item of filterTimePeriodList"
+          >{{ item }}
+          <input
+            (click)="onTimePeriod(item)"
+            type="radio"
+            [value]="item"
+            [(ngModel)]="selectedDuration"
+            name="radio"
+          />
+          <span class="checkmark"></span>
+        </label>
+      </div>
+    </div>
+  </div>
+</div>
+<mat-tab-group
+  #tabGroup
+  class="dash-tabs"
+  mat-stretch-tabs="false"
+  mat-align-tabs="start"
+  (selectedTabChange)="onTabChange($event)"
+>
+  <mat-tab label="Overview">
+    <app-dashboard-overview
+      [selectedPage]="selectedPage"
+      [startDate]="filterStartDate"
+      [endDate]="filterEndDate"
+      [selectedDuration]="selectedDuration"
+      (_goToContentPage)="goToContentPage()"
+    ></app-dashboard-overview>
+  </mat-tab>
+  <mat-tab label="Audience">
+    <app-audience
+      *ngIf="activeTabIndex === 1"
+      [selectedPage]="selectedPage"
+    ></app-audience>
+  </mat-tab>
+  <mat-tab label="Benchmarking">
+    <app-benchmarking *ngIf="activeTabIndex === 2"></app-benchmarking>
+  </mat-tab>
+  <mat-tab label="Content">
+    <app-content-area
+      *ngIf="activeTabIndex === 3"
+      [selectedPage]="selectedPage"
+      [startDate]="filterStartDate"
+      [endDate]="filterEndDate"
+    ></app-content-area>
+  </mat-tab>
+</mat-tab-group>
+<app-loader></app-loader>

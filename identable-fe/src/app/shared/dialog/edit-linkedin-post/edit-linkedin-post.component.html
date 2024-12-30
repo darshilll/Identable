@@ -1,0 +1,837 @@
+<mat-dialog-content>
+  <div class="custom_modal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-head">
+          <h2 class="title1">
+            Edit Post
+            <img
+              src="assets/images/help-icon.svg"
+              alt="help-icon"
+              matTooltip="Edit Post"
+              matTooltipPosition="above"
+            />
+          </h2>
+          <span class="pointer" [mat-dialog-close]="false">
+            <img
+              class="img-fluid"
+              width="24"
+              src="assets/images/close-1.svg"
+              alt="close"
+            />
+          </span>
+        </div>
+        <div class="modal-body">
+          <div class="create_post_div">
+            <div class="leftdiv">
+              <!-- <h4 class="lefttitle">Your Post</h4> -->
+              <div class="postname d-none">
+                <div class="dropdown">
+                  <a
+                    type="button"
+                    class="dropbtn"
+                    data-toggle="dropdown"
+                    aria-expanded="false"
+                  >
+                    <img
+                      [src]="
+                        currentProfile?.image
+                          ? currentProfile?.image
+                          : 'assets/images/avatar/avatar.png'
+                      "
+                      [alt]="currentProfile?.name"
+                    />
+
+                    {{ currentProfile?.name }}
+
+                    <!-- <i class="fa fa-angle-down" aria-hidden="true"></i> -->
+                  </a>
+                  <!-- <div class="dropdown-menu dropdown-menu-right">
+                    <div class="droplink selecteds">
+                      <img
+                        src="assets/images/avatar/avatar.png"
+                        alt="avatar"
+                      />Olivia Rhye
+                    </div>
+                    <div class="droplink">
+                      <img src="assets/images/avatar/avatar.png" alt="avatar" />
+                      Olivia Rhye
+                    </div>
+                  </div> -->
+                </div>
+                <div class="customdrop">
+                  <a class="btn btn-casual">
+                    <img
+                      src="assets/images/icon-casual.png"
+                      alt="icon-casual"
+                    />
+                    {{
+                      _utilities.userData?.aiSetting?.formality
+                        ? _utilities.userData?.aiSetting?.formality
+                        : aiFormality
+                    }}
+                  </a>
+                </div>
+              </div>
+              <div class="custom_editor">
+                <h3 class="title-1">
+                  Editor
+                  <img
+                    src="assets/images/help-icon.svg"
+                    alt="help-icon"
+                    matTooltip="Editor"
+                    matTooltipPosition="above"
+                  />
+                </h3>
+                <div class="custom_editor_textarea ide-select-div">
+                  <!-- <angular-editor
+                    [(ngModel)]="postBody"
+                    [config]="config"
+                    placeholder="Enter your post content"
+                  ></angular-editor> -->
+
+                  <textarea
+                    class="form-control"
+                    rows="17"
+                    placeholder="Type here..."
+                    #textInput
+                    [(ngModel)]="postBody"
+                    (input)="updatePostBody(textInput.value)"
+                    [innerHTML]="postBody"
+                  ></textarea>
+
+                  <div class="desq-icons" [class.disable]="!postBody">
+                    <a class="btn btn-format"
+                      ><img
+                        src="assets/images/icon-casual.png"
+                        alt="icon-casual"
+                      />
+                      {{
+                        _utilities.userData?.aiSetting?.formality
+                          ? _utilities.userData?.aiSetting?.formality
+                          : aiFormality
+                      }}
+                    </a>
+                    <img
+                      class="ml-auto mr-2 pointer"
+                      src="assets/images/icon-image.png"
+                      alt="Media"
+                      matTooltip="Media"
+                      matTooltipPosition="above"
+                      (click)="choiceMediaOptions()"
+                    />
+                    <img
+                      class="mr-2 pointer"
+                      (click)="editPostContent('Rephase')"
+                      src="assets/images/icon-rephrase.png"
+                      alt="rephrase"
+                      matTooltip="Rephrase"
+                      matTooltipPosition="above"
+                    />
+                    <img
+                      class="mr-2 pointer"
+                      (click)="editPostContent('shorten')"
+                      src="assets/images/icon-expand-1.png"
+                      alt="expand"
+                      matTooltip="Shorten"
+                      matTooltipPosition="above"
+                    />
+                    <img
+                      class="mr-2 pointer"
+                      (click)="editPostContent('expand')"
+                      src="assets/images/icon-expand-2.png"
+                      alt="expand"
+                      matTooltip="Expand"
+                      matTooltipPosition="above"
+                    />
+                    <div class="btn-group editDropDown">
+                      <a
+                        class="mr-2 pointer p-0"
+                        data-toggle="dropdown"
+                        aria-expanded="false"
+                      >
+                        <img
+                          class="img-fluid align-middle"
+                          src="assets/images/icon-rewrite.png"
+                          alt="icon-rewrite"
+                          matTooltip="Rewrite"
+                          matTooltipPosition="above"
+                        />
+                      </a>
+                      <div class="dropdown-menu dropdown-menu-right">
+                        <a
+                          class="droplink"
+                          (click)="editPostContent('rewrite', 'Simplify')"
+                          >🤪 Simplify</a
+                        ><a
+                          class="droplink"
+                          (click)="editPostContent('rewrite', 'Complicate')"
+                          >🤓 Complicate</a
+                        ><a
+                          class="droplink"
+                          (click)="editPostContent('rewrite', 'Professional')"
+                          >💼 Professional</a
+                        ><a
+                          class="droplink"
+                          (click)="editPostContent('rewrite', 'Casual')"
+                          >🍹 Casual</a
+                        ><a
+                          class="droplink"
+                          (click)="
+                            editPostContent('rewrite', 'Straightforward')
+                          "
+                          >🎯 Straightforward</a
+                        ><a
+                          class="droplink"
+                          (click)="editPostContent('rewrite', 'Confident')"
+                          >🦁 Confident</a
+                        ><a
+                          class="droplink"
+                          (click)="editPostContent('rewrite', 'Friendly')"
+                          >🐱 Friendly</a
+                        ><a
+                          class="droplink"
+                          (click)="editPostContent('rewrite', 'Story')"
+                          >📚 Story</a
+                        ><a
+                          class="droplink"
+                          (click)="editPostContent('rewrite', 'Scar')"
+                          >🙀 Scar</a
+                        >
+                      </div>
+                    </div>
+                    <img
+                      class="mr-2 pointer"
+                      (click)="editPostContent('add_emoji')"
+                      src="assets/images/icon-emoji.png"
+                      alt="emoji"
+                      matTooltip="Add Emoji"
+                      matTooltipPosition="above"
+                    />
+
+                    <button
+                      *ngIf="isAllowtoGeneratePost"
+                      type="button"
+                      class="btn btn-simple"
+                      (click)="generatePost()"
+                    >
+                      <img
+                        class="img-fluid"
+                        src="assets/images/icon-stars.png"
+                        alt="icon-stars"
+                      />
+                      Complete post
+                    </button>
+                    <button
+                      *ngIf="!isAllowtoGeneratePost"
+                      type="button"
+                      class="btn btn-simple"
+                      (click)="generatePost()"
+                    >
+                      <img
+                        class="img-fluid"
+                        src="assets/images/generate.png"
+                        alt="generate"
+                        width="14"
+                      />
+                      Regenerate post
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div class="custom_buttons d-none">
+                <div class="thumbs">
+                  <i
+                    class="fa fa-thumbs-o-up pointer m-1"
+                    aria-hidden="true"
+                    matTooltip="The result is correct"
+                    matTooltipPosition="below"
+                    (click)="contentMarked(true)"
+                    [class.contentMarkedActive]="contentMarkedType == 'like'"
+                  ></i>
+                  <i
+                    class="fa fa-thumbs-o-up pointer m-1 fa-rotate-180"
+                    aria-hidden="true"
+                    matTooltip="The result is incorrect"
+                    matTooltipPosition="below"
+                    [class.contentMarkedActive]="
+                      contentMarkedType == 'contentMarked'
+                    "
+                    (click)="contentMarked(false)"
+                  ></i>
+                </div>
+                <div class="analysis-drop">
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-click"
+                    (click)="openPostAnalysisDialog()"
+                  >
+                    <i
+                      class="fa fa-check-circle po"
+                      *ngIf="isContentAnalyzeData"
+                      aria-hidden="true"
+                    ></i>
+                    Analyze {{ isBtnAnalyzeText }}
+                    <span
+                      [matTooltip]="creditMessage(contentAnalyzeCredit)"
+                      class="credit-div"
+                      matTooltipPosition="above"
+                      ><i class="fa fa-cubes" aria-hidden="true"></i
+                      >{{ contentAnalyzeCredit }}</span
+                    >
+                  </button>
+                  <div class="analysis-popup" *ngIf="isPostAnalysis">
+                    <div class="dropclose" (click)="closeDialog()">X</div>
+                    <div class="content-analyze">
+                      <div class="cont-1">
+                        {{ isContentAnalyzeData?.aiGenerated }}%
+                      </div>
+                      <div class="cont-2">of text a like Ai-generated</div>
+                    </div>
+                    <div class="progress my-2">
+                      <div
+                        class="progress-bar"
+                        role="progressbar"
+                        style="background-color: #d42824"
+                        [aria-valuenow]="isContentAnalyzeData?.aiGenerated"
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                        [style.width.%]="isContentAnalyzeData?.aiGenerated"
+                      ></div>
+                      <!-- <div
+                        class="progress-bar"
+                        role="progressbar"
+                        style="background-color: #e1cffe"
+                        [aria-valuenow]="isContentAnalyzeData?.aiParaphraser"
+                        aria-valuemin="0"
+                        [style.width.%]="isContentAnalyzeData?.aiParaphraser"
+                        aria-valuemax="100"
+                      ></div> -->
+                      <div
+                        class="progress-bar"
+                        role="progressbar"
+                        style="background-color: #faae22"
+                        [aria-valuenow]="isContentAnalyzeData?.aiMix"
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                        [style.width.%]="isContentAnalyzeData?.aiMix"
+                      ></div>
+                      <div
+                        class="progress-bar"
+                        role="progressbar"
+                        style="background-color: #1d41b7"
+                        [aria-valuenow]="isContentAnalyzeData?.humanWriten"
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                        [style.width.%]="isContentAnalyzeData?.humanWriten"
+                      ></div>
+                    </div>
+                    <div class="d-inline-block w-100 mb-4">
+                      <div class="analylist">
+                        <div class="analytext">
+                          <div
+                            class="bg-colors"
+                            style="background-color: #d42824"
+                          ></div>
+                          Ai-generated
+                          <i
+                            class="fa fa-info-circle ml-1"
+                            matTooltip="Text likely generated by AI, like ChatGPT or Gemini."
+                            matTooltipPosition="above"
+                          ></i>
+                        </div>
+                        <div class="analytext">
+                          <b>{{ isContentAnalyzeData?.aiGenerated }}%</b>
+                        </div>
+                      </div>
+                      <div class="analylist">
+                        <div class="analytext">
+                          <div
+                            class="bg-colors"
+                            style="background-color: #faae22"
+                          ></div>
+                          Ai-generated & Human-written
+                          <i
+                            class="fa fa-info-circle ml-1"
+                            matTooltip="Text likely generated by AI, like ChatGPT or Gemini."
+                            matTooltipPosition="above"
+                          ></i>
+                        </div>
+                        <div class="analytext">
+                          <b>{{ isContentAnalyzeData?.aiMix }}%</b>
+                        </div>
+                      </div>
+                      <div class="analylist">
+                        <div class="analytext">
+                          <div
+                            class="bg-colors"
+                            style="background-color: #1d41b7"
+                          ></div>
+                          Human-written
+                          <i
+                            class="fa fa-info-circle ml-1"
+                            matTooltip="Text likely written by humans, then refined or altered using paraphrasing tools."
+                            matTooltipPosition="above"
+                          ></i>
+                        </div>
+                        <div class="analytext">
+                          <b>{{ isContentAnalyzeData?.humanWriten }}%</b>
+                        </div>
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      (click)="contentHumanize()"
+                      class="btn btn-sm btn-try"
+                    >
+                      Try Humanize
+                      <span
+                        matTooltip="Text likely written by humans without the help of AI or paraphrasing tools."
+                        matTooltipPosition="above"
+                        class="credit-div"
+                        ><i class="fa fa-cubes" aria-hidden="true"></i
+                        >{{ contentHumanizeCredit }}</span
+                      >
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="rightdiv">
+              <!-- <div class="rightitlediv">
+                <img
+                  class="img"
+                  src="assets/images/linkedin.png"
+                  alt="linkedin"
+                />
+                <span class="txt">LinkedIn Preview</span>
+              </div> -->
+              <div class="boosting-credit d-none">
+                <div class="custom-control custom-switch">
+                  <input
+                    type="checkbox"
+                    [(ngModel)]="isBoostingPost"
+                    [disabled]="!postBody ? true : false"
+                    class="custom-control-input"
+                    id="customSwitch1"
+                  />
+                  <label class="custom-control-label" for="customSwitch1"
+                    >Post Boosting</label
+                  >
+                  <span
+                    [matTooltip]="creditMessage(isBoostingCredit)"
+                    class="credit-div"
+                    matTooltipPosition="above"
+                    ><i class="fa fa-cubes" aria-hidden="true"></i
+                    >{{ isBoostingCredit }}</span
+                  >
+                </div>
+                <!-- <div class="textt">Boosting Credit Left</div> -->
+                <!-- <p class="labels-credit mt-1" *ngIf="isBoostingCredit < 10">
+                  You have
+                  <span
+                    [style.color]="isBoostingCredit > 5 ? 'green' : 'red'"
+                    >{{ isBoostingCredit }}</span
+                  >
+                  post boosting credits remaining in your account.
+                </p> -->
+              </div>
+
+              <div class="custom-tab-list">
+                <div
+                  class="btn"
+                  [class.active-btn]="activeCustomTabs === item"
+                  *ngFor="let item of diyCustomTabs; let i = index"
+                  (click)="changeDiyCustomTabs(item)"
+                >
+                  {{ item }}
+                </div>
+              </div>
+
+              <div class="custom-tab-content">
+                <div class="" *ngIf="activeCustomTabs === 'Preview'">
+                  <div class="switch-title mb-4">
+                    <div class="text1">Boost post</div>
+                    <label class="switch mx-2">
+                      <input type="checkbox" [(ngModel)]="isBoostingPost" [disabled]="!postBody ? true : false"/>
+                      <span class="slider"></span>
+                    </label>
+                    <div
+                      class="text2"
+                      [matTooltip]="creditMessage(isBoostingCredit)"
+                      matTooltipPosition="above"
+                    >
+                      <img
+                        class="img-fluid align-middle"
+                        src="assets/images/credits-icon.png"
+                        alt="credits-icon"
+                      />
+                      {{ isBoostingCredit }} credits
+                    </div>
+                  </div>
+                  <div
+                    class="skeleton-main card"
+                    *ngIf="
+                      !postBody &&
+                      postMediaType != 'aivideo' &&
+                      postMediaType != 'carousel' &&
+                      postMediaType != 'video'
+                    "
+                  >
+                    <div class="skeleton">
+                      <div class="skeleton-left flex1">
+                        <div class="square circle"></div>
+                      </div>
+                      <div class="skeleton-right flex2">
+                        <div class="line h17 w75 m10"></div>
+                        <div class="line h12 w25"></div>
+                      </div>
+                    </div>
+                    <div class="skeleton2">
+                      <div class="skeleton-right flex2">
+                        <div class="line mt-3 m10 h25 w100 m10"></div>
+                        <div class="line m10 h20 w25"></div>
+                        <div class="line m10 h25 w100"></div>
+                        <div class="line m10 h20 w75"></div>
+                        <div class="line m10 h25 w100"></div>
+                        <div class="line m10 h20 w50"></div>
+                        <div class="line h100 w100 mt-3 m15 h25"></div>
+                        <div class="line m15 f-right h25 w25"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="fb-post"
+                    *ngIf="
+                      postBody ||
+                      postMediaType == 'aivideo' ||
+                      postMediaType == 'carousel' ||
+                      postMediaType == 'video'
+                    "
+                  >
+                    <div class="fbpostimg">
+                      <div class="postinfo">
+                        <img
+                          class="img"
+                          [src]="
+                            currentProfile?.image
+                              ? currentProfile?.image
+                              : 'assets/images/avatar/avatar.png'
+                          "
+                          [alt]="currentProfile?.name"
+                        />
+                        <div>
+                          <span class="txt1"> {{ currentProfile?.name }}</span>
+                          <!-- <span class="txt2">""</span> -->
+                        </div>
+                      </div>
+                      <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                    </div>
+
+                    <div class="fbcontent">
+                      <div class="desq" [innerHTML]="postBody">
+                        <a href="javascript:void(0);"> Read more </a>
+                      </div>
+
+                      <div
+                        class="boxs-body"
+                        *ngIf="postMediaType == 'carousel'"
+                      >
+                        <!-- <ngx-extended-pdf-viewer
+                      [src]="postMedia"
+                      useBrowserLocale="true"
+                      [scrollMode]="ScrollModeType.horizontal"
+                      height="400px"
+                      [showToolbar]="false"
+                      [showSidebarButton]="false"
+                    ></ngx-extended-pdf-viewer> -->
+                        <ngx-slick-carousel
+                          class="carousel"
+                          #slickModal="slick-carousel"
+                          [config]="slideConfig"
+                        >
+                          <div
+                            ngxSlickItem
+                            *ngFor="let item of carouselTemplate; let i = index"
+                          >
+                            <img width="100%" [src]="item" alt="" />
+                          </div>
+                        </ngx-slick-carousel>
+                      </div>
+
+                      <div
+                        class="img-video"
+                        *ngIf="postMedia && postMediaType != 'carousel'"
+                      >
+                        <i
+                          class="fa fa-times-circle"
+                          (click)="removeMedia()"
+                        ></i>
+                        <img
+                          *ngIf="
+                            postMediaType == 'image' || postMediaType == 'giphy'
+                          "
+                          class="img-fluid"
+                          [src]="
+                            _sanitizer.bypassSecurityTrustResourceUrl(postMedia)
+                          "
+                        />
+                        <video
+                          *ngIf="
+                            postMediaType == 'aivideo' ||
+                            postMediaType == 'video'
+                          "
+                          class="videotag"
+                          [src]="postMedia"
+                          controls
+                        ></video>
+                        <iframe
+                          *ngIf="
+                            postMediaType == 'carousel' && !carouselTemplate
+                          "
+                          class="responsive-iframe"
+                          [src]="
+                            _sanitizer.bypassSecurityTrustResourceUrl(postMedia)
+                          "
+                          width="100%"
+                          height="500"
+                        >
+                        </iframe>
+                      </div>
+                    </div>
+
+                    <div class="fbshare">
+                      <a class="sharebtn" *ngIf="isBoostingPost"
+                        ><img
+                          src="assets/images/likes-icon.png"
+                          alt="like"
+                          width="50"
+                          class="mr-0"
+                        />200</a
+                      >
+                      <a class="sharebtn" *ngIf="!isBoostingPost"
+                        ><img
+                          src="assets/images/fb-like.svg"
+                          alt="like"
+                        />Like</a
+                      >
+                      <a class="sharebtn"
+                        ><img
+                          src="assets/images/fb-comment.svg"
+                          alt="comment"
+                        />Comment</a
+                      >
+                      <a class="sharebtn"
+                        ><img
+                          src="assets/images/fb-repeat.svg"
+                          alt="repeat"
+                        />repeat</a
+                      >
+                      <a class="sharebtn"
+                        ><img
+                          src="assets/images/fb-share.svg"
+                          alt="share"
+                        />Share</a
+                      >
+                    </div>
+                  </div>
+                </div>
+
+                <div class="" *ngIf="activeCustomTabs === 'Humanization'">
+                  <div class="seo-score-div mb-4" *ngIf="!isContentAnalyzeData">
+                    <div class="main-text1">---</div>
+                    <div class="main-text2">-------------</div>
+                    <div class="seo-ranks-div mb-4">
+                      <div class="seo-rank" style="width: 30%">
+                        <div class="seo-range rounded-left"></div>
+                      </div>
+                      <div class="seo-rank" style="width: 30%">
+                        <div class="seo-range"></div>
+                      </div>
+                      <div class="seo-rank" style="width: 40%">
+                        <div class="seo-range rounded-right"></div>
+                      </div>
+                    </div>
+
+                    <div
+                      class="btn seo-btn"
+                      [class.disabled]="!postBody"
+                      (click)="contentAnalyze()"
+                    >
+                      Check Humanization
+                      <span
+                        [matTooltip]="creditMessage(contentAnalyzeCredit)"
+                        class="credit-div"
+                        matTooltipPosition="above"
+                        ><i class="fa fa-cubes" aria-hidden="true"></i>
+                        {{ contentAnalyzeCredit }}</span
+                      >
+                    </div>
+                  </div>
+
+                  <div class="seo-score-div mb-4" *ngIf="isContentAnalyzeData">
+                    <div class="main-text1">
+                      {{ isContentAnalyzeData?.aiGenerated }}%
+                    </div>
+                    <div class="main-text2">
+                      of text a like
+                      <span class="sub1 text-warning"
+                        >Ai- generated & human Written</span
+                      >
+                    </div>
+                    <div class="seo-ranks-div mb-4">
+                      <div
+                        class="seo-rank"
+                        [style.width.%]="isContentAnalyzeData?.aiGenerated"
+                      >
+                        <div class="seo-range rounded-left bg-danger"></div>
+                      </div>
+                      <div
+                        class="seo-rank"
+                        [style.width.%]="isContentAnalyzeData?.aiMix"
+                      >
+                        <div class="seo-range bg-warning"></div>
+                      </div>
+                      <div
+                        class="seo-rank"
+                        [style.width.%]="isContentAnalyzeData?.humanWriten"
+                      >
+                        <div class="seo-range rounded-right bg-success"></div>
+                      </div>
+                    </div>
+                    <div class="seo-info-div mb-4">
+                      <div class="seo-info">
+                        <div class="text-1 position-relative pl-3">
+                          <div class="boxs bg-danger"></div>
+                          Ai- generated
+                        </div>
+                        <div class="text-1">
+                          {{ isContentAnalyzeData?.aiGenerated }}%
+                        </div>
+                      </div>
+                      <div class="seo-info">
+                        <div class="text-1 position-relative pl-3">
+                          <div class="boxs bg-warning"></div>
+                          Ai- generated & human - written
+                        </div>
+                        <div class="text-1">
+                          {{ isContentAnalyzeData?.aiMix }}%
+                        </div>
+                      </div>
+                      <div class="seo-info">
+                        <div class="text-1 position-relative pl-3">
+                          <div class="boxs bg-success"></div>
+                          Human - written
+                        </div>
+                        <div class="text-1">
+                          {{ isContentAnalyzeData?.humanWriten }}%
+                        </div>
+                      </div>
+                    </div>
+                    <div class="btn seo-btn" (click)="contentHumanize()">
+                      Humanize
+                      <span
+                        matTooltip="Text likely written by humans without the help of AI or paraphrasing tools."
+                        matTooltipPosition="above"
+                        class="credit-div"
+                        ><i class="fa fa-cubes" aria-hidden="true"></i
+                        >{{ contentHumanizeCredit }}</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <!-- <div class="iconlist">
+            <span class="icons grayicon">
+              <img width="20" src="assets/images/icons-2.png" alt="icons" />
+              <input
+                class="fileupload"
+                type="file"
+                (change)="onSelectFile($event)"
+                accept="image/*"
+              />
+            </span>
+            <span class="icons grayicon">
+              <img width="20" src="assets/images/icons-3.png" alt="icons" />
+              <input
+                class="fileupload"
+                type="file"
+                (change)="onSelectFile($event)"
+                accept="video/*"
+              />
+            </span>
+            <span class="icons grayicon" title="Select File">
+              <img width="20" src="assets/images/icons-5.png" alt="icons" />
+              <input
+                class="fileupload"
+                type="file"
+                (change)="onSelectFile($event)"
+                accept="application/pdf"
+              />
+            </span>
+            <span class="icons" (click)="showGiphyList()"
+              ><img width="78" src="assets/images/giphy.png" alt="giphy"
+            /></span>
+            <span class="icons" (click)="showPixel()"
+              ><img width="80" src="assets/images/pixels-logo.png" alt="pixels"
+            /></span>
+            <span class="icons grayicon" (click)="aiImageDailog()"
+              ><img width="20" src="assets/images/video-ai.png" alt="pixels"
+            /></span>
+          </div> -->
+          <div
+            class="btnlist position-relative"
+            [class.disable]="!postBody && !data?.isCustomMedia"
+          >
+            <button
+              type="button"
+              class="btn btn-cancel"
+              [mat-dialog-close]="false"
+            >
+              Cancel
+            </button>
+            <button type="button" (click)="savePost()" class="btn btn-cancel">
+              Save as Draft
+            </button>
+            <button
+              type="button"
+              (click)="scheduleDialogOpenClose()"
+              class="btn btn-save"
+            >
+              <!-- <img
+                class="mr-1"
+                src="assets/images/calendar-orange-icon.svg"
+                alt="calendar"
+              /> -->{{ scheduleBtnText }}
+              <span
+                [matTooltip]="creditMessage(creditDeducated)"
+                class="credit-div"
+                matTooltipPosition="above"
+                ><i class="fa fa-cubes" aria-hidden="true"></i>
+                {{ creditDeducated }}</span
+              >
+            </button>
+            <div class="schedule-popup" *ngIf="isScheduleDialogOpen">
+              <app-post-schedule-dialog
+                [data]="data"
+                [boostingPost]="isBoostingPost"
+                (_closeDailog)="scheduleDialogOpenClose()"
+                (_postScheduled)="postScheduled($event)"
+              >
+              </app-post-schedule-dialog>
+            </div>
+            <!-- <button type="button" class="btn btn-save" (click)="publishPost()">
+              Publish
+            </button> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+<app-loader></app-loader>

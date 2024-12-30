@@ -1,0 +1,303 @@
+<mat-dialog-content>
+  <div class="preview-head">
+    <div class="preview-left">
+      <div class="preview-div1">
+        <img
+          *ngIf="
+            data?.mediaUrls?.length == 1 && data?.postType != 'TEXT_WITH_VIDEO'
+          "
+          [src]="
+            data?.mediaUrls ? data?.mediaUrls[0] : 'assets/images/demoimg-1.jpg'
+          "
+          width="70"
+          height="70"
+          alt="linkedin"
+          class="img-fluid rounded mr-2"
+        />
+        <img
+          *ngIf="
+            data?.mediaUrls?.length > 1 && data?.postType != 'TEXT_WITH_VIDEO'
+          "
+          [src]="
+            data?.mediaUrls ? data?.mediaUrls[0] : 'assets/images/demoimg-1.jpg'
+          "
+          width="70"
+          height="70"
+          alt="linkedin"
+          class="img-fluid rounded mr-2"
+        />
+        <div class="desq">
+          {{
+            data?.text
+              ? data?.text?.slice(0, 200) +
+                (data?.text?.length > 200 ? "..." : "")
+              : "N/A"
+          }}
+        </div>
+      </div>
+      <div class="preview-div2">
+        <div class="text1">Posted on 09-07-24</div>
+        |
+        <div class="text1">
+          Posted from :
+          <img
+            width="12"
+            src="assets/images/social/linkedin.png"
+            alt="linkedin"
+            class="img-fluid mr-1"
+          />
+          <span class="text-capitalize"> {{ data?.selectedPage?.name }}</span>
+        </div>
+      </div>
+    </div>
+    <div class="preview-right">
+      <button type="button" class="btn btn-block btn1" *ngIf="!data?.isBoosting" (click)="boostPost()">
+        Boost
+        <span
+          [matTooltip]="creditMessage"
+          class="credit-div"
+          matTooltipPosition="above"
+          ><i class="fa fa-cubes" aria-hidden="true"></i
+          >{{ creditDeducated }}</span
+        >
+      </button>
+      <!-- <button type="button" class="btn btn-block btn2">Creade Ad</button> -->
+    </div>
+    <img
+      class="close-btn"
+      src="assets/images/close-1.svg"
+      alt="close-1"
+      width="24"
+      [mat-dialog-close]="false"
+    />
+  </div>
+  <div class="preview-body">
+    <div class="preview-left">
+      <h3 class="title-1">
+        Performance
+        <img
+          src="assets/images/help-icon.svg"
+          alt="help-icon"
+          matTooltip="Performance"
+          matTooltipPosition="above"
+        />
+      </h3>
+      <div class="reach-divs">
+        <div class="reach-box">
+          <div class="title1">
+            <img
+              width="16"
+              src="assets/images/dash-btn/reach.png"
+              alt="reach"
+            />
+            Reach
+            <img
+              width="12"
+              src="assets/images/help-icon.svg"
+              alt="help-icon"
+              matTooltip="Reach"
+              matTooltipPosition="above"
+            />
+          </div>
+          <div class="title2">{{ data?.impressionCount }}</div>
+          <div class="d-flex w-100 flex-wrap">
+            <div class="performs">
+              <div class="text1">Organic</div>
+              <div class="text2">{{ data?.impressionCount }}</div>
+            </div>
+            <div class="performs">
+              <div class="text1">Ads</div>
+              <div class="text2">0</div>
+            </div>
+          </div>
+        </div>
+        <div class="reach-box">
+          <div class="title1">
+            <img
+              width="16"
+              src="assets/images/dash-btn/engagement.png"
+              alt="reach"
+            />
+            Engagement
+            <img
+              width="12"
+              src="assets/images/help-icon.svg"
+              alt="help-icon"
+              matTooltip="Engagement"
+              matTooltipPosition="above"
+            />
+          </div>
+          <div class="title2">
+            {{
+              engagementSum(
+                data?.likeCount,
+                data?.commentCount,
+                data?.repostCount
+              )
+            }}
+          </div>
+          <div class="d-flex w-100 flex-wrap">
+            <div class="performs">
+              <div class="text1">Likes</div>
+              <div class="text2">{{ data?.likeCount }}</div>
+            </div>
+            <div class="performs">
+              <div class="text1">Comments</div>
+              <div class="text2">{{ data?.commentCount }}</div>
+            </div>
+            <div class="performs">
+              <div class="text1">Shares</div>
+              <div class="text2">{{ data?.repostCount }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- <h3 class="title-1 mt-4">
+        Recommendations
+        <img
+          src="assets/images/help-icon.svg"
+          alt="help-icon"
+          matTooltip="info here..." 
+          matTooltipPosition="above"
+        />
+      </h3> -->
+      <!-- <div class="w-100 d-inline-block">
+        <div class="adds-box-sub">
+          <div class="text1 mb-2">Boost this post</div>
+          <div class="text2 mb-2">
+            keep your reels between 15 and 90 seconds.
+          </div>
+          <div class="text3 mb-2">
+            Potential Outcome
+            <img
+              src="assets/images/help-icon.svg"
+              alt="help-icon"
+              matTooltip="info here..."
+              matTooltipPosition="above"
+            />
+          </div>
+          <div class="text2 mb-3">
+            increase in followers by <span>2.5 %</span>
+          </div>
+          <button type="button" class="btn btn-block btn-add">
+            Try it now
+          </button>
+        </div>
+        <div class="adds-box-sub">
+          <div class="text1 mb-2">Boost this post</div>
+          <div class="text2 mb-2">
+            keep your reels between 15 and 90 seconds.
+          </div>
+          <div class="text3 mb-2">
+            Potential Outcome
+            <img
+              src="assets/images/help-icon.svg"
+              alt="help-icon"
+              matTooltip="info here..."
+              matTooltipPosition="above"
+            />
+          </div>
+          <div class="text2 mb-3">
+            increase in followers by <span>2.5 %</span>
+          </div>
+          <button type="button" class="btn btn-block btn-add">
+            Try it now
+          </button>
+        </div>
+      </div> -->
+    </div>
+    <div class="preview-right">
+      <h3 class="title-1">Content Overview</h3>
+      <div class="fb-post">
+        <div class="fbpostimg">
+          <div class="postinfo">
+            <img class="img" [src]="data?.selectedPage?.image" alt="avatar" />
+            <div>
+              <span class="txt1">{{ data?.selectedPage?.name }}</span>
+              <span class="txt2">{{ data?.selectedPage?.designation }}</span>
+            </div>
+          </div>
+          <i aria-hidden="true" class="fa fa-ellipsis-v"></i>
+        </div>
+        <div class="fbcontent">
+          <div class="desq" *ngIf="data?.text">
+            {{
+              isExpanded
+                ? data?.text
+                : data?.text?.slice(0, 450) +
+                  (data?.text?.length > 450 ? "..." : "")
+            }}
+            <a
+              href="javascript:void(0)"
+              *ngIf="data?.text?.length > 450"
+              (click)="toggleReadMore()"
+            >
+              {{ isExpanded ? "Read Less" : "Read More" }}
+            </a>
+          </div>
+          <div class="img-video">
+            <!-- <i class="fa fa-times-circle"></i> -->
+            <img
+              class="img-fluid"
+              *ngIf="
+                data?.mediaUrls?.length == 1 &&
+                data?.postType != 'TEXT_WITH_VIDEO' &&
+                !data?.postData?.carouselTemplate?.length
+              "
+              [src]="
+                data?.mediaUrls
+                  ? data?.mediaUrls[0]
+                  : 'assets/images/demoimg-1.jpg'
+              "
+            />
+            <img
+              class="img-fluid"
+              *ngIf="
+                data?.mediaUrls?.length > 1 &&
+                data?.postType != 'TEXT_WITH_VIDEO' &&
+                !data?.postData?.carouselTemplate?.length
+              "
+              [src]="
+                data?.mediaUrls
+                  ? data?.mediaUrls[0]
+                  : 'assets/images/demoimg-1.jpg'
+              "
+            />
+            <ngx-slick-carousel
+              *ngIf="data?.postData?.carouselTemplate?.length"
+              class="carousel"
+              #slickModal="slick-carousel"
+              [config]="slideConfig"
+            >
+              <div
+                ngxSlickItem
+                *ngFor="let item of carouselTemplate; let i = index"
+              >
+                <div class="slidediv">
+                  <div [innerHTML]="getHtml(item)" #slide></div>
+                </div>
+              </div>
+            </ngx-slick-carousel>
+          </div>
+          <div class="fbshare">
+            <a class="sharebtn"
+              ><img src="assets/images/fb-like.svg" alt="like" />Like</a
+            >
+            <a class="sharebtn"
+              ><img
+                src="assets/images/fb-comment.svg"
+                alt="comment"
+              />Comment</a
+            >
+            <a class="sharebtn"
+              ><img src="assets/images/fb-repeat.svg" alt="repeat" />repeat</a
+            >
+            <a class="sharebtn"
+              ><img src="assets/images/fb-share.svg" alt="share" />Share</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>

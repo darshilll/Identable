@@ -1,0 +1,90 @@
+<div class="pop-head">
+  <i
+    class="fa fa-linkedin-square text-capitalize color-blue mr-1"
+    aria-hidden="true"
+  ></i>
+  {{ currentProfile?.name }}
+  <i
+    (click)="closePostView()"
+    class="fa fa-close pointer color-blue ml-auto"
+    aria-hidden="true"
+  ></i>
+</div>
+<div *ngIf="isPreSchedule">
+  <div class="pop-topic">
+    <div class="text1">Sub topic :</div>
+    <div class="text2" [innerHTML]="removeHtml(data?.subTopic)"></div>
+    <div class="date-text">
+      <div class="date1">{{ data?.date | date : "MMM d, y" }}</div>
+      <div class="date2">{{ data?.timeSlot }}</div>
+    </div>
+    <div class="d-flex w-100 align-items-center">
+      <button (click)="postEditDailog()" class="btn btn-edit">
+        <i class="fa fa-pencil" aria-hidden="true"></i> Edit
+      </button>
+      <img
+        matTooltip="Delete Post"
+        (click)="deletePost()"
+        matTooltipPosition="below"
+        class="ml-2 pointer"
+        width="24"
+        src="assets/images/trash-review.png"
+        alt="trash-review"
+      />
+    </div>
+  </div>
+</div>
+<div *ngIf="isPostSchedule">
+  <div class="pop-topic-1">
+    <div class="d-flex w-100 align-items-start mb-2">
+      <img
+        *ngIf="data?.postMedia"
+        class="mr-2"
+        width="70"
+        [src]="data?.postMedia"
+        alt="demoimg"
+      />
+      <div class="text1" [innerHTML]="removeHtml(data?.postBody)"></div>
+    </div>
+    <div class="date-text">
+      <div class="date1">{{ data?.scheduleDateTime | date : "MMM d, y" }}</div>
+      <div class="date2">{{ data?.timeSlot }}</div>
+    </div>
+    <div class="d-flex w-100 align-items-center">
+      <button
+        class="btn btn-boost"
+        *ngIf="!data?.isBoosting"
+        (click)="postBoost()"
+      >
+        Boost
+        <span
+          [matTooltip]="isBoostingCreditMessage"
+          class="credit-div"
+          matTooltipPosition="above"
+          ><i class="fa fa-cubes" aria-hidden="true"></i
+          >{{ isBoostingCredit }}</span
+        >
+      </button>
+      <button class="btn btn-boosted" *ngIf="data?.isBoosting">
+        <img
+          src="assets/images/rocket-01.svg"
+          alt="image"
+          class="img-fluid"
+          matTooltip="Post Boosted"
+          matTooltipPosition="below"
+          matTooltipClass="below"
+        />
+      </button>
+      <div class="position-relative mx-1" *ngIf="data?.status != 'posted'">
+        <i
+          (click)="openActionBtn()"
+          class="fa fa-ellipsis-v custom-toggle pointer"
+        ></i>
+        <div class="custom-drops" *ngIf="isActionBtn">
+          <a (click)="editPost()">edit</a>
+          <a (click)="deleteScheduledPost()">Delete</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

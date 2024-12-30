@@ -1,0 +1,125 @@
+.ide-boxes {
+    padding: 8px;
+    height: 100%;
+    background-color: #FAF9F7;
+    .ide-title {
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 20px;
+      color: #001141;
+      padding: 0 8px;
+    }
+    .ide-boxes-div {
+      margin-top: 16px;
+      overflow: auto;
+      height: calc(100vh - 115px);
+      padding: 8px 4px 8px 8px;
+      background: #ffffff;
+      border-radius: 4px;
+    }
+    .switch-title {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .text1 {
+        font-style: normal;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 16px;
+        color: #001141;
+      }
+    }
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 40px;
+      height: 20px;
+      text-align: left;
+      input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: #e4e7ec;
+        -webkit-transition: 0.4s;
+        transition: 0.4s;
+        border-radius: 34px;
+        &:before {
+          content: "";
+          position: absolute;
+          height: 15px;
+          width: 15px;
+          left: 3px;
+          top: 3px;
+          z-index: 1;
+          background-color: #fcfcfd;
+          -webkit-transition: 0.4s;
+          transition: 0.4s;
+          border-radius: 50%;
+        }
+      }
+      input:checked ~ {
+        .slider {
+          background-color: #f53d00;
+          &:before {
+            -webkit-transform: translateX(19px);
+            -ms-transform: translateX(19px);
+            transform: translateX(19px);
+          }
+        }
+      }
+    }
+    .form-control {
+      font-weight: 400;
+      font-size: 14px;
+      color: #282c5f;
+      box-shadow: none;
+      border: 1px solid #c6c6c6;
+      border-radius: 4px;
+    }
+    .ide-font-sizediv {
+      width: 170px;
+      display: flex;
+      padding: 4px;
+      gap: 8px;
+      border: 1px solid #c6c6c6;
+      border-radius: 4px;
+      .sizediv {
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 14px;
+        color: #000000;
+        text-align: center;
+        .boxs {
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+          padding: 0px;
+          margin-bottom: 3px;
+          gap: 2px;
+          width: 48px;
+          height: 48px;
+          background: #f4f4f4;
+          border: 0.5px solid #c6c6c6;
+          border-radius: 4px;
+          cursor: pointer;
+        }
+      }
+      .active-size {
+        color: #f53d00;
+        .boxs {
+          border-color: #ffdad1;
+        }
+      }
+    }
+  }
+  

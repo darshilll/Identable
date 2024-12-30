@@ -1,0 +1,58 @@
+<div class="topdiv">
+  <div class="topleft">
+    <h2 class="top-title">
+      Carousel Template
+      <i
+        class="fa fa-question-circle"
+        matTooltip="Learn how you can create engaging carousels in minutes."
+        matTooltipPosition="right"
+      ></i>
+    </h2>
+    <p class="top-text">Design LinkedIn carousel Template in minutes.</p>
+  </div>
+</div>
+
+<div class="middle-div">
+  <div class="middle-title-div">
+    <h4 class="middle-title">Select Template</h4>
+    <p class="middle-text">For those who want to get started quickly.</p>
+  </div>
+  <div class="middle-content">
+    <!-- <div class="themeimg">
+      <img
+        class="imgs"
+        src="assets/images/carousel/add-carousel.jpg"
+        alt="add"
+      />
+    </div> -->
+
+    <div
+      class="themeimg"
+      *ngFor="let item of _utilities.carouselData; let i = index"
+    >
+      <div class="themebtns">
+        <img
+          (click)="onShowSlides(item)"
+          class="editimg"
+          src="assets/images/carousel/eye.png"
+          alt="view"
+          width="40"
+          matTooltip="View Theme"
+          matTooltipPosition="above"
+        />
+        <img
+          (click)="onEdit(item)"
+          class="editimg"
+          src="assets/images/carousel/edit.png"
+          alt="edit"
+          width="40"
+          matTooltip="Edit Theme"
+          matTooltipPosition="above"
+        />
+      </div>
+      <span class="counts">1 of {{ item?.slideImages?.length }}</span>
+      <img class="imgs" src="{{ item?.slideImages[0] }}" alt="theme" />
+    </div>
+  </div>
+</div>
+<app-loader></app-loader>

@@ -1,0 +1,76 @@
+<div class="customdrop-head">
+  <h3 class="droptitle">
+    Discover Emails
+    <img
+      src="assets/images/help-icon.svg"
+      alt="help-icon"
+      matTooltip="Discover Emails"
+      matTooltipPosition="above"
+    />
+  </h3>
+  <img
+    class="img-fluid pointer"
+    src="assets/images/close-1.svg"
+    alt="close-1"
+    [mat-dialog-close]="false"
+  />
+</div>
+<mat-dialog-content>
+  <div class="table-responsive">
+    <table class="table bg-white mb-0">
+      <tr>
+        <th class="table-td border-top-0">Name</th>
+        <th class="table-td border-top-0">Email</th>
+      </tr>
+      <tr>
+        <td class="table-td text-capitalize">{{ data?.name }}</td>
+        <td class="table-td" *ngIf="data?.email">
+          {{ data?.email }}
+          <i
+            (click)="copyEmail(data?.email)"
+            title="Copy Email"
+            class="fa fa-copy pointer"
+          ></i>
+          <span class="open-label pull-right">
+            <i class="fa fa-envelope-open-o" aria-hidden="true"></i> open
+          </span>
+        </td>
+        <td *ngIf="!data?.email">Email address not found!</td>
+      </tr>
+      <tr *ngIf="data?.enrowEmail">
+        <td class="table-td text-capitalize">{{ data?.name }}</td>
+        <td class="table-td">
+          {{ data?.enrowEmail }}
+          <i
+            (click)="copyEmail(data?.enrowEmail)"
+            title="Copy Email"
+            class="fa fa-copy pointer"
+          ></i>
+          <button class="btn btn-verify pull-right" type="button">
+            <i class="fa fa-envelope" aria-hidden="true"></i>
+            Verified Email
+          </button>
+        </td>
+      </tr>
+      <tr *ngIf="!data?.enrowEmail && data?.companyName">
+        <td class="table-td text-capitalize">{{ data?.name }}</td>
+        <td class="table-td">
+          <button
+              class="btn btn-save"
+              (click)="verifiedEmail()"
+              type="button"
+            >
+              Get Verified Email
+              <span
+                [matTooltip]="creditMessage"
+                class="credit-div"
+                matTooltipPosition="above"
+                ><i class="fa fa-cubes" aria-hidden="true"></i
+                >{{ creditDeducated }}</span
+              >
+            </button>
+        </td>
+      </tr>
+    </table>
+  </div></mat-dialog-content
+>

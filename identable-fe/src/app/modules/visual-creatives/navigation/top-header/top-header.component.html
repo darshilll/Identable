@@ -1,0 +1,111 @@
+<div class="ide-header-1">
+  <img
+    class="back-btn"
+    src="assets/images/carousels-v2/back-button.svg"
+    alt="back-button"
+    width="24"
+    (click)="confermationDialog('save')"
+  />
+  <a (click)="confermationDialog('save')" href="javascript:;" class="logo_name">
+    <img src="assets/images/logo/logo-1.svg" alt="logo" class="img-fluid" />
+  </a>
+  <div class="btn-group" *ngIf="!rename">
+    <button
+      type="button"
+      class="btn dropdown-toggle"
+      data-toggle="dropdown"
+      aria-expanded="false"
+    >
+      {{ carouselName ? carouselName : "N/A" }}
+    </button>
+    <div class="dropdown-menu dropdown-menu-right">
+      <a class="droplink" (click)="save()">
+        {{ carouselId ? "Update" : "Save" }}</a
+      >
+      <a class="droplink" (click)="carouselRename()">Rename</a>
+      <a class="droplink" (click)="save(true)">Save as Template</a>
+      <a class="droplink" routerLink="/visual-creative">New creative</a>
+      <a class="droplink" (click)="confermationDialog('delete')">Delete</a>
+    </div>
+  </div>
+  <div *ngIf="rename" class="position-relative ide-boxes">
+    <input
+      type="text"
+      placeholder="Enter carousel name"
+      [(ngModel)]="carouselName"
+      class="form-control"
+      maxlength="15"
+    />
+    <img
+      (click)="updateTitle()"
+      width="24"
+      src="assets/images/carousels-v2/icons-1.png"
+      alt="icons"
+      class="set-icon"
+    />
+  </div>
+  <button type="button" (click)="save()" class="btn btn-simple ml-auto">
+    {{ carouselId ? "Update" : "Save" }}
+  </button>
+  <div class="break-line"></div>
+  <button type="button" class="btn btn-simple" (click)="downloadPreview()">
+    <img
+      src="assets/images/carousels-v2/download.svg"
+      alt="download"
+      class="img-fluid align-middle"
+    />
+    Download
+  </button>
+  <button
+    *ngIf="isAllowSchedule"
+    type="button"
+    (click)="scheduleDialogOpenClose(true)"
+    class="btn btn-schedule"
+  >
+    Schedule
+  </button>
+  <div class="schedule-popup" *ngIf="scheduleDialogOpen">
+    <app-post-schedule-dialog
+      [isAdvancedSchedule]="true"
+      (_closeDailog)="scheduleDialogOpenClose(false)"
+      (_postScheduled)="scheduleCarousel($event)"
+    >
+    </app-post-schedule-dialog>
+  </div>
+
+  <div class="btn-group logindrop">
+    <button
+      type="button"
+      class="btn dropdown-toggle"
+      data-toggle="dropdown"
+      aria-expanded="false"
+    >
+      <img class="img-fluid"
+        [src]="
+          _utilities.currentProfile?.image
+            ? _utilities.currentProfile?.image
+            : 'assets/images/avatar/avatar.png'
+        "
+        alt="avatar"
+      />
+    </button>
+    <div class="dropdown-menu dropdown-menu-right">
+      <a class="droplink" (click)="switchProfile()"
+        ><img src="assets/images/refresh-ccw-02.png" alt="switch User" />Switch
+        profile</a
+      >
+      <a class="droplink" routerLink="/account-setting"
+        ><img
+          src="assets/images/icon-setting.svg"
+          width="17px"
+          alt="setting"
+        />Account setting</a
+      >
+      <div class="dropdown-divider"></div>
+      <a class="droplink" (click)="logout()"
+        ><img src="assets/images/log-out-01.svg" alt="logout" />Log out</a
+      >
+    </div>
+  </div>
+  
+</div>

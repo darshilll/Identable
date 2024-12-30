@@ -1,0 +1,63 @@
+<mat-dialog-content style="min-height: 100vh; padding: 0%">
+  <div class="formcontent">
+    <div class="right_div">
+      <div class="tophead">
+        <a href="/" class="logo">
+          <img class="avatar" src="assets/images/logo/logo.svg" alt="logo" width="160" />
+        </a>
+      </div>
+      <div>
+        <div class="slidediv">
+          <img src="assets/images/slider/mailimg.svg" alt="slide" />
+        </div>
+      </div>
+    </div>
+
+    <div class="left_div" *ngIf="!isOtpSubmited">
+      <div class="formdiv">
+        <h3 class="title-1">Check your email</h3>
+        <p class="title-2 mb-1">
+          No worries, we’ll send you reset instructions.
+        </p>
+        <p class="text-1 mb-5">{{_utilities.signupFormData.email}}</p>
+        <div class="Error" *ngIf="errorMessage">
+          <div>
+            <img class="mr-2" src="assets/images/error.svg" alt="Error" width="17" />
+          </div>
+  
+          <span style="font-size: 14px">{{ errorMessage }}</span>
+        </div>
+        <div class="numberbox">
+          <ng-otp-input class="custom-otp-input" [config]="config" (onInputChange)="onOtpChange($event)">
+          </ng-otp-input>
+        </div>
+        <div class="bottomtxt">
+          Didn’t receive the email? <a (click)="reSendOtp()">Click to resend</a>
+        </div>
+        <button class="btn btn-block btn-submit" [class.disabled]="otp.length != 4" (click)="verifyOtp()">Verify email</button>
+
+        <div>
+          <div class="backto" (click)="goToLogin()">Back to log in</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="left_div" *ngIf="isOtpSubmited">
+      <div class="right_inner_divs">
+        <img class="mb-4" src="assets/images/tick-icon.svg" alt="tick" width="75" />
+        <h3 class="title-1">Email verified</h3>
+        <p class="title-2">
+          Your email has been successfully verified. Click continue to login
+          magicallay.
+        </p>
+        <form class="text-left">
+          <button type="submit" class="btn btn-block btn-submit" (click)="login()">
+            Continue
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</mat-dialog-content>
+<app-loader></app-loader>

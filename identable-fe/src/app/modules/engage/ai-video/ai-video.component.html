@@ -1,0 +1,343 @@
+<div class="topdiv">
+  <h2 class="main-title">AI Video</h2>
+  <button type="button" class="btn-addpost" (click)="genratedVideoList()">
+    Video List
+  </button>
+</div>
+<div class="manual-list">
+  <div class="boxs-1">
+    <div class="boxs-div">
+      <div class="boxs-head">
+        <h3>AI Prompt</h3>
+        <p>
+          Let us know what you'd like your video to be about, and we'll handle
+          the script and pictures for you! 🎬📝 This way, you can save plenty of
+          time and effort! 💪😊
+        </p>
+      </div>
+      <form [formGroup]="videoForm" method="post" novalidate>
+        <div class="boxs-body">
+          <div class="sample-video-ganarated">
+            <button
+              type="button"
+              class="btn-addpost mb-3 mr-3"
+              [class.disabled]="isSampleVideo"
+              (click)="createSampleVideo()"
+            >
+              Sample Video
+            </button>
+            <a
+              class="btn btn-refresh"
+              *ngIf="isSampleVideo"
+              (click)="clearVideo()"
+              ><img
+                width="16"
+                src="assets/images/refresh-Icon.svg"
+                alt="refresh-Icon"
+            /></a>
+            <!-- <button type="button" class="btn-remaining mb-3 mr-3 pull-right">
+              {{ _utilities.userData?.subscription?.aIVideoCredit }}
+              Credit Left
+            </button> -->
+          </div>
+
+          <div class="aibox-upload">
+            <div
+              class="aiboxs"
+              [class.ai-active]="isPromptVideo"
+              (click)="choicegenratedType(true)"
+            >
+              <i class="fa fa-bolt" aria-hidden="true"></i>
+              <h3>AI Prompt</h3>
+              <p>Enter a topic and let AI write your script</p>
+            </div>
+
+            <div
+              class="aiboxs"
+              [class.ai-active]="!isPromptVideo"
+              (click)="choicegenratedType(false)"
+            >
+              <i class="fa fa-newspaper-o" aria-hidden="true"></i>
+              <h3>URL to Video</h3>
+              <p>Creates a video from a website</p>
+            </div>
+          </div>
+
+          <div class="form-group" *ngIf="isPromptVideo">
+            <!-- <div class="sagest-txt">Topic:</div> -->
+            <label class="labels mb-1"
+              >Topic:
+              <img
+                (click)="oneIdeaDailog()"
+                class="align-middle"
+                width="22"
+                src="assets/images/bulb-1.svg"
+                alt="bulb"
+                style="cursor: pointer"
+            /></label>
+            <textarea
+              class="form-control"
+              formControlName="topic"
+              placeholder="Topic"
+              rows="3"
+            ></textarea>
+            <div
+              class="invalid-feedback d-block"
+              *ngIf="submitted && hasError('topic', 'required')"
+            >
+              Please enter valid topic.
+            </div>
+          </div>
+
+          <div class="form-group" *ngIf="!isPromptVideo">
+            <div class="sagest-txt">Using URL</div>
+            <input
+              type="text"
+              formControlName="url"
+              placeholder="https://example.com/blog/post"
+              class="form-control"
+            />
+            <div
+              class="invalid-feedback d-block"
+              *ngIf="submitted && hasError('url', 'required')"
+            >
+              Please enter valid url.
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="sagest-txt pull-left mt-2 mr-3">Color:</div>
+            <div class="colorlist w-auto">
+              <ngx-colors
+                ngx-colors-trigger
+                class="ide-colors"
+                [(ngModel)]="color"
+                formControlName="color"
+              ></ngx-colors>
+            </div>
+            <!-- <div class="colorlist w-auto">
+              <div class="colorbx activee mr-5" [style.background]="color" [style.color]="color"
+                (click)="toggleColorPicker()" [class.disabled]="isSampleVideo"></div>
+            </div>
+            <div class="choosebg" *ngIf="showColorPicker">
+              <color-sketch [(color)]="color" (onChangeComplete)="onColorChange($event)"
+                [class.disabled]="isSampleVideo"></color-sketch>
+            </div> -->
+          </div>
+          <div class="form-group">
+            <div class="sagest-txt">Ratio:</div>
+            <div class="bboxs">
+              <div class="radiolist">
+                <label class="radiobtn" for="ratio1">
+                  Square
+                  <input
+                    type="radio"
+                    [value]="'square'"
+                    id="ratio1"
+                    formControlName="ratio"
+                  />
+                  <span class="checkmark"></span>
+                </label>
+                <label class="radiobtn" for="ratio2">
+                  Landscape
+                  <input
+                    type="radio"
+                    [value]="'landscape'"
+                    id="ratio2"
+                    formControlName="ratio"
+                  />
+                  <span class="checkmark"></span>
+                </label>
+                <label class="radiobtn" for="ratio3">
+                  Portrait
+                  <input
+                    type="radio"
+                    [value]="'portrait'"
+                    formControlName="ratio"
+                    id="ratio3" />
+                  <span class="checkmark"></span
+                ></label>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="sagest-txt">Length:</div>
+            <div class="bboxs">
+              <div class="radiolist">
+                <label class="radiobtn" for="length1">
+                  Short
+                  <input
+                    type="radio"
+                    [value]="'short'"
+                    id="length1"
+                    formControlName="length"
+                  />
+                  <span class="checkmark"></span>
+                </label>
+                <label class="radiobtn" for="length2">
+                  Medium
+                  <input
+                    type="radio"
+                    formControlName="length"
+                    [value]="'medium'"
+                    id="length2"
+                  />
+                  <span class="checkmark"></span>
+                </label>
+                <label class="radiobtn" for="length3">
+                  Long
+                  <input
+                    type="radio"
+                    formControlName="length"
+                    [value]="'long'"
+                    id="length3" />
+                  <span class="checkmark"></span
+                ></label>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="sagest-txt">Voice:</div>
+            <button
+              type="button"
+              class="btn-addpost"
+              (click)="audioListDailog()"
+            >
+              Select Voice
+            </button>
+            <p class="mb-3"></p>
+            <audio controls class="form-control mb-2" *ngIf="selectedAudio">
+              <source [src]="selectedAudio?.audioUrl" type="audio/mpeg" />
+            </audio>
+            <div
+              class="invalid-feedback d-block"
+              *ngIf="submitted && hasError('voice', 'required')"
+            >
+              Please select any voice.
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="sagest-txt">Images:</div>
+            <select
+              class="form-control mb-2"
+              formControlName="collection"
+              name="collection"
+              (change)="onChangeCollection($event)"
+            >
+              <option value="stock_image">Stock Images</option>
+              <option value="stock_video">Stock Videos</option>
+              <option value="modern_illustrations">Modern illustrations</option>
+              <option value="3d_illustrations">3D illustrations</option>
+              <option value="cheerful_illustrations">
+                Cheerful illustrations
+              </option>
+              <option value="clean_illustrations">Clean illustrations</option>
+              <option value="hand_drawn_illustrations">
+                Hand-drawn illustrations
+              </option>
+            </select>
+
+            <div class="imgdiv">
+              <img
+                class="img-fluid"
+                src="../../../../assets/images/generate-images/{{
+                  collection
+                }}.svg"
+                alt="PIXELS"
+              />
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="text-left">
+      <button
+        type="button"
+        class="btn-addpost"
+        (click)="generateVideo()"
+        [class.disabled]="isGeneratedVideo"
+      >
+        <img width="20" src="assets/images/star-two-white.svg" alt="star" />
+        {{ isSampleVideo ? "Generate Sample Video" : "Generate Video" }}
+        <span
+          [matTooltip]="creditMessage"
+          class="credit-div"
+          matTooltipPosition="above"
+          ><i class="fa fa-cubes" aria-hidden="true"></i
+          >{{ creditDeducated }}</span
+        >
+      </button>
+    </div>
+  </div>
+  <div class="boxs-2">
+    <div class="boxs-head2">
+      <div class="bxtitle">
+        <img width="20" src="assets/images/star-two.svg" alt="star" />
+        Generated Video
+      </div>
+      <div class="schedule-btndiv">
+        <button
+          type="button"
+          class="btn btn-schedule {{ !videoUrl ? 'disabled' : '' }}"
+          (click)="downloadVideo()"
+          matTooltip="Download"
+          matTooltipPosition="below"
+        >
+          <i class="fa fa-download"></i>
+        </button>
+        <button
+          type="button"
+          class="btn btn-schedule {{
+            isSampleVideo || !videoUrl ? 'disabled' : ''
+          }}"
+          (click)="openEditPost()"
+          matTooltip="Edit"
+          matTooltipPosition="below"
+        >
+          <img
+            src="assets/images/edit/edit-1.svg"
+            alt="edit"
+            class="img"
+            width="20"
+            style="filter: brightness(2)"
+          />
+        </button>
+        <button
+          type="button"
+          class="btn btn-schedule {{
+            isSampleVideo || !videoUrl || isPreview ? 'disabled' : ''
+          }}"
+          (click)="scheduleDialogOpenClose(true)"
+          matTooltip="Schedule"
+          matTooltipPosition="below"
+        >
+          <img
+            src="assets/images/icons/icon-evolve.svg"
+            alt="evolve"
+            class="img"
+            width="20"
+            style="filter: brightness(2)"
+          />
+        </button>
+        <div class="schedule-popup" *ngIf="scheduleDialogOpen">
+          <app-post-schedule-dialog
+            [isAdvancedSchedule]="true"
+            (_closeDailog)="scheduleDialogOpenClose(false)"
+            (_postScheduled)="postScheduled($event)"
+          >
+          </app-post-schedule-dialog>
+        </div>
+      </div>
+    </div>
+    <div class="no-post" *ngIf="!videoUrl">
+      <img class="img" src="assets/images/no-post.svg" alt="no-post" />
+      <h4>No Video Generated</h4>
+    </div>
+    <div class="postlist" *ngIf="videoUrl">
+      <div class="generatpost">
+        <video width="100%" controls [src]="videoUrl"></video>
+      </div>
+    </div>
+  </div>
+</div>
+<app-loader></app-loader>

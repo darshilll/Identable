@@ -1,0 +1,22 @@
+<mat-dialog-content>
+  <button type="button" class="close" [mat-dialog-close]="false">
+    &times;
+  </button>
+  <div class="text-center mt-3">
+    <img class="main-img" [src]="selectedImage" alt="theme" />
+  </div>
+  <div class="text-center">
+    <button type="button" class="btn btn-usethis" (click)="onUseTemplate()">
+      Use this template
+    </button>
+  </div>
+  <div class="slides-div">
+    <img
+      *ngFor="let img of data?.item?.slideImages; let i = index"
+      (click)="onImage(img)"
+      class="slides {{ selectedImage == img ? 'actslide' : '' }}"
+      [src]="img"
+      alt="theme"
+    />
+  </div>
+</mat-dialog-content>

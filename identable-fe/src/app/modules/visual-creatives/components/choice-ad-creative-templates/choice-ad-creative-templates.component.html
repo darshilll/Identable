@@ -1,0 +1,43 @@
+<div class="ide-boxes">
+  <h5 class="ide-title">
+    Templates
+    <img
+      class="img-fluid align-center"
+      src="assets/images/help-icon.svg"
+      alt="help-icon"
+      matTooltip="Templates"
+      matTooltipPosition="below"
+    />
+  </h5>
+  <div class="ide-boxes-div">
+    <div class="middle-content">
+      <div
+        class="iden-creative-tem"
+        *ngFor="let tempItems of creativeTemplates"
+      >
+        <h3 class="title-1">
+          {{ tempItems.type }}
+        </h3>
+        <div class="mb-4">
+          <div class="themeimg" *ngFor="let template of tempItems?.templates">
+            <div class="themebtns" (click)="choiceNewTemplate(template)">
+              <img
+                class="img-fluid poimter"
+                src="assets/images/add-icon-white.png"
+                alt="Use"
+                width="30"
+                matTooltip="Use Template"
+                matTooltipPosition="above"
+              />
+            </div>
+            <img
+              class="imgs"
+              [src]="template?.previewImage"
+              [alt]="template.type"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

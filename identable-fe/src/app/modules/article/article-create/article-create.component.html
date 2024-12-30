@@ -1,0 +1,926 @@
+<app-loader></app-loader>
+<div class="clg-top-title">
+  <div class="leftside" *ngIf="currentStep <= 6">
+    <h2>Generate article</h2>
+    <p>Start with an idea, and we’ll handle the writing for you.</p>
+  </div>
+  <div class="leftside" *ngIf="currentStep >= 7">
+    <h2>Ai article</h2>
+    <p>Start with an idea, and we’ll handle the writing for you.</p>
+  </div>
+</div>
+
+<!-- <div class="ide-generate-home">
+  <img
+    class="img-fluid"
+    src="assets/images/generate-article.png"
+    alt="generate-article"
+  />
+  <h3>Oops, no article yet</h3>
+  <p>Enter a topic to get started, and we’ll generate one for you.</p>
+  <button type="button" class="btn btn-orange">Get started</button>
+</div> -->
+
+<div class="ide-article-setup-div" *ngIf="currentStep <= 6">
+  <div class="created-progress">
+    <div class="insidebar" [style.width.%]="stepProgress"></div>
+  </div>
+  <div class="article-boxs" *ngIf="currentStep == 1" id="article-goal">
+    <div class="article-scrool">
+      <div class="label-title mb-3 w-100">
+        Article Goal
+        <img
+          src="assets/images/help-icon.svg"
+          alt="help-icon"
+          matTooltip="Article Goal"
+          matTooltipPosition="above"
+        />
+      </div>
+      <div
+        *ngIf="!goalList?.length"
+        data-toggle="buttons"
+        class="btn-group-toggle position-relative w-100 step1-loader"
+      >
+        <ngx-ui-loader
+          [loaderId]="'GOAL'"
+          [overlayColor]="'#ffffff'"
+          [fgsColor]="'#f05a28'"
+          [hasProgressBar]="false"
+        >
+        </ngx-ui-loader>
+      </div>
+      <div
+        *ngIf="goalList?.length"
+        data-toggle="buttons"
+        class="btn-group-toggle position-relative w-100"
+      >
+        <label
+          class="btn custom-check-1 active"
+          [class.active]="item == goal"
+          (click)="selectGoal(item)"
+          *ngFor="let item of goalList"
+        >
+          {{ item }}
+        </label>
+      </div>
+    </div>
+    <div class="article-btnlist">
+      <button type="button" (click)="onChangeStep(false)" class="btn btn-back">
+        Back
+      </button>
+      <button
+        type="button"
+        (click)="onChangeStep(true)"
+        [class.disabled]="!goal"
+        class="btn btn-next"
+      >
+        Continue
+      </button>
+    </div>
+  </div>
+  <div class="article-boxs" *ngIf="currentStep == 2" id="article-idea">
+    <div class="article-scrool">
+      <div class="label-title mb-3 w-100">
+        Article Idea
+        <img
+          src="assets/images/help-icon.svg"
+          alt="help-icon"
+          matTooltip="Article Idea"
+          matTooltipPosition="above"
+        />
+      </div>
+      <div class="idea-box mb-4">
+        <textarea
+          [(ngModel)]="idea"
+          rows="3"
+          placeholder="Enter article idea"
+          class="form-control"
+        ></textarea>
+        <!-- <div class="promt-action">
+          <img
+            src="assets/images/carousels-v2/icons-3.png"
+            alt="icons"
+            class="img-fluid pointer m-1"
+            (click)="getArticleIdea()"
+          /><img
+            src="assets/images/generate.png"
+            alt="generate"
+            class="img-fluid pointer m-1"
+            (click)="regenerateArticleIdea()"
+          />
+        </div> -->
+
+        <div class="text-right mb-3 mt-3">
+          <button
+            type="button"
+            class="btn btn-regenerate ml-auto"
+            (click)="getArticleIdea()"
+          >
+            <img src="assets/images/generate-orange.png" alt="generate" />
+            Regenerate
+          </button>
+        </div>
+        <div class="label-title-sub text-black-50">
+          Suggested based on campaign goal
+        </div>
+        <div class="idea-list position-relative">
+          <ngx-ui-loader
+            [loaderId]="'IDEA'"
+            [overlayColor]="'#ffffff'"
+            [fgsColor]="'#f05a28'"
+            [hasProgressBar]="false"
+          >
+          </ngx-ui-loader>
+          <button
+            type="button"
+            *ngFor="let item of ideaList"
+            [class.btn-select]="idea == item?.idea"
+            (click)="selectIdea(item?.idea)"
+            class="btn-simple btn-select"
+          >
+            {{ item?.idea }}
+          </button>
+        </div>
+      </div>
+      <div class="label-title mb-2 w-100">
+        Add Keywords
+        <img
+          src="assets/images/help-icon.svg"
+          alt="help-icon"
+          matTooltip="Add Keywords"
+          matTooltipPosition="above"
+        />
+      </div>
+      <div class="tag-div">
+        <tag-input
+          #tagInputField
+          [(ngModel)]="selectedKeyword"
+          [separatorKeyCodes]="[188, 9, 13]"
+          placeholder="Enter keywords"
+          id="tagInputField"
+          [clearOnBlur]="true"
+        ></tag-input>
+        <button type="button" class="btn btn-add" (click)="addKeywordAction()">
+          <img
+            class="img-fluid"
+            src="assets/images/plus-icon.png"
+            alt="plus-icon"
+          />
+          Add
+        </button>
+      </div>
+      <div class="mt-4 d-inline-block w-100 suggested-div">
+        <h5 class="suggested-title">Suggested based on your activity</h5>
+        <div class="suggested-list position-relative">
+          <ngx-ui-loader
+            [loaderId]="'KEYWORD'"
+            [overlayColor]="'#ffffff'"
+            [fgsColor]="'#f05a28'"
+            [hasProgressBar]="false"
+          >
+          </ngx-ui-loader>
+          <div
+            class="suggested"
+            [class.on-active]="checkSelectedKeyword(item?.keyword)"
+            *ngFor="let item of keywordList"
+          >
+            <span (click)="selectKeyword(item?.keyword)">{{
+              item?.keyword
+            }}</span>
+            <i
+              class="fa"
+              *ngIf="checkSelectedKeyword(item?.keyword)"
+              (click)="removeKeyword(item?.keyword)"
+              >&#10006;</i
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="article-btnlist">
+      <button type="button" (click)="onChangeStep(false)" class="btn btn-back">
+        Back
+      </button>
+      <button
+        type="button"
+        [class.disabled]="!idea || !selectedKeyword?.length"
+        (click)="onChangeStep(true)"
+        class="btn btn-next"
+      >
+        Continue
+      </button>
+    </div>
+  </div>
+  <div class="article-boxs" *ngIf="currentStep == 3" id="choose-headline">
+    <div class="article-scrool">
+      <div class="label-title mb-3 w-100">
+        Choose Headline
+        <img
+          src="assets/images/help-icon.svg"
+          alt="help-icon"
+          matTooltip="Choose Headline"
+          matTooltipPosition="above"
+        />
+      </div>
+      <input
+        type="text"
+        class="form-control choose-head-input mb-4"
+        placeholder="Type..."
+        [(ngModel)]="articleHeadline"
+      />
+      <div class="text-right mb-3">
+        <button
+          type="button"
+          class="btn btn-regenerate ml-auto"
+          (click)="getArticleHeadline(true)"
+        >
+          <img src="assets/images/generate-orange.png" alt="generate" />
+          Regenerate
+        </button>
+      </div>
+      <div class="heading-list position-relative">
+        <ngx-ui-loader
+          [loaderId]="'HEADLINE'"
+          [overlayColor]="'#ffffff'"
+          [fgsColor]="'#f05a28'"
+          [hasProgressBar]="false"
+        >
+        </ngx-ui-loader>
+        <button
+          type="button"
+          *ngFor="let item of headlineList"
+          [class.btn-select]="articleHeadline == item?.headline"
+          (click)="selectHeadline(item?.headline)"
+          class="btn-simple btn-select"
+        >
+          {{ item?.headline }}
+        </button>
+      </div>
+    </div>
+    <div class="article-btnlist">
+      <button type="button" (click)="onChangeStep(false)" class="btn btn-back">
+        Back
+      </button>
+      <button
+        type="button"
+        [class.disabled]="!articleHeadline"
+        (click)="onChangeStep(true)"
+        class="btn btn-next"
+      >
+        Continue
+      </button>
+    </div>
+  </div>
+  <div
+    class="article-boxs"
+    *ngIf="currentStep == 4"
+    id="choose-article-outline"
+  >
+    <div class="article-scrool">
+      <div class="label-title mb-3 w-100">
+        Choose Article Outline
+        <img
+          src="assets/images/help-icon.svg"
+          alt="help-icon"
+          matTooltip="Choose Article Outline"
+          matTooltipPosition="above"
+        />
+      </div>
+      <div class="text-right">
+        <button
+          type="button"
+          class="btn btn-regenerate ml-auto"
+          (click)="getArticleOutlineOutput()"
+        >
+          <img src="assets/images/generate-orange.png" alt="generate" />
+          Regenerate
+        </button>
+      </div>
+      <div
+        class="d-inline-block w-100 position-relative step1-loader"
+        *ngIf="!articleOutlineList?.length"
+      >
+        <ngx-ui-loader
+          [loaderId]="'OUTLINE'"
+          [overlayColor]="'#ffffff'"
+          [fgsColor]="'#f05a28'"
+          [hasProgressBar]="false"
+        >
+        </ngx-ui-loader>
+      </div>
+      <div class="d-inline-block w-100" *ngIf="articleOutlineList?.length">
+        <div class="custom-tablist-1">
+          <button
+            type="button"
+            *ngFor="let item of articleOutlineList; let i = index"
+            (click)="selectOutLineTab(i)"
+            class="tabs"
+            [class.active-btn]="selectedTabindex == i"
+          >
+            Output {{ i + 1 }}
+          </button>
+        </div>
+        <div class="custom-tabcontent-1">
+          <div cdkDropList (cdkDropListDropped)="drop($event, 0)">
+            <div
+              *ngFor="let item of getArticleOutputSubHeading(); let i = index"
+            >
+              <div class="layers-drag mb-2" cdkDrag [cdkDragData]="item">
+                <img
+                  src="assets/images/drag-gray.svg"
+                  alt="drag-gray"
+                  class="img-fluid pointer"
+                  width="16"
+                />
+                <img
+                  src="assets/images/t-text-cap.svg"
+                  alt="t-text"
+                  class="img-fluid"
+                />
+                <div class="text">
+                  {{ item?.h2 }}
+                </div>
+                <img
+                  (click)="deleteOutline(i, 'h2')"
+                  src="assets/images/trash-red-1.svg"
+                  alt="trash-red-1"
+                  class="img-fluid pointer ml-auto trash-img"
+                />
+              </div>
+              <div cdkDropList (cdkDropListDropped)="drop1($event, i)">
+                <div
+                  class="layers-drag layers-drag-sub mb-2"
+                  *ngFor="let subItem of item?.h3; let j = index"
+                  cdkDrag
+                  [cdkDragData]="subItem"
+                >
+                  <img
+                    src="assets/images/drag-gray.svg"
+                    alt="drag-gray"
+                    class="img-fluid pointer"
+                    width="16"
+                  />
+                  <!-- <img
+                  src="assets/images/t-text.svg"
+                  alt="t-text"
+                  class="img-fluid"
+                /> -->
+                  <div class="text">
+                    {{ subItem }}
+                  </div>
+                  <img
+                    (click)="deleteOutline(i, 'h3', j)"
+                    src="assets/images/trash-red-1.svg"
+                    alt="trash-red-1"
+                    class="img-fluid pointer ml-auto trash-img"
+                  />
+                </div>
+              </div>
+              <div
+                class="mb-4 d-flex w-100 align-items-center justify-content-end"
+              >
+                <a
+                  class="btn-custom mr-2"
+                  (click)="generateSubTopic(item?.h2, i)"
+                  ><img
+                    width="18"
+                    src="assets/images/star-three-orange.svg"
+                    alt="star"
+                  />
+                  Generate Sub Topics</a
+                >
+                <a class="btn-custom" (click)="addSubtopicDailog(i)"
+                  ><i class="fa fa-plus"></i> Add subtopic</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="custom-tabsearch">
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="subTopic"
+            placeholder="Add subtopic"
+            (keyup.enter)="addSubTopic()"
+          />
+          <img
+            [class.disabled]="!subTopic"
+            (click)="addSubTopic()"
+            class="img-fluid ml-2 pointer"
+            src="assets/images/add-button.png"
+            alt="add-button"
+            width="32"
+          />
+        </div>
+      </div>
+    </div>
+    <div class="article-btnlist">
+      <button type="button" (click)="onChangeStep(false)" class="btn btn-back">
+        Back
+      </button>
+      <button type="button" (click)="onChangeStep(true)" class="btn btn-next">
+        Continue
+      </button>
+    </div>
+  </div>
+  <div class="article-boxs" *ngIf="currentStep == 5" id="include-content">
+    <div class="article-scrool">
+      <div class="label-title mb-3 w-100">
+        Include content
+        <img
+          src="assets/images/help-icon.svg"
+          alt="help-icon"
+          matTooltip="Include content"
+          matTooltipPosition="above"
+        />
+      </div>
+      <div class="row">
+        <div class="col-12 col-lg-4 mb-3">
+          <label class="custom-check-1" [class.active]="checkInclude('isFAQ')">
+            FAQ’s, title, & desc. <input type="checkbox" [(ngModel)]="isFAQ"
+          /></label>
+        </div>
+        <div class="col-12 col-lg-4 mb-3">
+          <label
+            class="custom-check-1"
+            [class.active]="checkInclude('isConclusion')"
+          >
+            Conclusion <input type="checkbox" [(ngModel)]="isConclusion"
+          /></label>
+        </div>
+        <div class="col-12 col-lg-4 mb-3">
+          <label class="custom-check-1" [class.active]="checkInclude('isCTA')">
+            CTA <input type="checkbox" [(ngModel)]="isCTA"
+          /></label>
+        </div>
+        <div class="col-12 col-lg-6 mb-3">
+          <label
+            class="mb-2 custom-check-1"
+            [class.active]="checkInclude('isYoutubeInclude')"
+          >
+            YouTube Videos
+            <input type="checkbox" [(ngModel)]="isYoutubeInclude"
+          /></label>
+          <div *ngIf="isYoutubeInclude">
+            <div class="switch-title mb-2">
+              <div class="text1">Include SERP (serch engine result page)</div>
+              <label class="switch mx-2">
+                <input type="checkbox" [(ngModel)]="isYoutubeSERP" />
+                <span class="slider"></span>
+              </label>
+            </div>
+            <div
+              class="custom-tabsearch mb-2"
+              [class.disabled]="youtubeVideos?.length > 2"
+              *ngIf="!isYoutubeSERP"
+            >
+              <input
+                type="text"
+                [(ngModel)]="youtubeLink"
+                class="form-control"
+                placeholder="Add custom link"
+                (keyup)="onChangeYoutubeLink($event)"
+              />
+              <img
+                (click)="addYoutubeLink()"
+                class="img-fluid ml-2 pointer"
+                src="assets/images/add-button.png"
+                alt="add-button"
+                width="32"
+              />
+            </div>
+            <div class="invalid-feedback d-block" *ngIf="isInvalidYoutubeLink">
+              Please enter valid youtube link.
+            </div>
+            <div
+              class="custom-links-div"
+              *ngIf="youtubeVideos?.length && !isYoutubeSERP"
+            >
+              <div
+                class="cus-link"
+                *ngFor="let item of youtubeVideos; let i = index"
+              >
+                <span class="link-span" [title]="item">{{ item }}</span
+                ><i class="fa" (click)="deleteYoutubeLink(i)">✖</i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-lg-6 mb-3">
+          <label
+            class="mb-2 custom-check-1"
+            [class.active]="checkInclude('isAuthorityLinkInclude')"
+          >
+            authority links
+            <input
+              type="checkbox"
+              value=""
+              [(ngModel)]="isAuthorityLinkInclude"
+          /></label>
+          <div *ngIf="isAuthorityLinkInclude">
+            <div class="switch-title mb-2">
+              <div class="text1">Include SERP (serch engine result page)</div>
+              <label class="switch mx-2">
+                <input type="checkbox" [(ngModel)]="isAuthorityLinkSERP" />
+                <span class="slider"></span>
+              </label>
+            </div>
+            <div
+              class="custom-tabsearch mb-2"
+              [class.disabled]="authorityLinks?.length > 2"
+              *ngIf="!isAuthorityLinkSERP"
+            >
+              <input
+                type="text"
+                class="form-control"
+                [(ngModel)]="authoLink"
+                placeholder="Add custom link"
+              />
+              <img
+                class="img-fluid ml-2 pointer"
+                src="assets/images/add-button.png"
+                alt="add-button"
+                width="32"
+                (click)="addAuthorityLink()"
+              />
+            </div>
+            <div
+              class="custom-links-div"
+              *ngIf="authorityLinks?.length && !isAuthorityLinkSERP"
+            >
+              <div
+                class="cus-link"
+                *ngFor="let item of authorityLinks; let i = index"
+              >
+                <span class="link-span" [title]="item">{{ item }}</span
+                ><i class="fa" (click)="deleteAuthorityLink(i)">✖</i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="label-title mb-3 w-100 mt-5">
+        Content Settings
+        <img
+          src="assets/images/help-icon.svg"
+          alt="help-icon"
+          matTooltip="Content Settings"
+          matTooltipPosition="above"
+        />
+      </div>
+      <div class="row mb-2">
+        <div class="col-12 col-lg-4 mb-3">
+          <div class="label-title-sub mb-1">
+            Output Language
+            <img
+              src="assets/images/help-icon.svg"
+              alt="help-icon"
+              matTooltip="Output Language"
+              matTooltipPosition="above"
+            />
+          </div>
+          <select class="form-control custom-input-1" [(ngModel)]="language">
+            <option value="english (uk)">English (uk)</option>
+            <option value="english (usa)">English (usa)</option>
+            <!-- <option value="arabic">Arabic</option>
+            <option value="french">French</option>
+            <option value="german">German</option> -->
+          </select>
+        </div>
+        <div class="col-12 col-lg-4 mb-3">
+          <div class="label-title-sub mb-1">
+            Article Length
+            <img
+              src="assets/images/help-icon.svg"
+              alt="help-icon"
+              matTooltip="Article Length"
+              matTooltipPosition="above"
+            />
+          </div>
+          <select class="form-control custom-input-1" [(ngModel)]="length">
+            <option value="short">Short</option>
+            <option value="medium">Medium</option>
+            <option value="large">Large</option>
+          </select>
+        </div>
+        <div class="col-12 col-lg-4 mb-3">
+          <div class="label-title-sub mb-1">
+            Factual Data
+            <img
+              src="assets/images/help-icon.svg"
+              alt="help-icon"
+              matTooltip="Factual Data"
+              matTooltipPosition="above"
+            />
+          </div>
+          <select class="form-control custom-input-1" [(ngModel)]="factualData">
+            <option value="factual data">Factual data</option>
+            <option value="no factual data">No factual data</option>
+          </select>
+        </div>
+      </div>
+      <div class="label-title mb-3 w-100">
+        Image settings
+        <img
+          src="assets/images/help-icon.svg"
+          alt="help-icon"
+          matTooltip="Image settings"
+          matTooltipPosition="above"
+        />
+      </div>
+      <div class="row mb-4">
+        <!-- <div class="col-12 col-lg-4 mb-3">
+          <div class="label-title-sub mb-1">
+            No of Ai images (max 4)
+            <img
+              src="assets/images/help-icon.svg"
+              alt="help-icon"
+              matTooltip="No of Ai images (max 4)"
+              matTooltipPosition="above"
+            />
+          </div>
+          <div class="select-length">
+            <a class="btns minusbtn" (click)="imageCountFn(false)">-</a>
+            <input
+              type="number"
+              class="form-control"
+              placeholder="0"
+              [(ngModel)]="imageCount"
+            />
+            <a class="btns plusbtn" (click)="imageCountFn(true)">+</a>
+          </div>
+        </div> -->
+        <div class="col-12 col-lg-4 mb-3">
+          <div class="label-title-sub mb-1">
+            image source
+            <img
+              src="assets/images/help-icon.svg"
+              alt="help-icon"
+              matTooltip="image source"
+              matTooltipPosition="above"
+            />
+          </div>
+          <mat-form-field class="w-100 ide-custom-select">
+            <mat-select
+              (selectionChange)="selectImageStyle($event)"
+              [(value)]="selectedImageStyle"
+              placeholder="Select image source"
+            >
+              <mat-select-trigger>
+                <img
+                  [src]="selectedImageStyle?.icon"
+                  alt="{{ selectedImageStyle?.label }}"
+                  class="icon"
+                />
+                {{ selectedImageStyle?.label }}
+              </mat-select-trigger>
+              <mat-option *ngFor="let item of imageStyles" [value]="item">
+                <img [src]="item.icon" alt="{{ item.label }}" class="icon" />
+                {{ item.label }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-lg-4 mb-3" *ngIf="imageSource != 'giphy'">
+          <div class="label-title-sub mb-1">
+            Oreintation
+            <img
+              src="assets/images/help-icon.svg"
+              alt="help-icon"
+              matTooltip="Oreintation"
+              matTooltipPosition="above"
+            />
+          </div>
+          <select
+            class="form-control custom-input-1"
+            [(ngModel)]="imageOrientation"
+          >
+            <option value="Landscape">Landscape</option>
+            <option value="Portrait">Portrait</option>
+            <option value="Square">Square</option>
+          </select>
+        </div>
+        <div class="col-12 col-lg-4 mb-3">
+          <div class="switch-title mb-2">
+            <div class="text1">
+              Auto alt tags for images
+              <img
+                src="assets/images/help-icon.svg"
+                alt="help-icon"
+                matTooltip="Auto alt tags for images"
+                matTooltipPosition="above"
+              />
+            </div>
+          </div>
+          <label class="switch mx-2">
+            <input type="checkbox" [(ngModel)]="isAltTag" />
+            <span class="slider"></span>
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="article-btnlist">
+      <button type="button" (click)="onChangeStep(false)" class="btn btn-back">
+        Back
+      </button>
+      <button type="button" (click)="generateArticle()" class="btn btn-next">
+        Generate Article
+        <span
+          [matTooltip]="creditMessage"
+          class="credit-div"
+          matTooltipPosition="above"
+          ><i class="fa fa-cubes" aria-hidden="true"></i
+          >{{ creditDeducated }}</span
+        >
+      </button>
+    </div>
+  </div>
+  <!-- <div class="article-boxs" *ngIf="currentStep == 6" id="content-settings">
+    <div class="article-scrool">
+      <div class="label-title mb-3 w-100">
+        Content Settings
+        <img
+          src="assets/images/help-icon.svg"
+          alt="help-icon"
+          matTooltip="Content Settings"
+          matTooltipPosition="above"
+        />
+      </div>
+      <div class="row mb-2">
+        <div class="col-12 col-lg-4 mb-3">
+          <div class="label-title-sub mb-1">
+            Output Language
+            <img
+              src="assets/images/help-icon.svg"
+              alt="help-icon"
+              matTooltip="Output Language"
+              matTooltipPosition="above"
+            />
+          </div>
+          <select class="form-control custom-input-1" [(ngModel)]="language">
+            <option value="english (uk)">English (uk)</option>
+            <option value="english (usa)">English (usa)</option>
+            <option value="arabic">Arabic</option>
+            <option value="french">French</option>
+            <option value="german">German</option>
+          </select>
+        </div>
+        <div class="col-12 col-lg-4 mb-3">
+          <div class="label-title-sub mb-1">
+            Article Length
+            <img
+              src="assets/images/help-icon.svg"
+              alt="help-icon"
+              matTooltip="Article Length"
+              matTooltipPosition="above"
+            />
+          </div>
+          <select class="form-control custom-input-1" [(ngModel)]="length">
+            <option value="short">Short</option>
+            <option value="medium">Medium</option>
+            <option value="large">Large</option>
+          </select>
+        </div>
+        <div class="col-12 col-lg-4 mb-3">
+          <div class="label-title-sub mb-1">
+            Factual Data
+            <img
+              src="assets/images/help-icon.svg"
+              alt="help-icon"
+              matTooltip="Factual Data"
+              matTooltipPosition="above"
+            />
+          </div>
+          <select class="form-control custom-input-1" [(ngModel)]="factualData">
+            <option value="factual data">Factual data</option>
+            <option value="no factual data">No factual data</option>
+          </select>
+        </div>
+      </div>
+      <div class="label-title mb-3 w-100">
+        Image settings
+        <img
+          src="assets/images/help-icon.svg"
+          alt="help-icon"
+          matTooltip="Image settings"
+          matTooltipPosition="above"
+        />
+      </div>
+      <div class="row mb-4">
+        <div class="col-12 col-lg-4 mb-3">
+          <div class="label-title-sub mb-1">
+            No of Ai images (max 4)
+            <img
+              src="assets/images/help-icon.svg"
+              alt="help-icon"
+              matTooltip="No of Ai images (max 4)"
+              matTooltipPosition="above"
+            />
+          </div>
+          <div class="select-length">
+            <a class="btns minusbtn" (click)="imageCountFn(false)">-</a>
+            <input
+              type="number"
+              class="form-control"
+              placeholder="0"
+              [(ngModel)]="imageCount"
+            />
+            <a class="btns plusbtn" (click)="imageCountFn(true)">+</a>
+          </div>
+        </div>
+        <div class="col-12 col-lg-4 mb-3">
+          <div class="label-title-sub mb-1">
+            image source
+            <img
+              src="assets/images/help-icon.svg"
+              alt="help-icon"
+              matTooltip="image source"
+              matTooltipPosition="above"
+            />
+          </div>
+          <mat-form-field class="w-100 ide-custom-select">
+            <mat-select
+              (selectionChange)="selectImageStyle($event)"
+              [(value)]="selectedImageStyle"
+              placeholder="Select image source"
+            >
+              <mat-select-trigger>
+                <img
+                  [src]="selectedImageStyle?.icon"
+                  alt="{{ selectedImageStyle?.label }}"
+                  class="icon"
+                />
+                {{ selectedImageStyle?.label }}
+              </mat-select-trigger>
+              <mat-option *ngFor="let item of imageStyles" [value]="item">
+                <img [src]="item.icon" alt="{{ item.label }}" class="icon" />
+                {{ item.label }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-lg-4 mb-3">
+          <div class="label-title-sub mb-1">
+            Oreintation
+            <img
+              src="assets/images/help-icon.svg"
+              alt="help-icon"
+              matTooltip="Oreintation"
+              matTooltipPosition="above"
+            />
+          </div>
+          <select
+            class="form-control custom-input-1"
+            [(ngModel)]="imageOrientation"
+          >
+            <option value="Horizontal">Horizontal</option>
+            <option value="Vertical">Vertical</option>
+            <option value="Square">Square</option>
+            <option value="Panoramic">Panoramic</option>
+          </select>
+        </div>
+        <div class="col-12 col-lg-4 mb-3">
+          <div class="switch-title mb-2">
+            <div class="text1">
+              Alt tags
+              <img
+                src="assets/images/help-icon.svg"
+                alt="help-icon"
+                matTooltip="Alt tags"
+                matTooltipPosition="above"
+              />
+            </div>
+            <label class="switch mx-2">
+              <input type="checkbox" [(ngModel)]="isAltTag" />
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="article-btnlist">
+      <button type="button" (click)="onChangeStep(false)" class="btn btn-back">
+        Back
+      </button>
+      <button type="button" (click)="onChangeStep(true)" class="btn btn-next">
+        Generate Article
+      </button>
+    </div>
+  </div> -->
+</div>
+<!-- <div *ngIf="currentStep == 7">
+  <app-article-layout-option
+    [isCTA]="isCTA"
+    (_back)="onChangeStep(false)"
+    (_next)="onChangeStep(true)"
+  ></app-article-layout-option>
+</div>
+<div *ngIf="currentStep == 8">
+  <app-article-cta-setting
+    [cta]="cta"
+    (_next)="onChangeStep(true)"
+    (_back)="onChangeStep(false)"
+  ></app-article-cta-setting>
+</div> -->

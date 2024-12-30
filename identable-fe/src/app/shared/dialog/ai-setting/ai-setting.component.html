@@ -1,0 +1,424 @@
+<div class="rightbox">
+  <div class="customdrop-head">
+    <h3 class="droptitle">AI Setting</h3>
+    <span class="dropclose" [mat-dialog-close]="false">X</span>
+  </div>
+  <mat-dialog-content>
+    <div class="d-inline-block w-100">
+      <form [formGroup]="aiSettingForm" novalidate>
+        <div class="bboxs-sub">
+          <div class="bboxs">
+            <label class="labels">LinkedIn Pages</label>
+            <div
+              *ngFor="
+                let list of _utilities.linkedinAccessPageList;
+                let i = index
+              "
+              class="cust_rad_btn"
+            >
+              <div
+                [matTooltip]="list?.name"
+                matTooltipPosition="below"
+                matTooltipClass="below"
+                (click)="selectProfileType(list)"
+              >
+                <input
+                  [checked]="list?._id == selectedPageId"
+                  type="radio"
+                  [value]="list._id"
+                  name="selectPageAndProfile"
+                  [disabled]="!list.isAccess"
+                  style="pointer-events: none"
+                />
+                <label>
+                  <img
+                    [src]="
+                      list?.image
+                        ? list?.image
+                        : 'assets/images/linkedin-circle.svg'
+                    "
+                    [alt]="list?.name"
+                /></label>
+              </div>
+            </div>
+          </div>
+          <div formArrayName="advanceSetting">
+            <div
+              *ngFor="let control of getAdvanceSettingControls(); let i = index"
+            >
+              <div
+                [formGroupName]="i"
+                *ngIf="control.value.pageId == selectedPageId"
+              >
+                <div class="bboxs">
+                  <label class="labels"
+                    >Formality
+                    <i
+                      class="fa fa-question-circle"
+                      matTooltip="Choose the level of formality you prefer for your communication."
+                      matTooltipPosition="right"
+                    ></i
+                  ></label>
+                  <div>
+                    <div
+                      class="cust_rad_btn"
+                      *ngFor="let formality of aiFormality"
+                    >
+                      <input
+                        type="radio"
+                        formControlName="formality"
+                        [value]="formality"
+                        name="formality"
+                      /><label class="text-capitalize">{{ formality }}</label>
+                    </div>
+                  </div>
+                  <div
+                    class="invalid-feedback d-block"
+                    *ngIf="
+                      submitted &&
+                      control.get('formality')?.hasError('required')
+                    "
+                  >
+                    Please select formality
+                  </div>
+                </div>
+                <div class="bboxs">
+                  <label class="labels"
+                    >Tone
+                    <i
+                      class="fa fa-question-circle"
+                      matTooltip="Select the tone you want your post content to convey."
+                      matTooltipPosition="right"
+                    ></i
+                  ></label>
+                  <span class="sublabel">*Maximum three</span>
+                  <div formGroupName="tone">
+                    <div class="cust_rad_btn" *ngFor="let tone of aiTone">
+                      <input
+                        [checked]="checkedTone(tone, i)"
+                        type="checkbox"
+                        (change)="selectTone($event, tone, i)"
+                        name=""
+                      /><label class="text-capitalize">{{ tone }}</label>
+                    </div>
+                  </div>
+                  <div
+                    class="invalid-feedback d-block"
+                    *ngIf="
+                      submitted && control.get('tone')?.hasError('required')
+                    "
+                  >
+                    Please select any AI tone.
+                  </div>
+                </div>
+
+                <div class="bboxs">
+                  <div class="form-group">
+                    <label class="labels">I Write In</label>
+                    <select class="form-control" formControlName="language">
+                      <option value="" selected>
+                        Choose your preferred language
+                      </option>
+                      <option
+                        [value]="language?.language"
+                        *ngFor="let language of aiLanguage"
+                      >
+                        {{ language?.language }}
+                      </option>
+                    </select>
+                    <div
+                      class="invalid-feedback d-block"
+                      *ngIf="
+                        submitted &&
+                        control.get('language')?.hasError('required')
+                      "
+                    >
+                      Please choose your preferred language.
+                    </div>
+                  </div>
+                </div>
+                <div class="bboxs">
+                  <label class="labels"
+                    >What would you like AI to know about you to provide better
+                    responses?<img
+                      class="align-middle"
+                      width="22"
+                      src="assets/images/bulb-1.svg"
+                      alt="bulb"
+                      style="cursor: pointer"
+                      (click)="
+                        OpenGenerateCommonPrompt(
+                          'yourself',
+                          'About your self...',
+                          i
+                        )
+                      "
+                      matTooltip="Get Idea"
+                      matTooltipPosition="right"
+                      matTooltipClass="right"
+                      *ngIf="control.get('type')?.value == 'profile'"
+                  /></label>
+                  <textarea
+                    class="form-control"
+                    formControlName="about"
+                    placeholder="type"
+                    rows="5"
+                  ></textarea>
+                  <div
+                    class="invalid-feedback d-block"
+                    *ngIf="
+                      submitted && control.get('about')?.hasError('required')
+                    "
+                  >
+                    Please enter about you are.
+                  </div>
+                </div>
+                <div class="bboxs">
+                  <label class="labels"
+                    >Keyword
+                    <img
+                      class="align-middle"
+                      width="22"
+                      src="assets/images/bulb-1.svg"
+                      alt="bulb"
+                      style="cursor: pointer"
+                      (click)="
+                        OpenGenerateCommonPrompt('keyword', 'Select keyword', i)
+                      "
+                      matTooltip="Get Idea"
+                      matTooltipPosition="right"
+                      matTooltipClass="right"
+                  /></label>
+                  <tag-input
+                    formControlName="keyword"
+                    [maxItems]="3"
+                    [separatorKeyCodes]="[188, 9]"
+                    placeholder="Enter a new Keyword"
+                  >
+                  </tag-input>
+                  <div
+                    class="invalid-feedback d-block"
+                    *ngIf="
+                      submitted && control.get('keyword')?.hasError('required')
+                    "
+                  >
+                    Please enter Keyword.
+                  </div>
+                </div>
+                <div class="bboxs">
+                  <label class="labels"
+                    >Point of view
+                    <i
+                      class="fa fa-question-circle"
+                      matTooltip="Adjust the perspective or viewpoint from which the AI perceives and analyzes information."
+                      matTooltipPosition="right"
+                    ></i
+                  ></label>
+                  <select class="form-control" formControlName="pointOfView">
+                    <option value="" selected>choose your point Of View</option>
+                    <option [value]="pov" *ngFor="let pov of pointOfView">
+                      {{ pov }}
+                    </option>
+                  </select>
+                  <div
+                    class="invalid-feedback d-block"
+                    *ngIf="
+                      submitted &&
+                      control.get('pointOfView')?.hasError('required')
+                    "
+                  >
+                    Please select any Point of view.
+                  </div>
+                </div>
+                <div class="bboxs">
+                  <label class="labels"
+                    >Target audience
+                    <img
+                      class="align-middle"
+                      width="22"
+                      src="assets/images/bulb-1.svg"
+                      alt="bulb"
+                      style="cursor: pointer"
+                      (click)="
+                        OpenGenerateCommonPrompt(
+                          'targetAudience',
+                          'Target audience',
+                          i
+                        )
+                      "
+                      matTooltip="Get Idea"
+                      matTooltipPosition="right"
+                      matTooltipClass="right"
+                    />
+                  </label>
+                  <!-- <input
+                    type="input"
+                    class="form-control"
+                    name="targetAudience"
+                    formControlName="targetAudience"
+                  /> -->
+                  <tag-input
+                    formControlName="targetAudience"
+                    [maxItems]="3"
+                    [separatorKeyCodes]="[188, 9]"
+                    placeholder="Enter a target audience"
+                  >
+                  </tag-input>
+                  <div
+                    class="invalid-feedback d-block"
+                    *ngIf="
+                      submitted &&
+                      control.get('targetAudience')?.hasError('required')
+                    "
+                  >
+                    Please enter valid target audience.
+                  </div>
+                </div>
+                <div class="bboxs">
+                  <label class="labels"
+                    >Objective
+                    <img
+                      class="align-middle"
+                      width="22"
+                      src="assets/images/bulb-1.svg"
+                      alt="bulb"
+                      style="cursor: pointer"
+                      (click)="
+                        OpenGenerateCommonPrompt('objective', 'Objective', i)
+                      "
+                      matTooltip="Get Idea"
+                      matTooltipPosition="right"
+                      matTooltipClass="right"
+                    />
+                  </label>
+                  <input
+                    type="input"
+                    class="form-control"
+                    name="objective"
+                    formControlName="objective"
+                  />
+                  <div
+                    class="invalid-feedback d-block"
+                    *ngIf="
+                      submitted &&
+                      control.get('objective')?.hasError('required')
+                    "
+                  >
+                    Please enter valid objective.
+                  </div>
+                </div>
+                <div class="bboxs">
+                  <label class="labels"
+                    >Call of action
+                    <img
+                      class="align-middle"
+                      width="22"
+                      src="assets/images/bulb-1.svg"
+                      alt="bulb"
+                      style="cursor: pointer"
+                      (click)="
+                        OpenGenerateCommonPrompt(
+                          'callOfAction',
+                          'Call of action',
+                          i
+                        )
+                      "
+                      matTooltip="Get Idea"
+                      matTooltipPosition="right"
+                      matTooltipClass="right"
+                    />
+                  </label>
+                  <input
+                    type="input"
+                    class="form-control"
+                    name="callOfAction"
+                    formControlName="callOfAction"
+                  />
+                  <input
+                    type="hidden"
+                    class="form-control"
+                    name="pageId"
+                    formControlName="pageId"
+                  />
+                </div>
+                <div class="bboxs" *ngIf="control.get('type')?.value == 'page'">
+                  <label class="labels"
+                    >Website
+                    <i
+                      class="fa fa-question-circle"
+                      matTooltip="Website"
+                      matTooltipPosition="right"
+                    ></i>
+                  </label>
+                  <input
+                    type="input"
+                    class="form-control"
+                    name="website"
+                    formControlName="website"
+                  />
+                </div>
+
+                <div class="bboxs" *ngIf="control.get('type')?.value == 'page'">
+                  <label class="labels">What do you sell? </label>
+                  <div class="radiolist">
+                    <label class="radiobtn"
+                      >Product
+                      <input
+                        type="radio"
+                        name="sellType"
+                        formControlName="sellType"
+                        value="product"
+                      />
+                      <span class="checkmark"></span>
+                    </label>
+                    <label class="radiobtn"
+                      >Service
+                      <input
+                        type="radio"
+                        name="sellType"
+                        formControlName="sellType"
+                        value="service"
+                      />
+                      <span class="checkmark"></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="bboxs">
+          <div class="radiolist">
+            <label class="radiobtn"
+              >GPT 3.5
+              <input
+                type="radio"
+                name="chatGPTVersion"
+                formControlName="chatGPTVersion"
+                value="3"
+              />
+              <span class="checkmark"></span>
+            </label>
+            <label class="radiobtn"
+              >GPT 4
+              <input
+                type="radio"
+                name="chatGPTVersion"
+                formControlName="chatGPTVersion"
+                value="4"
+              />
+              <span class="checkmark"></span>
+            </label>
+          </div>
+        </div>
+        <button class="btn btn-save" (click)="onSubmit(false)" type="submit">
+          {{ submitBtnLable }}
+        </button>
+        <!-- <button class="btn btn-save" (click)="onSubmit(true)" type="submit">
+          {{ submitBtnLable }} and Go to the Dashboard
+        </button> -->
+      </form>
+    </div>
+  </mat-dialog-content>
+</div>
+<app-loader></app-loader>

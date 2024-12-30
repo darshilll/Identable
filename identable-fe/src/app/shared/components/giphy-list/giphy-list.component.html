@@ -1,0 +1,30 @@
+<div class="searchbox">
+  <div class="input-group">
+    <input
+      type="text"
+      class="form-control"
+      [(ngModel)]="searchQuery"
+      placeholder="Search Your Gifs..."
+      aria-label="Username"
+      aria-describedby="basic-addon1"
+      (keyup.enter)="searchGifs()"
+    />
+    <div class="input-group-prepend" (click)="searchGifs()">
+      <span class="input-group-text" id="basic-addon1"
+        ><i class="fa fa-search"></i
+      ></span>
+    </div>
+  </div>
+  <h4 class="titles">Trending</h4>
+</div>
+
+<mat-dialog-content>
+  <div class="giphylist">
+    <div class="giphy" *ngFor="let listdata of allGiphyList; let i = index">
+      <img
+        [src]="listdata?.images.preview_gif?.url"
+        (click)="selectGiphy(listdata?.images.preview_gif?.url)"
+      />
+    </div>
+  </div>
+</mat-dialog-content>

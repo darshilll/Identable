@@ -1,0 +1,47 @@
+.icon-box {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto;
+  border-radius: 50%;
+  z-index: 9;
+  text-align: center;
+  border: 3px solid #f15e5e;
+  i {
+    color: #f15e5e;
+    font-size: 46px;
+    display: inline-block;
+    margin-top: 13px;
+  }
+}
+h4 {
+  font-size: 26px;
+  color: #000;
+  margin: 30px 0 20px 0;
+}
+p {
+  color: #344054;
+  font-size: 16px;
+}
+.foot_div {
+  display: inline-block;
+  width: 100%;
+  margin-top: 40px;
+  .btn {
+    color: #fff;
+    font-size: 16px;
+    font-weight: normal;
+    line-height: 20px;
+    padding: 10px 20px;
+    margin: 5px;
+    border-radius: 8px;
+    border: 1px solid #d0d5dd;
+    background: #c1c1c1;
+    box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+  }
+  .btn-delete {
+    color: #fff;
+    border-color: #ee3535;
+    background: #ee3535;
+    box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
+  }
+}

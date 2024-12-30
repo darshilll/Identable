@@ -1,0 +1,247 @@
+<div class="clg-top-title">
+  <div class="leftside">
+    <h2 class="titles">Ai image</h2>
+    <p class="desq">Effortless Image Creation for Any Need</p>
+  </div>
+</div>
+<div class="ide-ai-boxes">
+  <form [formGroup]="genratedImageForm" class="text-left">
+    <div class="row">
+      <div class="col-12 col-lg-12">
+        <div class="mb-3">
+          <div class="label-title mb-2 w-100">
+            Image Idea
+            <img
+              src="assets/images/help-icon.svg"
+              alt="help-icon"
+              matTooltip="Image Idea"
+              matTooltipPosition="above"
+            />
+          </div>
+          <div class="idea-box">
+            <textarea
+              rows="2"
+              formControlName="topic"
+              placeholder="Describe your image idea..."
+              class="form-control"
+              [class.ide-select-div]="genratedImageForm.get('topic')?.value"
+            ></textarea>
+            <div class="promt-action">
+              <img
+                src="assets/images/carousels-v2/icons-3.png"
+                alt="icons"
+                class="img-fluid pointer m-1"
+                (click)="getAIImageIdea()"
+              />
+            </div>
+          </div>
+          <div
+            class="invalid-feedback d-block"
+            *ngIf="submitted && hasError('topic', 'required')"
+          >
+            Please enter topic.
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-lg-6">
+        <div class="mb-4">
+          <div class="label-title mb-2 w-100">
+            Image style
+            <img
+              src="assets/images/help-icon.svg"
+              alt="help-icon"
+              matTooltip="Image style"
+              matTooltipPosition="above"
+            />
+          </div>
+          <div class="ide-custom-drop">
+            <div class="ide-drop-btn" (click)="showImageStyle()">
+              <img
+                class="img-fluid rounded"
+                [src]="
+                  selectedStyle?.src
+                    ? selectedStyle?.src
+                    : 'assets/images/demoimg-1.jpg'
+                "
+                alt="demoimg"
+              />
+              {{ selectedStyle?.label || "Photography" }}
+              <i class="fa fa-angle-down"></i>
+            </div>
+
+            <div class="ide-drop-menu" *ngIf="toChoiceImageStyle">
+              <div *ngFor="let type of imageTypes; let i = index">
+                <div class="label-title mb-2 w-100">
+                  {{ type.category }}
+                  <img
+                    src="assets/images/help-icon.svg"
+                    alt="help-icon"
+                    [matTooltip]="type.category"
+                    matTooltipPosition="above"
+                  />
+                </div>
+                <div class="ide-subbox mb-3">
+                  <div
+                    class="ide-box"
+                    [class.ide-select]="image?.label === selectedStyle?.label"
+                    *ngFor="let image of type?.images"
+                    (click)="selectImageStyle(image)"
+                  >
+                    <img
+                      class="img-fluid"
+                      [src]="image.src"
+                      [alt]="image.label"
+                    />
+                    <div>{{ image.label }}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-lg-6">
+        <div class="mb-4">
+          <div class="label-title mb-2 w-100">
+            Image Orientation
+            <img
+              src="assets/images/help-icon.svg"
+              alt="help-icon"
+              matTooltip="Image Orientation"
+              matTooltipPosition="above"
+            />
+          </div>
+          <mat-form-field class="w-100 ide-custom-select">
+            <mat-select
+              (selectionChange)="selectImageSize($event)"
+              [(value)]="selectedImageSize"
+              placeholder="Select image orientation"
+            >
+              <mat-select-trigger>
+                <img
+                  [src]="selectedImageSize?.icon"
+                  alt="{{ selectedImageSize?.label }}"
+                  class="icon"
+                />
+                {{ selectedImageSize?.label }}
+              </mat-select-trigger>
+              <mat-option *ngFor="let item of imageSizes" [value]="item">
+                <img [src]="item.icon" alt="{{ item.label }}" class="icon" />
+                {{ item.label }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <div
+            class="invalid-feedback d-block"
+            *ngIf="submitted && hasError('size', 'required')"
+          >
+            Please select size.
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-lg-12">
+        <div class="mb-4">
+          <div class="ide-generate-box mb-3">
+            <div class="ide-action">
+              <img
+                class="img-fluid pointer"
+                src="assets/images/download-blue.png"
+                alt="download-blue"
+                width="30"
+                (click)="downloadImage(resultGenratedImage)"
+              />
+              <img
+                class="img-fluid pointer"
+                src="assets/images/zoom-in-blue.png"
+                alt="zoom-in-blue"
+                width="30"
+                (click)="aiPreviewimage(resultGenratedImage)"
+              />
+            </div>
+            <img
+              *ngIf="resultGenratedImage"
+              class="img-fluid rounded"
+              [src]="resultGenratedImage"
+              alt=""
+              width="270"
+            />
+          </div>
+          <div>
+            <a class="btn-generate" (click)="generateImage()"
+              ><img
+                src="assets/images/star-three-white.svg"
+                alt="star"
+                width="16"
+              />
+              Generate Image
+              <span
+                [matTooltip]="creditMessage"
+                class="credit-div"
+                matTooltipPosition="above"
+                ><i class="fa fa-cubes" aria-hidden="true"></i
+                >{{ creditDeducated }}</span
+              >
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <div class="row">
+    <div class="col-12 col-lg-12">
+      <div class="ide-generation-img">
+        <div class="label-title mb-2 w-100">
+          Your image generations
+          <img
+            src="assets/images/help-icon.svg"
+            alt="help-icon"
+            matTooltip="Your image generations"
+            matTooltipPosition="above"
+          />
+        </div>
+        <div class="w-100">
+          <div *ngFor="let listside of genratedImageList; let i = index">
+            <div class="ide-date">{{ listside?.date }}</div>
+            <div class="ide-img-boxes mb-4">
+              <div
+                class="ide-box"
+                *ngFor="let listItem of listside?.data; let i = index"
+              >
+                <div class="ide-action">
+                  <img
+                    class="img-fluid pointer"
+                    src="assets/images/download-blue.png"
+                    alt="download-blue"
+                    width="30"
+                    (click)="downloadImage(listItem?.imageUrl)"
+                  />
+                  <img
+                    class="img-fluid pointer"
+                    src="assets/images/zoom-in-blue.png"
+                    alt="zoom-in-blue"
+                    width="30"
+                    (click)="aiPreviewimage(listItem?.imageUrl)"
+                  />
+                </div>
+                <img
+                  class="img-fluid rounded ide-main"
+                  [src]="
+                    listItem?.imageUrl
+                      ? listItem?.imageUrl
+                      : 'assets/images/demoimg-1.jpg'
+                  "
+                  alt="demoimg-1"
+                  width="280"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-loader></app-loader>

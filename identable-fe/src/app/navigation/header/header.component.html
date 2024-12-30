@@ -1,0 +1,102 @@
+<div class="top_header">
+  <div class="left_div">
+    <a href="/dashboard" class="logo_name">
+      <img class="img-fluid" src="assets/images/logo/logo-1.svg" alt="logo" />
+    </a>
+    <!-- <div class="headmenu_list">
+              <a href="javascript:;">File</a>
+              <a class="activ" href="javascript:;">Edit</a>
+              <a href="javascript:;">View</a>
+              <a href="javascript:;">Help</a>
+          </div> -->
+    <div
+      class="data-available-1 pull-left"
+      *ngIf="
+        _utilities.userData?.isCookieValid &&
+        !_utilities.userData?.isCompanyPageVisited &&
+        _utilities.linkedinPageList?.length > 0
+      "
+    >
+      Your company page has been available
+      <a (click)="moveToIntegration()">click here</a>
+    </div>
+    <div
+      class="data-available-1 pull-left"
+      *ngIf="_utilities.userData && !_utilities.userData?.isCookieValid"
+    >
+      Your integration has been expired
+      <a (click)="moveToIntegration()">click here</a>
+    </div>
+  </div>
+  <div class="right_div">
+    <!-- href="https://testimonial.to/identable-club" -->
+    <a [routerLink]="['/oneclick']" class="automate-btn"
+      ><img src="assets/images/star-three-white.svg" alt="star" width="16" />
+      Automate Your Content Calendar</a
+    >
+
+    <!-- <a class="btn-login" href="https://meetings.engagebay.com/strategycall" target="_blank"><i class="fa fa-phone"></i>
+      Free Strategy Call</a> -->
+
+    <a class="btn-credits mr-0" (click)="creditOverview()"
+      ><!-- <i class="fa fa-usd"></i> --><img
+        class="img-fluid align-middle mr-2"
+        src="assets/images/credit-icon.png"
+        width="22"
+        alt="credit-icon"
+      />
+      <b>{{ _utilities.userData?.subscription?.credit }}</b></a
+    >
+    <a class="btn-login" (click)="hireAnExpert()" target="_blank"
+      ><i class="fa fa-phone"></i> Free Strategy Call</a
+    >
+    <div class="btn-group logindrop">
+      <button
+        type="button"
+        class="btn dropdown-toggle"
+        data-toggle="dropdown"
+        aria-expanded="false"
+      >
+        <img
+          [src]="
+            currentProfile?.image
+              ? currentProfile?.image
+              : 'assets/images/avatar/avatar.png'
+          "
+          alt="avatar"
+        />
+      </button>
+      <div class="dropdown-menu dropdown-menu-right">
+        <a class="droplink" (click)="switchProfile()"
+          ><img
+            src="assets/images/refresh-ccw-02.png"
+            alt="switch User"
+          />Switch profile</a
+        >
+        <a class="droplink" routerLink="/account-setting"
+          ><img
+            src="assets/images/icon-setting.svg"
+            width="17px"
+            alt="setting"
+          />Account setting</a
+        >
+        <div class="dropdown-divider"></div>
+        <a class="droplink" (click)="logout()"
+          ><img src="assets/images/log-out-01.svg" alt="logout" />Log out</a
+        >
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  class="data-available"
+  *ngIf="
+    _utilities.userData?.isCookieValid &&
+    !_utilities.userData?.isCompanyPageVisited &&
+    _utilities.linkedinPageList?.length > 0
+  "
+>
+  <div class="desq">Your company page has been available 🚀</div>
+  <a class="btn links2" (click)="moveToIntegration()">Click Here</a>
+</div>

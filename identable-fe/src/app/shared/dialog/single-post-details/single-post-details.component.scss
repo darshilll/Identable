@@ -1,0 +1,203 @@
+.slidediv {
+    text-align: center;
+
+    img {
+        width: 100%;
+        margin: 20px auto;       
+    }
+
+    h4 {
+        color: #101828;
+        text-align: center;
+        font-size: 40px;
+        font-weight: 700;
+        text-transform: capitalize;
+        max-width: 400px;
+        margin: 0 auto;
+        margin-bottom: 30px;
+    }
+}
+.custom-post .right_div {
+    width: 100%;
+    padding: 15px 30px;
+    background: rgba(240, 90, 40, 0.16);
+}
+
+.custom-post ::ng-deep .slick-prev:before {
+    color: #ec4a0a !important;
+    background-color: #eee;
+}
+.custom-post ::ng-deep .slick-next:before {
+    color: #ec4a0a !important;
+    background-color: #eee;
+}
+
+.custom-post {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    background-color: #f9f9f9;
+
+    .fbpostimg {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px;
+
+        .postinfo {
+            display: flex;
+            align-items: center;
+            width: 100%;
+
+            .img {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                margin-right: 8px;
+            }
+
+            .txt1 {
+                color: #101010;
+                font-size: 14px;
+                font-weight: 500;
+                line-height: 1.2;
+                display: block;
+            }
+
+            .txt2 {
+                color: #585858;
+                font-size: 10px;
+                font-weight: 500;
+                line-height: 1.2;
+                display: block;
+            }
+        }
+
+        .followadd {
+            color: #007ab9;
+            font-size: 16px;
+            font-weight: 700;
+            line-height: 1.2;
+            display: inline-block;
+            min-width: 90px;
+            cursor: pointer;
+        }
+    }
+
+    .fbcontent {
+        width: 100%;
+        display: inline-block;
+        padding: 5px 10px;
+        white-space: pre-line;
+
+        .img-fluid {
+            width: 100%;
+        }
+
+        p {
+            color: #101010;
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 1.4;
+            margin-bottom: 10px;
+        }
+    }
+
+    .fbpostbg {
+        height: 220px;
+        width: 100%;
+        display: inline-block;
+        background-position: center center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-color: #d9d9d9;
+    }
+
+    .fbfrom {
+        background: #f2f4f7;
+        width: 100%;
+        padding: 8px;
+        display: inline-block;
+        position: relative;
+        padding-right: 100px;
+
+        .txt1 {
+            color: #667085;
+            font-weight: 400;
+            font-size: 11px;
+            line-height: 1.2;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .txt2 {
+            color: #101010;
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 1.2;
+            display: block;
+        }
+
+        .btn-apply {
+            border: 1px solid #007ab9;
+            border-radius: 100px;
+            color: #007ab9;
+            font-weight: 500;
+            font-size: 12px;
+            line-height: 1.2;
+            text-transform: uppercase;
+            padding: 8px 12px;
+            position: absolute;
+            right: 8px;
+            top: 6px;
+            cursor: pointer;
+        }
+    }
+
+    .fbshare {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        padding: 6px 10px;
+
+        .sharebtn {
+            color: #585858;
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 1.2;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+
+            img {
+                margin-right: 8px;
+            }
+        }
+    }
+
+    .fbcount {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        padding: 6px 10px;
+        background-color: #eee;
+
+        .sharebtn {
+            color: #585858;
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 1.2;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+
+            img {
+                margin-right: 8px;
+            }
+        }
+    }
+}

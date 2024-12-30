@@ -1,0 +1,147 @@
+<div class="upload-main">
+  <div class="upload-left">
+    <button
+      type="button"
+      class="btn btn-block"
+      [class.btn-active]="selectUploadOption == 'upload'"
+      (click)="choiceUploadOption('upload')"
+    >
+      <i class="fa fa-upload" aria-hidden="true"></i> Upload Media
+    </button>
+    <button
+      type="button"
+      class="btn btn-block"
+      [class.btn-active]="selectUploadOption == 'premium'"
+      (click)="choiceUploadOption('premium')"
+    >
+      <i class="fa fa-dollar" aria-hidden="true"></i> Generated Image
+    </button>
+    <button
+      type="button"
+      class="btn btn-block"
+      [class.btn-active]="selectUploadOption == 'searchMedia'"
+      (click)="choiceUploadOption('searchMedia')"
+    >
+      <i class="fa fa-search" aria-hidden="true"></i> Search Media
+    </button>
+  </div>
+  <div class="upload-right">
+    <div
+      class="w-100"
+      [class]="selectUploadOption == 'upload' ? 'd-inline-block' : 'd-none'"
+    >
+      <h3 class="title-1 mb-3">
+        Upload Media
+        <img
+          class="img-fluid align-center"
+          src="assets/images/help-icon.svg"
+          alt="help-icon"
+          matTooltip="Maximize your creativity by uploading your own images.
+  
+            Note: Attach as many files as you like, each file should not exceed 5mb."
+          matTooltipPosition="below"
+        />
+      </h3>
+      <mat-dialog-content class="p-2">
+        <label class="upload-file-div">
+          <input
+            type="file"
+            (change)="uploadImage($event)"
+            class="custom-input"
+          />
+          <i class="fa fa-cloud-upload" aria-hidden="true"></i>
+          <div class="text1">click to select files</div>
+          <div class="text2">
+            Attach as many files as you like, each file should not exceed 5mb
+          </div>
+        </label>
+      </mat-dialog-content>
+    </div>
+    <div
+      class="w-100"
+      [class]="selectUploadOption == 'premium' ? 'd-inline-block' : 'd-none'"
+    >
+      <h3 class="title-1">
+        Generated Image
+        <img
+          class="img-fluid align-center"
+          src="assets/images/help-icon.svg"
+          alt="help-icon"
+          matTooltip="Maximize your creativity by uploading your own images.
+  
+          Note: Attach as many files as you like, each file should not exceed 5mb."
+          matTooltipPosition="below"
+        />
+      </h3>
+      <mat-dialog-content class="p-0">
+        <mat-tab-group
+          #tabGroup
+          class="dash-tabs"
+          mat-stretch-tabs="false"
+          mat-align-tabs="start"
+        >
+          <mat-tab label="Gradients">
+            <div class="background-color">
+              <img
+                *ngFor="let listgradient of gradientImage; let i = index"
+                class="img-fluid"
+                alt="Gradient 01"
+                (click)="selectBgContentImg(listgradient)"
+                [src]="listgradient"
+              />
+            </div>
+          </mat-tab>
+          <!-- <mat-tab label="Color"> </mat-tab> -->
+          <mat-tab label="AI Generated Image" *ngIf="isGenrated">
+            <div class="giphylist">
+              <div
+                class="giphy"
+                *ngFor="let image of aiImageList; let i = index"
+              >
+                <img
+                  [src]="image?.imageUrl"
+                  (click)="selectImage(image?.imageUrl)"
+                />
+              </div>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+      </mat-dialog-content>
+    </div>
+    <div
+      class="w-100"
+      [class]="
+        selectUploadOption == 'searchMedia' ? 'd-inline-block' : 'd-none'
+      "
+    >
+      <h3 class="title-1">Search Images</h3>
+      <div class="searchbox-div">
+        <div class="searchbox">
+          <i class="fa fa-search" (click)="searchVideoAndImage()"></i>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Search here..."
+            [(ngModel)]="serchImage"
+            (keyup.enter)="searchVideoAndImage()"
+          />
+        </div>
+        <div class="pixels-box ml-2">Pixels</div>
+      </div>
+      <mat-dialog-content class="p-0">
+        <div class="imageslist">
+          <div
+            class="imagess"
+            *ngFor="let listimgdata of allfetchtrendingPixelList; let i = index"
+          >
+            <img
+              [src]="listimgdata?.src?.medium"
+              (click)="selectBgContentImg(listimgdata?.src?.medium)"
+            />
+          </div>
+        </div>
+      </mat-dialog-content>
+    </div>
+  </div>
+</div>
+<app-loader></app-loader>

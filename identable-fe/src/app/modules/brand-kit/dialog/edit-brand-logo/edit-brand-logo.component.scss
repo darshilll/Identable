@@ -1,0 +1,132 @@
+.customdrop-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  border-bottom: 1px solid #eee;
+  padding: 15px;
+  .droptitle {
+    color: #475467;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 24px;
+  }
+  .dropclose {
+    cursor: pointer;
+  }
+}
+.form-group {
+  .labels {
+    color: black;
+    font-weight: 500;
+    font-size: 15px;
+    margin-bottom: 5px;
+    display: block;
+  }
+  .form-control {
+    resize: none;
+    box-shadow: none;
+    border-radius: 8px;
+    border: 1px solid #d0d5dd;
+  }
+  .radiolist .radiobtn {
+    font-size: 14px;
+  }
+}
+.custom-bg-1 {
+  background-color: #f1f2f4;
+}
+.custom-bg-2 {
+  // background-color: #091e42;
+}
+.controls-divs {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  .texts {
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+    text-transform: capitalize;
+    color: #172b4d;
+    padding: 0 3px;
+  }
+}
+.controls-list {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-top: 15px;
+  .w-40 {
+    width: 40%;
+    padding: 5px;
+  }
+  .w-20 {
+    width: 20%;
+    padding: 5px;
+  }
+  .labels {
+    display: block;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 14px;
+    color: #44546f;
+    margin-bottom: 5px;
+  }
+  .rotate-btn {
+    padding: 0;
+    margin: 3px;
+    border: none;
+    background: transparent;
+  }
+}
+.customdrop-foot {
+  display: inline-block;
+  width: 100%;
+  border-top: 1px solid #eee;
+  padding: 15px;
+  .btn-edit {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    text-transform: capitalize;
+    color: #172b4d;
+    padding: 4px 12px;
+    border: 1px solid #626f86;
+    border-radius: 4px;
+    position: relative;
+    .file-input {
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+  }
+  .btn-cancel {
+    color: #344054;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 6px;
+    padding: 8px 12px;
+    border: 1px solid #d0d5dd;
+    background: #fff;
+  }
+  .btn-save {
+    color: #fff;
+    font-weight: 400;
+    font-size: 14px;
+    border-radius: 6px;
+    padding: 8px 12px;
+    cursor: pointer;
+    background: #ec4a0a;
+  }
+}
+image-cropper {
+  max-height: 350px;
+}
+.cursor-pointer {
+  cursor: pointer;
+}

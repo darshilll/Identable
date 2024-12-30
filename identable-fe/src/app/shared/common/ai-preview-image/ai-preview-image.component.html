@@ -1,0 +1,13 @@
+<mat-dialog-content>
+  <img
+    src="assets/images/close-sqare-1.svg"
+    width="60"
+    class="ide-dropclose"
+    [mat-dialog-close]="false"
+  />
+  <img
+    class="img-fluid"
+    [src]="data?.imageUrl ? data?.imageUrl : 'assets/images/ai-demo-image.png'"
+    alt="ai-demo-image"
+  />
+</mat-dialog-content>

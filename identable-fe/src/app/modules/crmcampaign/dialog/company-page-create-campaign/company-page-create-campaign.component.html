@@ -1,0 +1,277 @@
+<div class="confirm-modal" *ngIf="currentStep == 1 && !companyPageList?.length">
+  <img
+    src="assets/images/Search-page.svg"
+    alt="Search-page"
+    width="300"
+    class="mb-3"
+  />
+  <h5>Company page not found!</h5>
+  <p>Please connect your LinkedIn company page to Identable.</p>
+</div>
+
+<div class="company-lists" *ngIf="currentStep == 1 && companyPageList?.length">
+  <h4 class="titles">Choose a company page for creating a campaign</h4>
+  <div class="select-company">
+    <div data-toggle="buttons" class="btn-group-toggle d-flex flex-wrap w-100">
+      <label
+        class="btn custom-check-1"
+        [class.active]="pageId == item?._id"
+        (click)="selectCampaignType(item)"
+        *ngFor="let item of companyPageList"
+      >
+        <input type="radio" value="" maxlength="50" />
+        <img class="img" width="48" [src]="item?.image" alt="company-1" />
+        <div>
+          <div class="text1 text-capitalize">{{ item?.name }}</div>
+          <div class="text2 sentence-case">{{ item?.designation }}</div>
+        </div>
+        <div class="checkboxx"></div>
+      </label>
+    </div>
+    <div
+      class="invalid-feedback d-block"
+      *ngIf="checkError('pageId') && !pageId"
+    >
+      Please select any company page.
+    </div>
+  </div>
+</div>
+
+<div class="stepdiv" *ngIf="currentStep > 1">
+  <div class="steps" [class.active_step]="currentStep > 1">
+    <div class="stepcirclr"></div>
+    <span class="text1">Campaign Name</span>
+  </div>
+  <div class="steps" [class.active_step]="currentStep > 2">
+    <div class="stepcirclr"></div>
+    <span class="text1">Setup Target Audience </span>
+  </div>
+  <div class="steps" [class.active_step]="currentStep > 3">
+    <div class="stepcirclr"></div>
+    <span class="text1">Campaign settings</span>
+  </div>
+</div>
+
+<div class="name-group" *ngIf="currentStep == 2">
+  <label for="">Name the campaign</label>
+  <input
+    type="text"
+    class="form-control"
+    [(ngModel)]="campaignName"
+    placeholder="Campaign name"
+    maxlength="50"
+  />
+  <div
+    class="invalid-feedback d-block"
+    *ngIf="checkError('campaignName') && !campaignName"
+  >
+    Please enter campaign name.
+  </div>
+</div>
+
+<div class="demographics" *ngIf="currentStep == 3">
+  <div class="demographics-count">
+    <div class="leftside">Invite Based on demographics</div>
+    <div class="rightside">
+      Connected count : <span>{{ connectionCount }}</span>
+    </div>
+  </div>
+  <div class="p-3">
+    <div class="d-inline-block w-100 mb-3">
+      <div class="subtitle">Age</div>
+      <div class="d-flex flex-wrap w-100">
+        <label class="btn custom-check-2" *ngFor="let item of ageList">
+          <input
+            [checked]="checkData('age', item?.group)"
+            type="checkbox"
+            (change)="onAgeChange($event)"
+            [value]="item?.group"
+          />
+          <div class="text1">{{ item?.group }}</div>
+          <div class="text2 mx-2">
+            <img
+              class="mr-1"
+              src="assets/images/crm/counts.png"
+              alt="count"
+              width="12"
+            />{{ item?.count }}
+          </div>
+          <div class="checkboxx"></div>
+        </label>
+      </div>
+      <div
+        class="invalid-feedback d-block"
+        *ngIf="checkError('age') && !age?.length"
+      >
+        Please select any age group.
+      </div>
+    </div>
+    <div class="d-inline-block w-100 mb-3">
+      <div class="subtitle">Industry</div>
+      <div class="d-flex flex-wrap w-100">
+        <label class="btn custom-check-2" *ngFor="let item of industryList">
+          <input
+            type="checkbox"
+            [checked]="checkData('industry', item?.group)"
+            (change)="onIndustryChange($event)"
+            [value]="item?.group"
+          />
+          <div class="text1">{{ item?.group }}</div>
+          <div class="text2 mx-2">
+            <img
+              class="mr-1"
+              src="assets/images/crm/counts.png"
+              alt="count"
+              width="12"
+            />{{ item?.count }}
+          </div>
+          <div class="checkboxx"></div>
+        </label>
+      </div>
+      <div
+        class="invalid-feedback d-block"
+        *ngIf="checkError('industry') && !industry?.length"
+      >
+        Please select any industry.
+      </div>
+    </div>
+    <div class="d-inline-block w-100 mb-3">
+      <div class="subtitle">Top Cities</div>
+      <div class="d-flex flex-wrap w-100">
+        <label class="btn custom-check-2" *ngFor="let item of cityList">
+          <input
+            [checked]="checkData('city', item?.group)"
+            type="checkbox"
+            (change)="onCityChange($event)"
+            [value]="item?.group"
+          />
+          <div class="text1">{{ item?.group }}</div>
+          <div class="text2 mx-2">
+            <img
+              class="mr-1"
+              src="assets/images/crm/counts.png"
+              alt="count"
+              width="12"
+            />{{ item?.count }}
+          </div>
+          <div class="checkboxx"></div>
+        </label>
+      </div>
+      <div
+        class="invalid-feedback d-block"
+        *ngIf="checkError('city') && !city?.length"
+      >
+        Please select any city.
+      </div>
+    </div>
+  </div>
+</div>
+<div class="demographics" *ngIf="currentStep == 3">
+  <div class="demographics-count">
+    <div class="leftside">Invite based on theme</div>
+  </div>
+  <div class="p-3">
+    <div class="d-inline-block w-100 mb-2">
+      <div class="subtitle">Theme Source</div>
+      <div class="d-flex flex-wrap w-100" data-toggle="buttons">
+        <label class="btn custom-check-2">
+          <input type="radio" [(ngModel)]="campaignType" value="1" />
+          <div class="checkboxx mr-1"></div>
+          <div class="text1">LinkedIn people search</div>
+        </label>
+        <label class="btn custom-check-2">
+          <input type="radio" [(ngModel)]="campaignType" value="2" />
+          <div class="checkboxx mr-1"></div>
+          <div class="text1">LinkedIn sales navigator</div>
+        </label>
+        <label class="btn custom-check-2">
+          <input type="radio" [(ngModel)]="campaignType" value="3" />
+          <div class="checkboxx mr-1"></div>
+          <div class="text1">LinkedIn post</div>
+        </label>
+        <label class="btn custom-check-2 disabled">
+          <input type="radio" [(ngModel)]="campaignType" value="4" />
+          <div class="checkboxx mr-1"></div>
+          <div class="text1">Import</div>
+          <div class="coming">Coming soon</div>
+        </label>
+      </div>
+      <div
+        class="invalid-feedback d-block"
+        *ngIf="checkError('campaignType') && !campaignType"
+      >
+        Please select any theme source.
+      </div>
+    </div>
+    <div class="mb-5">
+      <div class="subtitle">
+        Source URL
+        <img
+          class="align-middle"
+          width="12"
+          src="assets/images/help-icon.svg"
+          alt="help-icon"
+          matTooltip="info here..."
+          matTooltipPosition="above"
+        />
+      </div>
+      <input
+        type="text"
+        class="form-control"
+        [(ngModel)]="sourceUrl"
+        placeholder="Paste your url based on type of search"
+      />
+      <div
+        class="invalid-feedback d-block"
+        *ngIf="checkError('sourceUrl') && !sourceUrl"
+      >
+        Please enter source url.
+      </div>
+      <div
+        class="invalid-feedback d-block"
+        *ngIf="checkError('validSourceUrl') && !isValidSourceUrl"
+      >
+        Please enter valid source url.
+      </div>
+    </div>
+  </div>
+  <div class="ide-lock-div" *ngIf="!isAllowTheme">
+    <i class="fa fa-lock" aria-hidden="true"></i>
+    <div class="text1">Please upgrade your plan</div>
+    <!-- <div class="text2">Lock text2 text2</div> -->
+  </div>
+</div>
+
+<div class="camp-setting-div" *ngIf="currentStep == 4">
+  <div class="camp-setting disabled">
+    <div class="camp-text">
+      Premium LinkedIn Accounts only <span class="coming">Coming soon</span>
+    </div>
+    <label class="camp-switch mx-2"
+      ><input type="checkbox" [(ngModel)]="isPremiumAccount" /><span
+        class="slider"
+      ></span
+    ></label>
+  </div>
+  <div class="camp-setting disabled">
+    <div class="camp-text">
+      Open In mail discover <span class="coming">Coming soon</span>
+    </div>
+    <label class="camp-switch mx-2"
+      ><input type="checkbox" [(ngModel)]="isInMailDiscover" /><span
+        class="slider"
+      ></span
+    ></label>
+  </div>
+  <div class="camp-setting disabled">
+    <div class="camp-text">
+      Include people you already talked to
+      <span class="coming">Coming soon</span>
+    </div>
+    <label class="camp-switch mx-2"
+      ><input type="checkbox" [(ngModel)]="isAlreadyTalkedPeople" /><span
+        class="slider"
+      ></span
+    ></label>
+  </div>
+</div>

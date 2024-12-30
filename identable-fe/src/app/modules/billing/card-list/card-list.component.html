@@ -1,0 +1,64 @@
+<div class="ide-custom-topbar">
+  <div class="ide-left-bar">
+    <span class="ide-module-name"><span> cards </span> (4) </span>
+  </div>
+  <div class="ide-right-bar">
+    <div class="ide-add float-left">
+      <a class="btn ide-btn-custom" (click)="addNewCard()"
+        ><i class="fa fa-plus"></i
+        ><span class="ide-btn-text"> Add New </span></a
+      >
+    </div>
+  </div>
+</div>
+<div class="ide-module-table">
+  <form class="ide-inline-form">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Card Detail</th>
+          <th>Expiring</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><b>Visa ending with 4040</b></td>
+          <td>12 / 2023</td>
+          <td class="ide-action">
+            <a class="float-left"><i class="fa fa-trash"></i></a
+            ><a class="float-left"><i class="fa fa-pencil"></i></a>
+            <div class="radiolist">
+              <label class="radiobtn mb-0"
+                >Mark as primary
+                <input
+                  type="radio"
+                  name="primaryRadio"
+                  value="true"
+                  checked /><span class="checkmark"></span
+              ></label>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td><b>Visa ending with 4242</b></td>
+          <td>12 / 2023</td>
+          <td class="ide-action">
+            <a class="float-left"><i class="fa fa-trash"></i></a
+            ><a class="float-left"><i class="fa fa-pencil"></i></a>
+            <div class="radiolist">
+              <label class="radiobtn mb-0"
+                >Mark as primary
+                <input
+                  type="radio"
+                  name="primaryRadio"
+                  value="true"
+                  checked /><span class="checkmark"></span
+              ></label>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
+</div>

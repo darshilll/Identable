@@ -1,0 +1,58 @@
+<app-loader></app-loader>
+<div class="tophead" *ngIf="isVisibleHeader">
+  <a class="logo pointer" (click)="onDashboard()">
+    <img
+      class="img-fluid"
+      src="assets/images/logo/logo.svg"
+      alt="logo"
+      width="120"
+    />
+  </a>
+  <div class="right_div">
+    <a class="btn logout-btn" (click)="logout()">Logout</a>
+  </div>
+</div>
+<div class="net_number_panel">
+  <div class="left_div">
+    <div class="net_numlist">
+      <h3 class="title">
+        Account Settings
+        <img
+          class="img-fluid align-middle"
+          src="assets/images/help-icon.svg"
+          alt="help-icon"
+          matTooltip="Account Settings"
+          matTooltipPosition="above"
+        />
+      </h3>
+      <div
+        *ngFor="let listside of allSideSteps; let i = index"
+        [class]="listside?.isOpen == true ? 'numcount nactive' : 'numcount'"
+        (click)="moveToNext(listside?.name)"
+      >
+        <!-- <span class="numlist">{{ i + 1 }}</span>
+        <div class="stepnum">Step {{ i + 1 }}</div> -->
+        <div class="steptext">{{ listside?.label }}</div>
+      </div>
+    </div>
+  </div>
+  <div class="right_div" [class.right_div_scroll]="!isVisibleHeader">
+    <app-billing
+      *ngIf="allSideSteps[0].isOpen"
+      (onSubmitBillingSetting)="onSubmitSection(allSideSteps[0].name)"
+    ></app-billing>
+    <app-general
+      *ngIf="allSideSteps[1].isOpen"
+      (onSubmitGeneralSetting)="onSubmitSection(allSideSteps[1].name)"
+    >
+    </app-general>
+    <app-integration
+      *ngIf="allSideSteps[2].isOpen"
+      (onSubmitIntegrationSetting)="onSubmitSection(allSideSteps[2].name)"
+    ></app-integration>
+    <app-ai-setting
+      *ngIf="allSideSteps[3].isOpen"
+      (onSubmitAiSetting)="onSubmitSection(allSideSteps[3].name)"
+    ></app-ai-setting>
+  </div>
+</div>

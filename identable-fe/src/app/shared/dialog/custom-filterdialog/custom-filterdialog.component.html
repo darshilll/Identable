@@ -1,0 +1,48 @@
+<div class="customdrop-head">
+  <h3 class="droptitle">Filter By</h3>
+  <span class="dropclose" [mat-dialog-close]="false">X</span>
+</div>
+<form [formGroup]="customFilterForm">
+  <mat-dialog-content>
+    <div class="row">
+      <div class="col-12 col-lg-6">
+        <div class="form-group">
+          <label for="" class="labels">From Date</label>
+          <input
+            type="date"
+            formControlName="startDate"
+            class="form-control"
+            [max]="today"
+            (change)="updateMinToDate()"
+            name=""
+            id=""
+          />
+        </div>
+        <div
+          class="invalid-feedback d-block"
+          *ngIf="submitted && hasError('startDate', 'required')"
+        >
+          Please select start date.
+        </div>
+      </div>
+      <div class="col-12 col-lg-6">
+        <div class="form-group">
+          <label for="" class="labels">To Date</label>
+          <input
+            type="date"
+            formControlName="endDate"
+            class="form-control"
+            [min]="minToDate"
+            [max]="today"
+            name=""
+            id=""
+          />
+        </div>
+      </div>
+    </div>
+  </mat-dialog-content>
+  <div class="btnlistdiv">
+    <button type="button" (click)="close()" class="btn btn-can">Cancel</button>
+    <button type="button" (click)="submit()" class="btn btn-saves">Save</button>
+  </div>
+</form>

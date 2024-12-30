@@ -1,0 +1,132 @@
+<div class="stepdiv">
+  <div class="steps" [class.active_step]="currentStep > 0">
+    <div class="stepcirclr"></div>
+    <span class="text1">Campaign Name</span>
+  </div>
+  <div class="steps" [class.active_step]="currentStep > 1">
+    <div class="stepcirclr"></div>
+    <span class="text1">Setup Target Audience </span>
+  </div>
+  <div class="steps" [class.active_step]="currentStep > 2">
+    <div class="stepcirclr"></div>
+    <span class="text1">Campaign settings</span>
+  </div>
+</div>
+
+<div class="name-group" *ngIf="currentStep == 1">
+  <label for="">Name the campaign</label>
+  <input
+    type="text"
+    class="form-control"
+    [(ngModel)]="campaignName"
+    placeholder="Campaign name"
+    maxlength="50"
+  />
+  <div
+    class="invalid-feedback d-block"
+    *ngIf="checkError('campaignName') && !campaignName"
+  >
+    Please enter campaign name.
+  </div>
+</div>
+
+<div class="demographics" *ngIf="currentStep == 2">
+  <div class="demographics-count">
+    <div class="leftside">Invite based on theme</div>
+  </div>
+  <div class="p-3">
+    <div class="d-inline-block w-100 mb-2">
+      <div class="subtitle">Theme Source</div>
+      <div class="d-flex flex-wrap w-100" data-toggle="buttons">
+        <label class="btn custom-check-2">
+          <input type="radio" [(ngModel)]="campaignType" value="1" />
+          <div class="checkboxx mr-1"></div>
+          <div class="text1">LinkedIn people search</div>
+        </label>
+        <label class="btn custom-check-2">
+          <input type="radio" [(ngModel)]="campaignType" value="2" />
+          <div class="checkboxx mr-1"></div>
+          <div class="text1">LinkedIn sales navigator</div>
+        </label>
+        <label class="btn custom-check-2">
+          <input type="radio" [(ngModel)]="campaignType" value="3" />
+          <div class="checkboxx mr-1"></div>
+          <div class="text1">LinkedIn post</div>
+        </label>
+        <label class="btn custom-check-2 disabled">
+          <input type="radio" [(ngModel)]="campaignType" value="4" />
+          <div class="checkboxx mr-1"></div>
+          <div class="text1">Import</div>
+          <div class="coming">Coming soon</div>
+        </label>
+      </div>
+      <div
+        class="invalid-feedback d-block"
+        *ngIf="checkError('campaignType') && !campaignType"
+      >
+        Please select any theme source.
+      </div>
+    </div>
+    <div class="mb-5">
+      <div class="subtitle">
+        Source URL
+        <img
+          class="align-middle"
+          width="12"
+          src="assets/images/help-icon.svg"
+          alt="help-icon"
+          matTooltip="info here..."
+          matTooltipPosition="above"
+        />
+      </div>
+      <input
+        type="text"
+        class="form-control"
+        [(ngModel)]="sourceUrl"
+        placeholder="Paste your url based on type of search"
+      />
+      <div
+        class="invalid-feedback d-block"
+        *ngIf="checkError('sourceUrl') && !sourceUrl"
+      >
+        Please enter source url.
+      </div>
+      <div
+        class="invalid-feedback d-block"
+        *ngIf="checkError('validSourceUrl') && !isValidSourceUrl"
+      >
+        Please enter valid source url.
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="camp-setting-div" *ngIf="currentStep == 3">
+  <div class="camp-setting">
+    <div class="camp-text">Premium LinkedIn Accounts only</div>
+    <label class="camp-switch mx-2"
+      ><input type="checkbox" [(ngModel)]="isPremiumAccount" /><span
+        class="slider"
+      ></span
+    ></label>
+  </div>
+  <div class="camp-setting">
+    <div class="camp-text">Open In mail discover</div>
+    <label class="camp-switch mx-2"
+      ><input type="checkbox" [(ngModel)]="isInMailDiscover" /><span
+        class="slider"
+      ></span
+    ></label>
+  </div>
+  <div class="camp-setting disabled">
+    <div class="camp-text">
+      Include people you already talked to
+      <span class="coming">Coming soon</span>
+    </div>
+    <label class="camp-switch mx-2"
+      ><input type="checkbox" [(ngModel)]="isAlreadyTalkedPeople" /><span
+        class="slider"
+      ></span
+    ></label>
+  </div>
+</div>

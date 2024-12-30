@@ -1,0 +1,58 @@
+.customdrop-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  border-bottom: 1px solid #eee;
+  padding: 15px;
+  .droptitle {
+    color: #475467;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 24px;
+  }
+  .dropclose {
+    cursor: pointer;
+  }
+}
+.form-group {
+  .labels {
+    color: black;
+    font-weight: 500;
+    font-size: 15px;
+    margin-bottom: 5px;
+    display: block;
+  }
+  .form-control {
+    resize: none;
+    box-shadow: none;
+    border-radius: 8px;
+    border: 1px solid #d0d5dd;
+  }
+  .radiolist .radiobtn {
+    font-size: 14px;
+  }
+}
+.customdrop-foot {
+  display: inline-block;
+  width: 100%;
+  border-top: 1px solid #eee;
+  padding: 15px;
+  .btn-cancel {
+    color: #ec4a0a;
+    font-weight: 400;
+    font-size: 14px;
+    border-radius: 6px;
+    padding: 8px 12px;
+    cursor: pointer;
+  }
+  .btn-save {
+    color: #fff;
+    background: #ec4a0a;
+    font-weight: 400;
+    font-size: 14px;
+    border-radius: 6px;
+    padding: 8px 12px;
+    cursor: pointer;
+  }
+}

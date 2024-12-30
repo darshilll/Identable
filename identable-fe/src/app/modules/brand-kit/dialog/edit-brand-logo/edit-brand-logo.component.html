@@ -1,0 +1,174 @@
+<div class="customdrop-head">
+  <h3 class="droptitle">
+    {{ data?.isViewBrandLogo ? "Logo" : "Edit logo" }}
+    <img
+      class="img-fluid align-center"
+      src="assets/images/help-icon.svg"
+      alt="help-icon"
+      [matTooltip]="data?.isViewBrandLogo ? 'Logo' : 'Edit logo'"
+      matTooltipPosition="below"
+    />
+  </h3>
+  <img
+    class="img-fluid align-center dropclose"
+    src="assets/images/close-1.svg"
+    alt="close"
+    [mat-dialog-close]="false"
+  />
+</div>
+<mat-dialog-content class="p-3 custom-bg-1" *ngIf="!data?.isViewBrandLogo">
+  <!-- <input type="file" (change)="fileChangeEvent($event)" accept="image/*" /> -->
+
+  <image-cropper
+    [imageChangedEvent]="imageChangedEvent"
+    [imageURL]="imageURL"
+    [aspectRatio]="1"
+    [maintainAspectRatio]="true"
+    [resizeToWidth]="300"
+    [transform]="{ scale: scale, rotate: rotation + straighten }"
+    format="png"
+    (imageCropped)="imageCropped($event)"
+  >
+  </image-cropper>
+  <div class="controls-list">
+    <div class="controls w-40">
+      <!-- <button mat-icon-button (click)="zoomOut()">-</button>
+    <button mat-icon-button (click)="zoomIn()">+</button> -->
+      <label class="labels" for="scale">Zoom</label>
+      <div class="controls-divs">
+        <img
+          (click)="zoomOut()"
+          class="img-fluid cursor-pointer align-center mr-1 c"
+          src="assets/images/zoom-out.png"
+          alt="zoom-out"
+          width="22"
+        />
+        <input
+          class="w-100"
+          type="range"
+          min="0.1"
+          max="2"
+          step="0.1"
+          [(ngModel)]="scale"
+          style="accent-color: #172b4d"
+        />
+        <img
+          (click)="zoomIn()"
+          class="img-fluid cursor-pointer align-center ml-1"
+          src="assets/images/zoom-in.png"
+          alt="zoom-in"
+          width="22"
+        />
+      </div>
+    </div>
+    <div class="controls w-40">
+      <label class="labels" for="straighten">Straighten</label>
+      <div class="controls-divs">
+        <div class="texts cursor-pointer">-45</div>
+        <input
+          class="w-100"
+          type="range"
+          min="-45"
+          max="45"
+          step="1"
+          [(ngModel)]="straighten"
+          style="accent-color: #172b4d"
+        />
+        <div class="texts cursor-pointer">+45</div>
+      </div>
+    </div>
+    <div class="controls w-20 text-center">
+      <button class="rotate-btn" (click)="rotateLeft()">
+        <img
+          class="img-fluid"
+          width="38"
+          src="assets/images/rotate-left.png"
+          alt="rotate-left"
+        />
+      </button>
+      <button class="rotate-btn" (click)="rotateRight()">
+        <img
+          class="img-fluid"
+          width="38"
+          src="assets/images/rotate-right.png"
+          alt="rotate-left"
+        />
+      </button>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-content
+  class="p-4 text-center custom-bg-1"
+  *ngIf="data?.isViewBrandLogo"
+>
+  <img
+    [src]="data?.logoUrl"
+    class="align-center"
+    *ngIf="data?.isViewBrandLogo"
+    alt=""
+  />
+</mat-dialog-content>
+<div class="customdrop-foot text-right" mat-dialog-actions>
+  <button class="btn btn-edit mr-2" type="button">
+    <input
+      type="file"
+      (change)="onSelectFile($event)"
+      accept="image/*"
+      class="file-input"
+      name=""
+      id=""
+    />
+    <img
+      class="img-fluid align-middle"
+      src="assets/images/re-fresh.svg"
+      alt="re-fresh"
+      width="22"
+    />
+    Change
+  </button>
+  <button
+    class="btn btn-edit mr-2"
+    (click)="deleteImage()"
+    *ngIf="data?.isViewBrandLogo"
+    type="button"
+  >
+    <img
+      class="img-fluid mr-1 align-middle"
+      src="assets/images/trash-review.png"
+      alt="trash-review"
+      width="22"
+    />
+    Delete
+  </button>
+  <button
+    class="btn btn-edit mr-2"
+    *ngIf="data?.isViewBrandLogo"
+    (click)="editDialog()"
+    type="button"
+  >
+    <img
+      class="img-fluid mr-1 align-middle"
+      src="assets/images/edit-icon.png"
+      alt="edit-icon"
+      width="23"
+    />
+    Edit
+  </button>
+  <button
+    class="btn btn-cancel mr-2"
+    type="button"
+    *ngIf="!data?.isViewBrandLogo"
+    [mat-dialog-close]="false"
+  >
+    Cancel
+  </button>
+  <button
+    class="btn btn-save"
+    *ngIf="!data?.isViewBrandLogo"
+    type="button"
+    (click)="saveImage()"
+  >
+    Save photo
+  </button>
+</div>
+<app-loader></app-loader>

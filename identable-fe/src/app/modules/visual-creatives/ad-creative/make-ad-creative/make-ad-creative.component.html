@@ -1,0 +1,620 @@
+<!-- Load Header -->
+<app-top-header
+  [isAllowSchedule]="false"
+  [isAdCreative]="true"
+  [carouselName]="title"
+  [carouselIdea]="adCreativeIdea"
+  [adCreativeHtml]="creativeHtml"
+  [templateSetting]="templateSetting"
+  [carouselId]="adCreativeId"
+></app-top-header>
+
+<!-- Load Sidebar -->
+<app-sidebar (controlSelected)="onMenuSelected($event)"></app-sidebar>
+
+<div class="ide-editor-main" clsssss="ide-closebar">
+  <div class="ide-editor-list">
+    <div class="close-btn">close</div>
+    <app-layers-control
+      *ngIf="selectedControl === 'Layers'"
+      [isAdcreative]="true"
+      (toggleImage)="handleToggleImage($event)"
+      (toggleSubTitle)="handleToggleSubTitle($event)"
+      (toggleTitle)="handleToggleTitle($event)"
+      (toggleDescription)="handleToggleDescription($event)"
+      (toggleCTA)="handleCTA($event)"
+    ></app-layers-control>
+
+    <app-choice-ad-creative-templates *ngIf="selectedControl === 'Templates'">
+    </app-choice-ad-creative-templates>
+
+    <app-ad-creative-design-layout
+      [imageGeneratedType]="currentTemplate?.content?.imageGeneratedType"
+      [contentImage]="currentTemplate?.content?.contentImage"
+      (onchangeBackground)="handleBackground($event)"
+      (onSelectDesignLayout)="setDesignLayout($event)"
+      (onchangeActionBtnText)="handleActionBtnText($event)"
+      (onChangeLogoBg)="handleLogoBgColor($event)"
+      (onLogoBgOpacity)="handleLogoBgOpacity($event)"
+      (onChangeLogoImage)="toHandleLogoImage($event)"
+      *ngIf="selectedControl === 'Design'"
+    ></app-ad-creative-design-layout>
+    <app-text-setting
+      *ngIf="selectedControl === 'Text'"
+      (changeFontPair)="handleFontPair($event)"
+      (changeTitleFont)="handleTitleFont($event)"
+      (changeDescriptionFont)="handleDescriptionFont($event)"
+      (changeTitleFontSize)="handleTitleFontSize($event)"
+      (changeDescriptionFontSize)="handleDescriptionFontSize($event)"
+    >
+    </app-text-setting>
+    <app-color-setting
+      *ngIf="selectedControl === 'Colors'"
+      (changeColorSetting)="handleChangeColorSetting($event)"
+    ></app-color-setting>
+  </div>
+  <div class="ide-editor-content">
+    <div class="ide-top-editor">
+      <button
+        type="button"
+        (click)="reGenerateTopic()"
+        class="btn btn-regenerate mr-1"
+      >
+        <img
+          src="assets/images/carousels-v2/re-fresh.svg"
+          alt="re-fresh"
+          width="22"
+        />
+        Regenerate Content
+      </button>
+      <button type="button" class="btn btn-emoji">
+        <img
+          src="assets/images/carousels-v2/editor-emoji.svg"
+          alt="editor-emoji"
+          width="22"
+        />
+        Add Emoji’s
+      </button>
+      <div class="editor-icons-list ml-auto">
+        <img
+          class="img-fluid select-icon"
+          width="24"
+          src="assets/images/carousels-v2/editor-icons-1.png"
+          alt="editor-icons"
+          id="color-picker-button"
+          matTooltip="Text Color"
+          matTooltipPosition="above"
+        />
+        <img
+          class="img-fluid"
+          width="24"
+          src="assets/images/carousels-v2/editor-icons-2.png"
+          alt="editor-icons"
+          id="btn-bold"
+          matTooltip="Bold"
+          matTooltipPosition="above"
+        />
+        <img
+          class="img-fluid"
+          width="24"
+          src="assets/images/carousels-v2/editor-icons-3.png"
+          alt="editor-icons"
+          id="btn-italic"
+          matTooltip="Italic"
+          matTooltipPosition="above"
+        />
+        <img
+          class="img-fluid"
+          width="24"
+          src="assets/images/carousels-v2/editor-icons-4.png"
+          alt="editor-icons"
+          matTooltip="Underline"
+          matTooltipPosition="above"
+        />
+      </div>
+      <div class="editor-icons-list border-right border-left">
+        <img
+          class="img-fluid"
+          width="24"
+          src="assets/images/carousels-v2/editor-icons-5.png"
+          alt="editor-icons"
+          matTooltip="justify Left"
+          matTooltipPosition="above"
+        />
+        <img
+          class="img-fluid"
+          width="24"
+          src="assets/images/carousels-v2/editor-icons-6.png"
+          alt="editor-icons"
+          matTooltip="justify Center"
+          matTooltipPosition="above"
+        />
+        <img
+          class="img-fluid"
+          width="24"
+          src="assets/images/carousels-v2/editor-icons-7.png"
+          alt="editor-icons"
+          matTooltip="justify Right"
+          matTooltipPosition="above"
+        />
+        <img
+          class="img-fluid"
+          width="24"
+          src="assets/images/carousels-v2/editor-icons-8.png"
+          alt="editor-icons"
+          matTooltip="Unordered List"
+          matTooltipPosition="above"
+        />
+        <img
+          class="img-fluid"
+          width="24"
+          src="assets/images/carousels-v2/editor-icons-9.png"
+          alt="editor-icons"
+          matTooltip="Ordered List"
+          matTooltipPosition="above"
+        />
+      </div>
+        
+      <div class="editor-icons-list">
+        <img
+          class="img-fluid"
+          width="24"
+          src="assets/images/carousels-v2/editor-icons-10.png"
+          alt="editor-icons"
+          matTooltip="Small"
+          matTooltipPosition="above"
+        />
+        <img
+          class="img-fluid"
+          width="24"
+          src="assets/images/carousels-v2/editor-icons-11.png"
+          alt="editor-icons"
+          matTooltip="Medium"
+          matTooltipPosition="above"
+        />
+        <img
+          class="img-fluid"
+          width="24"
+          src="assets/images/carousels-v2/editor-icons-12.png"
+          alt="editor-icons"
+          matTooltip="Large"
+          matTooltipPosition="above"
+        />
+      </div>
+    </div>
+
+    <div class="ide-add-editor">
+      <!-- Square Ad  -->
+
+      <div
+        *ngIf="
+          currentTemplate?.type === 'Square Ad (Instagram/Facebook)' &&
+          (currentTemplate?.layout === 'square-top-left-layout' ||
+            currentTemplate?.layout === 'square-top-right-layout')
+        "
+        class="ad-square-main-1"
+        [class.ad-square-main-1-left]="
+          currentTemplate?.layout === 'square-top-right-layout'
+        "
+        [ngStyle]="{
+          background:
+            'linear-gradient(135deg, ' +
+            currentTemplate?.backgroundColor +
+            ', ' +
+            currentTemplate?.subBackgroundColor +
+            ')'
+        }"
+      >
+        <div class="image-container" [style.border-color]="currentTemplate?.subColor">
+          <canvas [id]="'myCanvas_' + currentTemplate?.templateId" class="canvas-container"></canvas>
+        </div>
+
+        <!-- <div
+          class="image-container"
+          [style.background-color]="currentTemplate?.subColor"
+        >
+          <app-creative-image-editor
+            [imageSrc]="
+              currentTemplate?.content?.contentImage ||
+              'assets/images/demoimg-1.jpg'
+            "
+            [containerStyles]="{
+              width: currentTemplate?.imageWidth || '100%',
+              height: currentTemplate?.imageHeight || '100%',
+              left: currentTemplate?.imagePositionX || 0,
+              top: currentTemplate?.imagePositionY || 0
+            }"
+          ></app-creative-image-editor>
+        </div> -->
+
+        <!-- <div
+          class="image-container"
+          [style.background-color]="currentTemplate?.subColor"
+        >
+          <img
+            [src]="
+              currentTemplate?.content?.contentImage
+                ? currentTemplate?.content?.contentImage
+                : 'assets/images/demoimg-1.jpg'
+            "
+            alt="Ad Image"
+            class="round-image"
+          />
+        </div> -->
+
+        <div
+          class="ad-logo-div"
+          [style.background-color]="currentTemplate?.logoBackgroundColor"
+          [style.opacity]="currentTemplate?.logoBackgroundOpacity"
+        >
+          <img
+            [src]="currentTemplate?.logoUrl"
+            alt="logo"
+            class="img-fluid"
+            width="25"
+          />
+        </div>
+        <div class="text-container">
+          <div
+            class="text1"
+            *ngIf="currentTemplate?.showTitle"
+            [ngStyle]="{
+              'font-family': currentTemplate?.titlefont,
+              'font-size': currentTemplate?.TitlefontSize,
+              color: currentTemplate?.textColor
+            }"
+            appMediumEditor
+            [editorConfig]="editorConfig"
+            [innerHTML]="currentTemplate?.content?.title"
+          ></div>
+
+          <div
+            class="text2"
+            *ngIf="currentTemplate?.showDescription"
+            [ngStyle]="{
+              'font-family': currentTemplate?.descriptionFont,
+              'font-size': currentTemplate?.descriptionFontSize,
+              color: currentTemplate?.textColor
+            }"
+            appMediumEditor
+            [editorConfig]="editorConfig"
+            [innerHTML]="currentTemplate?.content?.description"
+          ></div>
+          <button
+            class="cta-button"
+            *ngIf="currentTemplate?.showCTA"
+            [ngStyle]="{
+              'font-family': currentTemplate?.descriptionFont,
+              'font-size': currentTemplate?.descriptionFontSize,
+              color: currentTemplate?.backgroundColor,
+              'background-color': currentTemplate?.textColor
+            }"
+          >
+            {{ currentTemplate?.actionBtnText }}
+          </button>
+        </div>
+      </div>
+
+      <div
+        class="ad-square-main-2"
+        *ngIf="
+          currentTemplate?.type === 'Square Ad (Instagram/Facebook)' &&
+          (currentTemplate?.layout === 'square-bottom-left-layout' ||
+            currentTemplate?.layout === 'square-bottom-right-layout')
+        "
+        [class.ad-square-main-2-left]="
+          currentTemplate?.layout === 'square-bottom-right-layout'
+        "
+        [ngStyle]="{
+          background:
+            'linear-gradient(135deg, ' +
+            currentTemplate?.backgroundColor +
+            ', ' +
+            currentTemplate?.subBackgroundColor +
+            ')'
+        }"
+      >
+        <div
+          class="ad-logo-div"
+          [style.background-color]="currentTemplate?.logoBackgroundColor"
+          [style.opacity]="currentTemplate?.logoBackgroundOpacity"
+        >
+          <img
+            [src]="currentTemplate?.logoUrl"
+            alt="logo"
+            class="img-fluid"
+            width="25"
+          />
+        </div>
+
+        <div class="text-container">
+          <div
+            class="text1"
+            *ngIf="currentTemplate?.showTitle"
+            [ngStyle]="{
+              'font-family': currentTemplate?.titlefont,
+              'font-size': currentTemplate?.TitlefontSize,
+              color: currentTemplate?.textColor
+            }"
+            appMediumEditor
+            [editorConfig]="editorConfig"
+            [innerHTML]="currentTemplate?.content?.title"
+          ></div>
+
+          <div
+            class="text2"
+            *ngIf="currentTemplate?.showDescription"
+            [ngStyle]="{
+              'font-family': currentTemplate?.descriptionFont,
+              'font-size': currentTemplate?.descriptionFontSize,
+              color: currentTemplate?.textColor
+            }"
+            appMediumEditor
+            [editorConfig]="editorConfig"
+            [innerHTML]="currentTemplate?.content?.description"
+          ></div>
+
+          <div class="d-inline-block w-100">
+            <button
+              class="cta-button"
+              *ngIf="currentTemplate?.showCTA"
+              [ngStyle]="{
+                'font-family': currentTemplate?.descriptionFont,
+                'font-size': currentTemplate?.descriptionFontSize,
+                color: currentTemplate?.backgroundColor,
+                'background-color': currentTemplate?.textColor
+              }"
+            >
+              {{ currentTemplate?.actionBtnText }}
+            </button>
+          </div>
+        </div>
+
+        <div class="image-container" [style.border-color]="currentTemplate?.subColor">
+          <canvas [id]="'myCanvas_' + currentTemplate?.templateId" class="canvas-container"></canvas>
+        </div>
+
+        <!-- <div
+          class="image-container"
+          [style.background-color]="currentTemplate?.subColor"
+        >
+          <img
+            [src]="
+              currentTemplate?.content?.contentImage
+                ? currentTemplate?.content?.contentImage
+                : 'assets/images/demoimg-1.jpg'
+            "
+            alt="Ad Image"
+            class="round-image"
+          />
+        </div> -->
+      </div>
+
+      <!-- Facebook Story Ad  -->
+
+      <div
+        #adCreative
+        class="ad-story-main-1"
+        *ngIf="
+          currentTemplate?.type === 'Instagram/Facebook Story Ad' &&
+          (currentTemplate?.layout === 'stroy-square-line-bottom-layout' ||
+            currentTemplate?.layout === 'stroy-round-line-top-layout' ||
+            currentTemplate?.layout === 'stroy-round-line-bottom-layout')
+        "
+        [class.ad-story-main-fb-1]="
+          currentTemplate?.layout === 'stroy-round-line-top-layout'
+        "
+        [ngStyle]="{
+          background:
+            'linear-gradient(135deg, ' +
+            currentTemplate?.backgroundColor +
+            ', ' +
+            currentTemplate?.subBackgroundColor +
+            ')'
+        }"
+      >
+        <div
+          class="ad-logo-div"
+          [style.background-color]="currentTemplate?.logoBackgroundColor"
+          [style.opacity]="currentTemplate?.logoBackgroundOpacity"
+        >
+          <img
+            [src]="currentTemplate?.logoUrl"
+            alt="logo"
+            class="img-fluid"
+            width="25"
+          />
+        </div>
+
+        <div class="image-container">
+          <canvas [id]="'myCanvas_' + currentTemplate?.templateId" class="canvas-container"></canvas>
+        </div>
+
+        <!-- <div
+          class="image-container"
+          [style.background-color]="currentTemplate?.subColor"
+        >
+          <img
+            [src]="
+              currentTemplate?.content?.contentImage
+                ? currentTemplate?.content?.contentImage
+                : 'assets/images/demoimg-1.jpg'
+            "
+            alt="Ad Image"
+            class="round-image"
+          />
+        </div> -->
+
+        <div class="text-container">
+          <div
+            class="text1"
+            *ngIf="currentTemplate?.showTitle"
+            [ngStyle]="{
+              'font-family': currentTemplate?.titlefont,
+              'font-size': currentTemplate?.TitlefontSize,
+              color: currentTemplate?.textColor
+            }"
+            appMediumEditor
+            [editorConfig]="editorConfig"
+            [innerHTML]="currentTemplate?.content?.title"
+          ></div>
+
+          <div
+            class="text2"
+            *ngIf="currentTemplate?.showDescription"
+            [ngStyle]="{
+              'font-family': currentTemplate?.descriptionFont,
+              'font-size': currentTemplate?.descriptionFontSize,
+              color: currentTemplate?.textColor
+            }"
+            appMediumEditor
+            [editorConfig]="editorConfig"
+            [innerHTML]="currentTemplate?.content?.description"
+          ></div>
+
+          <div class="d-inline-block w-100">
+            <button
+              class="cta-button"
+              *ngIf="currentTemplate?.showCTA"
+              [ngStyle]="{
+                'font-family': currentTemplate?.descriptionFont,
+                'font-size': currentTemplate?.descriptionFontSize,
+                color: currentTemplate?.backgroundColor,
+                'background-color': currentTemplate?.textColor
+              }"
+            >
+              {{ currentTemplate?.actionBtnText }}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div
+        #adCreative
+        class="ad-post-main-1"
+        *ngIf="
+          currentTemplate?.type === 'Instagram Post' &&
+          (currentTemplate?.layout === 'post-semi-sqaure-bottom-layout' ||
+            currentTemplate?.layout === 'post-semi-sqaure-top-layout')
+        "
+        [class.ad-post-main-fb-1]="
+          currentTemplate?.layout === 'post-semi-sqaure-top-layout'
+        "
+        [ngStyle]="{
+          background:
+            'linear-gradient(135deg, ' +
+            currentTemplate?.backgroundColor +
+            ', ' +
+            currentTemplate?.subBackgroundColor +
+            ')'
+        }"
+      >
+        <div
+          class="ad-logo-div"
+          [style.background-color]="currentTemplate?.logoBackgroundColor"
+          [style.opacity]="currentTemplate?.logoBackgroundOpacity"
+        >
+          <img
+            [src]="currentTemplate?.logoUrl"
+            alt="logo"
+            class="img-fluid"
+            width="25"
+          />
+        </div>
+
+        <div class="image-container">
+          <canvas [id]="'myCanvas_' + currentTemplate?.templateId" class="canvas-container"></canvas>
+        </div>
+
+        <!-- <div
+          class="image-container"
+          [style.background-color]="currentTemplate?.subColor"
+        >
+          <img
+            [src]="
+              currentTemplate?.content?.contentImage
+                ? currentTemplate?.content?.contentImage
+                : 'assets/images/demoimg-1.jpg'
+            "
+            alt="Ad Image"
+            class="round-image"
+          />
+        </div> -->
+
+        <div class="text-container">
+          <div
+            class="text1"
+            *ngIf="currentTemplate?.showTitle"
+            [ngStyle]="{
+              'font-family': currentTemplate?.titlefont,
+              'font-size': currentTemplate?.TitlefontSize,
+              color: currentTemplate?.textColor
+            }"
+            appMediumEditor
+            [editorConfig]="editorConfig"
+            [innerHTML]="currentTemplate?.content?.title"
+          ></div>
+          <div
+            class="text2"
+            *ngIf="currentTemplate?.showDescription"
+            [ngStyle]="{
+              'font-family': currentTemplate?.descriptionFont,
+              'font-size': currentTemplate?.descriptionFontSize,
+              color: currentTemplate?.textColor
+            }"
+            appMediumEditor
+            [editorConfig]="editorConfig"
+            [innerHTML]="currentTemplate?.content?.description"
+          ></div>
+
+          <div class="d-inline-block w-100">
+            <button
+              class="cta-button"
+              *ngIf="currentTemplate?.showCTA"
+              [ngStyle]="{
+                'font-family': currentTemplate?.descriptionFont,
+                'font-size': currentTemplate?.descriptionFontSize,
+                color: currentTemplate?.backgroundColor,
+                'background-color': currentTemplate?.textColor
+              }"
+            >
+              {{ currentTemplate?.actionBtnText }}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="promt-box-div">
+        <div class="position-relative">
+          <textarea
+            [(ngModel)]="adCreativeIdea"
+            class="form-control"
+            rows="3"
+            placeholder="Type here.."
+          ></textarea>
+          <div class="promt-action">
+            <img
+              (click)="oneIdeaDailog()"
+              class="img-fluid pointer m-1"
+              src="assets/images/carousels-v2/icons-3.png"
+              alt="icons"
+            />
+            <img
+              (click)="reGenerateTopic()"
+              class="img-fluid pointer m-1"
+              src="assets/images/carousels-v2/icons-2.png"
+              alt="icons"
+            />
+            <img
+              (click)="generateAdCreative()"
+              class="img-fluid pointer m-1"
+              src="assets/images/carousels-v2/icons-1.png"
+              alt="icons"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-loader></app-loader>

@@ -1,0 +1,20 @@
+<mat-dialog-content>
+  <div class="w-100 d-inline-block">
+    <h3 class="titles mb-3">Select Date</h3>
+    <p-calendar
+      [icon]="'fa fa-calendar'"
+      placeholder="Date Created"
+      yearRange="2023:2070"
+      [monthNavigator]="true"
+      [yearNavigator]="true"
+      placeholder="YYYY-MM-DD"
+      [inline]="true"
+      [style]="{ width: '300px' }"
+      [(ngModel)]="defaultDate"
+      [minDate]="currentDate"
+    ></p-calendar>
+  </div>
+</mat-dialog-content>
+<div class="p-2 pt-0 text-center">
+  <button type="button" class="btn btn-save" (click)="submit()">Submit</button>
+</div>

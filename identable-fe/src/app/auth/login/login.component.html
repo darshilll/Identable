@@ -1,0 +1,158 @@
+<div class="custom_loader" *ngIf="isLoading">
+  <div class="pulse"></div>
+</div>
+<div class="register_midd">
+  <div class="right_div">
+    <div class="tophead">
+      <a href="/" class="logo">
+        <img
+          class="avatar"
+          src="assets/images/logo/logo.svg"
+          alt="logo"
+          width="160"
+        />
+      </a>
+    </div>
+    <div>
+      <div class="slidediv">
+        <img src="assets/images/slider/login.svg" alt="slide" />
+        <!-- <h4>Intelligent content recommendations</h4> -->
+      </div>
+    </div>
+    <!-- <ngx-slick-carousel
+      class="carousel"
+      #slickModal="slick-carousel"
+      [config]="slideConfig"
+    >
+    
+      <div ngxSlickItem>
+        <div class="slidediv">
+          <img src="assets/images/slider/slide-2.svg" alt="slide" />
+          <h4>Reposting with New Content</h4>
+        </div>
+      </div>
+      <div ngxSlickItem>
+        <div class="slidediv">
+          <img src="assets/images/slider/slide-3.svg" alt="slide" />
+          <h4>Smart Scheduling and Automation</h4>
+        </div>
+      </div>
+    </ngx-slick-carousel> -->
+  </div>
+  <div class="left_div text-center">
+    <div class="formcontent">
+      <h3 class="title-1">Log in to your account</h3>
+      <p class="title-2">Welcome back! Please enter your details.</p>
+
+      <a class="googlebtn" (click)="loginWithlinkedin()">
+        <img
+          class="mr-2"
+          src="assets/images/social/linkedin.png"
+          alt="linkedin"
+          width="20"
+        />
+        Sign In With LinkedIn
+      </a>
+      <div class="ordiv">
+        <span>or</span>
+      </div>
+      <div class="Error" *ngIf="errorMessage">
+        <img
+          class="mr-2"
+          src="assets/images/error.svg"
+          alt="Error"
+          width="17"
+        />
+        <span style="font-size: 14px">{{ errorMessage }}</span>
+      </div>
+      <form [formGroup]="loginForm" class="text-left">
+        <div class="form-group">
+          <label>Email <span style="color: red">*</span></label>
+          <input
+            type="email"
+            formControlName="email"
+            class="form-control"
+            placeholder="Enter your email"
+          />
+          <div
+            class="invalid-feedback d-block"
+            *ngIf="
+              (email?.dirty || email?.touched) && email?.hasError('pattern')
+            "
+          >
+            Please enter a valid email address.
+          </div>
+          <div
+            class="invalid-feedback d-block"
+            *ngIf="
+              (email?.dirty || email?.touched || isSubmitted) &&
+              email?.hasError('required')
+            "
+          >
+            Enter your email
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Password <span style="color: red">*</span></label>
+          <div class="password-div">
+            <input
+              [type]="showPassword ? 'text' : 'password'"
+              formControlName="password"
+              class="form-control"
+              placeholder="Enter your password"
+            />
+            <i
+              [ngClass]="showPassword ? 'fa-eye' : 'fa-eye-slash'"
+              (click)="togglePasswordVisibility()"
+              class="fa pointer"
+            ></i>
+          </div>
+          <div
+            class="invalid-feedback d-block"
+            *ngIf="
+              (password?.dirty || password?.touched || isSubmitted) &&
+              password?.hasError('required')
+            "
+          >
+            Creata a password
+          </div>
+          <a class="link" routerLink="/auth/forgot-password">Forgot password</a>
+        </div>
+        <div class="remember-check mb-0">
+          <!-- <div class="custom-control custom-checkbox">
+            <input
+              type="checkbox"
+              class="custom-control-input"
+              id="customCheck1"
+            />
+            <label class="custom-control-label" for="customCheck1"
+              >Remember for 7 days</label
+            >
+          </div> -->
+          <!-- <a class="link" routerLink="/auth/forgot-password">Forgot password</a> -->
+        </div>
+        <button
+          type="submit"
+          (click)="onSubmit()"
+          class="btn btn-block btn-submit"
+        >
+          Get Started
+        </button>
+        <div class="bottomtxt-1">
+          Don’t have an account ? <a routerLink="/auth/signup">Signup</a>
+        </div>
+        <div class="bottomtxt-2">
+          This site is protected by reCAPTCHA and the Linkedin
+          <a href="https://www.identable.io/privacy-policy" target="_blank"
+            >Privacy Policy</a
+          >
+          and
+          <a href="https://www.identable.io/terms-of-service" target="_blank"
+            >Terms of Service</a
+          >
+          apply.
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

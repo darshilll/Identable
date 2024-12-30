@@ -1,0 +1,312 @@
+<div class="clg-top-title">
+  <div class="leftside">
+    <h2>Explanatory Video</h2>
+    <p>
+      Easily create videos that explain your ideas and engage your audience.
+    </p>
+  </div>
+</div>
+
+<div class="ide-article-setup-div">
+  <div class="created-progress">
+    <div class="insidebar" style="width: 20%"></div>
+  </div>
+
+  <form [formGroup]="videoForm" method="post" class="w-100" novalidate>
+    <div class="article-boxs" *ngIf="step === 1">
+      <div class="article-scrool">
+        <div class="label-title mb-2 w-100 text-center">
+          Create Video with
+          <img
+            src="assets/images/help-icon.svg"
+            alt="help-icon"
+            matTooltip="Create Video with"
+            matTooltipPosition="above"
+          />
+        </div>
+        <div class="mb-3 w-100 text-center">
+          <img
+            class="img-fluid m-2 pointer"
+            [class.select-img]="genratedType === 'withIdea'"
+            src="assets/images/video-with-1.png"
+            alt="video-with"
+            width="170"
+            (click)="choiceGenratedType('withIdea')"
+          />
+          <img
+            class="img-fluid m-2 pointer"
+            [class.select-img]="genratedType === 'withUrl'"
+            src="assets/images/video-with-2.png"
+            alt="video-with"
+            width="170"
+            (click)="choiceGenratedType('withUrl')"
+          />
+        </div>
+
+        <div class="mb-4" *ngIf="genratedType === 'withIdea'">
+          <div class="label-title mb-2 w-100">
+            Video Idea
+            <img
+              src="assets/images/help-icon.svg"
+              alt="help-icon"
+              matTooltip="Video Idea"
+              matTooltipPosition="above"
+            />
+          </div>
+          <div class="idea-box">
+            <textarea
+              rows="3"
+              formControlName="idea"
+              placeholder="Describe your video idea..."
+              class="form-control"
+            ></textarea>
+            <div class="promt-action">
+              <img
+                src="assets/images/carousels-v2/icons-3.png"
+                alt="icons"
+                class="img-fluid pointer m-1"
+                (click)="oneIdeaDailog()"
+              /><!-- <img
+                src="assets/images/generate.png"
+                alt="generate"
+                class="img-fluid pointer m-1"
+              /> -->
+            </div>
+          </div>
+          <div
+            class="invalid-feedback d-block"
+            *ngIf="submitted && hasError('idea', 'required')"
+          >
+            Please enter a valid idea.
+          </div>
+        </div>
+
+        <div class="mb-4" *ngIf="genratedType === 'withUrl'">
+          <div class="label-title mb-2 w-100">
+            Source url
+            <img
+              src="assets/images/help-icon.svg"
+              alt="help-icon"
+              matTooltip="Source url"
+              matTooltipPosition="above"
+            />
+          </div>
+          <div class="idea-box">
+            <textarea
+              rows="3"
+              formControlName="url"
+              placeholder="Paste the source URL here"
+              class="form-control"
+            ></textarea>
+          </div>
+          <div
+            class="invalid-feedback d-block"
+            *ngIf="
+              submitted &&
+              !hasError('url', 'required') &&
+              hasError('url', 'invalidUrl')
+            "
+          >
+            Please enter a valid URL.
+          </div>
+          <div
+            class="invalid-feedback d-block"
+            *ngIf="submitted && hasError('url', 'required')"
+          >
+            Please enter a source URL.
+          </div>
+        </div>
+      </div>
+      <div class="article-btnlist">
+        <button
+          type="button"
+          class="btn btn-back"
+          routerLink="/explanatory-video"
+        >
+          Back
+        </button>
+        <button
+          type="button"
+          class="btn btn-next"
+          (click)="validateAndContinue()"
+        >
+          Continue
+        </button>
+      </div>
+    </div>
+
+    <div class="article-boxs" *ngIf="step === 2">
+      <div class="article-scrool">
+        <div class="label-title mb-3 w-100">
+          Video Settings
+          <img
+            src="assets/images/help-icon.svg"
+            alt="help-icon"
+            matTooltip="Video Settings"
+            matTooltipPosition="above"
+          />
+        </div>
+        <div class="row mb-2">
+          <div class="col-12 col-lg-6 mb-3">
+            <div class="label-title-sub mb-1">
+              Video Aspect Ratio
+              <img
+                src="assets/images/help-icon.svg"
+                alt="help-icon"
+                matTooltip="Video Aspect Ratio"
+                matTooltipPosition="above"
+              />
+            </div>
+            <select class="form-control custom-input-1" formControlName="ratio">
+              <option *ngFor="let item of videoRatioList" [value]="item?.value">
+                {{ item?.label }}
+              </option>
+            </select>
+          </div>
+          <div class="col-12 col-lg-6 mb-3">
+            <div class="label-title-sub mb-1">
+              Video Illustration Style
+              <img
+                src="assets/images/help-icon.svg"
+                alt="help-icon"
+                matTooltip="Video Illustration Style"
+                matTooltipPosition="above"
+              />
+            </div>
+
+            <div class="position-relative custom_arrow">
+              <input
+                placeholder="Select video collection"
+                type="text"
+                class="form-control custom-input-1"
+                formControlName="collection"
+                (click)="videoImageStyleDailog()"
+                readonly
+              />
+              <i class="fa fa-chevron-down" aria-hidden="true"></i>
+            </div>
+
+            <div
+              class="invalid-feedback d-block"
+              *ngIf="submitGenrated && hasError('collection', 'required')"
+            >
+              Please select any video voice.
+            </div>
+          </div>
+          <div class="col-12 col-lg-6 mb-3">
+            <div class="label-title-sub mb-1">
+              Video Voice
+              <img
+                src="assets/images/help-icon.svg"
+                alt="help-icon"
+                matTooltip="Video Voice"
+                matTooltipPosition="above"
+              />
+            </div>
+
+            <div class="position-relative custom_arrow">
+              <input
+                placeholder="Select video voice"
+                type="text"
+                class="form-control custom-input-1"
+                [value]="selectedVideoVoiceName"
+                formControlName="voice"
+                (click)="openVideoVoiceList()"
+                readonly
+              />
+              <i class="fa fa-chevron-down" aria-hidden="true"></i>
+            </div>
+
+            <audio
+              controls
+              class="form-control mb-2 mt-2"
+              *ngIf="selectedVideoVoice"
+            >
+              <source [src]="selectedVideoVoice?.audioUrl" type="audio/mpeg" />
+            </audio>
+            <div
+              class="invalid-feedback d-block"
+              *ngIf="submitGenrated && hasError('voice', 'required')"
+            >
+              Please select any video voice.
+            </div>
+          </div>
+          <div class="col-12 col-lg-6 mb-3">
+            <div class="label-title-sub mb-1">
+              Video Length / Duration
+              <img
+                src="assets/images/help-icon.svg"
+                alt="help-icon"
+                matTooltip="Video Length / Duration"
+                matTooltipPosition="above"
+              />
+            </div>
+            <select class="form-control custom-input-1" formControlName="length">
+              <option *ngFor="let item of videoLengthList" [value]="item?.value">
+                {{ item?.label }}
+              </option>
+            </select>
+          </div>
+          <div class="col-12 col-lg-6 mb-3">
+            <div class="switch-title mb-2">
+              <div class="text1">
+                Color
+                <img
+                  src="assets/images/help-icon.svg"
+                  alt="help-icon"
+                  matTooltip="Color"
+                  matTooltipPosition="above"
+                />
+              </div>
+              <label class="switch mx-2">
+                <input type="checkbox" (change)="switchOnBrandkit($event)" />
+                <span class="slider"></span>
+              </label>
+              <div class="text2">(choose from the brand kit)</div>
+            </div>
+            <div class="coloues-box">
+              <div class="lists text-center">
+                <label
+                  class="boxs pointer"
+                  [style.background-color]="videoBgColor"
+                >
+                  <!-- <img
+                    width="22"
+                    src="assets/images/close-2.png"
+                    alt="close"
+                    class="ide-close pointer"
+                  /> -->
+                  <input
+                    type="color"
+                    formControlName="color"
+                    (input)="onColorChange($event)"
+                    [(ngModel)]="videoBgColor"
+                    [ngModel]="applyBrandKit ? null : videoBgColor"
+                    [disabled]="applyBrandKit"
+                  /><span>+</span>
+                </label>
+                <div class="text2" *ngIf="videoBgColor">{{ videoBgColor }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="article-btnlist">
+        <button type="button" class="btn btn-back" (click)="goBack()">
+          Back
+        </button>
+        <button type="button" class="btn btn-next" (click)="generatingVideo()">
+          Generate Video
+          <span
+            [matTooltip]="creditMessage"
+            class="credit-div"
+            matTooltipPosition="above"
+            ><i class="fa fa-cubes" aria-hidden="true"></i
+            >{{ creditDeducated }}</span
+          >
+        </button>
+      </div>
+    </div>
+  </form>
+</div>
+<app-loader></app-loader>

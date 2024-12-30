@@ -1,0 +1,36 @@
+<div class="popbox">
+  <h4 class="pop-title">Post Boosting</h4>
+  <div class="w-100 d-inline-block postedwith">
+    <div class="w-100 d-inline-block minpost">
+      <div class="boostlist">
+        <div
+          class="boostype"
+          [class.selected]="i == boosTypeIndex"
+          *ngFor="let boost of boostType; let i = index"
+          (click)="selectBootType(boost, i)"
+        >
+          <div class="boost">
+            <span class="txt1">{{ boost?.likes }}</span>
+            <span class="txt2">Likes</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p class="warning-msg">
+      <b>Warning : </b> This feature is irreversible once enabled. Use with
+      caution.
+    </p>
+  </div>
+</div>
+<div class="btnlistdiv">
+  <button type="button" class="btn btn-can" (click)="Cancel()">Cancel</button>
+  <button type="button" class="btn btn-saves" (click)="postBoostingActive()">
+    Active
+    <span
+      [matTooltip]="creditMessage"
+      class="credit-div"
+      matTooltipPosition="above"
+      ><i class="fa fa-cubes" aria-hidden="true"></i>{{ creditDeducated }}</span
+    >
+  </button>
+</div>

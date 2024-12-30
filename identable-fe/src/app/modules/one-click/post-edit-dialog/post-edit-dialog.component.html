@@ -1,0 +1,141 @@
+<mat-dialog-content>
+  <h3 class="titles mb-3">Edit Content</h3>
+  <div class="main-div">
+    <div class="form-group">
+      <label for="" class="labels">Select type of content</label>
+      <select
+        name=""
+        [(ngModel)]="generatedType"
+        (change)="selectGeneratedType($event)"
+        class="form-control"
+      >
+        <option value="inspireMe" class="text-capitalize">Inspire Me</option>
+        <option value="trendingNews" class="text-capitalize">
+          Trending News
+        </option>
+        <option value="carousel" class="text-capitalize">Carousel</option>
+        <option value="aivideo" class="text-capitalize">Ai Video</option>
+        <option value="article" class="text-capitalize">Article</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="" class="labels">Sub topic</label>
+      <textarea
+        class="form-control"
+        rows="4"
+        [(ngModel)]="subTopic"
+        placeholder="Maximizing Impact: The Role of Visual Content in Personal Branding"
+      ></textarea>
+      <div class="invalid-feedback d-block" *ngIf="isSubmitted && !subTopic">
+        Please enter valid sub topic.
+      </div>
+    </div>
+    <div class="switch-title mb-2">
+      <div class="text1">Date & time</div>
+      <label class="switch mx-2">
+        <input
+          [ngModel]="isAutoDateandTime"
+          (change)="isCheckAutoDateandTime($event)"
+          type="checkbox"
+        />
+        <span class="slider"></span>
+      </label>
+      <div class="text2">(Auto)</div>
+    </div>
+    <div class="row" *ngIf="!isAutoDateandTime">
+      <div class="col-12 col-xl-6">
+        <div class="form-group">
+          <label for="" class="labels">Date</label>
+          <button class="form-control text-left" (click)="openDateDialog()">
+            {{ date | date : "MMM d, y" }}
+          </button>
+          <!-- <div class="date-card" *ngIf="isOpenDateDialog">
+            <app-date-dialog [existsDate]="date"></app-date-dialog>
+          </div> -->
+        </div>
+      </div>
+      <div class="col-12 col-xl-6">
+        <div class="form-group">
+          <label for="" class="labels">Time</label>
+          <button class="form-control text-left" (click)="openTimeDialog()">
+            {{ timeSlot }}
+          </button>
+          <!-- <div class="date-card" *ngIf="isOpenTimeDialog">
+            <app-time-dialog
+              [existsSlot]="timeSlot"
+              [existsPeriod]="timePeriod"
+              [existsDate]="date"
+            ></app-time-dialog>
+          </div> -->
+        </div>
+      </div>
+    </div>
+    <div class="switch-title mb-2 mt-4">
+      <div class="text1">A & B Version</div>
+      <label class="switch mx-2">
+        <input type="checkbox" [(ngModel)]="isAbVersion" />
+        <span class="slider"></span>
+      </label>
+    </div>
+    <div class="row" *ngIf="isAbVersion">
+      <div class="col-12 col-xl-6">
+        <div class="custom-group mb-2">
+          <label for="">Version A theme</label>
+          <select
+            (change)="onSelectVersionA($event)"
+            [(ngModel)]="themeVersionA"
+            class="form-control mt-1"
+          >
+            <option value="" chek>Select version A theme</option>
+            <option
+              *ngFor="let item of versionAList"
+              [disabled]="item?.isReadOnly"
+              [value]="item?.item"
+            >
+              {{ item?.item }}
+            </option>
+          </select>
+          <div
+            class="invalid-feedback d-block"
+            *ngIf="isSubmitted && isAbVersion && !themeVersionA"
+          >
+            Please select any theme.
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-xl-6">
+        <div class="custom-group mb-2">
+          <label for="">Version B theme</label>
+          <select
+            (change)="onSelectVersionB($event)"
+            [(ngModel)]="themeVersionB"
+            class="form-control mt-1"
+          >
+            <option value="" chek>Select version B theme</option>
+            <option
+              *ngFor="let item of versionBList"
+              [value]="item?.item"
+              [disabled]="item?.isReadOnly"
+            >
+              {{ item?.item }}
+            </option>
+          </select>
+          <div
+            class="invalid-feedback d-block"
+            *ngIf="isSubmitted && isAbVersion && !themeVersionB"
+          >
+            Please select any theme.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+<div class="text-right p-2">
+  <button type="button" class="btn btn-cancel" (click)="cancel()">
+    Cancel
+  </button>
+  <button type="button" class="btn btn-save" (click)="save()">
+    Saved Post
+  </button>
+</div>

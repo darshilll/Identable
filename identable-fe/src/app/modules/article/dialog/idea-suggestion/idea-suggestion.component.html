@@ -1,0 +1,37 @@
+<div>
+  <div class="customdrop-head">
+    <h3 class="droptitle">Article Idea</h3>
+    <span class="dropclose" [mat-dialog-close]="false">X</span>
+  </div>
+  <mat-dialog-content>
+    <!-- For KeyWord -->
+    <div>
+      <div class="boxcus">
+        <div class="cust_rad_btn" *ngFor="let item of ideaList">
+          <input
+            type="radio"
+            (click)="selectIdea(item?.idea)"
+            [value]="item?.idea"
+            name="idea"
+          /><label>{{ item?.idea }}</label>
+        </div>
+        <div
+          class="invalid-feedback d-block"
+          *ngIf="isSubmited && !selectedIdea"
+        >
+          Please enter Idea.
+        </div>
+      </div>
+    </div>
+  </mat-dialog-content>
+
+  <div class="customdrop-foot text-center">
+    <button class="btn btn-save mr-2" type="button" (click)="getIdea()">
+      <img width="20" src="assets/images/star-two-white.svg" alt="star" />
+      Regenerate
+    </button>
+    <button class="btn btn-save" type="button" (click)="submit()">
+      Submit
+    </button>
+  </div>
+</div>

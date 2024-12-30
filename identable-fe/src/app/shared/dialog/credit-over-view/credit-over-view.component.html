@@ -1,0 +1,76 @@
+<div class="customdrop-head">
+  <h3 class="droptitle">Credit overview</h3>
+  <span class="dropclose" [mat-dialog-close]="false">X</span>
+</div>
+<mat-dialog-content>
+  <div class="table-responsive">
+    <table class="table table-sm table-bordered mb-0">
+      <colgroup>
+        <col width="60%" />
+        <col width="40%" />
+      </colgroup>
+      <thead>
+        <th class="">Features</th>
+        <th class="text-center">Credit</th>
+      </thead>
+      <tbody>
+        <tr>
+          <th class="">AI Video Generate Credit</th>
+          <td class="text-center">{{ creditDetails?.aIVideoCredit }}</td>
+        </tr>
+        <tr>
+          <th class="">AI Image Generate Credit</th>
+          <td class="text-center">{{ creditDetails?.aiImageCredit }}</td>
+        </tr>
+        <tr>
+          <th class="">Boosting Credit</th>
+          <td class="text-center">{{ creditDetails?.boostingCredit }}</td>
+        </tr>
+        <tr>
+          <th class="">Advanced Schedule Credit</th>
+          <td class="text-center">
+            {{ creditDetails?.advancedScheduleCredit }}
+          </td>
+        </tr>
+        <tr>
+          <th class="">Discover Email Credit</th>
+          <td class="text-center">{{ creditDetails?.discoverEmailCredit }}</td>
+        </tr>
+        <tr>
+          <th class="">Carousel Credit</th>
+          <td class="text-center">{{ creditDetails?.carouselCredit }}</td>
+        </tr>
+        <tr>
+          <th class="">Search News Credit</th>
+          <td class="text-center">{{ creditDetails?.searchNewsCredit }}</td>
+        </tr>
+        <tr>
+          <th class="">Article Credit</th>
+          <td class="text-center">{{ creditDetails?.articleCredit }}</td>
+        </tr>
+        <tr>
+          <th class="">Content Analyze Credit</th>
+          <td class="text-center">{{ creditDetails?.contentAnalyzeCredit }}</td>
+        </tr>
+        <tr>
+          <th class="">Content Humanize Credit</th>
+          <td class="text-center">
+            {{ creditDetails?.contentHumanizeCredit }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</mat-dialog-content>
+<div class="customdrop-foot">
+  <div class="foot1">
+    <div class="text1">Your Account Balance</div>
+    <div class="text2">
+      <i class="fa fa-credit-card-alt" aria-hidden="true"></i>
+      {{ credit }} Credit
+    </div>
+  </div>
+  <button class="btn btn-save" (click)="buyCredit()" type="button">
+    Buy Credit
+  </button>
+</div>

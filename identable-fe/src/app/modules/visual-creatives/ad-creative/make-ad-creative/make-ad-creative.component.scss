@@ -1,0 +1,508 @@
+.image-editor {
+  margin-top: 20px;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+button {
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.ide-editor-main {
+  padding: 58px 0 0 70px;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  position: relative;
+  z-index: 2;
+  transition: 0.3s ease-in-out;
+  &.ide-closebar {
+    .ide-editor-list {
+      margin-left: -270px;
+      overflow: hidden;
+    }
+  }
+  .ide-editor-list {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: #fff;
+    width: 270px;
+    position: relative;
+    transition: 0.3s ease-in-out;
+    .close-btn {
+      cursor: pointer;
+      padding: 2px 10px;
+      font-size: 14px;
+      line-height: 1.2;
+      color: #262626;
+      font-weight: 700;
+      transform: rotate(-90deg);
+      transform-origin: right;
+      position: absolute;
+      right: -10px;
+      top: calc(50% - 30px);
+      z-index: 1;
+      background: #fdf5ed;
+      border-radius: 0px 0px 10px 10px;
+    }
+  }
+  .ide-editor-content {
+    display: inline-block;
+    overflow: auto;
+    width: calc(100% - 270px);
+    position: relative;
+    padding: 10px 10px 10px 25px;
+    background-color: #e0e0e0;
+  }
+  .ide-top-editor {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 4px 10px;
+    background: #ffffff;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    .btn-emoji {
+      color: #001141;
+      font-weight: 500;
+      font-size: 14px;
+      padding: 0.3rem 0.75rem 0.3rem 0.3rem;
+      text-transform: capitalize;
+      background-color: #f4f4f4;
+      &:hover {
+        background-color: #f9f9f9;
+      }
+    }
+    .btn-regenerate {
+      color: #001141;
+      font-weight: 500;
+      font-size: 14px;
+      padding: 0.3rem 0.75rem 0.3rem 0.3rem;
+      text-transform: capitalize;
+      &:hover {
+        background-color: #f9f9f9;
+      }
+    }
+    .editor-icons-list {
+      padding: 0 10px;
+      display: inline-block;
+      .img-fluid {
+        margin: 0 3px;
+        cursor: pointer;
+        border-radius: 4px;
+        &:hover {
+          background-color: #f4f4f4;
+        }
+      }
+      .select-icon {
+        background-color: #f4f4f4;
+      }
+    }
+  }
+  .disable-class {
+    opacity: 0.3;
+    pointer-events: none;
+  }
+  .ide-add-editor {
+    width: 100%;
+    padding: 50px 10px;
+    background: #f4f4f4;
+    border-radius: 4px;
+  }
+  .ad-square-main-1 {
+    margin: 0 auto;
+    width: 360px;
+    display: flex;
+    flex-direction: column;
+    padding: 0px 20px 20px 20px;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #9229e8, #ff6430);
+    .ad-logo-div {
+      position: absolute;
+      right: 10px;
+      top: 0;
+      padding: 6px 20px;
+      background: #fafafa;
+      border-radius: 0px 0px 6px 6px;
+    }
+    
+    .image-container {
+      margin-top: -80px;
+      margin-left: -40px;
+      //padding: 5px;
+      width: 290px;
+      height: 290px;
+      border-radius: 50%;
+      background-color: #72adff;
+      border: 5px solid #72adff;
+      overflow: hidden;
+      .round-image {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+      ::ng-deep {
+        .canvas-container {
+          width: 100% !important;
+          height: 100% !important;
+        }
+      }
+    }
+    .text-container {
+      color: white;
+      margin-top: 20px;
+      .text1 {
+        font-weight: 400;
+        font-size: 21px;
+        line-height: 1.2;
+        color: #fef9f4;
+        margin-bottom: 6px;
+        outline: none;
+      }
+      .text2 {
+        font-weight: 400;
+        font-size: 10px;
+        line-height: 1.2;
+        color: #fef9f4;
+        margin-bottom: 6px;
+        outline: none;
+      }
+      .cta-button {
+        padding: 4px 5px;
+        background: #fef9f4;
+        border-radius: 2px;
+        font-weight: 500;
+        font-size: 10px;
+        line-height: 13px;
+        color: #cc3300;
+        border: none;
+      }
+    }
+    &.ad-square-main-1-left {
+      .ad-logo-div {
+        left: 10px;
+        right: auto;
+      }
+      .image-container {
+        margin-right: -40px;
+        margin-left: auto;
+      }
+    }
+  }
+
+  .ad-square-main-2 {
+    margin: 0 auto;
+    width: 360px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 20px 0px 0px;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(180deg, #cd0aba 0%, #5904c5 100%);
+    .ad-logo-div {
+      position: absolute;
+      right: 10px;
+      bottom: 0;
+      padding: 6px 20px;
+      background: #fafafa;
+      border-radius: 6px 6px 0px 0px;
+    }
+    .image-container {
+      margin-bottom: -60px;
+      margin-top: -40px;
+      margin-left: -80px;
+      padding: 15px;
+      width: 290px;
+      height: 290px;
+      border-radius: 10px;
+      overflow: hidden;
+      background: #c809ba;
+      box-shadow: 16px 16px 23px rgba(0, 0, 0, 0.15);
+      transform: rotate(45deg);
+      .round-image {
+        width: 100%;
+        height: 100%;
+        border-radius: 10px;
+        object-fit: cover;
+      }
+      ::ng-deep {
+        .canvas-container {
+          width: 100% !important;
+          height: 100% !important;
+        }
+      }
+    }
+    .text-container {
+      color: white;
+      margin-bottom: 20px;
+      margin-left: auto;
+      width: 48%;
+      .text1 {
+        font-family: "Bakbak One";
+        font-style: normal;
+        font-weight: 400;
+        font-size: 21px;
+        line-height: 1.2;
+        color: #fef9f4;
+        margin-bottom: 6px;
+        outline: none;
+      }
+      .text2 {
+        font-weight: 400;
+        font-size: 10px;
+        line-height: 1.2;
+        color: #fef9f4;
+        margin-bottom: 6px;
+        font-family: "Poppins";
+        outline: none;
+      }
+      .cta-button {
+        float: right;
+        padding: 4px 5px;
+        background: #fef9f4;
+        border-radius: 2px;
+        font-family: "Poppins";
+        font-style: normal;
+        font-weight: 500;
+        font-size: 10px;
+        line-height: 13px;
+        color: #cc3300;
+        border: none;
+      }
+    }
+    &.ad-square-main-2-left {
+      padding: 20px 0px 0px 20px;
+      .ad-logo-div {
+        left: 10px;
+        right: auto;
+      }
+      .text-container {
+        margin-left: 0;
+        .cta-button {
+          float: left;
+        }
+      }
+      .image-container {
+        margin-right: -80px;
+        margin-left: auto;
+        transform: rotate(-45deg);
+      }
+    }
+  }
+
+  .ad-story-main-1 {
+    margin: 0 auto;
+    width: 360px;
+    display: flex;
+    flex-direction: column;
+    padding: 50px 20px 20px 20px;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(180deg, #e9d83f 0%, #7065ef 100%);
+    .ad-logo-div {
+      display: inline-table;
+      position: absolute;
+      right: 0;
+      left: 0;
+      top: 0;
+      text-align: center;
+      margin: 0 auto;
+      padding: 6px 20px;
+      background: #fafafa;
+      border-radius: 0px 0px 6px 6px;
+    }
+    .image-container {
+      padding: 5px 5px 0 0;
+      width: 100%;
+      height: 380px;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #7000ff;
+      .round-image {
+        width: 100%;
+        height: 100%;
+        border-radius: 8px;
+        object-fit: cover;
+      }
+      ::ng-deep {
+        .canvas-container {
+          width: 100% !important;
+          height: 100% !important;
+        }
+      }
+    }
+    .text-container {
+      color: white;
+      margin-top: 20px;
+      text-align: center;
+      padding: 0 5px;
+      .text1 {
+        font-family: "Bakbak One";
+        font-style: normal;
+        font-weight: 400;
+        font-size: 21px;
+        line-height: 1.2;
+        color: #fef9f4;
+        margin-bottom: 6px;
+        outline: none;
+      }
+      .text2 {
+        font-weight: 400;
+        font-size: 10px;
+        line-height: 1.2;
+        color: #fef9f4;
+        margin-bottom: 6px;
+        font-family: "Poppins";
+        outline: none;
+      }
+      .cta-button {
+        padding: 4px 5px;
+        background: #fef9f4;
+        border-radius: 2px;
+        font-family: "Poppins";
+        font-style: normal;
+        font-weight: 500;
+        font-size: 10px;
+        line-height: 13px;
+        color: #1607b8;
+        border: none;
+      }
+    }
+    &.ad-story-main-fb-1 {
+      padding: 40px 0px 0px 0px;
+      flex-direction: column-reverse;
+      .text-container {
+        margin-bottom: 30px;
+        padding: 0 25px;
+      }
+      .image-container {
+        padding: 0;
+        border-radius: 50% 50% 0% 100% / 5% 5% 100% 0%;
+        outline: 6px solid #7000ff;
+      }
+    }
+  }
+
+  .ad-post-main-1 {
+    margin: 0 auto;
+    width: 360px;
+    display: flex;
+    flex-direction: column;
+    padding: 40px 20px 20px 20px;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(180deg, #32e1c2 0%, #ffffff 100%);
+    .ad-logo-div {
+      display: inline-table;
+      position: absolute;
+      right: 20px;
+      top: 0;
+      text-align: center;
+      padding: 6px 20px;
+      background: #fafafa;
+      border-radius: 0px 0px 6px 6px;
+    }
+    .image-container {
+      width: 100%;
+      height: 250px;
+      border-radius: 4px;
+      overflow: hidden;
+      background-color: #fff;
+      .round-image {
+        width: 100%;
+        height: 100%;
+        border-radius: 4px;
+        object-fit: cover;
+      }
+      ::ng-deep {
+        .canvas-container {
+          width: 100% !important;
+          height: 100% !important;
+        }
+      }
+    }
+    .text-container {
+      color: #000;
+      margin-top: 20px;
+      text-align: center;
+      padding: 0 5px;
+      .text1 {
+        font-family: "Bakbak One";
+        font-style: normal;
+        font-weight: 400;
+        font-size: 21px;
+        line-height: 1.2;
+        color: #000;
+        margin-bottom: 6px;
+        outline: none;
+      }
+      .text2 {
+        font-weight: 400;
+        font-size: 10px;
+        line-height: 1.2;
+        color: #000;
+        margin-bottom: 6px;
+        font-family: "Poppins";
+        outline: none;
+      }
+      .cta-button {
+        padding: 4px 5px;
+        background: #04828a;
+        border-radius: 2px;
+        font-family: "Poppins";
+        font-style: normal;
+        font-weight: 500;
+        font-size: 10px;
+        line-height: 13px;
+        color: #ffffff;
+        border: none;
+      }
+    }
+    &.ad-post-main-fb-1 {
+      flex-direction: column-reverse;
+      .text-container {
+        margin-bottom: 15px;
+        margin-top: 5px;
+      }
+      .ad-logo-div {
+        right: auto;
+        left: 20px;
+      }
+    }
+  }
+
+  .promt-box-div {
+    width: 100%;
+    display: inline-block;
+    position: relative;
+    padding: 0 50px;
+    margin-top: 40px;
+    .form-control {
+      background: #ffffff;
+      border: 1px solid #f53d00;
+      border-radius: 8px;
+      resize: none;
+      padding-bottom: 20px;
+      outline: none;
+      box-shadow: none;
+    }
+    .promt-action {
+      background-color: #fff;
+      position: absolute;
+      bottom: 2px;
+      right: 15px;
+    }
+  }
+}
+canvas {
+  border: 1px solid #ccc;
+  cursor: pointer;
+}

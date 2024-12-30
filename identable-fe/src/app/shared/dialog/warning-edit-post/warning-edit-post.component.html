@@ -1,0 +1,16 @@
+<h4 class="labels">You have unsaved changes!</h4>
+<mat-dialog-content>
+  <div class="popbox">
+    <div class="w-100 d-inline-block postedwith">
+      <p>Are you sure you wish to close?</p>
+    </div>
+  </div>
+</mat-dialog-content>
+<div class="btnlistdiv">
+  <button type="button" class="btn btn-can" (click)="onSubmit(false)">
+    Keep editing
+  </button>
+  <button type="button" class="btn btn-saves" (click)="onSubmit(true)">
+    Discard Changes
+  </button>
+</div>

@@ -1,0 +1,625 @@
+<app-loader></app-loader>
+<div class="clg-top-title">
+  <div class="leftside">
+    <img
+      (click)="onBack()"
+      src="assets/images/ai-article/back-button.svg"
+      custom-tab-content
+      alt="back-button.svg"
+      class="img-fluid pointer ide-back-btn"
+      width="26"
+    />
+    <h2 class="titles">Generate article</h2>
+    <p class="desq">
+      Start with an idea, and we’ll handle the writing for you.
+    </p>
+  </div>
+  <div class="rightside position-relative">
+    <button type="button" class="btn btn-simple" (click)="saveArticle()">
+      Save
+    </button>
+    <div class="break-line"></div>
+    <button type="button" (click)="download()" class="btn btn-simple">
+      <img
+        src="assets/images/ai-article/download.svg"
+        alt="download"
+        class="img-fluid align-middle"
+        width="18"
+      />
+      Download
+    </button>
+    <button
+      *ngIf="!_utilities.articleObject?.isScheduled"
+      type="button"
+      (click)="scheduleDialogOpenClose(true)"
+      class="btn btn-schedule"
+    >
+      Schedule
+    </button>
+    <div class="schedule-popup" *ngIf="scheduleDialogOpen">
+      <app-post-schedule-dialog
+        (_closeDailog)="scheduleDialogOpenClose(false)"
+        (_postScheduled)="articleScheduled($event)"
+      >
+      </app-post-schedule-dialog>
+    </div>
+  </div>
+</div>
+
+<div class="ide-top-editor">
+  <button type="button" (click)="regenerate()" class="btn btn-regenerate mr-1">
+    <img
+      src="assets/images/ai-article/generate-orange.png"
+      alt="generate"
+      width="22"
+    />
+    {{
+      this.selectedContentHtml == ""
+        ? "Regenerate Article"
+        : "Regenerate Content"
+    }}
+  </button>
+  <button
+    type="button"
+    class="btn btn-regenerate"
+    (click)="executeEditorEmojiAction()"
+    id="emoji-picker-button"
+  >
+    <img
+      src="assets/images/ai-article/emoji.svg"
+      alt="editor-emoji"
+      width="22"
+    />
+    Add Emoji’s
+  </button>
+  <div class="editor-icons-list">
+    <img
+      class="img-fluid"
+      width="24"
+      src="assets/images/ai-article/editor-icons-2.png"
+      alt="editor-icons"
+      id="btn-bold"
+      matTooltip="Bold"
+      matTooltipPosition="above"
+      (click)="execCommand('bold')"
+    />
+    <img
+      class="img-fluid"
+      width="24"
+      src="assets/images/ai-article/editor-icons-3.png"
+      alt="editor-icons"
+      id="btn-italic"
+      matTooltip="Italic"
+      matTooltipPosition="above"
+      (click)="execCommand('italic')"
+    />
+    <img
+      class="img-fluid"
+      width="24"
+      src="assets/images/ai-article/editor-icons-4.png"
+      alt="editor-icons"
+      matTooltip="Underline"
+      matTooltipPosition="above"
+      (click)="execCommand('underline')"
+    />
+  </div>
+  <div class="editor-icons-list border-left">
+    <img
+      class="img-fluid"
+      width="24"
+      src="assets/images/ai-article/editor-icons-8.png"
+      alt="editor-icons"
+      matTooltip="Bullet list"
+      matTooltipPosition="above"
+      (click)="execCommand('insertUnorderedList')"
+    />
+    <img
+      class="img-fluid"
+      width="24"
+      src="assets/images/ai-article/editor-icons-9.png"
+      alt="editor-icons"
+      matTooltip="Number List"
+      matTooltipPosition="above"
+      (click)="execCommand('insertOrderedList')"
+    />
+  </div>
+  <div class="editor-icons-list border-left">
+    <img
+      class="img-fluid"
+      width="24"
+      src="assets/images/ai-article/editor-icons-12.png"
+      alt="editor-icons"
+      matTooltip="Large"
+      matTooltipPosition="above"
+      (click)="applyFormatBlock('h2')"
+    />
+    <img
+      class="img-fluid"
+      width="24"
+      src="assets/images/ai-article/editor-icons-11.png"
+      alt="editor-icons"
+      matTooltip="Medium"
+      matTooltipPosition="above"
+      (click)="applyFormatBlock('h3')"
+    />
+    <img
+      class="img-fluid"
+      width="24"
+      src="assets/images/ai-article/editor-icons-10.png"
+      alt="editor-icons"
+      matTooltip="Small"
+      matTooltipPosition="above"
+      (click)="applyFormatBlock('p')"
+    />
+  </div>
+  <div class="editor-icons-list border-left">
+    <img
+      class="img-fluid"
+      width="24"
+      src="assets/images/ai-article/editor-icons-13.png"
+      alt="editor-icons"
+      matTooltip="Quotation"
+      matTooltipPosition="above"
+      (click)="applyFormatBlock('blockquote')"
+    />
+    <img
+      class="img-fluid"
+      width="24"
+      src="assets/images/ai-article/editor-icons-14.png"
+      alt="editor-icons"
+      matTooltip="Divider"
+      matTooltipPosition="above"
+      (click)="insertDividerWithDelete()"
+    />
+    <img
+      class="img-fluid"
+      width="24"
+      src="assets/images/ai-article/editor-icons-15.png"
+      alt="editor-icons"
+      matTooltip="Link"
+      matTooltipPosition="above"
+      (click)="addArticlelinkDailog('link')"
+    />
+    <img
+      class="img-fluid"
+      width="24"
+      src="assets/images/ai-article/editor-icons-16.png"
+      alt="editor-icons"
+      matTooltip="Code Embed"
+      matTooltipPosition="above"
+      (click)="insertCodeBlock()"
+    />
+    <img
+      class="img-fluid"
+      width="24"
+      src="assets/images/ai-article/editor-icons-17.png"
+      alt="editor-icons"
+      matTooltip="Embed Link"
+      matTooltipPosition="above"
+      (click)="addArticlelinkDailog('embed')"
+    />
+    <img
+      class="img-fluid"
+      width="24"
+      src="assets/images/ai-article/editor-icons-18.png"
+      alt="editor-icons"
+      matTooltip="Image"
+      matTooltipPosition="above"
+      (click)="choiceMediaOptions()"
+    />
+  </div>
+</div>
+
+<div class="ide-editor-main">
+  <div class="ide-leftdiv" id="tempId">
+    <div class="article-body">
+      <!-- Artcle Layout -->
+      <div
+        (click)="coverImagesettingDailog()"
+        *ngIf="_utilities?.articleObject?.bannerImageSetting"
+        #bannerImage
+        class="ide-edit-article article-imgdiv-1"
+        [ngClass]="{
+          'article-imgdiv-1':
+            _utilities.articleObject?.bannerImageSetting?.layout === 'center',
+          'article-imgdiv-2':
+            _utilities.articleObject?.bannerImageSetting?.layout === 'right',
+          'article-imgdiv-3':
+            _utilities.articleObject?.bannerImageSetting?.layout === 'left'
+        }"
+      >
+        <img
+          class="re-edit-icon"
+          width="70"
+          src="assets/images/ai-article/edit-circle.png"
+          alt="edit-circle"
+        />
+        <div class="main-img">
+          <div
+            *ngIf="_utilities.articleObject?.bannerImageSetting?.overlayColor"
+            class="img-layer"
+            [ngStyle]="{
+              'background-color':
+                _utilities.articleObject?.bannerImageSetting?.overlayColor,
+              opacity: '0.5'
+            }"
+          ></div>
+          <img
+            class="img-fluid"
+            [src]="_utilities.articleObject?.bannerImageSetting?.coverImage"
+            alt=""
+            *ngIf="_utilities.articleObject?.bannerImageSetting?.coverImage"
+          />
+          <div
+            *ngIf="!_utilities.articleObject?.bannerImageSetting?.coverImage"
+          >
+            <ngx-ui-loader
+              [loaderId]="'COVER_IMAGE'"
+              [overlayColor]="'#ffffff'"
+              [fgsColor]="'#f05a28'"
+              [hasProgressBar]="false"
+            >
+            </ngx-ui-loader>
+          </div>
+        </div>
+
+        <div
+          class="imgdiv-content"
+          [style.background]="
+            _utilities.articleObject?.bannerImageSetting?.bannerColor
+          "
+        >
+          <img
+            class="img-fluid avtar-img"
+            [src]="_utilities.articleObject?.bannerImageSetting?.profileAvatar"
+            alt="avatar"
+          />
+          <div class="text">
+            {{ _utilities.articleObject?.bannerImageSetting?.headline }}
+          </div>
+        </div>
+      </div>
+
+      <div id="custIdeContent" class="article-html">
+        <div
+          #editor
+          [innerHTML]="this._utilities.articleObject?.content"
+          contenteditable="true"
+        ></div>
+
+        <!-- <label class="upload-file-div mb-3">
+          <input type="file" class="custom-input" />
+          <img
+            class="img-fluid"
+            src="assets/images/claude.png"
+            alt="claude"
+            width="60"
+          />
+          <div class="btn">Upload</div>
+          <div class="text1">or drag & drop files here</div>
+        </label> -->
+      </div>
+    </div>
+  </div>
+
+  <div class="ide-rightdiv">
+    <div class="custom-tab-list">
+      <div
+        class="btn"
+        [class.active-btn]="articleTabs === 'outline'"
+        (click)="changeTabs('outline')"
+      >
+        Outline
+      </div>
+      <div
+        class="btn"
+        [class.active-btn]="articleTabs === 'seo'"
+        (click)="changeTabs('seo')"
+      >
+        SEO
+        <span class="counts" *ngIf="seoScoreData?.feedbackArray?.length"
+          >{{ seoScoreData?.feedbackArray?.length }}+</span
+        >
+      </div>
+      <div
+        class="btn"
+        [class.active-btn]="articleTabs === 'humanization'"
+        (click)="changeTabs('humanization')"
+      >
+        Humanization
+      </div>
+    </div>
+
+    <div class="custom-tab-content">
+      <div class="" *ngIf="articleTabs === 'outline'">
+        <button
+          type="button"
+          class="btn btn-block btn-add-topic"
+          (click)="openAddTopicDialog()"
+        >
+          <i class="fa fa-plus"></i> Add Sub topic
+        </button>
+        <div cdkDropList (cdkDropListDropped)="drop($event, 0)">
+          <div
+            class="custom-tabcontent-1"
+            *ngFor="let item of htmlData?.headingArray; let i = index"
+          >
+            <div class="layers-drag" cdkDrag [cdkDragData]="item">
+              <img
+                src="assets/images/drag-gray.svg"
+                alt="drag-gray"
+                class="img-fluid pointer"
+                width="16"
+              />
+              <img
+                src="assets/images/t-text-cap.svg"
+                alt="t-text"
+                class="img-fluid"
+              />
+              <div class="text">{{ removeHtmlTags(item?.title) }}</div>
+              <img
+                src="assets/images/trash-red-1.svg"
+                alt="trash-red-1"
+                class="img-fluid pointer ml-auto trash-img"
+                (click)="onDeleteTopicAction(i)"
+              />
+            </div>
+            <div cdkDropList (cdkDropListDropped)="drop1($event, i)">
+              <div
+                class="layers-drag layers-drag-sub mb-2"
+                *ngFor="let subTopic of item?.subheadingArray; let j = index"
+                cdkDrag
+                [cdkDragData]="subTopic"
+              >
+                <img
+                  src="assets/images/drag-gray.svg"
+                  alt="drag-gray"
+                  class="img-fluid pointer"
+                  width="16"
+                />
+                <div class="text">
+                  {{ removeHtmlTags(subTopic?.title) }}
+                </div>
+                <img
+                  src="assets/images/trash-red-1.svg"
+                  alt="trash-red-1"
+                  class="img-fluid pointer ml-auto trash-img"
+                  (click)="onDeleteSubTopicAction(i, j)"
+                />
+              </div>
+            </div>
+            <div
+              class="mb-4 d-flex w-100 align-items-center justify-content-end"
+            >
+              <a
+                class="btn-custom mr-2"
+                *ngIf="!item?.subheadingArray?.length"
+                (click)="onRegenerateTopicAction(i, item)"
+                ><img
+                  width="20"
+                  src="assets/images/star-three-orange.svg"
+                  alt="star"
+              /></a>
+              <a
+                class="btn-custom mr-2"
+                *ngIf="item?.subheadingArray?.length"
+                (click)="onRegenerateTopicAction(i, item)"
+                ><img
+                  width="22"
+                  src="assets/images/generate-orange.png"
+                  alt="generate-orange"
+              /></a>
+              <a class="btn-custom" (click)="openAddSubTopicDialog(i, item)"
+                ><img
+                  width="22"
+                  src="assets/images/plus-icon.png"
+                  alt="plus-icon"
+              /></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="" *ngIf="articleTabs === 'seo'">
+        <div class="custom-label-1 mb-2">
+          Seo Score
+          <img
+            class="img-fluid align-center"
+            src="assets/images/help-icon.svg"
+            alt="help-icon"
+            matTooltip="Seo Score"
+            matTooltipPosition="below"
+          />
+        </div>
+        <div *ngIf="!seoScoreData">
+          <div class="seo-score-div mb-2">
+            <div class="main-text1 text-dark">--</div>
+            <div class="main-text2">out of <span class="sub1">100</span></div>
+            <div class="seo-ranks-div mb-4">
+              <div class="seo-rank col-3">
+                <div class="seo-no-range-data"></div>
+                <div class="seo-text">Low</div>
+              </div>
+              <div class="seo-rank col-3">
+                <div class="seo-no-range-data"></div>
+                <div class="seo-text">Medium</div>
+              </div>
+              <div class="seo-rank col-3">
+                <div class="seo-no-range-data"></div>
+                <div class="seo-text">High</div>
+              </div>
+            </div>
+            <div class="btn seo-btn" (click)="getSEOScoreFeedback()">
+              Check SEO Score
+              <span
+                [matTooltip]="creditMessage(contentAnalyzeCredit)"
+                class="credit-div"
+                matTooltipPosition="above"
+                ><i class="fa fa-cubes" aria-hidden="true"></i>
+                {{ contentAnalyzeCredit }}</span
+              >
+            </div>
+          </div>
+        </div>
+        <div *ngIf="seoScoreData">
+          <div class="seo-score-div mb-2">
+            <div class="main-text1">{{ seoScoreData?.seoScore }}</div>
+            <div class="main-text2">out of <span class="sub1">100</span></div>
+            <div class="seo-ranks-div mb-4">
+              <div class="seo-rank col-6">
+                <div class="seo-range rounded-left low-color"></div>
+                <div class="seo-text">Low</div>
+              </div>
+              <div class="seo-rank col-3">
+                <div class="seo-range low-color"></div>
+                <div class="seo-text text-warning">Medium</div>
+              </div>
+              <div class="seo-rank col-3">
+                <div class="seo-range rounded-right high-color"></div>
+                <div class="seo-text font-weight-bolder">High</div>
+              </div>
+            </div>
+            <div class="btn seo-btn" [class.disable]="seoScoreData">
+              Check SEO Score
+              <span
+                [matTooltip]="creditMessage(contentAnalyzeCredit)"
+                class="credit-div"
+                matTooltipPosition="above"
+                ><i class="fa fa-cubes" aria-hidden="true"></i>
+                {{ contentAnalyzeCredit }}</span
+              >
+            </div>
+          </div>
+          <div class="custom-label-1 mb-2 mt-4">
+            Seo suggestions
+            <img
+              class="img-fluid align-center"
+              src="assets/images/help-icon.svg"
+              alt="help-icon"
+              matTooltip="Seo suggestions"
+              matTooltipPosition="below"
+            />
+          </div>
+          <div
+            class="seo-suggest-div mb-2"
+            *ngFor="let listData of seoScoreData?.feedbackArray; let i = index"
+          >
+            <div class="seo-suggest-title">
+              <div class="text-1">{{ listData?.tag }}</div>
+              <div
+                class="text-1"
+                [class.text-success]="listData?.score > 0"
+                [class.text-danger]="listData?.score <= 0"
+              >
+                {{ listData?.score | number : ".2-2" }}
+              </div>
+            </div>
+            <div class="progress">
+              <div
+                class="progress-bar"
+                [class.bg-success]="listData?.score > 0"
+                [class.bg-danger]="listData?.score <= 0"
+                role="progressbar"
+                [style.width]="listData?.score + '%'"
+                aria-valuenow="25"
+                aria-valuemin="0"
+                aria-valuemax="100"
+              ></div>
+            </div>
+            <ul>
+              <li *ngFor="let listSubData of listData?.feedback; let i = index">
+                {{ listSubData }}
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="" *ngIf="articleTabs === 'humanization'">
+        <div class="seo-score-div mb-2">
+          <div class="main-text1">
+            {{
+              isContentAnalyzeData?.humanWriten
+                ? isContentAnalyzeData?.humanWriten
+                : "00.00"
+            }}%
+          </div>
+          <div class="main-text2">
+            of text a like
+            <span class="sub1 text-warning">human - generated</span>
+          </div>
+          <div class="seo-ranks-div mb-4" *ngIf="isContentAnalyzeData">
+            <div class="seo-rank col-6">
+              <div class="seo-range rounded-left low-color"></div>
+              <div class="seo-text">Low</div>
+            </div>
+            <div class="seo-rank col-3">
+              <div class="seo-range low-color"></div>
+              <div class="seo-text text-warning">Medium</div>
+            </div>
+            <div class="seo-rank col-3">
+              <div class="seo-range rounded-right high-color"></div>
+              <div class="seo-text font-weight-bolder">High</div>
+            </div>
+          </div>
+          <div class="seo-info-div mb-4">
+            <div class="seo-info">
+              <div class="text-1 position-relative pl-3">
+                <div class="boxs bg-danger"></div>
+                Ai- generated
+              </div>
+              <div class="text-1">
+                {{
+                  isContentAnalyzeData?.aiGenerated
+                    ? isContentAnalyzeData?.aiGenerated
+                    : "00.00"
+                }}
+                %
+              </div>
+            </div>
+            <div class="seo-info">
+              <div class="text-1 position-relative pl-3">
+                <div class="boxs bg-warning"></div>
+                Ai- generated & human - written
+              </div>
+              <div class="text-1">
+                {{
+                  isContentAnalyzeData?.aiMix
+                    ? isContentAnalyzeData?.aiMix
+                    : "00.00"
+                }}
+                %
+              </div>
+            </div>
+            <div class="seo-info">
+              <div class="text-1 position-relative pl-3">
+                <div class="boxs bg-success"></div>
+                Human - written
+              </div>
+              <div class="text-1">
+                {{
+                  isContentAnalyzeData?.humanWriten
+                    ? isContentAnalyzeData?.humanWriten
+                    : "00.00"
+                }}
+                %
+              </div>
+            </div>
+          </div>
+          <div
+            class="btn seo-btn"
+            [class.disable]="isContentAnalyzeData"
+            (click)="contentAnalyze()"
+          >
+            Analyze Article Content
+            <span
+              [matTooltip]="creditMessage(contentHumanizeCredit)"
+              class="credit-div"
+              matTooltipPosition="above"
+              ><i class="fa fa-cubes" aria-hidden="true"></i>
+              {{ contentHumanizeCredit }}</span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

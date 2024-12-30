@@ -1,0 +1,331 @@
+<div class="customdrop-head">
+  <h3 class="droptitle">
+    New Carousels
+    <img
+      class="img-fluid align-center"
+      src="assets/images/help-icon.svg"
+      alt="help-icon"
+      matTooltip="New Carousel"
+      matTooltipPosition="below"
+    />
+  </h3>
+  <span class="dropclose" [mat-dialog-close]="false">
+    <img
+      class="img-fluid"
+      width="18"
+      src="assets/images/close-1.svg"
+      alt="close"
+    />
+  </span>
+</div>
+<mat-dialog-content>
+  <div class="custom-tab-main">
+    <div class="custom-tab-list">
+      <a
+        class="btn"
+        [class.active-btn]="activeTab === 'template'"
+        (click)="changeTempTabs('template')"
+        >Templates</a
+      >
+      <a
+        class="btn"
+        [class.active-btn]="activeTab === 'savetemplate'"
+        (click)="changeTempTabs('savetemplate')"
+        >Saved templates</a
+      >
+      <a
+        class="btn"
+        [class.active-btn]="activeTab === 'presets'"
+        (click)="changeTempTabs('presets')"
+        >Presets <span class="coming-soon">Coming soon</span></a
+      >
+    </div>
+    <div class="choice-main">
+      <div class="choice-left">
+        <div *ngIf="activeTab === 'template'">
+          <h3 class="title-1">
+            Carousel Templates
+            <img
+              class="img-fluid align-center"
+              src="assets/images/help-icon.svg"
+              alt="help-icon"
+              matTooltip="Carousel Templates"
+              matTooltipPosition="below"
+            />
+          </h3>
+          <div
+            class="no-data"
+            *ngIf="!_utilities.carouselTemplateArray?.length"
+          >
+            No Data Found
+          </div>
+          <div
+            class="middle-content"
+            *ngIf="_utilities.carouselTemplateArray?.length"
+          >
+            <div
+              class="themeimg"
+              [class.select-theme]="listItem?.templateId === choiceTemplatesId"
+              *ngFor="
+                let listItem of _utilities.carouselTemplateArray;
+                let i = index
+              "
+              (click)="selectTemplates(listItem, 'template')"
+            >
+              <div class="themeimgdiv">
+                <div class="themebtns">
+                  <img
+                    class="editimg"
+                    src="assets/images/carousel/eye.png"
+                    alt="view"
+                    width="30"
+                    matTooltip="View Theme"
+                    matTooltipPosition="above"
+                    (click)="previewTemplate(listItem)"
+                  />
+                </div>
+                <!-- <span class="counts">1 of 3</span> -->
+                <img
+                  class="imgs"
+                  [src]="listItem?.thumbnailImage"
+                  alt="theme"
+                />
+              </div>
+              <div class="temp-title-1">1080 x1080 px</div>
+              <div class="temp-title-2">linkedin</div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="activeTab === 'savetemplate'">
+          <h3 class="title-1">
+            Saved Templates
+            <img
+              class="img-fluid align-center"
+              src="assets/images/help-icon.svg"
+              alt="help-icon"
+              matTooltip="Saved Templates"
+              matTooltipPosition="below"
+            />
+          </h3>
+          <div
+            class="no-data"
+            *ngIf="!_utilities.carouselSaveTemplateArray?.length"
+          >
+            No Data Found
+          </div>
+          <div
+            class="middle-content"
+            *ngIf="_utilities.carouselSaveTemplateArray?.length"
+          >
+            <div
+              class="themeimg"
+              [class.select-theme]="item?._id === choiceTemplatesId"
+              *ngFor="
+                let item of _utilities.carouselSaveTemplateArray;
+                let i = index
+              "
+              (click)="selectTemplates(item, 'savetemplate')"
+            >
+              <div class="themeimgdiv">
+                <!-- <div class="themebtns">
+                    <img
+                      class="editimg"
+                      src="assets/images/carousel/eye.png"
+                      alt="view"
+                      width="40"
+                      matTooltip="View Theme"
+                      matTooltipPosition="above"
+                    />
+                  </div> -->
+                <!-- <span class="counts">1 of {{ item?.length }}</span> -->
+                <img class="imgs" [src]="item?.mediaUrl" alt="theme" />
+              </div>
+              <p class="text-center text-capitalize carousel-name">
+                {{ item?.carouselName }}
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="ide-presets-coming" *ngIf="activeTab === 'presets'">
+          <h3 class="title-1">
+            Carousel Presets
+            <img
+              class="img-fluid align-center"
+              src="assets/images/help-icon.svg"
+              alt="help-icon"
+              matTooltip="Carousel Presets"
+              matTooltipPosition="below"
+            />
+          </h3>
+          <div class="no-data" *ngIf="!presetsListArray?.length">
+            No Data Found
+          </div>
+          <div class="middle-content" *ngIf="presetsListArray?.length">
+            <div
+              *ngFor="let listItem of presetsListArray; let i = index"
+              class="presetsimg"
+              [class.coming-presets]="listItem?.isComing"
+              [class.select-theme]="listItem?.type == selectedPresetsType"
+              (click)="selectTemplates(listItem, 'presets')"
+            >
+              <img
+                class="img-fluid mb-2"
+                width="60"
+                src="assets/images/carousels-v2/type-of-content.png"
+                alt="type-of-content"
+              />
+              <div class="temp-title-1">{{ listItem?.type }}</div>
+              <div class="temp-title-2">{{ listItem?.size }}</div>
+              <div class="coming-text" *ngIf="listItem?.isComing">
+                Coming Soon
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="choice-right"
+        [class.ide-presets-coming]="activeTab === 'presets'"
+      >
+        <h3 class="title-2">
+          File setting
+          <img
+            class="img-fluid align-center"
+            src="assets/images/help-icon.svg"
+            alt="help-icon"
+            matTooltip="File setting"
+            matTooltipPosition="below"
+          />
+        </h3>
+
+        <form [formGroup]="choiceCarouselForm" method="post" novalidate>
+          <!-- <div class="form-group">
+              <label for="" class="labels"
+                >Name
+                <img
+                  class="img-fluid align-center"
+                  src="assets/images/help-icon.svg"
+                  alt="help-icon"
+                  matTooltip="Name"
+                  matTooltipPosition="below"
+              /></label>
+              <input
+                type="text"
+                formControlName="name"
+                class="form-control"
+                placeholder="File name"
+              />
+              <div
+                class="invalid-feedback d-block"
+                *ngIf="submitted && hasError('name', 'required')"
+              >
+                Please enter name.
+              </div>
+            </div> -->
+          <div class="form-group">
+            <label for="" class="labels"
+              >No of slides
+              <img
+                class="img-fluid align-center"
+                src="assets/images/help-icon.svg"
+                alt="help-icon"
+                matTooltip="No of slides"
+                matTooltipPosition="below"
+              />
+              <span class="sublabel ml-3">( max 10 slides )</span></label
+            >
+            <div class="select-length">
+              <a class="btns minusbtn" (click)="carouselLengthCount(false)"
+                >-</a
+              >
+              <input
+                type="number"
+                class="form-control"
+                placeholder="2"
+                formControlName="carouselLength"
+              />
+              <a class="btns plusbtn" (click)="carouselLengthCount(true)">+</a>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="" class="labels"
+              >Theme type
+              <img
+                class="img-fluid align-center"
+                src="assets/images/help-icon.svg"
+                alt="help-icon"
+                matTooltip="Theme type"
+                matTooltipPosition="below"
+            /></label>
+            <select class="form-control" formControlName="themeType">
+              <option value="custom">Custom</option>
+              <option value="brandkit">Brand Kit</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="" class="labels"
+              >Carousel idea
+              <img
+                class="img-fluid align-center"
+                src="assets/images/help-icon.svg"
+                alt="help-icon"
+                matTooltip="Carousel idea"
+                matTooltipPosition="below"
+            /></label>
+            <div class="idea-box mb-1">
+              <textarea
+                class="form-control"
+                rows="5"
+                formControlName="carouselIdea"
+                placeholder="write your idea..."
+              ></textarea>
+              <div class="promt-action">
+                <img
+                  src="assets/images/carousels-v2/icons-3.png"
+                  alt="icons"
+                  class="img-fluid pointer m-1"
+                  (click)="oneIdeaDailog()"
+                />
+              </div>
+            </div>
+            <div
+              class="invalid-feedback d-block"
+              *ngIf="submitted && hasError('carouselIdea', 'required')"
+            >
+              Please enter idea.
+            </div>
+          </div>
+          <div class="text-right btnlistdiv">
+            <button
+              type="button"
+              class="btn btn-can"
+              (click)="cancelCreation()"
+              [mat-dialog-close]="false"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              class="btn btn-saves"
+              (click)="
+                genratedType === 'presets'
+                  ? genratePresetsTemplate()
+                  : generateCarousel()
+              "
+            >
+              Create
+              <span
+                [matTooltip]="creditMessage"
+                class="credit-div"
+                matTooltipPosition="above"
+                ><i class="fa fa-cubes" aria-hidden="true"></i
+                >{{ creditDeducated }}</span
+              >
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+<app-loader></app-loader>

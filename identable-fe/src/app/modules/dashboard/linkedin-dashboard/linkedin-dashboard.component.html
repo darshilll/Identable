@@ -1,0 +1,386 @@
+<div class="greetingdiv" *ngIf="!isDsahboardLoaded">
+  🤝 Greetings! We're reaching out to connect with your LinkedIn profile.<br />
+  Give us a little time ⏳ to unveil your Dashboard with real data. <br />Until
+  then, take a peek at this <span class="txt">preview dashboard</span>! 📊📈
+</div>
+<div class="profile-changediv">
+  <div class="nameicon">
+    <img
+      class="imgs"
+      [src]="
+        currentProfile?.image
+          ? currentProfile?.image
+          : 'assets/images/avatar/avatar.png'
+      "
+      alt="User profile"
+    />
+    <span class="txt1">{{ currentProfile?.name }}</span>
+    <span class="txt2">{{
+      currentProfile?.type == "page" ? "" : currentProfile?.designation
+    }}</span>
+  </div>
+  <div class="rightside">
+    <a class="btn-profile" (click)="switchProfile()"> Switch Profile</a>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12 col-lg-6 col-xl-3">
+    <div class="boxes fourbox">
+      <div class="viewdetail">
+        <div class="icondiv">
+          <img
+            src="assets/images/icons/top-totalpost.svg"
+            width="55"
+            alt="totalpost"
+          />
+          <span>Total Post</span>
+        </div>
+        <h4 class="count">{{ totalPostCount }}</h4>
+        <div class="updown">
+          <span
+            [class]="
+              !checkPercentageValueUpDown(postIncreaseRate)
+                ? 'updiv'
+                : 'downdiv'
+            "
+            ><i
+              class="fa"
+              [class.fa-long-arrow-up]="
+                !checkPercentageValueUpDown(postIncreaseRate)
+              "
+              [class.fa-long-arrow-down]="
+                checkPercentageValueUpDown(postIncreaseRate)
+              "
+              aria-hidden="true"
+            ></i>
+            {{ percentageCovertToPositive(postIncreaseRate) }}%</span
+          >
+          vs last week
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-lg-6 col-xl-3">
+    <div class="boxes fourbox">
+      <div class="viewdetail">
+        <div class="icondiv">
+          <img
+            src="assets/images/icons/top-likes.svg"
+            width="55"
+            alt="totalpost"
+          />
+          <span>Likes</span>
+        </div>
+        <h4 class="count">{{ totalPostLike }}</h4>
+        <div class="updown">
+          <span
+            [class]="
+              !checkPercentageValueUpDown(likeIncreaseRate)
+                ? 'updiv'
+                : 'downdiv'
+            "
+            ><i
+              class="fa"
+              [class.fa-long-arrow-up]="
+                !checkPercentageValueUpDown(likeIncreaseRate)
+              "
+              [class.fa-long-arrow-down]="
+                checkPercentageValueUpDown(likeIncreaseRate)
+              "
+              aria-hidden="true"
+            ></i>
+            {{ percentageCovertToPositive(likeIncreaseRate) }}%</span
+          >
+          vs last week
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-lg-6 col-xl-3">
+    <div class="boxes fourbox">
+      <div class="viewdetail">
+        <div class="icondiv">
+          <img
+            src="assets/images/icons/top-comments.svg"
+            width="55"
+            alt="totalpost"
+          />
+          <span>Comments</span>
+        </div>
+        <h4 class="count">{{ totalPostComment }}</h4>
+        <div class="updown">
+          <span
+            [class]="
+              !checkPercentageValueUpDown(commentIncreaseRate)
+                ? 'updiv'
+                : 'downdiv'
+            "
+            ><i
+              class="fa"
+              [class.fa-long-arrow-up]="
+                !checkPercentageValueUpDown(commentIncreaseRate)
+              "
+              [class.fa-long-arrow-down]="
+                checkPercentageValueUpDown(commentIncreaseRate)
+              "
+              aria-hidden="true"
+            ></i>
+            {{ percentageCovertToPositive(commentIncreaseRate) }}%</span
+          >
+          vs last week
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-lg-6 col-xl-3">
+    <div class="boxes fourbox">
+      <div class="viewdetail">
+        <div class="icondiv">
+          <img
+            src="assets/images/icons/top-repost.svg"
+            width="55"
+            alt="totalpost"
+          />
+          <span>Repost</span>
+        </div>
+        <h4 class="count">{{ totalPostRepost }}</h4>
+        <div class="updown">
+          <span
+            [class]="
+              !checkPercentageValueUpDown(rePostIncreaseRate)
+                ? 'updiv'
+                : 'downdiv'
+            "
+            ><i
+              class="fa"
+              [class.fa-long-arrow-up]="
+                !checkPercentageValueUpDown(rePostIncreaseRate)
+              "
+              [class.fa-long-arrow-down]="
+                checkPercentageValueUpDown(rePostIncreaseRate)
+              "
+              aria-hidden="true"
+            ></i>
+            {{ percentageCovertToPositive(rePostIncreaseRate) }}%</span
+          >
+          vs last week
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12 col-lg-12 col-xl-12">
+    <div class="boxes chart3_div">
+      <div class="head_div">
+        <div>
+          <h4 class="title1">Network Trend</h4>
+        </div>
+        <!-- <a class="btn-date"> {{ startDate }} - {{ endDate }} </a> -->
+      </div>
+      <ngx-ui-loader
+        [loaderId]="'NETWORK-TREND'"
+        [overlayColor]="'#ffffff'"
+        [fgsColor]="'#f05a28'"
+      >
+      </ngx-ui-loader>
+      <div class="midd_div">
+        <div class="row">
+          <div class="col-12 col-lg-12 col-xl-4">
+            <div class="suboxes">
+              <span class="bxtxt">Total followers </span>
+              <span class="titletxt">{{ sumToatalFollowers }}</span>
+            </div>
+            <div
+              class="suboxes"
+              *ngIf="_utilities.currentProfile?.type == 'profile'"
+            >
+              <span class="bxtxt">Total Connection</span>
+              <span class="titletxt">{{ sumToatalConnection }}</span>
+            </div>
+            <div class="suboxes" *ngIf="currentActiveProfile?.pageId">
+              <span class="bxtxt">Unique Visitor</span>
+              <span class="titletxt">{{ pageUniqueVisitor }}</span>
+            </div>
+            <div class="suboxes" *ngIf="currentActiveProfile?.pageId">
+              <span class="bxtxt">Search Appearances</span>
+              <span class="titletxt">{{ pageSearchAppearances }}</span>
+            </div>
+          </div>
+          <div class="col-12 col-lg-12 col-xl-8">
+            <div
+              class=""
+              id="chart-3"
+              [class.d-none]="currentActiveProfile?.pageId"
+            ></div>
+            <div
+              class=""
+              id="chart-4"
+              [class.d-none]="!currentActiveProfile?.pageId"
+            ></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12 col-lg-12 col-xl-12">
+    <div class="boxes chart2_div">
+      <div class="head_div">
+        <div>
+          <h4 class="title1">Post Trend</h4>
+        </div>
+        <!-- <a class="btn-date">
+          {{ startDate }} - {{ endDate }} <i class="fa fa-angle-down"></i
+        ></a> -->
+      </div>
+      <ngx-ui-loader
+        [loaderId]="'POST-TREND'"
+        [overlayColor]="'#ffffff'"
+        [fgsColor]="'#f05a28'"
+      >
+      </ngx-ui-loader>
+
+      <div class="midd_div" id="chart-2"></div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12 col-lg-12 col-xl-12">
+    <div class="table_box boxes">
+      <div class="table_head">
+        <div class="position-relative">
+          <h4 class="title1">Details post performance</h4>
+          <!-- <i class="fa fa-ellipsis-v"></i> -->
+        </div>
+      </div>
+      <ngx-ui-loader
+        [loaderId]="'POST-DETAILS'"
+        [overlayColor]="'#ffffff'"
+        [fgsColor]="'#f05a28'"
+      >
+      </ngx-ui-loader>
+      <div class="table_responsive">
+        <table class="table">
+          <colgroup>
+            <col width="12%" />
+            <col width="34%" />
+            <col width="10%" />
+            <col width="9%" />
+            <col width="9%" />
+            <col width="9%" />
+            <col width="9%" />
+            <col width="8%" />
+          </colgroup>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Customer</th>
+              <th>From</th>
+              <th>Repost</th>
+              <th>
+                Engagement
+                <!-- <img src="assets/images/icons/info-icon.svg" alt="info" /> -->
+              </th>
+              <th>Likes</th>
+              <th>Comments</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of assignLinkedinPost">
+              <td>{{ item.postTime | date : "MMM d, y" }}</td>
+              <td>
+                <div class="nameicon">
+                  <img
+                    *ngIf="
+                      item?.mediaUrls?.length == 1 &&
+                      item?.postType != 'TEXT_WITH_VIDEO'
+                    "
+                    [src]="
+                      item?.mediaUrls
+                        ? item?.mediaUrls[0]
+                        : 'assets/images/demo.png'
+                    "
+                    alt="demo"
+                  />
+
+                  <img
+                    *ngIf="
+                      item?.mediaUrls?.length > 1 &&
+                      item?.postType != 'TEXT_WITH_VIDEO'
+                    "
+                    [src]="
+                      item?.mediaUrls
+                        ? item?.mediaUrls[0]
+                        : 'assets/images/demo.png'
+                    "
+                    alt="demo"
+                  />
+
+                  <span *ngIf="item?.postType != 'ARTICLE'" class="txt1">{{
+                    item?.text?.slice(
+                      0,
+                      item?.text?.length > 50 ? 50 : item?.text?.length
+                    )
+                  }}</span>
+
+                  <span *ngIf="item?.postType == 'ARTICLE'" class="txt1">{{
+                    item?.article?.title
+                  }}</span>
+                </div>
+              </td>
+              <td>
+                <img
+                  *ngIf="!item?.isIdentable"
+                  src="assets/images/social/linkedin.png"
+                  alt="linkedin"
+                  width="20"
+                /><img
+                  *ngIf="item?.isIdentable"
+                  src="assets/images/logo/logo-icon.svg"
+                  alt="logo"
+                  width="20"
+                />
+              </td>
+              <td>{{ item?.repostCount }}</td>
+              <td>
+                <img
+                  *ngIf="item?.isBoosting"
+                  src="assets/images/rocket-01.svg"
+                  alt="rocket"
+                  width="18"
+                />
+                {{ item?.impressionCount }}
+                <span class="updiv"></span>
+              </td>
+              <td>{{ item?.likeCount }}</td>
+              <td>{{ item?.commentCount }}</td>
+              <td>
+                <i
+                  class="fa fa-eye pointer"
+                  (click)="viewPostDetails(item)"
+                ></i>
+              </td>
+            </tr>
+            <tr *ngIf="assignLinkedinPost?.length == 0">
+              <td colspan="8" class="no-data">No Post Data Found</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <app-pagination
+        [currentPage]="currentPage"
+        [totalPages]="totalPages"
+        (pageChanged)="onPageChange($event)"
+      ></app-pagination>
+    </div>
+  </div>
+</div>
+<app-loader></app-loader>

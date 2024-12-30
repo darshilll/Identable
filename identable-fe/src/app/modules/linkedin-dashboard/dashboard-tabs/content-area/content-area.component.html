@@ -1,0 +1,230 @@
+<app-loader></app-loader>
+<div class="cus-boxes">
+  <div class="cus-head">
+    <h3 class="title-1 pull-left mt-2">
+      All content
+      <img
+        src="assets/images/help-icon.svg"
+        alt="help-icon"
+        matTooltip="All content"
+        matTooltipPosition="above"
+      />
+    </h3>
+    <div class="input-group searchbox pull-right">
+      <div class="input-group-prepend">
+        <div class="input-group-text"><i class="fa fa-search"></i></div>
+      </div>
+
+      <input
+        type="text"
+        class="form-control"
+        [(ngModel)]="searchText"
+        (keydown.enter)="searchPost($event)"
+        placeholder="Search"
+      />
+      <i
+        class="fa fa-times mr-3 cursor-pointer"
+        *ngIf="searchText"
+        (click)="clearSearchText()"
+      ></i>
+    </div>
+  </div>
+  <div class="freez-table-div">
+    <table class="table">
+      <thead>
+        <tr>
+          <th *ngFor="let item of tableHader" (click)="sortTable(item?.label)">
+            {{ item?.label }}
+            <div
+              class="arrow-updown pull-right"
+              *ngIf="item?.isAllowShort && contentPostData?.length"
+            >
+              <img
+                class="im-fluid pointer align-middle"
+                src="assets/images/sorting-arrow-1.svg"
+                alt="sorting-arrow"
+                [class.actives]="item?.sortMode && item?.activeSort"
+                *ngIf="item?.sortMode"
+              />
+              <img
+                class="im-fluid pointer align-middle"
+                src="assets/images/sorting-arrow-2.svg"
+                alt="sorting-arrow"
+                [class.actives]="!item?.sortMode && item?.activeSort"
+                *ngIf="!item?.sortMode"
+              />
+              <!-- <i
+                class="fa fa-chevron-up actives"
+                [class.actives]="item?.sortMode && item?.activeSort"
+                *ngIf="item?.sortMode"
+              ></i>
+              <i
+                class="fa fa-chevron-down"
+                [class.actives]="!item?.sortMode && item?.activeSort"
+                *ngIf="!item?.sortMode"
+              ></i> -->
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngIf="!contentPostData?.length">
+          <td *ngFor="let item of dummyContentPostData">{{ item }}</td>
+        </tr>
+        <tr *ngFor="let item of contentPostData">
+          <td>
+            <div class="posted-info">
+              <img
+                *ngIf="
+                  item?.postType == 'TEXT_WITH_VIDEO' ||
+                  item?.postType == 'ARTICLE' ||
+                  item?.postType == 'TEXT_WITH_IMAGE'
+                "
+                [src]="
+                  item?.mediaUrls
+                    ? item?.mediaUrls[0]
+                    : 'assets/images/avatar/user-icon.png'
+                "
+                alt="Post media content"
+                width="40"
+                class="border rounded img-fluid mr-2 user-avatar"
+              />
+
+              <img
+                *ngIf="item?.postType == 'TEXT_WITH_CAROUSEL'"
+                [src]="
+                  item?.carouselTemplate
+                    ? item?.carouselTemplate[0]
+                    : 'assets/images/avatar/user-icon.png'
+                "
+                alt="Post media content"
+                width="40"
+                class="border rounded img-fluid mr-2 user-avatar"
+              />
+              <div (click)="showPreview(item)" class="cursor-pointer">
+                <div class="desq">
+                  {{ getPostBodyContent(item) }}
+                </div>
+              </div>
+              <div class="btn-group posted-drop">
+                <button
+                  type="button"
+                  data-toggle="dropdown"
+                  aria-expanded="false"
+                  class="btn dropdown-toggle"
+                  (click)="toggleDropClass($event)"
+                >
+                  <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                </button>
+                <div class="dropdown-menu">
+                  <a
+                    (click)="boostPost(item)"
+                    *ngIf="!item?.isBoosting && item?.postId"
+                    >Boost
+                    <span
+                      [matTooltip]="creditMessage"
+                      matTooltipPosition="above"
+                      ><i class="fa fa-cubes" aria-hidden="true"></i
+                      >{{ creditDeducated }}</span
+                    ></a
+                  >
+                  <!-- <a>Create Ad</a> -->
+                  <a (click)="showPreview(item)">View analytics</a>
+                </div>
+              </div>
+            </div>
+          </td>
+          <td>{{ item.postTime | date : "MMM d, y" }}</td>
+          <td>
+            <div class="acoount-text text-capitalize">
+              <img
+                *ngIf="item?.isIdentable"
+                width="16"
+                src="assets/images/logo/logo-icon.svg"
+                alt="linkedin"
+                class="img-fluid mr-1"
+              />
+              <img
+                *ngIf="!item?.isIdentable"
+                width="12"
+                src="assets/images/social/linkedin.png"
+                alt="linkedin"
+                class="img-fluid mr-1"
+              />
+              {{ selectedPage?.name }}
+            </div>
+          </td>
+          <td>
+            {{ item?.impressionCount }}
+            <img
+               *ngIf="item?.isBoosting"
+                width="16"
+                src="assets/images/rocket-01.svg"
+                alt="rocket"
+                class="img-fluid mr-1"
+              />
+            <!-- <span class="down updown ml-2"
+              ><img
+                width="16"
+                src="assets/images/dash-btn/down.png"
+                alt="help-icon"
+                class="mr-1"
+              />2%</span
+            > -->
+          </td>
+          <td>
+            {{ item?.reach }}
+            <!-- <span class="up updown ml-2"
+              ><img
+                width="16"
+                src="assets/images/dash-btn/up.png"
+                alt="help-icon"
+                class="mr-1"
+              />16%</span
+            > -->
+          </td>
+          <td>{{ item?.likeCount }}</td>
+          <td>{{ item?.commentCount }}</td>
+          <td>{{ item?.repostCount }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <app-pagination
+    *ngIf="contentPostData?.length"
+    [currentPage]="currentPage"
+    [totalPages]="totalPages"
+    (pageChanged)="onPageChange($event)"
+  ></app-pagination>
+</div>
+<div class="cus-boxes">
+  <div class="cus-head">
+    <h3 class="title-1">
+      Engagement hours
+      <img
+        src="assets/images/help-icon.svg"
+        alt="help-icon"
+        matTooltip="Engagement hours"
+        matTooltipPosition="above"
+      />
+    </h3>
+    <h5 class="title-2">calculated based one Avg of last month</h5>
+  </div>
+  <div class="engagement-hours mb-3">
+    <div
+      class="day-hours"
+      *ngFor="let item of engagementHourData; let i = index"
+    >
+      <div class="text-1" *ngIf="item?.dayOfWeek == 1">Monday</div>
+      <div class="text-1" *ngIf="item?.dayOfWeek == 2">Tuesday</div>
+      <div class="text-1" *ngIf="item?.dayOfWeek == 3">Wednesday</div>
+      <div class="text-1" *ngIf="item?.dayOfWeek == 4">Thursday</div>
+      <div class="text-1" *ngIf="item?.dayOfWeek == 5">Friday</div>
+      <div class="text-1" *ngIf="item?.dayOfWeek == 6">Saturday</div>
+      <div class="text-1" *ngIf="item?.dayOfWeek == 7">Sunday</div>
+      <div class="text-2">{{ hourFormmat(item?.bestHour) }}</div>
+    </div>
+  </div>
+  <div id="engagement-hour-chart" class="w-100"></div>
+</div>

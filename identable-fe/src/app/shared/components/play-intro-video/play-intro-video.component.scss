@@ -1,0 +1,70 @@
+.id-intro-video {
+  width: 100%;
+  text-align: center;
+  h5 {
+    text-align: center;
+    width: 90%;
+    margin: 0 auto;
+    line-height: 1.6;
+    padding-bottom: 20px;
+  }
+}
+.progress-container {
+  width: 90%;
+  margin: 20px auto;
+  text-align: center;
+  .progress-bar {
+    width: 100%;
+    height: 30px;
+    background-color: #e0e0e0;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-bottom: 10px;
+    transition: width 1s linear;
+    .inner-bar {
+      height: 100%;
+      width: 100%;
+      background-color: #ec4a0a;
+      border-radius: 5px;
+    }
+  }
+  .countdown {
+    font-weight: 600;
+    font-size: 20px;
+  }
+  .timeup {
+    font-size: 20px;
+    font-weight: 600;
+  }
+}
+
+.oppsdiv {
+  text-align: center;
+  .error-img {
+    color: #ccc;
+    font-size: 80px;
+    margin-bottom: 30px;
+  }
+  h3 {
+    font-size: 22px;
+    color: #000;
+  }
+  p {
+    color: #999;
+    margin-bottom: 15px;
+  }
+  .btn-1 {
+    border-color: #c4320a;
+    background: #c4320a;
+    color: #fff;
+  }
+  .btn-2 {
+    border: 1px solid #c4320a;
+    background: #fff6ed;
+    color: #c4320a;
+  }
+}
+.progress-bar-counter{
+  display: flex;
+  justify-content: space-between;
+}

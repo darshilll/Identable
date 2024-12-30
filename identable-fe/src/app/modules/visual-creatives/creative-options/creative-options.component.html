@@ -1,0 +1,286 @@
+<div class="topdiv">
+  <div class="leftside">
+    <h2 class="main-title">Visual Creatives</h2>
+    <h5 class="sub-title">
+      Create AI-powered carousels, ad creatives, and infographics effortlessly.
+      Design visually engaging content in minutes, with your brand’s style at
+      the core.
+    </h5>
+  </div>
+  <div class="rightside">
+    <div class="dropdown">
+      <a
+        class="btn dropdown-toggle"
+        role="button"
+        data-toggle="dropdown"
+        aria-expanded="false"
+        >New Creative
+      </a>
+      <div class="dropdown-menu dropdown-menu-right">
+        <a class="account-drop" (click)="createCarousel()">Carousel</a>
+        <a class="account-drop" (click)="createAdCreative()">Ad Creative</a>
+        <a class="account-drop"
+          >Infographic <span class="coming-text">Coming soon</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="cus-boxes">
+  <div class="cus-head">
+    <h3 class="title-1">
+      Create
+      <img
+        src="assets/images/help-icon.svg"
+        alt="help-icon"
+        matTooltip="Create"
+        matTooltipPosition="above"
+      />
+    </h3>
+  </div>
+  <div class="visual-list mb-5">
+    <a class="links" (click)="createCarousel()"
+      ><img
+        class="img-fluid"
+        src="assets/images/visual-image-1.svg"
+        alt="visual-image"
+    /></a>
+    <!-- (click)="createAdCreative()" -->
+    <a class="links" (click)="createAdCreative()">
+      <!-- <span class="coming-soon">Coming soon</span> -->
+      <img
+        class="img-fluid"
+        src="assets/images/visual-image-2.svg"
+        alt="visual-image"
+    /></a>
+    <a class="links ide-disable">
+      <span class="coming-soon">Coming soon</span
+      ><img
+        class="img-fluid"
+        src="assets/images/visual-image-3.svg"
+        alt="visual-image"
+    /></a>
+  </div>
+  <div class="cus-head">
+    <div class="pull-left">
+      <h3 class="title-1 mt-1">
+        Files
+        <img
+          src="assets/images/help-icon.svg"
+          alt="help-icon"
+          matTooltip="Files"
+          matTooltipPosition="above"
+        />
+      </h3>
+    </div>
+    <div class="pull-right">
+      <div class="re-searchbox pull-left">
+        <i class="fa fa-search"></i>
+        <input
+          (keyup.enter)="searchTemplate($event)"
+          [(ngModel)]="searchText"
+          type="text"
+          class="form-control"
+          placeholder="Search"
+        />
+        <img
+          (click)="clearSearchText()"
+          *ngIf="searchText"
+          class="close-btn pointer"
+          width="16"
+          src="assets/images/close-1.svg"
+          alt="close"
+        />
+      </div>
+      <img
+        (click)="carouselsort()"
+        class="img-fluid pointer align-middle my-1 ml-3"
+        src="assets/images/carousels-v2/icons-4.png"
+        alt="icons"
+      />
+    </div>
+  </div>
+  <mat-tab-group
+    #tabGroup
+    class="dash-tabs"
+    mat-stretch-tabs="false"
+    mat-align-tabs="start"
+    (selectedTabChange)="onTabChange($event)"
+  >
+    <mat-tab label="Carousel">
+      <div class="no-data" *ngIf="!savedTemplate?.length">No Data Found</div>
+      <div class="choice-main" *ngIf="savedTemplate?.length">
+        <!-- <h3 class="title-1">
+            Saved Templates
+            <img
+              class="img-fluid align-center"
+              src="assets/images/help-icon.svg"
+              alt="help-icon"
+              matTooltip="Saved Templates"
+              matTooltipPosition="below"
+            />
+          </h3> -->
+        <div class="middle-content">
+          <div
+            class="themeimg"
+            [class.select-theme]="selectTemplateId === item?._id"
+            *ngFor="let item of savedTemplate; let i = index"
+          >
+            <!-- <div class="themebtns">
+                <img
+                  class="editimg"
+                  src="assets/images/carousel/eye.png"
+                  alt="view"
+                  width="40"
+                  matTooltip="View Theme"
+                  matTooltipPosition="above"
+                />
+              </div> -->
+            <!-- <span class="counts">1 of {{ item?.length }}</span> -->
+            <img
+              class="imgs"
+              [src]="item?.mediaUrl"
+              alt="theme"
+              (click)="selectSaveTemplates(item)"
+            />
+            <div
+              class="scheduled-label"
+              *ngIf="item?.status == commonConstant?.POSTSTATUS.DRAFT"
+            >
+              Draft
+            </div>
+            <div
+              class="scheduled-label"
+              *ngIf="item?.status == commonConstant?.POSTSTATUS.SCHEDULED"
+            >
+              Scheduled
+            </div>
+            <div
+              class="scheduled-label"
+              *ngIf="item?.status == commonConstant?.POSTSTATUS.POSTED"
+            >
+              Scheduled
+            </div>
+            <div
+              class="scheduled-label"
+              *ngIf="item?.status == commonConstant?.POSTSTATUS.ERROR"
+            >
+              Error
+            </div>
+            <div class="position-relative w-100">
+              <div class="btn-group posted-drop">
+                <a
+                  data-toggle="dropdown"
+                  aria-expanded="false"
+                  class="btn dropdown-toggle"
+                >
+                  <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                </a>
+                <div class="dropdown-menu">
+                  <a (click)="deleteConfirmationDialog(item?._id)">Delete</a>
+                  <!-- <a >Schedule</a> -->
+                  <!-- <a>Rename</a> -->
+                </div>
+              </div>
+              <div class="carousel-title">
+                {{ item?.carouselName }}
+              </div>
+              <p class="carousel-date">
+                {{ item?.createdAt | date : "MMM d, y" }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+    <mat-tab label="Ad creatives">
+      <div class="no-data" *ngIf="!customeAdCreativeTemplate?.length">
+        No Data Found
+      </div>
+      <div class="choice-main" *ngIf="customeAdCreativeTemplate?.length">
+        <div class="middle-content">
+          <div
+            class="themeimg"
+            [class.select-theme]="selectTemplateId === item?._id"
+            *ngFor="let item of customeAdCreativeTemplate; let i = index"
+          >
+            <img
+              class="imgs"
+              [src]="item?.mediaUrl"
+              alt="theme"
+              (click)="selectAdCreativeTemplate(item)"
+            />
+
+            <div class="position-relative w-100">
+              <div class="btn-group posted-drop">
+                <a
+                  data-toggle="dropdown"
+                  aria-expanded="false"
+                  class="btn dropdown-toggle"
+                >
+                  <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                </a>
+                <div class="dropdown-menu">
+                  <a (click)="deleteConfirmationDialog(item?._id, 'adCreative')"
+                    >Delete</a
+                  >
+                </div>
+              </div>
+              <div class="carousel-title">
+                {{ item?.title }}
+              </div>
+              <p class="carousel-date">
+                {{ item?.createdAt | date : "MMM d, y" }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+    <mat-tab label="All">
+      <div class="no-data" *ngIf="!allTemplate?.length">No Data Found</div>
+      <div class="choice-main" *ngIf="allTemplate?.length">
+        <div class="choice-left w-100">
+          <!-- <h3 class="title-1">
+            Saved Templates
+            <img
+              class="img-fluid align-center"
+              src="assets/images/help-icon.svg"
+              alt="help-icon"
+              matTooltip="Saved Templates"
+              matTooltipPosition="below"
+            />
+          </h3> -->
+          <div class="middle-content">
+            <div
+              class="themeimg"
+              [class.select-theme]="selectTemplateId === item?._id"
+              *ngFor="let item of allTemplate; let i = index"
+              (click)="selectSaveTemplates(item?._id)"
+            >
+              <!-- <div class="themebtns">
+                <img
+                  class="editimg"
+                  src="assets/images/carousel/eye.png"
+                  alt="view"
+                  width="40"
+                  matTooltip="View Theme"
+                  matTooltipPosition="above"
+                />
+              </div> -->
+              <!-- <span class="counts">1 of {{ item?.length }}</span> -->
+              <img class="imgs" [src]="item?.mediaUrl" alt="theme" />
+              <p class="text-capitalize carousel-title">
+                {{ item?.carouselName ? item?.title : "" }}
+              </p>
+              <p class="carousel-date">
+                {{ item?.createdAt | date : "MMM d, y" }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>

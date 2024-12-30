@@ -1,0 +1,337 @@
+<div class="customdrop-head">
+  <h3 class="droptitle">
+    {{ isTemplates ? "Ad Creative Templates" : "New Ad Creative " }}
+    <img
+      class="img-fluid align-center"
+      src="assets/images/help-icon.svg"
+      alt="help-icon"
+      matTooltip="New Ad Creative"
+      matTooltipPosition="below"
+    />
+  </h3>
+  <span class="dropclose" [mat-dialog-close]="false">
+    <img
+      class="img-fluid"
+      width="18"
+      src="assets/images/close-1.svg"
+      alt="close"
+    />
+  </span>
+</div>
+<mat-dialog-content>
+  <div class="custom-tab-main">
+    <div class="custom-tab-list">
+      <a
+        class="btn"
+        [class.active-btn]="activeTab === 'presets'"
+        (click)="changeTempTabs('presets')"
+        >Presets <span class="coming-soon">Coming soon</span></a
+      >
+      <a
+        class="btn"
+        [class.active-btn]="activeTab === 'template'"
+        (click)="changeTempTabs('template')"
+        >Templates</a
+      >
+      <a
+        class="btn"
+        [class.active-btn]="activeTab === 'savetemplate'"
+        (click)="changeTempTabs('savetemplate')"
+        >Saved templates</a
+      >
+    </div>
+    <div class="choice-main">
+      <div class="choice-left">
+        <div class="ide-presets-coming" *ngIf="activeTab === 'presets'">
+          <h3 class="title-1">
+            Ad Carousel Presets
+            <img
+              class="img-fluid align-center"
+              src="assets/images/help-icon.svg"
+              alt="help-icon"
+              matTooltip="Carousel Presets"
+              matTooltipPosition="below"
+            />
+          </h3>
+          <div class="no-data d-none" *ngIf="!presetsListArray?.length">
+            No Data Found
+          </div>
+          <div class="middle-content" *ngIf="presetsListArray?.length">
+            <div
+              *ngFor="let listItem of presetsListArray; let i = index"
+              class="presetsimg"
+              [class.coming-presets]="listItem?.isComing"
+              [class.select-theme]="listItem?.type == selectedPresetsType"
+              (click)="selectTemplates(listItem, 'presets')"
+            >
+              <img
+                class="img-fluid mb-2"
+                width="60"
+                [src]="listItem?.image"
+                alt="type-of-content"
+              />
+              <div class="temp-title-1">{{ listItem?.type }}</div>
+              <div class="temp-title-2">{{ listItem?.size }}</div>
+              <div class="coming-text" *ngIf="listItem?.isComing">
+                Coming Soon
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="activeTab === 'template'">
+          <div class="no-data" *ngIf="!creativeTemplates?.length">
+            No Data Found
+          </div>
+          <div
+            class="iden-creative-tem"
+            *ngFor="let tempItems of creativeTemplates"
+          >
+            <h3 class="title-1">
+              {{ tempItems.type }}
+              <img
+                class="img-fluid align-center"
+                src="assets/images/help-icon.svg"
+                alt="help-icon"
+                [matTooltip]="tempItems.type"
+                matTooltipPosition="below"
+              />
+            </h3>
+            <div class="middle-content mb-4">
+              <div
+                class="themeimg"
+                [class.select-theme]="
+                  template?.templateId === choiceTemplatesId
+                "
+                *ngFor="let template of tempItems?.templates"
+                (click)="selectTemplates(template, 'template')"
+              >
+                <img
+                  class="imgs"
+                  [src]="template?.previewImage"
+                  [alt]="template.type"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="activeTab === 'savetemplate'">
+          <div class="no-data" *ngIf="!customeSaveTemplate?.length">
+            No Data Found
+          </div>
+          <div
+            class="iden-creative-tem"
+            *ngFor="let tempItems of customeSaveTemplate"
+          >
+            <h3 class="title-1">
+              {{ tempItems.type }}
+              <img
+                class="img-fluid align-center"
+                src="assets/images/help-icon.svg"
+                alt="help-icon"
+                [matTooltip]="tempItems.type"
+                matTooltipPosition="below"
+              />
+            </h3>
+            <div class="middle-content mb-4">
+              <div
+                class="themeimg"
+                [class.select-theme]="
+                  template?.templateId === choiceTemplatesId
+                "
+                *ngFor="let template of tempItems?.templates"
+                (click)="selectTemplates(template, 'template')"
+              >
+                <img
+                  class="imgs"
+                  [src]="template?.mediaUrl"
+                  [alt]="template.type"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="choice-right" [class.ide-presets-coming]="activeTab === 'presets'">
+        <h3 class="title-2">
+          File setting
+          <img
+            class="img-fluid align-center"
+            src="assets/images/help-icon.svg"
+            alt="help-icon"
+            matTooltip="File setting"
+            matTooltipPosition="below"
+          />
+        </h3>
+        <form [formGroup]="choiceCreativeForm" method="post" novalidate>
+          <div class="form-group">
+            <label for="" class="labels"
+              >Theme type
+              <img
+                class="img-fluid align-center"
+                src="assets/images/help-icon.svg"
+                alt="help-icon"
+                matTooltip="Theme type"
+                matTooltipPosition="below"
+            /></label>
+            <select class="form-control" formControlName="themeType">
+              <option value="custom">Custom</option>
+              <option value="brandkit">Brand Kit</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="" class="labels"
+              >Key image type
+              <img
+                class="img-fluid align-center"
+                src="assets/images/help-icon.svg"
+                alt="help-icon"
+                matTooltip="Key image type"
+                matTooltipPosition="below"
+            /></label>
+            <select
+              class="form-control"
+              formControlName="contentImagetype"
+              (change)="onChangeKeyImage($event)"
+            >
+              <option value="">Select Type</option>
+              <option value="Generated image">Generated image</option>
+              <option value="Custom image">Custom image</option>
+            </select>
+            <div
+              class="invalid-feedback d-block"
+              *ngIf="submitted && hasError('contentImagetype', 'required')"
+            >
+              please select image type
+            </div>
+          </div>
+
+          <div class="form-group" *ngIf="keyImagetype">
+            <div class="d-inline-block w-100">
+              <div
+                class="image-generated mb-2"
+                *ngIf="keyImagetype === 'Generated image'"
+              >
+                <div>
+                  <label class="labels"
+                    >Choose Image Source
+                    <img
+                      class="img-fluid align-center"
+                      src="assets/images/help-icon.svg"
+                      alt="help-icon"
+                      matTooltip="Choose Image Source"
+                      matTooltipPosition="below"
+                  /></label>
+                  <select
+                    [(ngModel)]="isGeneratedImageType"
+                    class="form-control"
+                  >
+                    <option value="ai-image">Ai Image</option>
+                    <option value="giphy">Giphy</option>
+                    <option value="pexel">Pexel Image</option>
+                  </select>
+                </div>
+              </div>
+
+              <div
+                class="image-generated"
+                *ngIf="keyImagetype === 'Custom image'"
+              >
+                <div>
+                  <label class="labels w-100"
+                    >Upload image
+                    <img
+                      class="img-fluid align-center"
+                      src="assets/images/help-icon.svg"
+                      alt="help-icon"
+                      matTooltip="upload image"
+                      matTooltipPosition="below"
+                  /></label>
+                  <label class="upload-image-box" *ngIf="!customImageUrl">
+                    <input
+                      type="file"
+                      (change)="uploadImage($event)"
+                      name=""
+                      id=""
+                    />
+                    <img
+                      src="assets/images/upload-image.png"
+                      alt="upload-image"
+                    />
+                    Upload image
+                  </label>
+                  <div class="choose-image my-2" *ngIf="customImageUrl">
+                    <img
+                      class="img-fluid"
+                      [src]="customImageUrl"
+                      alt="demo"
+                      width="80"
+                    />
+                    <i class="fa fa-times" (click)="removecustomImage()"></i>
+                  </div>
+                  <label
+                    class="file-upload mt-2 mr-auto"
+                    *ngIf="customImageUrl"
+                  >
+                    <input type="file" />
+                    <img
+                      src="assets/images/carousels-v2/editor-images-1.svg"
+                      alt="editor-images"
+                      class="img-fluid mr-1"
+                    />
+                    Change image
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="" class="labels"
+              >Ad Creative idea
+              <img
+                class="img-fluid align-center"
+                src="assets/images/help-icon.svg"
+                alt="help-icon"
+                matTooltip="Ad Creative idea"
+                matTooltipPosition="below"
+            /></label>
+            <textarea
+              class="form-control"
+              rows="5"
+              placeholder="write your idea..."
+              formControlName="creativeIdea"
+            ></textarea>
+            <div
+              class="invalid-feedback d-block"
+              *ngIf="submitted && hasError('creativeIdea', 'required')"
+            >
+              Please enter idea.
+            </div>
+          </div>
+          <div class="text-right btnlistdiv">
+            <button
+              type="button"
+              class="btn btn-can"
+              (click)="cancelCreation()"
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              class="btn btn-saves"
+              (click)="
+                genratedType === 'presets'
+                  ? genratePresetsTemplate()
+                  : generateAdCreative()
+              "
+            >
+              Create
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+<app-loader></app-loader>

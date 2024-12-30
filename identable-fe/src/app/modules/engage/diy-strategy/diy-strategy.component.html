@@ -1,0 +1,417 @@
+<div class="clg-top-title">
+  <div class="leftside">
+    <h2 class="titles">DIY</h2>
+    <p class="desq">
+      Craft your posts with ease! Our DIY module lets you quickly write and
+      customize content that showcases your brand’s unique voice. Start creating
+      now!
+    </p>
+  </div>
+  <div class="rightside d-flex position-relative" [class.disabled]="!postBody">
+    <button type="button" class="btn btn-simple" (click)="savePost()">
+      Save as draft
+    </button>
+    <button
+      type="button"
+      class="btn btn-schedule"
+      (click)="scheduleDialogOpenClose()"
+    >
+      Schedule
+      <span
+        [matTooltip]="creditMessage(creditDeducated)"
+        class="credit-div"
+        matTooltipPosition="above"
+        ><i class="fa fa-cubes" aria-hidden="true"></i>
+        {{ creditDeducated }}</span
+      >
+    </button>
+    <div class="schedule-popup" *ngIf="isScheduleDialogOpen">
+      <app-post-schedule-dialog
+        [boostingPost]="isBoostingPost"
+        (_closeDailog)="scheduleDialogOpenClose()"
+        (_postScheduled)="postScheduled($event)"
+      >
+      </app-post-schedule-dialog>
+    </div>
+  </div>
+</div>
+
+<div class="ide-editor-main">
+  <div class="ide-leftdiv">
+    <div class="ide-lefthead">
+      <h3 class="title-1">
+        Editor
+        <img
+          src="assets/images/help-icon.svg"
+          alt="help-icon"
+          matTooltip="Editor"
+          matTooltipPosition="above"
+        />
+      </h3>      
+    </div>
+    <div class="ide-editor-div ide-select-div">
+      <textarea
+        class="form-control ide-editor"
+        placeholder="Type here..."
+        #textInput
+        [(ngModel)]="postBody"
+        (input)="updatePostBody(textInput.value)"
+        [innerHTML]="postBody"
+      ></textarea>
+
+      <div class="ide-editor-tool" [class.disabled]="!postBody">
+        <button type="button" class="btn btn-format">
+          <img
+            class="img-fluid"
+            src="assets/images/icon-casual.png"
+            alt="icon-casual"
+          />
+          {{
+            _utilities.userData?.aiSetting?.formality
+              ? _utilities.userData?.aiSetting?.formality
+              : aiFormality
+          }}
+        </button>
+        <img
+          class="img-fluid pointer ml-auto mr-2"
+          src="assets/images/icon-image.png"
+          alt="icon-image"
+          (click)="choiceMediaOptions()"
+          matTooltip="Media"
+          matTooltipPosition="above"
+        />
+        <img
+          class="img-fluid pointer mr-2"
+          src="assets/images/icon-rephrase.png"
+          alt="icon-rephrase"
+          (click)="editPostContent('Rephase')"
+          matTooltip="Rephrase"
+          matTooltipPosition="above"
+        />
+        <img
+          class="img-fluid pointer mr-2"
+          src="assets/images/icon-expand-1.png"
+          alt="icon-expand-1"
+          (click)="editPostContent('shorten')"
+          matTooltip="Shorten"
+          matTooltipPosition="above"
+        />
+        <img
+          class="img-fluid pointer mr-2"
+          src="assets/images/icon-expand-2.png"
+          alt="icon-expand-2"
+          (click)="editPostContent('expand')"
+          matTooltip="Expand"
+          matTooltipPosition="above"
+        />
+        <div class="btn-group editDropDown">
+          <button
+            type="button"
+            class="btn btn-simple dropdown-toggle"
+            data-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <img
+              class="img-fluid align-middle"
+              src="assets/images/icon-rewrite.png"
+              alt="icon-rewrite"
+            />
+            Rewrite
+          </button>
+          <div class="dropdown-menu dropdown-menu-right">
+            <a class="droplink" (click)="editPostContent('rewrite', 'Simplify')"
+              >🤪 Simplify</a
+            ><a
+              class="droplink"
+              (click)="editPostContent('rewrite', 'Complicate')"
+              >🤓 Complicate</a
+            ><a
+              class="droplink"
+              (click)="editPostContent('rewrite', 'Professional')"
+              >💼 Professional</a
+            ><a class="droplink" (click)="editPostContent('rewrite', 'Casual')"
+              >🍹 Casual</a
+            ><a
+              class="droplink"
+              (click)="editPostContent('rewrite', 'Straightforward')"
+              >🎯 Straightforward</a
+            ><a
+              class="droplink"
+              (click)="editPostContent('rewrite', 'Confident')"
+              >🦁 Confident</a
+            ><a
+              class="droplink"
+              (click)="editPostContent('rewrite', 'Friendly')"
+              >🐱 Friendly</a
+            ><a class="droplink" (click)="editPostContent('rewrite', 'Story')"
+              >📚 Story</a
+            ><a class="droplink" (click)="editPostContent('rewrite', 'Scar')"
+              >🙀 Scar</a
+            >
+          </div>
+        </div>
+        <button
+          type="button"
+          class="btn btn-simple"
+          (click)="editPostContent('add_emoji')"
+        >
+          <img
+            class="img-fluid"
+            src="assets/images/icon-emoji.png"
+            alt="icon-emoji"
+          />
+          add emoji’s
+        </button>
+        <button
+          *ngIf="isAllowtoGeneratePost"
+          type="button"
+          class="btn btn-simple"
+          (click)="generatePost()"
+        >
+          <img
+            class="img-fluid"
+            src="assets/images/icon-stars.png"
+            alt="icon-stars"
+          />
+          Complete post
+        </button>
+        <button
+          *ngIf="!isAllowtoGeneratePost"
+          type="button"
+          class="btn btn-simple"
+          (click)="generatePost()"
+        >
+          <img
+            class="img-fluid"
+            src="assets/images/generate.png"
+            alt="generate"
+            width="14"
+          />
+          Regenerate post
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="ide-rightdiv">
+    <div class="custom-tab-list">
+      <div
+        class="btn"
+        [class.active-btn]="activeCustomTabs === item"
+        *ngFor="let item of diyCustomTabs; let i = index"
+        (click)="changeDiyCustomTabs(item)"
+      >
+        {{ item }}
+      </div>
+    </div>
+
+    <div class="custom-tab-content">
+      <div *ngIf="activeCustomTabs === 'Preview'">
+        <div class="switch-title mb-4">
+          <div class="text1">Boost post</div>
+          <label class="switch mx-2">
+            <input type="checkbox" [(ngModel)]="isBoostingPost" [disabled]="!postBody ? true : false"/>
+            <span class="slider"></span>
+          </label>
+          <div
+            class="text2"
+            [matTooltip]="creditMessage(isBoostingCredit)"
+            matTooltipPosition="above"
+          >
+            <img
+              class="img-fluid align-middle"
+              src="assets/images/credits-icon.png"
+              alt="credits-icon"
+            />
+            {{ isBoostingCredit }} credits
+          </div>
+        </div>
+        <div
+          class="fb-post"
+          *ngIf="
+            postBody ||
+            postMediaType == 'aivideo' ||
+            postMediaType == 'carousel' ||
+            postMediaType == 'video'
+          "
+        >
+          <div class="fbpostimg">
+            <div class="postinfo">
+              <img
+                class="img"
+                [src]="
+                  currentProfile?.image
+                    ? currentProfile?.image
+                    : 'assets/images/avatar/avatar.png'
+                "
+                [alt]="currentProfile?.name"
+              />
+              <div>
+                <span class="txt1">{{ currentProfile?.name }}</span>
+                <!-- <span class="txt2">Just Now</span> -->
+              </div>
+            </div>
+            <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+          </div>
+
+          <div class="fbcontent">
+            <div class="desq" [innerHTML]="postBody">
+              <a href="javascript:void(0);"> Read more </a>
+            </div>
+
+            <div
+              class="img-video"
+              *ngIf="postMedia && postMediaType != 'carousel'"
+            >
+              <i class="fa fa-times-circle" (click)="removeMedia()"></i>
+              <img
+                *ngIf="postMediaType == 'image' || postMediaType == 'giphy'"
+                class="img-fluid"
+                [src]="_sanitizer.bypassSecurityTrustResourceUrl(postMedia)"
+              />
+
+              <video
+                *ngIf="postMediaType == 'aivideo' || postMediaType == 'video'"
+                class="videotag"
+                [src]="postMedia"
+                controls
+              ></video>
+            </div>
+          </div>
+          <div class="fbshare">
+            <a class="sharebtn" *ngIf="isBoostingPost"
+              ><img
+                src="assets/images/likes-icon.png"
+                alt="like"
+                width="50"
+                class="mr-0"
+              />200</a
+            >
+            <a class="sharebtn" *ngIf="!isBoostingPost"
+              ><img src="assets/images/fb-like.svg" alt="like" />Like</a
+            >
+            <a class="sharebtn"
+              ><img
+                src="assets/images/fb-comment.svg"
+                alt="comment"
+              />Comment</a
+            >
+            <a class="sharebtn"
+              ><img src="assets/images/fb-repeat.svg" alt="repeat" />repeat</a
+            >
+            <a class="sharebtn"
+              ><img src="assets/images/fb-share.svg" alt="share" />Share</a
+            >
+          </div>
+        </div>
+        <div
+          class="card skeleton-main"
+          *ngIf="
+            !postBody &&
+            postMediaType != 'aivideo' &&
+            postMediaType != 'carousel' &&
+            postMediaType != 'video'
+          "
+        >
+          <div class="skeleton">
+            <div class="skeleton-left flex1">
+              <div class="square circle"></div>
+            </div>
+            <div class="skeleton-right flex2">
+              <div class="line h17 w75 m10"></div>
+              <div class="line h12 w25"></div>
+            </div>
+          </div>
+          <div class="skeleton2">
+            <div class="skeleton-right flex2">
+              <div class="line mt-3 m10 h25 w100 m10"></div>
+              <div class="line m10 h20 w25"></div>
+              <div class="line m10 h25 w100"></div>
+              <div class="line m10 h20 w75"></div>
+              <div class="line m10 h25 w100"></div>
+              <div class="line m10 h20 w50"></div>
+              <div class="line h100 w100 mt-3 m15 h25"></div>
+              <div class="line m15 f-right h25 w25"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="" *ngIf="activeCustomTabs === 'Humanization'">
+        <div class="seo-score-div mb-4" *ngIf="!contentAnalyzeData">
+          <div class="main-text1">---</div>
+          <div class="main-text2">-------------</div>
+          <div class="seo-ranks-div mb-4">
+            <div class="seo-rank" style="width: 30%">
+              <div class="seo-range rounded-left"></div>
+            </div>
+            <div class="seo-rank" style="width: 30%">
+              <div class="seo-range"></div>
+            </div>
+            <div class="seo-rank" style="width: 40%">
+              <div class="seo-range rounded-right"></div>
+            </div>
+          </div>
+          <div
+            class="btn seo-btn"
+            [class.disabled]="!postBody"
+            (click)="contentAnalyze()"
+          >
+            Check Humanization
+            <span
+              [matTooltip]="creditMessage(contentAnalyzeCredit)"
+              class="credit-div"
+              matTooltipPosition="above"
+              ><i class="fa fa-cubes" aria-hidden="true"></i>
+              {{ contentAnalyzeCredit }}</span
+            >
+          </div>
+        </div>
+
+        <div class="seo-score-div mb-4" *ngIf="contentAnalyzeData">
+          <div class="main-text1">{{ contentAnalyzeData?.aiGenerated }}%</div>
+          <div class="main-text2">
+            of text a like
+            <span class="sub1 text-warning">Ai- generated & human Written</span>
+          </div>
+          <div class="seo-ranks-div mb-4">
+            <div class="seo-rank" style="width: 30%">
+              <div class="seo-range rounded-left bg-danger"></div>
+            </div>
+            <div class="seo-rank" style="width: 30%">
+              <div class="seo-range bg-warning"></div>
+            </div>
+            <div class="seo-rank" style="width: 40%">
+              <div class="seo-range rounded-right bg-success"></div>
+            </div>
+          </div>
+          <div class="seo-info-div mb-4">
+            <div class="seo-info">
+              <div class="text-1 position-relative pl-3">
+                <div class="boxs bg-danger"></div>
+                Ai- generated
+              </div>
+              <div class="text-1">{{ contentAnalyzeData?.aiGenerated }} %</div>
+            </div>
+            <div class="seo-info">
+              <div class="text-1 position-relative pl-3">
+                <div class="boxs bg-warning"></div>
+                Ai- generated & human - written
+              </div>
+              <div class="text-1">{{ contentAnalyzeData?.aiMix }} %</div>
+            </div>
+            <div class="seo-info">
+              <div class="text-1 position-relative pl-3">
+                <div class="boxs bg-success"></div>
+                Human - written
+              </div>
+              <div class="text-1">{{ contentAnalyzeData?.humanWriten }} %</div>
+            </div>
+          </div>
+          <div class="btn seo-btn" (click)="contentHumanize()">Humanize</div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+<app-loader></app-loader>

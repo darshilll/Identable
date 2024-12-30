@@ -1,0 +1,9 @@
+<div class="resizable-container" (click)="selectImage($event)" [ngStyle]="containerStyles">
+    <img [src]="imageSrc" class="resizable-image img-fluid" />
+    
+    <!-- Resizing handles, shown only if selected -->
+    <div *ngIf="selected" class="resize-handle top-left" (mousedown)="startResizing($event, 'top-left')"></div>
+    <div *ngIf="selected" class="resize-handle top-right" (mousedown)="startResizing($event, 'top-right')"></div>
+    <div *ngIf="selected" class="resize-handle bottom-left" (mousedown)="startResizing($event, 'bottom-left')"></div>
+    <div *ngIf="selected" class="resize-handle bottom-right" (mousedown)="startResizing($event, 'bottom-right')"></div>
+  </div>

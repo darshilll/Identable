@@ -1,0 +1,152 @@
+.tophead {
+  padding: 0px 40px;
+}
+
+.register_midd {
+  display: flex;
+  min-height: 100vh;
+  background-color: #ffffff;
+
+  .left_div {
+    width: 55%;
+    float: left;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 30px 50px;
+  }
+
+  .right_div {
+    min-height: 250px;
+    width: 45%;
+    float: left;
+    padding: 32px 35px 35px 0px;
+    background: rgba(240, 90, 40, 0.16);
+    background: linear-gradient(
+      150.19deg,
+      rgba(227, 250, 255, 0.4) 22.7%,
+      #ebdcff 93.24%
+    );
+    box-shadow: 2px 4px 12px 0px #00000040 inset;
+  }
+}
+
+.created-progress {
+  width: 100%;
+  height: 6px;
+  background: #f7f8f9;
+  border-radius: 3px;
+  margin-bottom: auto;
+  .insidebar {
+    height: 6px;
+    background: #fe4810;
+    border-radius: 3px;
+    transition: width 0.4s ease-in-out;
+  }
+}
+
+.formcontent {
+  max-width: 490px;
+  margin-top: 40px;
+  width: 100%;
+  display: inline-block;
+
+  .title-1 {
+    color: #172b4d;
+    text-align: left;
+    font-weight: 600;
+    font-size: 27px;
+    margin-bottom: 10px;
+  }
+
+  .title-2 {
+    text-align: left;
+    color: #44546f;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    margin-bottom: 24px;
+  }
+
+  .btn-simple {
+    background: #ffffff;
+    border: 1px solid #758195;
+    border-radius: 4px;
+    padding: 12px 20px;
+    color: #172b4d;
+    font-weight: 600;
+    font-size: 16px;
+    text-transform: capitalize;
+  }
+  .btn-submit {
+    background: #ec4a0a;
+    border: 1px solid #ec4a0a;
+    border-radius: 4px;
+    padding: 12px 20px;
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 16px;
+  }
+}
+
+.slidediv {
+  text-align: center;
+
+  img {
+    width: 100%;
+    margin: 50px auto;
+    max-height: 500px;
+  }
+}
+
+.clickbox {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 20px 12px;
+  margin: 20px 0;
+  gap: 12px;
+  background: #ffffff;
+  border: 1px solid #8590a2;
+  border-radius: 4px;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  color: #172b4d;
+  cursor: pointer;
+  &.cl-select {
+    background: #fff6f5;
+    border: 2px solid #ff6f47;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .tophead {
+    padding: 20px;
+  }
+
+  .register_midd {
+    flex-wrap: wrap;
+
+    .left_div {
+      width: 100%;
+      padding: 30px 20px;
+    }
+
+    .right_div {
+      width: 100%;
+    }
+  }
+
+  .formcontent .title-1 {
+    font-size: 24px;
+  }
+
+  .slidediv {
+    img {
+      margin: 50px auto;
+    }
+  }
+}

@@ -1,0 +1,64 @@
+<app-loader></app-loader>
+<mat-dialog-content>
+    <div class="searchboxbg">
+        <h4 class="main-title">
+            Discover Your Perfect Match of Complimentary Free Stock Photos,
+            Royalty-Free Images & Videos!
+        </h4>
+        <div class="input-group searchbox">
+            <div class="dropdown">
+                <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                    <img class="mr-1" width="18" [src]="
+              serchType == 'Photos'
+                ? 'assets/images/image-Icon.png'
+                : 'assets/images/video-recorder.png'
+            " alt="image" />{{ serchType }}
+                </button>
+                <div class="dropdown-menu">
+                    <a class="droplink" (click)="changeType('Photos')"><img width="18"
+                            src="assets/images/image-Icon.png" alt="image" />Photos</a>
+                    <a class="droplink" (click)="changeType('Videos')"><img width="18"
+                            src="assets/images/video-recorder.png" alt="video" />Videos</a>
+                </div>
+            </div>
+            <input type="text" class="form-control" placeholder="Search for free photos" aria-label="Username"
+                aria-describedby="basic-addon1" [(ngModel)]="serchText" (keyup.enter)="searchVideoAndImage()"/>
+            <div class="input-group-prepend" (click)="searchVideoAndImage()">
+                <span class="input-group-text" id="basic-addon1"><i class="fa fa-search"></i></span>
+            </div>
+        </div>
+    </div>
+    <ul class="tablist">
+        <li class="nav-link" (click)="changeType('Photos')" [class.active]="serchType == 'Photos'">
+            Home
+        </li>
+        <li class="nav-link" (click)="changeType('Videos')" [class.active]="serchType == 'Videos'">
+            Video
+        </li>
+    </ul>
+    <div class="tab-content">
+        <ng-container *ngIf="serchType == 'Photos'">
+            <div class="tabbox">
+                <h4 class="tabtitle">Free Stock Photos</h4>
+                <div class="imageslist">
+                    <div class="imagess" *ngFor="let listimgdata of allfetchtrendingPixelList; let i = index">
+                        <img [src]="listimgdata?.src?.medium" (click)="addPexelsImageVideo(listimgdata?.src?.medium)" />
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="serchType == 'Videos'">
+            <div class="tabbox">
+                <h4 class="tabtitle">Trending Free Stock Videos</h4>
+                <div class="videoslist">
+                    <video loop="" class="videos" controls *ngFor="
+              let videoData of allfetchtrendingPixelListVideo;
+              let i = index
+            " (click)="addPexelsImageVideo(videoData?.video_files[3]?.link)">
+                        <source [src]="videoData?.video_files[3]?.link" [type]="videoData?.video_files[3]?.file_type" />
+                    </video>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+</mat-dialog-content>

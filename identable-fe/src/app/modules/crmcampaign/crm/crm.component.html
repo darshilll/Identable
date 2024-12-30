@@ -1,0 +1,598 @@
+<ng-container>
+  <div class="clg-top-title">
+    <h2>CRM</h2>
+    <h3>
+      Streamline your outreach and build lasting connections with our intuitive
+      CRM tools
+    </h3>
+  </div>
+
+  <div class="ide-crm-box">
+    <div class="ide-crm-title">
+      <div>
+        <h2 class="title-1">
+          Campaigns
+          <img
+            width="12"
+            src="assets/images/help-icon.svg"
+            alt="help-icon"
+            matTooltip="Campaigns"
+            matTooltipPosition="above"
+          />
+        </h2>
+        <p class="title-2">Based on engagements gained in the last month</p>
+      </div>
+      <div>
+        <button type="button" class="btn btn-add-new" (click)="startCampaign()">
+          + New Campaign
+        </button>
+      </div>
+    </div>
+
+    <div class="ide-crm-infobox" *ngIf="_utilities.currentProfile?.name">
+      <div class="ide-crm-left">
+        <img
+          class="ide-img"
+          [src]="
+            _utilities.currentProfile?.image
+              ? _utilities.currentProfile?.image
+              : 'assets/images/avatar/avatar.png'
+          "
+          alt="avatar"
+        />
+        <h3 class="ide-name">{{ _utilities.currentProfile?.name }}</h3>
+        <div class="ide-text1">
+          {{ _utilities.currentProfile?.designation }}
+        </div>
+      </div>
+      <div class="ide-crm-right">
+        <div
+          class="ide-connection"
+          *ngIf="_utilities.currentProfile?.type !== 'page'"
+        >
+          <div class="ide-text1">
+            Connections
+            <img
+              width="12"
+              src="assets/images/help-icon.svg"
+              alt="help-icon"
+              matTooltip="Connections"
+              matTooltipPosition="above"
+            />
+          </div>
+          <div class="ide-text2">
+            {{ _utilities.currentProfile?.connectionsCount }}
+          </div>
+        </div>
+        <div
+          class="ide-connection"
+          *ngIf="_utilities.currentProfile?.type !== 'page'"
+        >
+          <div class="ide-text1">
+            Followers
+            <img
+              width="12"
+              src="assets/images/help-icon.svg"
+              alt="help-icon"
+              matTooltip="Followers"
+              matTooltipPosition="above"
+            />
+          </div>
+          <div class="ide-text2">
+            {{ _utilities.currentProfile?.followersCount }}
+          </div>
+        </div>
+
+        <div
+          class="ide-connection"
+          *ngIf="_utilities.currentProfile?.type === 'page'"
+        >
+          <div class="ide-text1">
+            Followers
+            <img
+              width="12"
+              src="assets/images/help-icon.svg"
+              alt="help-icon"
+              matTooltip="Followers"
+              matTooltipPosition="above"
+            />
+          </div>
+          <div class="ide-text2">
+            {{ _utilities.currentProfile?.followersCount }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ide-crm-tables">
+      <div class="ide-crm-left">
+        <div class="ide-table-title" *ngIf="activeCampaignData">
+          <div class="ide-table-left ml-2">
+            <h4 class="title-1">{{ activeCampaignData?.campaignName }}</h4>
+            <div class="title-2">Next Job Executed on {{ nextJobTime }}</div>
+          </div>
+          <div class="ide-table-right">
+            <div class="title-3">
+              <span class="mr-2">{{
+                getAcceptanceRate(activeCampaignData)
+              }}</span>
+              <p>acceptance rate</p>
+            </div>
+            <label class="switch">
+              <input
+                type="checkbox"
+                [checked]="activeCampaignData?.isEnabled"
+                (click)="updateCampaignStatus($event, activeCampaignData?._id)"
+              />
+              <div class="slider">
+                <span class="on">Active</span>
+                <span class="off">Paused</span>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div class="ide-table-tablist" *ngIf="crmTabs.length > 0">
+          <div class="ide-table-tabs">
+            <div
+              *ngFor="let listTabs of crmTabs; let i = index"
+              [class.active]="listTabs?.isOpen == true"
+              (click)="onListAction(listTabs)"
+              class="ide-connection"
+            >
+              <div class="ide-text1">
+                {{ listTabs?.label }}
+                <img
+                  width="12"
+                  src="assets/images/help-icon.svg"
+                  alt="help-icon"
+                  matTooltip="{{ listTabs?.label }}"
+                  matTooltipPosition="above"
+                />
+              </div>
+              <div class="ide-text2">
+                {{ listTabs?.count ? listTabs?.count : 0 }}
+              </div>
+            </div>
+          </div>
+          <div class="ide-table-tab-search">
+            <!-- <form action="" class="ide-search">
+              <i class="fa fa-search"></i>
+              <input type="text" name="" id="" class="form-control" placeholder="Search..." />
+              <i class="fa fa-times"></i>
+            </form> -->
+            <form class="ide-search" method="post" [formGroup]="searchDataForm">
+              <i class="fa fa-search"></i>
+              <input
+                type="text"
+                class="form-control"
+                placeholder="Search"
+                formControlName="searchText"
+                (keyup.enter)="searchConnection()"
+              />
+              <i
+                class="fa fa-times"
+                *ngIf="searchDataForm.get('searchText')?.value"
+                (click)="clearConnectionSearchText()"
+              ></i>
+            </form>
+          </div>
+        </div>
+
+        <ng-container
+          *ngIf="
+            _utilities.currentProfile?.type == 'page' && crmTabs.length > 0
+          "
+        >
+          <app-profile-crm-tabs
+            *ngIf="crmTabs[0].isOpen"
+            [connetionType]="'companyFollowers'"
+            [activeCampaignId]="activeCampaignId"
+          ></app-profile-crm-tabs>
+
+          <app-profile-crm-tabs
+            *ngIf="crmTabs[1]?.isOpen"
+            [connetionType]="'companyProspecting'"
+            [activeCampaignId]="activeCampaignId"
+          ></app-profile-crm-tabs>
+
+          <app-profile-crm-tabs
+            *ngIf="crmTabs[2]?.isOpen"
+            [connetionType]="'companyWarming'"
+            [activeCampaignId]="activeCampaignId"
+          ></app-profile-crm-tabs>
+
+          <app-profile-crm-tabs
+            *ngIf="crmTabs[3]?.isOpen"
+            [connetionType]="'companyConnected'"
+            [activeCampaignId]="activeCampaignId"
+          ></app-profile-crm-tabs>
+
+          <app-profile-crm-tabs
+            *ngIf="crmTabs[4]?.isOpen"
+            [connetionType]="'companyQueue'"
+            [activeCampaignId]="activeCampaignId"
+          ></app-profile-crm-tabs>
+
+          <app-profile-crm-tabs
+            *ngIf="crmTabs[5]?.isOpen"
+            [connetionType]="'companyFollowing'"
+            [activeCampaignId]="activeCampaignId"
+          ></app-profile-crm-tabs>
+
+          <app-profile-crm-tabs
+            *ngIf="crmTabs[6]?.isOpen"
+            [connetionType]="'companyUnfollowed'"
+            [activeCampaignId]="activeCampaignId"
+          ></app-profile-crm-tabs>
+        </ng-container>
+
+        <ng-container
+          *ngIf="
+            _utilities.currentProfile?.type == 'profile' && crmTabs.length > 0
+          "
+        >
+          <app-profile-crm-tabs
+            *ngIf="crmTabs[0].isOpen"
+            [connetionType]="'connected'"
+            [activeCampaignId]="activeCampaignId"
+          ></app-profile-crm-tabs>
+
+          <app-profile-crm-tabs
+            *ngIf="crmTabs[1]?.isOpen"
+            [connetionType]="'prospecting'"
+            [activeCampaignId]="activeCampaignId"
+          ></app-profile-crm-tabs>
+
+          <app-profile-crm-tabs
+            *ngIf="crmTabs[2]?.isOpen"
+            [connetionType]="'warming'"
+            [activeCampaignId]="activeCampaignId"
+          ></app-profile-crm-tabs>
+
+          <app-profile-crm-tabs
+            *ngIf="crmTabs[3]?.isOpen"
+            [connetionType]="'following'"
+            [activeCampaignId]="activeCampaignId"
+          ></app-profile-crm-tabs>
+
+          <app-profile-crm-tabs
+            *ngIf="crmTabs[4]?.isOpen"
+            [connetionType]="'connecting'"
+            [activeCampaignId]="activeCampaignId"
+          ></app-profile-crm-tabs>
+
+          <app-profile-crm-tabs
+            *ngIf="crmTabs[5]?.isOpen"
+            [connetionType]="'ignored'"
+            [activeCampaignId]="activeCampaignId"
+          ></app-profile-crm-tabs>
+
+          <app-profile-crm-tabs
+            *ngIf="crmTabs[6]?.isOpen"
+            [connetionType]="'dropped'"
+            [activeCampaignId]="activeCampaignId"
+          ></app-profile-crm-tabs>
+        </ng-container>
+      </div>
+
+      <div class="ide-crm-right">
+        <div class="ide-right-title">
+          <h4 class="title-1">List of Campaigns</h4>
+          <div class="ide-table-tab-search" *ngIf="mainCampaignData.length > 0">
+            <form
+              method="post"
+              (ngSubmit)="searchCampaign()"
+              [formGroup]="searchCampaignForm"
+              class="ide-search"
+            >
+              <i class="fa fa-search"></i>
+              <input
+                type="text"
+                name="searchText"
+                id="searchText"
+                formControlName="searchText"
+                class="form-control"
+                placeholder="Search input text"
+                (keyup)="searchCampaign()"
+              />
+              <i
+                class="fa fa-times"
+                *ngIf="searchCampaignForm.get('searchText')?.value"
+                (click)="clearCampaignSearchText()"
+              ></i>
+            </form>
+            <img
+              class="ml-2 pointer"
+              src="assets/images/icons/sorting-down.svg"
+              alt="shorting"
+              id="camp-shorting"
+              width="24"
+              (click)="campaignToggleSortOrder()"
+            />
+          </div>
+        </div>
+        <div class="ide-camp-options">
+          <div
+            class="ide-camp-all"
+            [class.active]="!activeCampaignData"
+            (click)="selectCampaign(allCampaignData, 'all')"
+          >
+            <div class="ide-camp-2">All Campaigns</div>
+          </div>
+          <div *ngIf="fetchCampaignData.length == 0" class="ide-nodata-found">
+            No Data Found
+          </div>
+          <div
+            class="ide-camp-all"
+            *ngFor="let listData of fetchCampaignData; let i = index"
+            [class.active]="listData?._id == activeCampaignData?._id"
+          >
+            <div class="ide-camp-1">
+              {{ listData?.createdAt | date : "MMM d, y" }}
+            </div>
+            <div class="ide-camp-2">{{ listData?.campaignName }}</div>
+            <div class="ide-camp-3">Next Job Executed on {{ nextJobTime }}</div>
+            <div class="ide-camp-swich">
+              <div class="ide-camp-4">
+                <span class="mr-2 d-block">{{
+                  getAcceptanceRate(listData)
+                }}</span
+                >acceptance rate
+              </div>
+              <label class="switch">
+                <input
+                  type="checkbox"
+                  [checked]="listData?.isEnabled"
+                  (click)="updateCampaignStatus($event, listData?._id)"
+                />
+                <div class="slider">
+                  <span class="on">Active</span>
+                  <span class="off">Paused</span>
+                </div>
+              </label>
+            </div>
+            <div
+              class="ide-camp-click"
+              (click)="selectCampaign(listData, 'single')"
+            ></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class="topdiv">
+    <h2 class="main-title d-flex align-items-center">
+      CRM
+      <div class="cam-loader-div" *ngIf="processingCampaign">
+        <div class="cam-loader"></div>
+        Processing
+      </div>
+    </h2>
+    <button type="button" class="btn-addpost" (click)="startCampaign()">
+      Start Campaign
+    </button>
+  </div> -->
+  <!-- <div class="boxviewlist" *ngIf="!showTabs">
+    <div class="tabbox">
+      <ul
+        class="nav nav-tabs"
+        [class.company-nav-tabs]="_utilities.currentProfile?.type == 'page'"
+      >
+        <li
+          *ngFor="let listTabs of crmTabs; let i = index"
+          class="nav-link"
+          [class.active]="listTabs?.isOpen == true"
+          (click)="onListAction(listTabs)"
+        >
+          {{ listTabs?.label }}
+        </li>
+      </ul>
+      <div class="rightside">
+        <div class="dropdown ml-auto">
+          <a
+            class="btn text-capitalize dropdown-toggle"
+            href="#"
+            role="button"
+            data-toggle="dropdown"
+            aria-expanded="false"
+          >
+            {{ selectedCampaignFilter }}
+          </a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" (click)="selectCampaignFilter()"
+              >All Campaign</a
+            >
+            <a
+              class="dropdown-item"
+              *ngFor="let campaign of filterCampaignList"
+              (click)="selectCampaignFilter(campaign?._id)"
+              >{{ campaign?.campaignName }}</a
+            >
+          </div>
+        </div>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <div class="input-group-text"><i class="fa fa-search"></i></div>
+          </div>
+          <form
+            method="post"
+            (ngSubmit)="searchConnection()"
+            [formGroup]="searchDataForm"
+          >
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Search"
+              formControlName="searchText"
+            />
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="tab-content">
+      <ng-container *ngIf="_utilities.currentProfile?.type == 'page'">
+        <app-prospecting
+          *ngIf="crmTabs[0].isOpen"
+          [connetionType]="'companyFollowers'"
+        ></app-prospecting>
+        <app-prospecting
+          *ngIf="crmTabs[1].isOpen"
+          [connetionType]="'companyFollowing'"
+        ></app-prospecting>
+      </ng-container>
+      <ng-container *ngIf="_utilities.currentProfile?.type == 'profile'">
+        <app-prospecting
+          *ngIf="crmTabs[0].isOpen"
+          [connetionType]="'connected'"
+        ></app-prospecting>
+        <app-prospecting
+          *ngIf="crmTabs[1].isOpen"
+          [connetionType]="'prospecting'"
+        ></app-prospecting>
+        <app-prospecting
+          *ngIf="crmTabs[2].isOpen"
+          [connetionType]="'warming'"
+        ></app-prospecting>
+        <app-prospecting
+          *ngIf="crmTabs[3].isOpen"
+          [connetionType]="'following'"
+        ></app-prospecting>
+        <app-prospecting
+          *ngIf="crmTabs[4].isOpen"
+          [connetionType]="'connecting'"
+        ></app-prospecting>
+      </ng-container>
+    </div>
+  </div> -->
+
+  <!-- <img class="view-camp-btn" src="assets/images/view-camp-button.svg" alt="view" (click)="viewCampaign(true)" />
+  <div class="view-campdiv-bg" *ngIf="openCampaign" (click)="viewCampaign(false)"></div> -->
+  <div class="view-campdiv-main" *ngIf="openCampaign">
+    <div class="view-campdiv">
+      <img
+        class="close-camp-btn"
+        (click)="viewCampaign(false)"
+        src="assets/images/close-camp-button.svg"
+        alt="view"
+      />
+      <div class="camp-head">
+        <h3>Campaigns</h3>
+        <button
+          type="button"
+          (click)="viewCampaign(false)"
+          class="close-btn fa fa-times"
+        ></button>
+      </div>
+      <div class="camp-body">
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <div class="input-group-text"><i class="fa fa-search"></i></div>
+          </div>
+          <!-- <form method="post" (ngSubmit)="searchCampaign()" [formGroup]="searchCampaignForm">
+            <input type="text" class="form-control" id="" placeholder="Search Campaigns" formControlName="searchText"
+              (keyup)="searchCampaign()" />
+          </form> -->
+        </div>
+        <div class="camplist">
+          <div
+            class="campbox"
+            *ngFor="let listData of fetchCampaignData; let i = index"
+          >
+            <h3 class="camptitle">{{ listData?.campaignName }}</h3>
+            <div class="subdesq">Next Job Executed on {{ nextJobTime }}</div>
+
+            <div
+              class="optlist"
+              *ngIf="_utilities.currentProfile?.type === 'profile'"
+            >
+              <div
+                class="option {{
+                  getProcessingStatusClass('prospecting', listData)
+                }}"
+              >
+                <span class="text1">Prospecting</span>
+                <span class="text2">{{ listData?.prospectCount }}</span>
+              </div>
+              <div
+                class="option {{
+                  getProcessingStatusClass('warmingUp', listData)
+                }}"
+              >
+                <span class="text1">Warming Up</span>
+                <span class="text2">{{ listData?.warmingUpCount }}</span>
+              </div>
+              <div
+                class="option {{
+                  getProcessingStatusClass('following', listData)
+                }}"
+              >
+                <span class="text1">Following</span>
+                <span class="text2">{{ listData?.followedCount }}</span>
+              </div>
+              <div
+                class="option {{
+                  getProcessingStatusClass('connecting', listData)
+                }}"
+              >
+                <span class="text1">Connecting</span>
+                <span class="text2">{{ listData?.connectingCount }}</span>
+              </div>
+              <div
+                class="option {{
+                  getProcessingStatusClass('connected', listData)
+                }}"
+              >
+                <span class="text1">Connected</span>
+                <span class="text2">{{ listData?.connectedCount }}</span>
+              </div>
+            </div>
+
+            <div
+              class="optlist"
+              *ngIf="_utilities.currentProfile?.type === 'page'"
+            >
+              <div
+                class="option {{
+                  getProcessingStatusClass('company_following', listData)
+                }}"
+              >
+                <span class="text1">Following</span>
+                <span class="text2">{{ listData?.followingCount }}</span>
+              </div>
+              <div
+                class="option {{
+                  getProcessingStatusClass('company_followed', listData)
+                }}"
+              >
+                <span class="text1">Followed</span>
+                <span class="text2">{{ listData?.followedCount }}</span>
+              </div>
+            </div>
+
+            <div class="ratelist">
+              <div class="rates">
+                <span class="text1">Acceptance rate</span>
+                <span class="count">{{ getAcceptanceRate(listData) }}</span>
+              </div>
+              <div class="rates text-center">
+                <label class="switch my-2">
+                  <input
+                    type="checkbox"
+                    [checked]="listData?.isEnabled"
+                    (click)="updateCampaignStatus($event, listData?._id)"
+                  />
+                  <span class="slider"></span>
+                  <span class="active-txt">Active</span>
+                  <span class="inactive-txt">Inactive</span>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-loader></app-loader>
+</ng-container>

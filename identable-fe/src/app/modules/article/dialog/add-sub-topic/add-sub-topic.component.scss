@@ -1,0 +1,57 @@
+.customdrop-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 20px;
+  .droptitle {
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 24px;
+    color: #172b4d;
+  }
+}
+.ide-label {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 16px;
+  color: #172b4d;
+  margin-bottom: 8px;
+}
+.form-control {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  padding: 8px;
+  background: #ffffff;
+  border: 1px solid #fe4810;
+  border-radius: 3px;
+}
+
+.btnlistdiv {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+  width: 100%;
+  padding: 15px 20px;
+  .btn-cancel {
+    color: #344054;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    border-radius: 4px;
+    border: 1px solid #d0d5dd;
+    background: #fff;
+    padding: 6px 12px;
+  }
+  .btn-apply {
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    border-radius: 4px;
+    border: 1px solid #ec4a0a;
+    background: #f53d00;
+    padding: 6px 12px;
+  }
+}

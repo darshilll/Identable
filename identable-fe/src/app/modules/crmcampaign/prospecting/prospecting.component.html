@@ -1,0 +1,235 @@
+<div class="boxviewlist">
+  <div class="table_box">
+    <div
+      class="table_responsive"
+      *ngIf="_utilities.currentProfile?.type !== 'page'"
+    >
+      <table class="table">
+        <colgroup>
+          <col width="25%" />
+          <col width="15%" />
+          <col *ngIf="connetionType != 'connected'" width="10%" />
+          <col *ngIf="connetionType != 'connected'" width="10%" />
+          <col *ngIf="connetionType != 'connected'" width="25%" />
+          <col width="5%" />
+          <col width="10%" />
+        </colgroup>
+        <thead>
+          <tr>
+            <!-- <th>
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="all" />
+                <label class="custom-control-label" for="all"></label>
+              </div>
+            </th> -->
+            <th>Name</th>
+            <th>Campaign Name</th>
+            <th *ngIf="connetionType != 'connected'">Location</th>
+            <th *ngIf="connetionType != 'connected'">Summary</th>
+            <th *ngIf="connetionType != 'connected'">Insight</th>
+            <th>ProspectType</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="prospectData?.length == 0 || !isDataLoaded">
+            <td colspan="7" class="text-center pt-3 pb-3">
+              {{ isDataLoaded ? "No records found" : "Loading..." }}
+            </td>
+          </tr>
+          <tr *ngFor="let item of prospectData">
+            <!-- <td>
+              <div class="custom-control custom-checkbox">
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  id="customCheck1"
+                />
+                <label class="custom-control-label" for="customCheck1"></label>
+              </div>
+            </td> -->
+            <td>
+              <div class="nameicon">
+                <img
+                  [src]="
+                    item?.profileImagUrl
+                      ? item?.profileImagUrl
+                      : 'assets/images/avatar/avatar.png'
+                  "
+                  alt="demo"
+                />
+                <span class="txt1 {{ item?.isConnected ? 'connected' : '' }}">{{
+                  item?.name
+                }}</span>
+                <span class="txt2">{{ item?.primarySubTitle }}</span>
+              </div>
+            </td>
+            <td>
+              <div class="jobdiv">
+                <span class="txt1"> {{ item?.campaignName }} </span>
+              </div>
+            </td>
+            <td *ngIf="connetionType != 'connected'">
+              <div class="jobdiv">
+                <span class="txt2"> {{ item?.secondarySubTitle }} </span>
+              </div>
+            </td>
+            <td *ngIf="connetionType != 'connected'">
+              <div class="jobdiv">
+                <span class="txt2"> {{ item?.summary }} </span>
+              </div>
+            </td>
+            <td *ngIf="connetionType != 'connected'">
+              <div class="jobdiv">
+                <span class="txt2"> {{ item?.insight }} </span>
+              </div>
+            </td>
+            <td>
+              <div class="jobdiv">
+                <span class="txt2"> {{ item?.prospectType }} </span>
+              </div>
+            </td>
+
+            <td>
+              <div class="actiondiv">
+                <a
+                  class="active-btn"
+                  matTooltip="Discover Email"
+                  (click)="openEmailDialog(item)"
+                  *ngIf="
+                    connetionType == 'connected' ||
+                    connetionType == 'connecting'
+                  "
+                  ><i class="fa fa-at" [class.color-orange]="item?.email"></i
+                ></a>
+                <a
+                  class="active-btn"
+                  matTooltip="Profile"
+                  [href]="item?.profileUrl"
+                  target="_blank"
+                  ><img src="assets/images/action/users.svg" alt="users"
+                /></a>
+                <a
+                  class=""
+                  matTooltip="Delete"
+                  (click)="removeProspecting(item?._id)"
+                  *ngIf="
+                    connetionType != 'connected' ||
+                    connetionType != 'connecting'
+                  "
+                >
+                  <i
+                    class="fa fa-trash-o"
+                    aria-hidden="true"
+                    style="font-size: 18px"
+                  ></i>
+                </a>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div
+      class="table_responsive"
+      *ngIf="_utilities.currentProfile?.type === 'page'"
+    >
+      <table class="table">
+        <colgroup>
+          <col width="20%" />
+          <col width="15%" />
+          <col width="45%" />
+          <col width="30%" />
+        </colgroup>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Campaign Name</th>
+            <th>
+              {{
+                connetionType == "companyFollowers" ? "Headline" : "Occupation"
+              }}
+            </th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngIf="prospectData?.length == 0 || !isDataLoaded">
+            <td colspan="7" class="text-center pt-3 pb-3">
+              {{ isDataLoaded ? "No records found" : "Loading..." }}
+            </td>
+          </tr>
+          <tr *ngFor="let item of prospectData">
+            <td>
+              <div class="nameicon">
+                <img
+                  [src]="
+                    item?.imageSrc
+                      ? item?.imageSrc
+                      : 'assets/images/avatar/avatar.png'
+                  "
+                  alt="demo"
+                />
+                <span class="txt1 {{ item?.isFollowed ? 'connected' : '' }}">{{
+                  item?.name
+                }}</span>
+              </div>
+            </td>
+            <td>
+              <div class="jobdiv">
+                <span class="txt1"> {{ item?.campaignName }} </span>
+              </div>
+            </td>
+            <td>
+              <div class="jobdiv">
+                <span class="txt2">
+                  {{
+                    connetionType == "companyFollowers"
+                      ? item?.headline
+                      : item?.occupation
+                  }}
+                </span>
+              </div>
+            </td>
+            <td>
+              <div class="actiondiv">
+                <a
+                  class="active-btn"
+                  matTooltip="Discover Email"
+                  (click)="openEmailDialog(item)"
+                  ><i class="fa fa-at" [class.color-orange]="item?.email"></i
+                ></a>
+                <a
+                  class="active-btn"
+                  matTooltip="Profile"
+                  [href]="item?.profileUrl"
+                  target="_blank"
+                  ><img src="assets/images/action/users.svg" alt="users"
+                /></a>
+                <a
+                  class=""
+                  matTooltip="Delete"
+                  (click)="removeProspecting(item?._id)"
+                >
+                  <i
+                    class="fa fa-trash-o"
+                    aria-hidden="true"
+                    style="font-size: 18px"
+                  ></i>
+                </a>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <app-pagination
+      [currentPage]="currentPage"
+      [totalPages]="totalPages"
+      (pageChanged)="onPageChange($event)"
+    ></app-pagination>
+  </div>
+</div>
+<app-loader></app-loader>

@@ -1,0 +1,35 @@
+<div class="ide-navbar">
+    <div class="ide-menu" [ngClass]="{'ide-active': selectedControl === 'Layers'}" (click)="selectMenu('Layers')">
+        <img class="img-fluid" src="assets/images/carousels-v2/side-icon-1.svg" alt="side-icon" width="24">
+        <div>Layers</div>
+    </div>
+    <div *ngIf="!isAdcreative" class="ide-menu" [ngClass]="{'ide-active': selectedControl === 'Slides'}" (click)="selectMenu('Slides')">
+        <img class="img-fluid" src="assets/images/carousels-v2/side-icon-2.svg" alt="side-icon" width="24">
+        <div>Slides</div>
+    </div>
+    <!-- <div class="ide-menu" [ngClass]="{'ide-active': selectedControl === 'Templates'}" (click)="!isAdcreative ? choiceTemplates('Templates') : choiceAdCreativeTemplates('Templates')">
+        <img class="img-fluid" src="assets/images/carousels-v2/side-icon-3.svg" alt="side-icon" width="24">
+        <div>Templates</div>
+    </div> -->
+    <div class="ide-menu" [ngClass]="{'ide-active': selectedControl === 'Templates'}" (click)="selectMenu('Templates')">
+        <img class="img-fluid" src="assets/images/carousels-v2/side-icon-3.svg" alt="side-icon" width="24">
+        <div>Templates</div>
+    </div>
+    <div class="ide-menu" [ngClass]="{'ide-active': selectedControl === 'Design'}" (click)="selectMenu('Design')">
+        <img class="img-fluid" src="assets/images/carousels-v2/side-icon-4.svg" alt="side-icon" width="24">
+        <div>Design</div>
+    </div>
+    <div class="ide-menu" [ngClass]="{'ide-active': selectedControl === 'Text'}" (click)="selectMenu('Text')">
+        <img class="img-fluid" src="assets/images/carousels-v2/side-icon-5.svg" alt="side-icon" width="24">
+        <div>Text</div>
+    </div>
+    <div class="ide-menu" [ngClass]="{'ide-active': selectedControl === 'Colors'}" (click)="selectMenu('Colors')">
+        <img class="img-fluid" src="assets/images/carousels-v2/side-icon-6.svg" alt="side-icon" width="24">
+        <div>Colour</div>
+    </div>
+    <div *ngIf="!isAdcreative" class="ide-menu" [ngClass]="{'ide-active': selectedControl === 'Profile'}" (click)="selectMenu('Profile')">
+        <img class="img-fluid" src="assets/images/carousels-v2/side-icon-7.svg" alt="side-icon" width="24">
+        <div>Profile Shot</div>
+    </div>
+</div>
+

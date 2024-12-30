@@ -1,0 +1,224 @@
+<div class="freez-table-div">
+  <table class="table">
+    <thead>
+      <tr>
+        <th *ngFor="let listLabel of feildsHeaderData; let i = index">
+          {{ listLabel?.label }}
+        </th>
+      </tr>
+    </thead>
+
+    <ng-template #postedDrop let-item="item">
+      <div class="btn-group posted-drop">
+        <button
+          type="button"
+          data-toggle="dropdown"
+          aria-expanded="false"
+          class="btn dropdown-toggle"
+          (click)="toggleDropClass($event)"
+        >
+          <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+        </button>
+        <div class="dropdown-menu">
+          <a
+            (click)="openEmailDialog(item)"
+            *ngIf="item?.companyName || item?.enrowEmail || item?.email"
+            ><img
+              width="22"
+              src="assets/images/crm/drop-icon-1.png"
+              alt=""
+              class="img-fluid mr-1"
+            />Discover email</a
+          >
+          <a [href]="item?.profileUrl" target="_blank"
+            ><img
+              width="22"
+              src="assets/images/crm/drop-icon-2.png"
+              alt=""
+              class="img-fluid mr-1"
+            />View profile</a
+          >
+          <a
+            (click)="removeProspecting(item?._id)"
+            *ngIf="
+              connetionType == 'prospecting' ||
+              connetionType == 'warming' ||
+              connetionType == 'following' ||
+              connetionType == 'companyProspecting' ||
+              connetionType == 'companyWarming'
+            "
+            ><img
+              width="22"
+              src="assets/images/crm/drop-icon-3.png"
+              alt=""
+              class="img-fluid mr-1"
+            />Remove connection</a
+          >
+        </div>
+      </div>
+    </ng-template>
+
+    <tbody *ngIf="_utilities.currentProfile?.type !== 'page'">
+      <tr *ngIf="prospectData?.length == 0 || !isDataLoaded">
+        <td colspan="6" class="text-center pt-3 pb-3">
+          {{ isDataLoaded ? "No records found" : "Loading..." }}
+        </td>
+      </tr>
+
+      <ng-container *ngIf="connetionType == 'connected'">
+        <tr *ngFor="let item of prospectData; let p = index">
+          <td>
+            <div class="posted-info">
+              <img
+                width="40"
+                [src]="
+                  item?.profileImagUrl
+                    ? item?.profileImagUrl
+                    : 'assets/images/avatar/avatar.png'
+                "
+                alt="user-icon"
+                class="border rounded img-fluid mr-2 user-avatar"
+              />
+              <div>
+                <div class="text1" [class.connected]="item?.isConnected">
+                  {{ item?.name }}
+                </div>
+                <div class="text2">{{ item?.primarySubTitle }}</div>
+              </div>
+              <ng-container
+                *ngTemplateOutlet="postedDrop; context: { item: item }"
+              ></ng-container>
+            </div>
+          </td>
+          <td>{{ item?.campaignName }}</td>
+          <td>{{ item?.prospectType }}</td>
+        </tr>
+      </ng-container>
+
+      <ng-container
+        *ngIf="
+          connetionType == 'prospecting' ||
+          connetionType == 'warming' ||
+          connetionType == 'following' ||
+          connetionType == 'connecting' ||
+          connetionType == 'ignored' ||
+          connetionType == 'dropped'
+        "
+      >
+        <tr *ngFor="let item of prospectData; let p = index">
+          <td>
+            <div class="posted-info">
+              <img
+                width="40"
+                [src]="
+                  item?.profileImagUrl
+                    ? item?.profileImagUrl
+                    : 'assets/images/avatar/avatar.png'
+                "
+                alt="user-icon"
+                class="border rounded img-fluid mr-2 user-avatar"
+              />
+              <div>
+                <div class="text1" [class.connected]="item?.isConnected">
+                  {{ item?.name }}
+                </div>
+                <div class="text2">{{ item?.primarySubTitle }}</div>
+              </div>
+              <ng-container
+                *ngTemplateOutlet="postedDrop; context: { item: item }"
+              ></ng-container>
+            </div>
+          </td>
+          <td>{{ item?.campaignName }}</td>
+          <td>{{ item?.secondarySubTitle }}</td>
+          <td>{{ item?.summary }}</td>
+          <td>{{ item?.insight }}</td>
+          <td>{{ item?.prospectType }}</td>
+          <td></td>
+          <td></td>
+        </tr>
+      </ng-container>
+    </tbody>
+
+    <!-- Company Page -->
+
+    <tbody *ngIf="_utilities.currentProfile?.type === 'page'">
+      <tr *ngIf="prospectData?.length == 0 || !isDataLoaded">
+        <td colspan="6" class="text-center pt-3 pb-3">
+          {{ isDataLoaded ? "No records found" : "Loading..." }}
+        </td>
+      </tr>
+
+      <ng-container *ngIf="connetionType == 'companyFollowers'">
+        <tr *ngFor="let item of prospectData; let p = index">
+          <td>
+            <div class="posted-info">
+              <img
+                width="40"
+                [src]="
+                  item?.imageSrc
+                    ? item?.imageSrc
+                    : 'assets/images/avatar/avatar.png'
+                "
+                alt="user-icon"
+                class="border rounded img-fluid mr-2 user-avatar"
+              />
+              <div>
+                <div class="text1" [class.connected]="item?.isFollowed">
+                  {{ item?.name }}
+                </div>
+                <div class="text2">{{ item?.primarySubTitle }}</div>
+              </div>
+              <ng-container
+                *ngTemplateOutlet="postedDrop; context: { item: item }"
+              ></ng-container>
+            </div>
+          </td>
+          <td>{{ item?.campaignName }}</td>
+          <td>{{ item?.headline }}</td>
+        </tr>
+      </ng-container>
+
+      <ng-container
+        *ngIf="
+          connetionType == 'companyFollowing' || connetionType == 'companyQueue'
+        "
+      >
+        <tr *ngFor="let item of prospectData; let p = index">
+          <td>
+            <div class="posted-info">
+              <img
+                width="40"
+                [src]="
+                  item?.imageSrc
+                    ? item?.imageSrc
+                    : 'assets/images/avatar/avatar.png'
+                "
+                alt="user-icon"
+                class="border rounded img-fluid mr-2 user-avatar"
+              />
+              <div>
+                <div class="text1" [class.connected]="item?.isFollowed">
+                  {{ item?.name }}
+                </div>
+                <div class="text2">{{ item?.primarySubTitle }}</div>
+              </div>
+              <ng-container
+                *ngTemplateOutlet="postedDrop; context: { item: item }"
+              ></ng-container>
+            </div>
+          </td>
+          <td>{{ item?.campaignName }}</td>
+          <td>{{ item?.occupation }}</td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>
+
+<app-pagination
+  *ngIf="totalPages > 0"
+  [currentPage]="currentPage"
+  [totalPages]="totalPages"
+  (pageChanged)="onPageChange($event)"
+></app-pagination>

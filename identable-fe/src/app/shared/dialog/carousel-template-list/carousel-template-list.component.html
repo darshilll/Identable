@@ -1,0 +1,26 @@
+<div class="customdrop-head">
+  <h3 class="droptitle">Select carousel template</h3>
+  <span class="dropclose" [mat-dialog-close]="false">X</span>
+</div>
+<mat-dialog-content>
+  <div class="popbox">
+    <div *ngFor="let item of carouselThemeData" (click)="selectTheme(item)">
+      <img
+        class="img-fluid"
+        [class.select-img]="selectedTheme?.templateId == item?.templateId"
+        [src]="item?.previewImage[0]"
+        alt="theme"
+      />
+      <p class="themeTitle">{{ item?.name }}</p>
+    </div>
+  </div>
+  <div class="invalid-feedback d-block" *ngIf="isSubmtted && !selectedTheme">
+    Please select any theme.
+  </div>
+</mat-dialog-content>
+<div class="btnlistdiv">
+  <button type="button" (click)="close()" class="btn btn-can">Cancel</button>
+  <button type="button" (click)="submit()" class="btn btn-saves">
+    Continue
+  </button>
+</div>
